@@ -3,16 +3,16 @@ EL DIIEEGOOO
 # E-commerce-BookStore
 E-commerce - BookStore repository
 
-Technologies which would be used all the way long the proyect:
+#Technologies which would be used all the way long the proyect:
 
-# React.js
-# Chackra UI for frontend design
-# Express JS
-# Node.js
-# postreSQL
-# Css (styled Components)
+* React.js
+* Chackra UI for frontend design
+* Express JS
+* Node.js
+* postreSQL
+* Css (styled Components)
 
-Coding format with Prettier. Setup configuration:
+#Coding format with Prettier. Setup configuration:
 * arrow parens: always
 * Bracket Spacing: checked
 * Embedded Language Formatting: auto
