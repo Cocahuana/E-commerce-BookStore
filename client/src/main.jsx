@@ -14,7 +14,7 @@ axios.defaults.baseURL = process.env.REACT_APP_API || 'http://localhost:3001';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
-		<ChakraProvider>
+		<ChakraProvider store={store}>
 			<BrowserRouter>
 				<App />
 			</BrowserRouter>
