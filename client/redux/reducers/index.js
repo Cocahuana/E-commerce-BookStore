@@ -19,3 +19,5 @@ const rootReducer = (state = InitialState, action) => {
 		}
 	}
 };
+
+export default rootReducer
