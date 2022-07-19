@@ -7,7 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('api:server');
 var http = require('http');
-
+const { conn } = require('../db.js');
 /**
  * Get port from environment and store in Express.
  */
@@ -22,12 +22,17 @@ app.set('port', port);
 var server = http.createServer(app);
 
 /**
- * Listen on provided port, on all network interfaces.
+ * We're using conn from db.js with the method sync to sync all the models at once.
+ * Using property "force: false" to handle the emptying of database
  */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+conn.sync({ force: false }).then(() => {
+	app.listen(process.env.PORT, () => {
+		console.log('%s listening at 3001'); // eslint-disable-line no-console
+	});
+});
+// server.listen(port);
+app.on('error', onError);
+app.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
