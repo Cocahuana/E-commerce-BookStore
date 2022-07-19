@@ -1,22 +1,24 @@
 
 import {BrowserRouter, Route, Switch} from "react-router-dom"
+import React from "react"
 import BookHolder from "./components/BookHolder/BookHolder"
 import './App.css'
 import AboutUs from './components/AboutUs/AboutUs'
-import { Route } from "react-router-dom";
+import NavBar from "./components/NavBar/NavBar"
+import Footer from "./components/Footer/Footer"
 
 
 function App() {
   return (  
   <React.Fragment>
-    <switch>
+    <Route path="/"  component={NavBar}/>
     <Route exact path="/" />
     <Route exact path="/books" component={BookHolder}/>
     <Route exact path="/:id"/>
     <Route exact path="/register"/>
     <Route exact path="/login"/>
     <Route exact path="/us" component={AboutUs}/>
-    </switch>
+    <Route path="/"  component={Footer}/>
    </React.Fragment>
   )
 }
