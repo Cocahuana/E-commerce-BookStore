@@ -22,7 +22,7 @@ function App() {
         <Route exact path="/login" component={login} />
         <Route exact path="/us" component={AboutUs} />
         <Route path="/" component={footer} />
-    </React.Fragment>
+    </React.Fragment
   )
 }
 
