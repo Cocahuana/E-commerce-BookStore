@@ -1,25 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import axios from "axios"
-import store from "./../redux/store/index"
+import { Provider } from 'react-redux';
+import App from './App';
+import store from './../redux/store/index';
 import { BrowserRouter } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
-import App from './App';
 import './index.css';
+// import dotenv from 'dotenv';
+
+import axios from 'axios';
 
 /* Deploy front Start */
-import dotenv from 'dotenv';
 // dotenv.config();
 //We need to settle the port for back when we work with the actions. REACT_APP is mandatory, otherwise, it will not work properly
-// axios.defaults.baseURL = process.env.REACT_APP_API || 'http://localhost:3001';
+//In order to use Vite, we need to use import.meta.env instead of dotenv.config() and process.env
+axios.defaults.baseURL =
+	import.meta.env.REACT_APP_API || 'http://localhost:3001';
 /* Deploy front End */
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
-		<ChakraProvider store={store}>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
-		</ChakraProvider>
+		<Provider store={store}>
+			<ChakraProvider>
+				<BrowserRouter>
+					<App />
+				</BrowserRouter>
+			</ChakraProvider>
+		</Provider>
 	</React.StrictMode>
 );
