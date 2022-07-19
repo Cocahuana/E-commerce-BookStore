@@ -50,21 +50,20 @@ const {
 } = sequelize.models;
 
 // Aca vendrian las relaciones
-var interBooks_Order = sequelize.define('purchaseOrder_books', {}, {timestamps: false});
-//Books.belongsToMany(PurchaseOrder, {through: interBooks_Order});
-//PurchaseOrder.belongsToMany(Books, {through: interBooks_Order});
 
-var interBooks_Category = sequelize.define('books_category', {}, {timestamps: false});
-//Books.belongsToMany(Category, {through: interBook_Category}); 
-//Category.belongsToMany(Books, {through: interBook_Category});
+/*Books.belongsToMany(PurchaseOrder, {through: order_books, timestamps: false});
+PurchaseOrder.belongsToMany(Books, {through: order_books, timestamps: false});
 
-var interBooks_Language = sequelize.define('books_language', {}, {timestamps: false});
-//Books.belongsToMany(Language, {through: interBooks_Language});
-//Language.belongsToMany(Books, {through: interBooks_Language});
 
-var interBooks_Fav = sequelize.define('books_fav', {}, {timestamps: false});
-//Books.belongsToMany(Favorite_List, {through: interBooks_Fav});
-//Favorite_List.belongsToMany(Books, {through: interBooks_Fav});
+Books.belongsToMany(Category, {through: category_books, timestamps: false}); 
+Category.belongsToMany(Books, {through: category_books, timestamps: false});
+
+Books.belongsToMany(Language, {through: language_books, timestamps: false});
+Language.belongsToMany(Books, {through: language_books, timestamps: false});
+
+
+Books.belongsToMany(Favorite_List, {through: favorite_books, timestamps: false});
+Favorite_List.belongsToMany(Books, {through: favorite_books, timestamps: false});*/
 
 
 module.exports = {
