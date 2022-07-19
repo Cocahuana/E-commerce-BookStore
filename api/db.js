@@ -50,7 +50,22 @@ const {
 } = sequelize.models;
 
 // Aca vendrian las relaciones
-// Product.hasMany(Reviews);
+var interBooks_Order = sequelize.define('purchaseOrder_books', {}, {timestamps: false});
+//Books.belongsToMany(PurchaseOrder, {through: interBooks_Order});
+//PurchaseOrder.belongsToMany(Books, {through: interBooks_Order});
+
+var interBooks_Category = sequelize.define('books_category', {}, {timestamps: false});
+//Books.belongsToMany(Category, {through: interBook_Category}); 
+//Category.belongsToMany(Books, {through: interBook_Category});
+
+var interBooks_Language = sequelize.define('books_language', {}, {timestamps: false});
+//Books.belongsToMany(Language, {through: interBooks_Language});
+//Language.belongsToMany(Books, {through: interBooks_Language});
+
+var interBooks_Fav = sequelize.define('books_fav', {}, {timestamps: false});
+//Books.belongsToMany(Favorite_List, {through: interBooks_Fav});
+//Favorite_List.belongsToMany(Books, {through: interBooks_Fav});
+
 
 module.exports = {
 	...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
