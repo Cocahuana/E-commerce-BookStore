@@ -1,3 +1,4 @@
+
 import React from "react"
 import {BrowserRouter, Route, Switch } from "react-router-dom"
 import books from "./components/Book/Book"
@@ -26,6 +27,4 @@ function App() {
   )
 }
 
-
-export default App
-
+export default App;
