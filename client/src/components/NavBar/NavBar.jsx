@@ -28,9 +28,6 @@ export default function NavBar() {
 	return (
 		<Box>
 			<Flex
-				position={'fixed'}
-				w={'100%'}
-				z-index={0}
 				bg={useColorModeValue('white', 'gray.800')}
 				color={useColorModeValue('gray.600', 'white')}
 				py={{ base: 2 }}
@@ -38,19 +35,24 @@ export default function NavBar() {
 				borderBottom={1}
 				borderStyle={'solid'}
 				borderColor={useColorModeValue('gray.200', 'gray.900')}
-				align={'center'}>
+				align={'center'}
+				boxShadow={useColorModeValue(
+					'0 4px 6px rgba(160,174,192,0.6)',
+					'0 4px 6px rgba(9,17,28,0.9'
+				)}
+				position="fixed"
+				width="100%"
+				zIndex={3}
+			>
 				<Flex
 					flex={{ base: 1, md: 'auto' }}
 					ml={{ base: -2 }}
-					display={{ base: 'flex', md: 'none' }}>
+					display={{ base: 'flex', md: 'none' }}
+				>
 					<IconButton
 						onClick={onToggle}
 						icon={
-							isOpen ? (
-								<CloseIcon w={3} h={3} />
-							) : (
-								<HamburgerIcon w={5} h={5} />
-							)
+							isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
 						}
 						variant={'ghost'}
 						aria-label={'Toggle Navigation'}
