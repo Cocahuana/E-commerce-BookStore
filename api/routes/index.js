@@ -1,9 +1,14 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const { Router } = require('express');
+const { getPopularBooks, addBooksTodb, addTotalBooks } = require('../controllers/bookControllers') 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+
+const router = Router();
+router.get('/popular', getPopularBooks);
+
+router.get('/books', addTotalBooks)
+
+
 
 module.exports = router;
