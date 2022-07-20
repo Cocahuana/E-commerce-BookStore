@@ -1,4 +1,5 @@
 const axios = require('axios');
+const db = require('../db');
 const { Books } = require('../db');
 
 const getPopularBooks = async (req, res) => {
@@ -68,4 +69,22 @@ const getBookById = async (req, res) => {};
             rating: b.averageRating } 
 */
 
-module.exports = { getPopularBooks, addBooksTodb, addTotalBooks, getBookById };
+const deleteBookById = async (req, res, next) => {
+	const { id } = req.params;
+	try {
+		let book = await Books.findByPk(parseInt(id));
+
+		await book.destroy();
+		res.status(200).send('Libro eliminado!');
+	} catch (error) {
+		next(error);
+	}
+};
+
+module.exports = {
+	getPopularBooks,
+	addBooksTodb,
+	addTotalBooks,
+	getBookById,
+	deleteBookById,
+};
