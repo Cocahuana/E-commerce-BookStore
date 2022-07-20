@@ -2,27 +2,33 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
 	sequelize.define(
-		'Book',
+		'Books', 
 		{
 			//generates ID automatically
 			title: {
-				type: DataTypes.STRING,
+				type: DataTypes.TEXT, //cambiado a text sino tira error
 				allowNull: false,
 			},
-			author: {
+			authors: { //en la api viene como authors, fue cambiado
 				type: DataTypes.STRING,
-				allowNull: false,
+				//allowNull: false,
 			},
 			price: {
 				type: DataTypes.FLOAT,
-				allowNull: false,
+				allowNull: true, //acordarse de este cambio. Agregar default?
 			},
 			description: {
 				type: DataTypes.TEXT,
 			},
 			rating: {
-				type: DataTypes.INTEGER,
+				type: DataTypes.FLOAT,
 			},
+			image: {
+				type: DataTypes.TEXT, //default value?
+			},
+			peviewLink: {
+				type: DataTypes.TEXT,
+			}
 		},
 		{ timestamps: false }
 	);

@@ -25,7 +25,7 @@ var server = http.createServer(app);
  * We're using conn from db.js with the method sync to sync all the models at once.
  * Using property "force: false" to handle the emptying of database
  */
-conn.sync({ force: false }).then(() => {
+conn.sync({ force: true }).then(() => {
 	app.listen(process.env.PORT || 3001, () => {
 		console.log('%s listening at 3001'); // eslint-disable-line no-console
 	});

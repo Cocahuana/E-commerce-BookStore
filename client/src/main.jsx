@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import App from './App';
+import axios from 'axios';
 import store from './../redux/store/index';
 import { BrowserRouter } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import './index.css';
-// import dotenv from 'dotenv';
-
-import axios from 'axios';
+import theme from './components/theme/index';
+import './components/theme/styleFont.css';
 
 /* Deploy front Start */
 // dotenv.config();
@@ -21,7 +21,7 @@ axios.defaults.baseURL =
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
 		<Provider store={store}>
-			<ChakraProvider>
+			<ChakraProvider theme={theme}>
 				<BrowserRouter>
 					<App />
 				</BrowserRouter>

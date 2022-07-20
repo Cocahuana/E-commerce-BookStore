@@ -5,16 +5,17 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+
 
 /* Deploy back start */
 //Here we require cors, otherwise it will not work properly
 const app = express();
-const cors = require('cors');
+//const cors = require('cors');
 
-app.name = 'API';
 
-app.use(cors());
+//app.name = 'API';
+
+//app.use(cors());
 /* Deploy back end */
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -42,7 +43,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+//app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
