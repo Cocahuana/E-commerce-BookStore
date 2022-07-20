@@ -5,6 +5,8 @@ const {
 	addBooksTodb,
 	addTotalBooks,
 	getBookById,
+	deleteBookById,
+	postBook,
 } = require('../controllers/bookControllers');
 
 /* GET home page. */
@@ -15,5 +17,9 @@ router.get('/popular', getPopularBooks);
 router.get('/books', addTotalBooks);
 
 router.get('/books/:id', getBookById);
+
+router.delete('/books/:id', deleteBookById);
+
+router.post('/books', postBook);
 
 module.exports = router;

@@ -42,7 +42,7 @@ let sequelize =
 //Commented code below is not longer needed
 
 // const sequelize = new Sequelize(
-// 	`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/books`,
+// 	`postgres://${VITE_DB_USER}:${VITE_DB_PASSWORD}@${VITE_DB_HOST}/books`,
 // 	{
 // 		logging: false, // set to console.log to see the raw SQL queries
 // 		native: false, // lets Sequelize know we can use pg-native for ~30% more speed
