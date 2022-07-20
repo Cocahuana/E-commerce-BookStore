@@ -14,7 +14,7 @@ import {
 import * as React from 'react'
 import { Rating } from './Rating'
 import { FavouriteButton } from './FavouriteButton'
-import { PriceTag } from '../Book/PriceTag'
+import { PriceTag } from './PriceTag'
 
 export const Book = (props) => {
   const { product, rootProps } = props
