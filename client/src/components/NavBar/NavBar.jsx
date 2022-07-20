@@ -28,9 +28,11 @@ export default function NavBar() {
   return (
     <Box>
       <Flex
+      position={"fixed"}
+      w={"100%"}
+      z-index={0}
         bg={useColorModeValue('white', 'gray.800')}
         color={useColorModeValue('gray.600', 'white')}
-        minH={'60px'}
         py={{ base: 2 }}
         px={{ base: 4 }}
         borderBottom={1}
