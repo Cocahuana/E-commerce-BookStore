@@ -81,10 +81,30 @@ const deleteBookById = async (req, res, next) => {
 	}
 };
 
+const postBook = async (req, res, next) => {
+	let { title, authors, description, rating, image, preview } = req.body;
+	if (title.length === 0)
+		return res.status(400).json('Title should be longer');
+	try {
+		await Books.create({
+			title: title,
+			authors: authors?.join(','),
+			description: description,
+			rating: rating,
+			image: image,
+			preview: preview,
+		});
+		res.send('libro creado!');
+	} catch (error) {
+		next(error);
+	}
+};
+
 module.exports = {
 	getPopularBooks,
 	addBooksTodb,
 	addTotalBooks,
 	getBookById,
 	deleteBookById,
+	postBook,
 };
