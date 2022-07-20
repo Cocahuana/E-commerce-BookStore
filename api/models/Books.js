@@ -2,14 +2,15 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
 	sequelize.define(
-		'Books', 
+		'Books',
 		{
 			//generates ID automatically
 			title: {
 				type: DataTypes.TEXT, //cambiado a text sino tira error
 				allowNull: false,
 			},
-			authors: { //en la api viene como authors, fue cambiado
+			authors: {
+				//en la api viene como authors, fue cambiado
 				type: DataTypes.STRING,
 				//allowNull: false,
 			},
@@ -28,7 +29,7 @@ module.exports = (sequelize) => {
 			},
 			peviewLink: {
 				type: DataTypes.TEXT,
-			}
+			},
 		},
 		{ timestamps: false }
 	);
