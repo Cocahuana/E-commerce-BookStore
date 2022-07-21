@@ -14,7 +14,7 @@ const {
 const router = Router();
 router.get('/popular', getPopularBooks);
 
-router.get('/books', addTotalBooks);
+//router.get('/books', addTotalBooks);
 
 router.get('/books/:id', getBookById);
 
