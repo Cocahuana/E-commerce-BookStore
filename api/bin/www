@@ -30,9 +30,10 @@ var server = http.createServer(app);
  */
 
 conn.sync({ force: true }).then(() => {
-	app.listen(process.env.PORT || 3001, () => {
+	app.listen(process.env.PORT || 3001, async () => {
 		console.log('%s listening at 3001'); // eslint-disable-line no-console
-		async function carga() {
+		let infoCheck = await Books.findAll();
+		if (!infoCheck) {
 			await Books.bulkCreate(books);
 		}
 	});
