@@ -3,37 +3,6 @@ const db = require('../db');
 const { Books } = require('../db');
 const { Op } = require('sequelize');
 
-const arrayId = [
-	'p3QQjwEACAAJ',
-	'z2hczgEACAAJ',
-	'zl13g5uRM4EC',
-	'NvNcAAAACAAJ',
-	'_gPWjwEACAAJ',
-	'q_P7oMO3lC4C',
-	'cGj7sgEACAAJ',
-	'ucRODwAAQBAJ',
-	'g9gtEAAAQBAJ',
-	'LQ07DQAAQBAJ',
-	//"58iu9yGmjTI",
-	'Aey-DwAAQBAJ',
-	'2-y-DwAAQBAJ',
-	'RZISrgEACAAJ',
-	'mgpDSiFDa14C',
-	'v3RYPwAACAAJ',
-	'W6M3EAAAQBAJ',
-	'K4HXDwAAQBAJ',
-	'ikxHcAAACAAJ',
-	'X8RSzQEACAAJ',
-	'e_UvygEACAAJ',
-	'iIyHvgEACAAJ',
-	//"UbiDrtoFCHI",
-	'6ZmMBAAAQBAJ',
-	'RO_4ugAACAAJ',
-	'FbMHngEACAAJ',
-	'-c02AwAAQBAJ',
-	'e2HHDwAAQBAJ',
-];
-
 const getPopularBooks = async (req, res, next) => {
 	try {
 		var apiData = await axios.get(
@@ -51,64 +20,6 @@ const getPopularBooks = async (req, res, next) => {
 		next(error);
 	}
 };
-
-//const addBooksTodb = async () => {
-//        var arrayBooks = [];
-//        for ( let book of arrayId ) {
-//		var info = await axios.get(
-//            `https://www.googleapis.com/books/v1/volumes/${book}`
-//		);
-//           arrayBooks.push(info.data);
-//        }
-//
-//      /*var arrayFormat = [];
-//      arrayBooks.map(b => {
-//          arrayFormat.push({
-//          title: b.volumeInfo.title,
-//          authors: b.volumeInfo.authors?.join(','),
-//         description: b.volumeInfo?.description,
-//          rating: b.volumeInfo?.averageRating,
-//          image: b.volumeInfo.imageLinks?.thumbnail,
-//          preview: b.volumeInfo?.previewLink,})
-//
-//      })*/
-//      //console.log(arrayFormat)
-//      var response = arrayBooks.map( async b => {
-//              await Books.create({
-//          title: b.volumeInfo.title,
-//         authors: b.volumeInfo.authors?.join(','),
-//        description: b.volumeInfo.description,
-//       rating: b.volumeInfo.averageRating,
-//          image: b.volumeInfo.imageLinks?.thumbnail,
-//         preview: b.volumeInfo.previewLink,
-//      });
-
-//    });
-/*var response = arrayFormat.map(async m => 
-        await Books.create(m) )*/
-//  return response
-
-//}
-
-const findAllBooks = async (req, res, next) => {
-	try {
-		var result = await Books.findAll();
-		res.send(result);
-	} catch (e) {
-		next(e);
-	}
-};
-
-/*const addTotalBooks = async (req, res, next) => {
-	try {
-		addBooksTodb();
-		var total = await Books.findAll();
-        console.log(total)
-		res.send(total);
-	} catch (error) {
-		next(error);
-	}
-};*/
 
 const getBookById = async (req, res, next) => {
 	try {
@@ -226,7 +137,4 @@ module.exports = {
 	getBookById,
 	deleteBookById,
 	postBook,
-	findAllBooks,
-	findByAuthorOrTitle,
-	putBook,
 };
