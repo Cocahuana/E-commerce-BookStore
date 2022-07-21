@@ -1,38 +1,38 @@
 const axios = require('axios');
 const db = require('../db');
 const { Books } = require('../db');
+const { Op } = require('sequelize');
 
 const arrayId = [
-    "p3QQjwEACAAJ",
-    "z2hczgEACAAJ",
-    "zl13g5uRM4EC",
-    "NvNcAAAACAAJ",
-    "_gPWjwEACAAJ",
-    "q_P7oMO3lC4C",
-    "cGj7sgEACAAJ",
-    "ucRODwAAQBAJ",
-    "g9gtEAAAQBAJ",
-    "LQ07DQAAQBAJ",
-    //"58iu9yGmjTI",
-    "Aey-DwAAQBAJ",
-    "2-y-DwAAQBAJ",
-    "RZISrgEACAAJ",
-    "mgpDSiFDa14C",
-    "v3RYPwAACAAJ",
-    "W6M3EAAAQBAJ",
-    "K4HXDwAAQBAJ",
-    "ikxHcAAACAAJ",
-    "X8RSzQEACAAJ",
-    "e_UvygEACAAJ",
-    "iIyHvgEACAAJ",
-    //"UbiDrtoFCHI",
-    "6ZmMBAAAQBAJ",
-    "RO_4ugAACAAJ",
-    "FbMHngEACAAJ",
-    "-c02AwAAQBAJ",
-    "e2HHDwAAQBAJ",
-]
-
+	'p3QQjwEACAAJ',
+	'z2hczgEACAAJ',
+	'zl13g5uRM4EC',
+	'NvNcAAAACAAJ',
+	'_gPWjwEACAAJ',
+	'q_P7oMO3lC4C',
+	'cGj7sgEACAAJ',
+	'ucRODwAAQBAJ',
+	'g9gtEAAAQBAJ',
+	'LQ07DQAAQBAJ',
+	//"58iu9yGmjTI",
+	'Aey-DwAAQBAJ',
+	'2-y-DwAAQBAJ',
+	'RZISrgEACAAJ',
+	'mgpDSiFDa14C',
+	'v3RYPwAACAAJ',
+	'W6M3EAAAQBAJ',
+	'K4HXDwAAQBAJ',
+	'ikxHcAAACAAJ',
+	'X8RSzQEACAAJ',
+	'e_UvygEACAAJ',
+	'iIyHvgEACAAJ',
+	//"UbiDrtoFCHI",
+	'6ZmMBAAAQBAJ',
+	'RO_4ugAACAAJ',
+	'FbMHngEACAAJ',
+	'-c02AwAAQBAJ',
+	'e2HHDwAAQBAJ',
+];
 
 const getPopularBooks = async (req, res, next) => {
 	try {
@@ -48,29 +48,29 @@ const getPopularBooks = async (req, res, next) => {
 		});
 		res.send(wash);
 	} catch (error) {
-		next(error); 
+		next(error);
 	}
 };
 
 //const addBooksTodb = async () => {
-//        var arrayBooks = []; 
+//        var arrayBooks = [];
 //        for ( let book of arrayId ) {
 //		var info = await axios.get(
 //            `https://www.googleapis.com/books/v1/volumes/${book}`
-//		);  
-//           arrayBooks.push(info.data);  
+//		);
+//           arrayBooks.push(info.data);
 //        }
 //
-//      /*var arrayFormat = []; 
+//      /*var arrayFormat = [];
 //      arrayBooks.map(b => {
 //          arrayFormat.push({
 //          title: b.volumeInfo.title,
 //          authors: b.volumeInfo.authors?.join(','),
 //         description: b.volumeInfo?.description,
 //          rating: b.volumeInfo?.averageRating,
-//          image: b.volumeInfo.imageLinks?.thumbnail, 
+//          image: b.volumeInfo.imageLinks?.thumbnail,
 //          preview: b.volumeInfo?.previewLink,})
-//         
+//
 //      })*/
 //      //console.log(arrayFormat)
 //      var response = arrayBooks.map( async b => {
@@ -79,27 +79,25 @@ const getPopularBooks = async (req, res, next) => {
 //         authors: b.volumeInfo.authors?.join(','),
 //        description: b.volumeInfo.description,
 //       rating: b.volumeInfo.averageRating,
-//          image: b.volumeInfo.imageLinks?.thumbnail, 
+//          image: b.volumeInfo.imageLinks?.thumbnail,
 //         preview: b.volumeInfo.previewLink,
 //      });
-        
-        
+
 //    });
-    /*var response = arrayFormat.map(async m => 
+/*var response = arrayFormat.map(async m => 
         await Books.create(m) )*/
 //  return response
-    
+
 //}
 
 const findAllBooks = async (req, res, next) => {
 	try {
-		var result = await Books.findAll()
-		res.send(result)
-	} catch(e) {
-		next(e) 
+		var result = await Books.findAll();
+		res.send(result);
+	} catch (e) {
+		next(e);
 	}
-}
-
+};
 
 /*const addTotalBooks = async (req, res, next) => {
 	try {
@@ -153,33 +151,32 @@ const postBook = async (req, res, next) => {
 	}
 };
 
-const putBook = async (req, res, next)=>{
-	let {id, title, authors, price, description, image, previewLink, flag, currency} = req.body;
-	try{
-		let currentBook = await Books.findByPk(id)
-		if(currentBook){
-			await Books.update(
-				{
-					title: title ? title : currentBook.title,
-					authors: authors ? authors : currentBook.authors,
-					price: price ? price : currentBook.price,
-					description: description ? description : currentBook.description,
-					image: image ? image : currentBook.image,
-					previewLink: previewLink ? previewLink : currentBook.previewLink,
-					flag: flag ? flag : currentBook.flag,
-					currency: currency ? currency : currentBook.currency,
+
+const findByAuthorOrTitle = async (req, res, next) => {
+	try {
+		var { input } = req.query;
+		input = `%${input}%`;
+		if (input) {
+			var resp = await Books.findAll({
+				where: {
+					[Op.or]: [
+						{ title: { [Op.iLike]: input } },
+						{ authors: { [Op.iLike]: input } },
+					],
 				},
-				{
-					where: {id: id},
-				});
-				res.status(200).send(`${title ? title : currentBook.title} has been updated`);
-		}else{
-			res.status(400).send(`Book with id ${id} not found`); 
+			});
+			console.log(resp);
+			if (resp.length) {
+				res.json(resp);
+			} else {
+				res.send('Could not find matching books');
+			}
 		}
-		}catch(e){
+	} catch (e) {
 		next(e);
 	}
-}
+};
+
 
 module.exports = {
 	getPopularBooks,
@@ -187,5 +184,6 @@ module.exports = {
 	deleteBookById,
 	postBook,
 	findAllBooks,
-	putBook,
+	findByAuthorOrTitle,
+
 };

@@ -6,7 +6,7 @@ const {
 	deleteBookById,
 	postBook,
 	findAllBooks,
-	putBook,
+	findByAuthorOrTitle,
 } = require('../controllers/bookControllers');
 
 /* GET home page. */
@@ -22,6 +22,7 @@ router.delete('/books/:id', deleteBookById);
 
 router.post('/books', postBook);
 
-router.put('/books', putBook),
+router.get('/search', findByAuthorOrTitle);
+
 
 module.exports = router;
