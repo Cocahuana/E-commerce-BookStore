@@ -137,4 +137,6 @@ module.exports = {
 	getBookById,
 	deleteBookById,
 	postBook,
+	putBook,
+	findByAuthorOrTitle,
 };
