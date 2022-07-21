@@ -153,10 +153,39 @@ const postBook = async (req, res, next) => {
 	}
 };
 
+const putBook = async (req, res, next)=>{
+	let {id, title, authors, price, description, image, previewLink, flag, currency} = req.body;
+	try{
+		let currentBook = await Books.findByPk(id)
+		if(currentBook){
+			await Books.update(
+				{
+					title: title ? title : currentBook.title,
+					authors: authors ? authors : currentBook.authors,
+					price: price ? price : currentBook.price,
+					description: description ? description : currentBook.description,
+					image: image ? image : currentBook.image,
+					previewLink: previewLink ? previewLink : currentBook.previewLink,
+					flag: flag ? flag : currentBook.flag,
+					currency: currency ? currency : currentBook.currency,
+				},
+				{
+					where: {id: id},
+				});
+				res.status(200).send(`${title ? title : currentBook.title} has been updated`);
+		}else{
+			res.status(400).send(`Book with id ${id} not found`); 
+		}
+		}catch(e){
+		next(e);
+	}
+}
+
 module.exports = {
 	getPopularBooks,
 	getBookById,
 	deleteBookById,
 	postBook,
-	findAllBooks
+	findAllBooks,
+	putBook,
 };
