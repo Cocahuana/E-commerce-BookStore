@@ -5,8 +5,10 @@ const theme = extendTheme({
 		heding: 'Poppins',
 		body: 'Poppins',
 	},
-	pepe: {
-		rosi: '#E1AA7D',
+	colors: {
+		brand: {
+			pepe: '#64c2e4',
+		},
 	},
 });
 
