@@ -26,7 +26,7 @@ const rootReducer = (state = InitialState, action) => {
 		}
 
 		default: {
-			state;
+			return state;
 		}
 	}
 };

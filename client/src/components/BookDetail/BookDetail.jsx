@@ -73,7 +73,7 @@ function BookDetail(props) {
             </Text>
 
             <Text fontSize={'lg'}>
-              {detail?.rating}
+              Rating: {detail?.rating}
             </Text>
           </VStack>
         
@@ -120,7 +120,13 @@ function BookDetail(props) {
       </AccordionButton>
     </h2>
     <AccordionPanel pb={4}>  
-      {detail?.description.replace(/<[^>]+>/g, '').replace(/«|»/g, " ")}
+  
+    <div
+									dangerouslySetInnerHTML={{
+										__html: detail?.description,
+									}}
+								/>
+                  
     </AccordionPanel>
   </AccordionItem>
   </Accordion>
