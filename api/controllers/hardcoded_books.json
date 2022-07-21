@@ -13,7 +13,7 @@
             "currency": "USD",
             "ratingCount": 8,
             "genre": ["Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 2,
@@ -27,7 +27,7 @@
             "currency": "USD",
             "ratingCount": 9,
             "genre": ["Juvenile Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 3,
@@ -41,7 +41,7 @@
             "currency": "USD",
             "ratingCount": 10,
             "genre": ["Juvenile Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 4,
@@ -55,7 +55,7 @@
             "currency": "ARS",
             "ratingCount": 10,
             "genre": ["Juvenile Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 5,
@@ -69,7 +69,7 @@
             "currency": "USD",
             "ratingCount": 6,
             "genre": ["Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 6,
@@ -83,7 +83,7 @@
             "currency": "ARS",
             "ratingCount": 6,
             "genre": ["Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 7,
@@ -97,7 +97,7 @@
             "currency": "USD",
             "ratingCount": 3,
             "genre": ["Juvenile Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 8,
@@ -111,7 +111,7 @@
             "currency": "USD",
             "ratingCount": 4,
             "genre": ["Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 9,
@@ -125,7 +125,7 @@
             "currency": "ARS",
             "ratingCount": 2,
             "genre": ["Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 10,
@@ -139,7 +139,7 @@
             "currency": "USD",
             "ratingCount": 3,
             "genre": ["Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 11,
@@ -153,7 +153,7 @@
             "currency": "ARS",
             "ratingCount": 4,
             "genre": ["Young Adult Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 12,
@@ -167,7 +167,7 @@
             "currency": "USD",
             "ratingCount": 10,
             "genre": ["Juvenile Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 13,
@@ -181,7 +181,7 @@
             "currency": "USD",
             "ratingCount": 6,
             "genre": ["Juvenile Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 14,
@@ -195,7 +195,7 @@
             "currency": "ARS",
             "ratingCount": 2,
             "genre": ["Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 15,
@@ -209,7 +209,7 @@
             "currency": "ARS",
             "ratingCount": 4,
             "genre": ["Juvenile Nonfiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 16,
@@ -223,7 +223,7 @@
             "currency": "ARS",
             "ratingCount": 4,
             "genre": ["Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 17,
@@ -237,7 +237,7 @@
             "currency": "ARS",
             "ratingCount": 4,
             "genre": ["Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 18,
@@ -251,7 +251,7 @@
             "currency": "ARS",
             "ratingCount": 4,
             "genre": ["Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 19,
@@ -265,7 +265,7 @@
             "currency": "ARS",
             "ratingCount": 5,
             "genre": ["Drama"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 20,
@@ -279,7 +279,7 @@
             "currency": "USD",
             "ratingCount": 8,
             "genre": ["Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 21,
@@ -293,7 +293,7 @@
             "currency": "ARS",
             "ratingCount": 8,
             "genre": ["Juvenile Nonfiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 22,
@@ -307,7 +307,7 @@
             "currency": "USD",
             "ratingCount": 6,
             "genre": ["Juvenile Nonfiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 23,
@@ -321,7 +321,7 @@
             "currency": "USD",
             "ratingCount": 2,
             "genre": ["Juvenile Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 24,
@@ -335,7 +335,7 @@
             "currency": "USD",
             "ratingCount": 5,
             "genre": ["Literary Criticism"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 25,
@@ -349,7 +349,7 @@
             "currency": "USD",
             "ratingCount": 9,
             "genre": ["Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 27,
@@ -363,7 +363,7 @@
             "currency": "ARS",
             "ratingCount": 3,
             "genre": ["Young Adult Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 28,
@@ -377,7 +377,7 @@
             "currency": "ARS",
             "ratingCount": 6,
             "genre": ["Young Adult Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 29,
@@ -391,7 +391,7 @@
             "currency": "USD",
             "ratingCount": 6,
             "genre": ["Juvenile Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 30,
@@ -405,7 +405,7 @@
             "currency": "USD",
             "ratingCount": 1,
             "genre": ["Juvenile Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 31,
@@ -419,7 +419,7 @@
             "currency": "USD",
             "ratingCount": 7,
             "genre": ["Juvenile Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 32,
@@ -433,7 +433,7 @@
             "currency": "USD",
             "ratingCount": 4,
             "genre": ["Young Adult Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 33,
@@ -447,7 +447,7 @@
             "currency": "ARS",
             "ratingCount": 8,
             "genre": ["Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 34,
@@ -461,7 +461,7 @@
             "currency": "USD",
             "ratingCount": 5,
             "genre": ["Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 35,
@@ -475,7 +475,7 @@
             "currency": "USD",
             "ratingCount": 10,
             "genre": ["Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 36,
@@ -489,7 +489,7 @@
             "currency": "ARS",
             "ratingCount": 4,
             "genre": ["Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 37,
@@ -503,7 +503,7 @@
             "currency": "USD",
             "ratingCount": 10,
             "genre": ["Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 40,
@@ -517,7 +517,7 @@
             "currency": "USD",
             "ratingCount": 5,
             "genre": ["Juvenile Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 41,
@@ -531,7 +531,7 @@
             "currency": "USD",
             "ratingCount": 9,
             "genre": ["Fiction"],
-            "language": "es"
+            "language": "ESPAÑOL"
         },
         {
             "id": 42,
@@ -545,7 +545,7 @@
             "currency": "USD",
             "ratingCount": 2,
             "genre": ["Thriller"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 43,
@@ -559,7 +559,7 @@
             "currency": "USD",
             "ratingCount": 2,
             "genre": ["Body, Mind & Spirit"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 44,
@@ -573,7 +573,7 @@
             "currency": "ARS",
             "ratingCount": 7,
             "genre": ["Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 45,
@@ -587,7 +587,7 @@
             "currency": "ARS",
             "ratingCount": 7,
             "genre": ["Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 47,
@@ -601,7 +601,7 @@
             "currency": "USD",
             "ratingCount": 5,
             "genre": ["Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 68,
@@ -615,7 +615,7 @@
             "currency": "ARS",
             "ratingCount": 2,
             "genre": ["Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 69,
@@ -629,7 +629,7 @@
             "currency": "ARS",
             "ratingCount": 9,
             "genre": ["Juvenile Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 70,
@@ -643,7 +643,7 @@
             "currency": "ARS",
             "ratingCount": 9,
             "genre": ["Juvenile Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 71,
@@ -657,7 +657,7 @@
             "currency": "ARS",
             "ratingCount": 5,
             "genre": ["Juvenile Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 72,
@@ -671,7 +671,7 @@
             "currency": "USD",
             "ratingCount": 4,
             "genre": ["Juvenile Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 73,
@@ -685,7 +685,7 @@
             "currency": "USD",
             "ratingCount": 4,
             "genre": ["Juvenile Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 74,
@@ -699,7 +699,7 @@
             "currency": "ARS",
             "ratingCount": 10,
             "genre": ["Juvenile Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 75,
@@ -713,7 +713,7 @@
             "currency": "ARS",
             "ratingCount": 8,
             "genre": ["Juvenile Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 76,
@@ -727,7 +727,7 @@
             "currency": "USD",
             "ratingCount": 10,
             "genre": ["Juvenile Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 77,
@@ -741,7 +741,7 @@
             "currency": "USD",
             "ratingCount": 1,
             "genre": ["Juvenile Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 78,
@@ -755,7 +755,7 @@
             "currency": "USD",
             "ratingCount": 3,
             "genre": ["Juvenile Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 79,
@@ -769,7 +769,7 @@
             "currency": "ARS",
             "ratingCount": 10,
             "genre": ["Juvenile Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 80,
@@ -783,7 +783,7 @@
             "currency": "USD",
             "ratingCount": 3,
             "genre": ["Juvenile Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 81,
@@ -797,7 +797,7 @@
             "currency": "USD",
             "ratingCount": 1,
             "genre": ["Juvenile Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         },
         {
             "id": 82,
@@ -811,7 +811,7 @@
             "currency": "USD",
             "ratingCount": 7,
             "genre": ["Juvenile Fiction"],
-            "language": "en"
+            "language": "ENGLISH"
         }
     ]
 }
