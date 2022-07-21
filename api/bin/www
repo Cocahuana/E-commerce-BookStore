@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+const { Books } = require('../db');
+const { books } = require('../controllers/hardcoded_books.json');
+
 /**
  * Module dependencies.
  */
@@ -8,6 +11,7 @@ var app = require('../app');
 var debug = require('debug')('api:server');
 var http = require('http');
 const { conn } = require('../db.js');
+
 /**
  * Get port from environment and store in Express.
  */
@@ -26,10 +30,21 @@ var server = http.createServer(app);
  * Using property "force: false" to handle the emptying of database
  */
 conn.sync({ force: true }).then(() => {
+
 	app.listen(process.env.PORT || 3001, () => {
 		console.log('%s listening at 3001'); // eslint-disable-line no-console
+		async function carga() {
+			await Books.bulkCreate(books);
+		}
+		carga();
+		// let infoCheck = await Books.findAll();
+		// console.log(infoCheck);
+		// if (!infoCheck) {
+		// 	await Books.bulkCreate(books);
+		// }
 	});
 });
+
 // server.listen(port);
 app.on('error', onError);
 app.on('listening', onListening);
