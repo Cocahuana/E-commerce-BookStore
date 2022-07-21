@@ -3,9 +3,12 @@ import * as React from 'react';
 import { BookHolder } from './BookHolder/BookHolder';
 import { Book } from './BookHolder/Book/Book';
 import SearchBar from './SearchBar/SearchBar';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { getBooks } from '../../../redux/actions';
 
 const BookShelf = () => {
-	var products = [
+	/*var products = [
 		{
 			id: '1',
 			name: 'Bamboo Tan',
@@ -135,7 +138,15 @@ const BookShelf = () => {
 			description:
 				'With a sleek design and a captivating essence, this is a modern Classic made for every occasion.',
 		},
-	];
+	];*/
+	const dispatch = useDispatch();
+	const { books } = useSelector((state) => state);
+	console.log(books);
+
+	useEffect(() => {
+		if (!books.length) dispatch(getBooks());
+	}, [dispatch]);
+
 	return (
 		<Grid
 			templateAreas={`"header header"
@@ -169,8 +180,8 @@ const BookShelf = () => {
 						lg: '12',
 					}}>
 					<BookHolder>
-						{products.map((product) => (
-							<Book key={product.id} product={product} />
+						{books.map((b) => (
+							<Book key={b.id} product={b} />
 						))}
 					</BookHolder>
 				</Box>

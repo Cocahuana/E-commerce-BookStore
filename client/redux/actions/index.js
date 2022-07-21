@@ -2,6 +2,7 @@
 // import { GET_ALL_BOOKS } from './actionTypes'
 import axios from "axios"
 import { GET_DETAILS } from "./actionTypes"
+import { GET_BOOKS } from "./actionTypes"
 // const axios = require('axios');
 
 // export const getAllBooks = () => {
@@ -27,7 +28,6 @@ import { GET_DETAILS } from "./actionTypes"
 export const getDetails = (id) => {
     return async function (dispatch) {       
         try {
-
             let det = await axios.get(`/books/${id}`)
             console.log(det, "det")
             return dispatch({
@@ -35,6 +35,20 @@ export const getDetails = (id) => {
                 payload: det.data
         })
         } catch (error) {
+            alert(error)
+        }
+    }
+}
+
+export const getBooks = () => {
+    return async function (dispatch) {
+        try {
+            let result = await axios.get('/books')
+            return dispatch({
+                type: GET_BOOKS,
+                payload: result.data
+            })
+        } catch(error) {
             alert(error)
         }
     }

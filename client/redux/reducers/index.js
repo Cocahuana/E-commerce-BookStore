@@ -1,6 +1,7 @@
 // import actions types
 // import { GET_ALL_BOOKS } from '../actions/actionTypes'
-import { GET_DETAILS } from '../actions/actionTypes'
+import { GET_DETAILS, GET_BOOKS } from '../actions/actionTypes'
+
 // initial states
 
 const InitialState = {
@@ -23,6 +24,12 @@ const rootReducer = (state = InitialState, action) => {
 				details: action.payload
 			}
 			
+		}
+		case GET_BOOKS: {
+			return {
+				...state,
+				books: action.payload
+			}
 		}
 
 		default: {
