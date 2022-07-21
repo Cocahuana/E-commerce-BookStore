@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+const { Books } = require('../db');
+const { books } = require ('../controllers/hardcoded_books.json') 
 
 /**
  * Module dependencies.
@@ -25,11 +27,16 @@ var server = http.createServer(app);
  * We're using conn from db.js with the method sync to sync all the models at once.
  * Using property "force: false" to handle the emptying of database
  */
-conn.sync({ force: true }).then(() => {
+conn.sync({ force: false }).then(() => {
 	app.listen(process.env.PORT || 3001, () => {
 		console.log('%s listening at 3001'); // eslint-disable-line no-console
+		 async function carga() {
+            await Books.bulkCreate(books);
+		}
+		carga();
 	});
 });
+
 // server.listen(port);
 app.on('error', onError);
 app.on('listening', onListening);
