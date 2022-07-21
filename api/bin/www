@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 const { Books } = require('../db');
 const { books } = require('../controllers/hardcoded_books.json');
 
@@ -34,6 +35,11 @@ conn.sync({ force: true }).then(() => {
 			await Books.bulkCreate(books);
 		}
 		carga();
+		// let infoCheck = await Books.findAll();
+		// console.log(infoCheck);
+		// if (!infoCheck) {
+		// 	await Books.bulkCreate(books);
+		// }
 	});
 });
 
