@@ -2,14 +2,15 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
 	sequelize.define(
-		'Books', 
+		'Books',
 		{
 			//generates ID automatically
 			title: {
 				type: DataTypes.TEXT, //cambiado a text sino tira error
 				allowNull: false,
 			},
-			authors: { //en la api viene como authors, fue cambiado
+			authors: {
+				//en la api viene como authors, fue cambiado
 				type: DataTypes.STRING,
 				//allowNull: false,
 			},
@@ -18,23 +19,23 @@ module.exports = (sequelize) => {
 				allowNull: true, //acordarse de este cambio. Agregar default?
 			},
 			curreny: {
-				type: DataTypes.FLOAT
+				type: DataTypes.FLOAT,
 			},
 			description: {
 				type: DataTypes.TEXT,
 			},
 			flag: {
 				type: DataTypes.STRING,
-				defaultValue: 'new'
+				defaultValue: 'new',
 			},
 			rating: {
 				type: DataTypes.FLOAT,
 			},
 			ratingCount: {
-				type: DataTypes.NUMBER,
+				type: DataTypes.INTEGER,
 			},
 			image: {
-				type: DataTypes.TEXT, 
+				type: DataTypes.TEXT,
 			},
 		},
 		{ timestamps: false }
