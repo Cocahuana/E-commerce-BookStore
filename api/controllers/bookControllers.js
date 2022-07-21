@@ -104,47 +104,45 @@ const getPopularBooks = async (req, res, next) => {
 	}
 };
 
-const addBooksTodb = async () => {
-	try {
-		var arrayBooks = [];
-		for (let book of arrayId) {
-			var info = await axios.get(
-				`https://www.googleapis.com/books/v1/volumes/${book}`
-			);
-			arrayBooks.push(info.data);
-		}
-		console.log(arrayBooks);
-		/*var arrayFormat = []; 
-        arrayBooks.map(b => {
-            arrayFormat.push({
-            title: b.volumeInfo.title,
-            authors: b.volumeInfo.authors?.join(','),
-            description: b.volumeInfo?.description,
-            rating: b.volumeInfo?.averageRating,
-            image: b.volumeInfo.imageLinks?.thumbnail, 
-            preview: b.volumeInfo?.previewLink,})
-            
-        })*/
-		//console.log(arrayFormat)
-		var response = arrayBooks.map(async (b) => {
-			await Books.create({
-				title: b.volumeInfo.title,
-				authors: b.volumeInfo.authors?.join(','),
-				description: b.volumeInfo.description,
-				rating: b.volumeInfo.averageRating,
-				image: b.volumeInfo.imageLinks?.thumbnail,
-				preview: b.volumeInfo.previewLink,
-			});
-		});
-		/*var response = arrayFormat.map(async m => 
-        await Books.create(m) )*/
-		return response;
-	} catch (error) {
-		return 'Failed to load into Data Base';
-	}
-};
+//const addBooksTodb = async () => {
+//        var arrayBooks = [];
+//        for ( let book of arrayId ) {
+//		var info = await axios.get(
+//            `https://www.googleapis.com/books/v1/volumes/${book}`
+//		);
+//           arrayBooks.push(info.data);
+//        }
+//
+//      /*var arrayFormat = [];
+//      arrayBooks.map(b => {
+//          arrayFormat.push({
+//          title: b.volumeInfo.title,
+//          authors: b.volumeInfo.authors?.join(','),
+//         description: b.volumeInfo?.description,
+//          rating: b.volumeInfo?.averageRating,
+//          image: b.volumeInfo.imageLinks?.thumbnail,
+//          preview: b.volumeInfo?.previewLink,})
+//
+//      })*/
+//      //console.log(arrayFormat)
+//      var response = arrayBooks.map( async b => {
+//              await Books.create({
+//          title: b.volumeInfo.title,
+//         authors: b.volumeInfo.authors?.join(','),
+//        description: b.volumeInfo.description,
+//       rating: b.volumeInfo.averageRating,
+//          image: b.volumeInfo.imageLinks?.thumbnail,
+//         preview: b.volumeInfo.previewLink,
+//      });
 
-const addTotalBooks = async (req, res, next) => {
+//    });
+/*var response = arrayFormat.map(async m => 
+        await Books.create(m) )*/
+//  return response
+
+//}
+
+/*const addTotalBooks = async (req, res, next) => {
 	try {
 		addBooksTodb();
 		var total = await Books.findAll();
@@ -153,7 +151,7 @@ const addTotalBooks = async (req, res, next) => {
 	} catch (error) {
 		next(error);
 	}
-};
+};*/
 
 const getBookById = async (req, res, next) => {
 	try {
@@ -198,8 +196,6 @@ const postBook = async (req, res, next) => {
 
 module.exports = {
 	getPopularBooks,
-	addBooksTodb,
-	addTotalBooks,
 	getBookById,
 	deleteBookById,
 	postBook,

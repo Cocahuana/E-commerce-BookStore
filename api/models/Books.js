@@ -18,16 +18,23 @@ module.exports = (sequelize) => {
 				type: DataTypes.FLOAT,
 				allowNull: true, //acordarse de este cambio. Agregar default?
 			},
+			currency: {
+				type: DataTypes.TEXT,
+			},
 			description: {
 				type: DataTypes.TEXT,
+			},
+			flag: {
+				type: DataTypes.STRING,
+				defaultValue: 'new',
 			},
 			rating: {
 				type: DataTypes.FLOAT,
 			},
-			image: {
-				type: DataTypes.TEXT, //default value?
+			ratingCount: {
+				type: DataTypes.INTEGER,
 			},
-			peviewLink: {
+			image: {
 				type: DataTypes.TEXT,
 			},
 		},

@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import books from './components/Book/Book';
+import BookShelf from './components/BookShelf/BookShelf';
 import AboutUs from './components/AboutUs/AboutUs';
 import login from './components/SignIN/SignIn';
 import Nav from './components/NavBar/NavBar';
@@ -21,7 +21,7 @@ function App() {
 			<Nav />
 			<Switch>
 				<Route exact path='/' component={landing} />
-				<Route path='/books' component={books} />
+				<Route path='/books' component={BookShelf} />
 				<Route path='/book/:id' component={details} />
 				<Route path='/register' component={register} />
 				<Route path='/login' component={login} />
