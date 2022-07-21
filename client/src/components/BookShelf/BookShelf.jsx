@@ -63,41 +63,24 @@ const BookShelf = () => (
 		templateAreas={`"header header"
 		          "nav main"
 		          "nav footer"`}
-		gridTemplateRows={'60px 1fr 40px'}
+		gridTemplateRows={'150px 1fr 40px'}
 		gridTemplateColumns={'250px 1fr'}
-		h='100em'
-		pt='16'
-		gap='1'
-		color='blackAlpha.700'
-		fontWeight='bold'>
-		<GridItem pl='2' bg='orange.300' area={'header'}>
+		h="100em"
+		pt="20"
+		gap="1"
+		color="blackAlpha.700"
+		fontWeight="bold"
+	>
+		<GridItem pl="2" bg="orange.300" area={'header'}>
 			<SearchBar />
 		</GridItem>
-		<GridItem pl='2' bg='pink.300' area={'nav'}>
+		<GridItem pl="2" bg="pink.300" area={'nav'}>
 			Filters
 		</GridItem>
-		<GridItem pl='2' bg='green.300' area={'main'}>
-			{/* <Box
-				maxW='7xl'
-				mx='auto'
-				px={{
-					base: '4',
-					md: '8',
-					lg: '12',
-				}}
-				py={{
-					base: '6',
-					md: '8',
-					lg: '12',
-				}}>
-				<BookHolder>
-					{products.map((product) => (
-						<Book key={product.id} product={product} />
-					))}
-				</BookHolder>
-			</Box> */}
+		<GridItem pl="2" bg="green.300" area={'main'}>
+			cards
 		</GridItem>
-		<GridItem pl='2' bg='blue.300' area={'footer'}>
+		<GridItem pl="2" bg="blue.300" area={'footer'}>
 			Paging
 		</GridItem>
 	</Grid>
