@@ -21,6 +21,7 @@ const getPopularBooks = async (req, res, next) => {
 	}
 };
 
+
 const findAllBooks = async (req, res, next) => {
 	try {
 		var result = await Books.findAll();
@@ -30,11 +31,12 @@ const findAllBooks = async (req, res, next) => {
 	}
 };
 
+
 const getBookById = async (req, res, next) => {
 	try {
 		const { id } = req.params;
 		const book = await Books.findByPk(parseInt(id));
-		res.send({ book });
+		res.send(book);
 	} catch (error) {
 		next(error);
 	}
@@ -146,7 +148,4 @@ module.exports = {
 	getBookById,
 	deleteBookById,
 	postBook,
-	findAllBooks,
-	findByAuthorOrTitle,
-	putBook,
 };
