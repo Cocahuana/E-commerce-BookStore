@@ -29,13 +29,18 @@ var server = http.createServer(app);
  * Using property "force: false" to handle the emptying of database
  */
 
-conn.sync({ force: true }).then(() => {
-	app.listen(process.env.PORT || 3001, async () => {
+conn.sync({ force: false }).then(() => {
+	app.listen(process.env.PORT || 3001, () => {
 		console.log('%s listening at 3001'); // eslint-disable-line no-console
-		let infoCheck = await Books.findAll();
-		if (!infoCheck) {
+		async function carga() {
 			await Books.bulkCreate(books);
 		}
+		carga();
+		// let infoCheck = await Books.findAll();
+		// console.log(infoCheck);
+		// if (!infoCheck) {
+		// 	await Books.bulkCreate(books);
+		// }
 	});
 });
 
