@@ -25,7 +25,7 @@ const getBookById = async (req, res, next) => {
 	try {
 		const { id } = req.params;
 		const book = await Books.findByPk(parseInt(id));
-		res.send({ book });
+		res.send(book);
 	} catch (error) {
 		next(error);
 	}
