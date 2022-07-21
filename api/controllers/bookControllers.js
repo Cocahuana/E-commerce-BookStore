@@ -100,7 +100,7 @@ const getPopularBooks = async (req, res, next) => {
 		});
 		res.send(wash);
 	} catch (error) {
-		next(error);
+		next(error); 
 	}
 };
 
@@ -140,7 +140,19 @@ const getPopularBooks = async (req, res, next) => {
         await Books.create(m) )*/
 //  return response
 
+<<<<<<< HEAD
 //}
+=======
+const findAllBooks = async (req, res, next) => {
+	try {
+		var result = await Books.findAll()
+		res.send(result)
+	} catch(e) {
+		next(e) 
+	}
+}
+
+>>>>>>> 269818adf8ad487a679b790bc3cd461d0d9a3697
 
 /*const addTotalBooks = async (req, res, next) => {
 	try {
@@ -199,4 +211,5 @@ module.exports = {
 	getBookById,
 	deleteBookById,
 	postBook,
+	findAllBooks
 };

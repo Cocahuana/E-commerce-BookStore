@@ -2,11 +2,10 @@ const express = require('express');
 const { Router } = require('express');
 const {
 	getPopularBooks,
-	addBooksTodb,
-	addTotalBooks,
 	getBookById,
 	deleteBookById,
 	postBook,
+	findAllBooks,
 } = require('../controllers/bookControllers');
 
 /* GET home page. */
@@ -14,7 +13,7 @@ const {
 const router = Router();
 router.get('/popular', getPopularBooks);
 
-//router.get('/books', addTotalBooks);
+router.get('/books', findAllBooks);
 
 router.get('/books/:id', getBookById);
 
