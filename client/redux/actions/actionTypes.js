@@ -3,4 +3,5 @@ import axios from "axios"
 
 // export const GET_ALL_BOOKS = 'GET_ALL_BOOKS';
 
-export const GET_DETAILS = "GET_DETAILS"
+export const GET_DETAILS = "GET_DETAILS";
+export const GET_BOOKS = "GET_BOOKS";
