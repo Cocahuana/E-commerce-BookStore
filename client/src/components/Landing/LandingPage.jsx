@@ -22,7 +22,7 @@ function LandingPage() {
 	return (
 		<Box>
 			<SimpleGrid
-				bg="#64c2e4"
+				bg="brand.pepe"
 				columns={{
 					base: 1,
 					md: 2,
@@ -50,7 +50,7 @@ function LandingPage() {
 						lg: 20,
 					}}
 					py={24}
-					bg="#64c2e4"
+					bg="brand.pepe"
 				>
 					<Badge
 						color="white"
