@@ -1,6 +1,6 @@
 const axios = require('axios');
 const db = require('../db');
-const { Books } = require('../db');
+const { Books, Genre, Language } = require('../db');
 const { Op } = require('sequelize');
 
 const getPopularBooks = async (req, res, next) => {
@@ -23,7 +23,18 @@ const getPopularBooks = async (req, res, next) => {
 
 const findAllBooks = async (req, res, next) => {
 	try {
-		var result = await Books.findAll();
+		var result = await Books.findAll({
+			include:[
+				{
+					model: Genre,
+					through: {attributes: []},
+				},
+				{
+					model: Language,
+					through: {attributes: []},
+				},
+			]
+		});
 		res.send(result);
 	} catch (e) {
 		next(e);
