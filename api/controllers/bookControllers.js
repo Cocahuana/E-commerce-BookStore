@@ -1,6 +1,7 @@
 const axios = require('axios');
 const db = require('../db');
 const { Books } = require('../db');
+const { Op } = require('sequelize');
 
 const getPopularBooks = async (req, res, next) => {
 	try {
@@ -58,6 +59,76 @@ const postBook = async (req, res, next) => {
 		res.send('libro creado!');
 	} catch (error) {
 		next(error);
+	}
+};
+
+const putBook = async (req, res, next) => {
+	let {
+		id,
+		title,
+		authors,
+		price,
+		description,
+		image,
+		previewLink,
+		flag,
+		currency,
+	} = req.body;
+	try {
+		let currentBook = await Books.findByPk(id);
+		if (currentBook) {
+			await Books.update(
+				{
+					title: title ? title : currentBook.title,
+					authors: authors ? authors : currentBook.authors,
+					price: price ? price : currentBook.price,
+					description: description
+						? description
+						: currentBook.description,
+					image: image ? image : currentBook.image,
+					previewLink: previewLink
+						? previewLink
+						: currentBook.previewLink,
+					flag: flag ? flag : currentBook.flag,
+					currency: currency ? currency : currentBook.currency,
+				},
+				{
+					where: { id: id },
+				}
+			);
+			res.status(200).send(
+				`${title ? title : currentBook.title} has been updated`
+			);
+		} else {
+			res.status(400).send(`Book with id ${id} not found`);
+		}
+	} catch (e) {
+		next(e);
+	}
+};
+
+const findByAuthorOrTitle = async (req, res, next) => {
+	try {
+		var { input } = req.query;
+		input = `%${input}%`;
+		if (input) {
+			var resp = await Books.findAll({
+				where: {
+					[Op.or]: [
+						{ title: { [Op.iLike]: input } },
+						{ authors: { [Op.iLike]: input } },
+					],
+				},
+			});
+			console.log(resp);
+			if (resp.length) {
+				res.json(resp);
+			} else {
+				res.send('Could not find matching books');
+			}
+		}
+	} catch (e) {
+		next(e);
 	}
 };
 

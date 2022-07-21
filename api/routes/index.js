@@ -21,4 +21,8 @@ router.delete('/books/:id', deleteBookById);
 
 router.post('/books', postBook);
 
+router.put('/books', putBook);
+
+router.get('/search', findByAuthorOrTitle);
+
 module.exports = router;
