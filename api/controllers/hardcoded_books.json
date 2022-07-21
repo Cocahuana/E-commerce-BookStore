@@ -359,7 +359,9 @@
             "image": "http://books.google.com/books/publisher/content?id=VDs6CQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE71cHMHuDesgwYzEYNviPIUCAz8VkKaaXQaBSuG91KP0TATsxiJMRZ1hlwfOdkmtBSxy2eSc3SCFpEC5jZeEbaizVa0djDOX5HcIy3QdLW7O7rZi2jxp6nZ4H1VxQsdlmozuFt5H&source=gbs_api",
             "flag": "new",
             "currency": "USD",
-            "ratingCount": 7
+            "ratingCount": 7,
+            "genre": ["Juvenile Fiction"],
+            "language": "en"
         },
         {
             "id": 32,
@@ -371,7 +373,9 @@
             "image": "http://books.google.com/books/publisher/content?id=oTw6CQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE71Lm-3oW244L1Tzs8fJXgsFG1A7i-ZJ-Ec-oid1k8fake1f5dVvkI8e13egj25qU8Ca1bG6SbjYeBW6Gi--kT49FSEMpiQ-95OWH-I69C-1PQcJzn1cb2zK72MSkfnyK8lCzkvu&source=gbs_api",
             "flag": "new",
             "currency": "USD",
-            "ratingCount": 4
+            "ratingCount": 4,
+            "genre": ["Young Adult Fiction"],
+            "language": "en"
         },
         {
             "id": 33,
@@ -383,7 +387,9 @@
             "image": "http://books.google.com/books/content?id=ob2gAAAACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73tRn5y-sUKWafXCDTTrtiA_fynEddyYHyDqbqp1ao9CTnyG51IrcprTMW_siWHG4wTa-xQTrKYAcRM9yUl7y83iRxzg3cS2EmpHNLbleDr1-5SJJrz875zSXqBIHIVJahw6TyH&source=gbs_api",
             "flag": "on-sale",
             "currency": "ARS",
-            "ratingCount": 8
+            "ratingCount": 8,
+            "genre": ["Fiction"],
+            "language": "es"
         },
         {
             "id": 34,
@@ -395,7 +401,9 @@
             "image": "http://books.google.com/books/content?id=9ltqtwAACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE715PDXaOVg5QaFu7brr21N_qka5XsQFAAXrlgaHNfwCSp2JWHTOanm0PtXLs41bF7JqVPxTi_l2cLQ1ybL45EX3nHti1MHNPlk7msP0LJdsrO5duYtrAxrNtScWG_jIynWWTY2Q&source=gbs_api",
             "flag": "new",
             "currency": "USD",
-            "ratingCount": 5
+            "ratingCount": 5,
+            "genre": ["Fiction"],
+            "language": "en"
         },
         {
             "id": 35,
@@ -407,7 +415,9 @@
             "image": "https://www.buscalibre.com.ar/libro-el-simbolo-perdido/9789584240347/p/45034199",
             "flag": "new",
             "currency": "USD",
-            "ratingCount": 10
+            "ratingCount": 10,
+            "genre": ["Fiction"],
+            "language": "en"
         },
         {
             "id": 36,
@@ -419,7 +429,9 @@
             "image": "http://books.google.com/books/publisher/content?id=0z0uDwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73j1sp-T9F3368oIN5K6hy7NZbJGJlznmj_HA7BSHMAnbaE_L5e0JE3KT2XTdX2C7SzeM1TEorj4q0dAiD00ucPyi4SVX3G_8RLxZUh_4MEX8ZeDkhvOQf8RHO9pdLKd7ogb_Kt&source=gbs_api",
             "flag": "on-sale",
             "currency": "ARS",
-            "ratingCount": 4
+            "ratingCount": 4,
+            "genre": ["Fiction"],
+            "language": "en"
         },
         {
             "id": 37,
@@ -431,7 +443,9 @@
             "image": "http://books.google.com/books/publisher/content?id=8jxKBQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE72dti_-kA6D71COqX-1QQfIH-etpYiXjrCQLrqQ19GN9d3U5S6zGTXk8crjiOCsWp3pT_DqqDa4Okhoxe2niGcqqYPK-wzonHHxdXmVezdnFebpZcSGtYsUDQc5Oi-Eg9iNTdXj&source=gbs_api",
             "flag": "new",
             "currency": "USD",
-            "ratingCount": 10
+            "ratingCount": 10,
+            "genre": ["Fiction"],
+            "language": "en"
         },
         {
             "id": 40,
@@ -443,7 +457,9 @@
             "image": "http://books.google.com/books/content?id=zDzDAQAACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE717BYgrGAfy5NAK3M7c8VUnSukV6FLXXZJ_SFkvq9f0tJY4Kx1mQEuiBqpowxRPXKh9u9x4piWkQGgekxpgWB6uc3rP1IYKG24hZlGv4eHbPYSY32iLr7mcnJAPHRqPYFYpTcCB&source=gbs_api",
             "flag": "on-sale",
             "currency": "USD",
-            "ratingCount": 5
+            "ratingCount": 5,
+            "genre": ["Juvenile Fiction"],
+            "language": "en"
         },
         {
             "id": 41,
@@ -455,19 +471,23 @@
             "image": "http://books.google.com/books/publisher/content?id=VjzZDgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE70aOCe5MqHKi6KChKi92xijVFvC5muKLVsaUhif6eh6FcXeWJxOL7ATmCYKRMeobdvgc6kEaAX8-dBbJaphHJaSTe4mUxH8l_dNoIPLJSaKOgvnp0DK9dHBmiCNju_qiczwweuF&source=gbs_api",
             "flag": "new",
             "currency": "USD",
-            "ratingCount": 9
+            "ratingCount": 9,
+            "genre": ["Fiction"],
+            "language": "es"
         },
         {
             "id": 42,
             "title": "Las luces de la muerte",
-            "authors": "P. Villarrubia,Pablo Villarubia Mauso",
+            "authors": "Pablo Villarubia Mauso",
             "price": 53.79,
             "description": "En este libro, entre otras muchas cosas, encontrará: - Las extrañas luces vampiro de la Amazonia - El caso del campesino cuya carne se desintegró - Extrañas mutilaciones humanas en Brasil - Dieron su vida en honor de los extraterrestres - Noches de terror en la isla de los Cangrejos - El enigma de las máscaras de plomo - Rivalino Mafra: Crónica de una desaparición",
             "rating": 3,
             "image": "http://books.google.com/books/content?id=YusWxawixKgC&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE70IS2zjXKTJc18tK2tRzrfqu2WZyBIKBQVg5j994uMAd0HOIHJlj6zY-hTBVV_ibe-_N0TtzLmE7K1z14IQ_5RJ2P9xihtuvGX933suZdoC7m6X6x1hKvY_vOySTuZpB-cLvsVn&source=gbs_api",
             "flag": "on-sale",
             "currency": "USD",
-            "ratingCount": 2
+            "ratingCount": 2,
+            "genre": ["Thriller"],
+            "language": "en"
         },
         {
             "id": 43,
@@ -479,7 +499,9 @@
             "image": "http://books.google.com/books/content?id=smmZAAAACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73UlUjo1mYgMqfslO8hs8iyKijllV3RInGIvgCvu9UBTH1TEvLmBDKKgjatEeHIOwZmGtHtB-JjE5d3eBk4ocAstcYa-5e4O5wunTM-QsZjhH-Y15M4JzsfZwi831Irf4uy0XsW&source=gbs_api",
             "flag": "on-sale",
             "currency": "USD",
-            "ratingCount": 2
+            "ratingCount": 2,
+            "genre": ["Body, Mind & Spirit"],
+            "language": "en"
         },
         {
             "id": 44,
@@ -491,7 +513,9 @@
             "image": "http://books.google.com/books/content?id=EWlGvgEACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73t-KULdk2HvXAUTcd7f1rCVNz1n3Jcaeo8nbZsEeERFDoD1TsRNeTYhGOPTseG27yLTz62KyA9x1sJCj4emc6910AAtBCJ4nC1-VGnOw7g498CPKe8brARvZabzKkqeMDCKCkF&source=gbs_api",
             "flag": "on-sale",
             "currency": "ARS",
-            "ratingCount": 7
+            "ratingCount": 7,
+            "genre": ["Fiction"],
+            "language": "en"
         },
         {
             "id": 45,
@@ -503,7 +527,9 @@
             "image": "http://books.google.com/books/content?id=kCbuswEACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73v1YH1LRAe8GvS1ZDTc3zR6J6LUDQwz7H-wm4_pYERQZ4-JejL7WfP2zyXw3o1FnsMrFvCIRzewyBQM23JwxOkdRvHxUa5nXq7VOrr0aJPvtW0444pXhA1Qvm5TkNfT8wfrsSr&source=gbs_api",
             "flag": "on-sale",
             "currency": "ARS",
-            "ratingCount": 7
+            "ratingCount": 7,
+            "genre": ["Fiction"],
+            "language": "en"
         },
         {
             "id": 47,
@@ -515,7 +541,9 @@
             "image": "http://books.google.com/books/content?id=PRcRkAEACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72k2wQGd_AkPtIRBef4OoiCJ10Yl_Wwa8GGL-y2BxFZl9OJQaEH-8Aaa7nLZqN6FEef_QtsrLEHXk_RexhbSNIcynypPeYx-xHv4sCjjwzF1OGH3zIGzGmcVlpT8VRUU628G75E&source=gbs_api",
             "flag": "on-sale",
             "currency": "USD",
-            "ratingCount": 5
+            "ratingCount": 5,
+            "genre": ["Fiction"],
+            "language": "en"
         },
         {
             "id": 68,
@@ -527,7 +555,9 @@
             "image": "http://books.google.com/books/content?id=2euKXB-3_aoC&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE71fKh9-KtFe90-sZ83Synwy76ytDr7jSkBzTuF5yJahHTx0KkghyknN3zom2sgs-Psy2v2xMHfZvCzW61s3U5v5MKvpqN9n6yJXgJJJtoklVCZfqNhye8wbrEGcfaA_xi8f3mPL&source=gbs_api",
             "flag": "new",
             "currency": "ARS",
-            "ratingCount": 2
+            "ratingCount": 2,
+            "genre": ["Fiction"],
+            "language": "en"
         },
         {
             "id": 69,
@@ -539,7 +569,9 @@
             "image": "http://books.google.com/books/content?id=-1oJMQAACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE71kw77TMKYQgIeZi_xUhTKgomMm9XeE8KVWY0xpRhoBLMZwROMwOzoUoXAMustx5ZSBukpV4SKrMkkS-miaIofhVLtsANL9v4Dts3_R494FtFfSZFJj8_k273KgXivVUQVcRT6P&source=gbs_api",
             "flag": "new",
             "currency": "ARS",
-            "ratingCount": 9
+            "ratingCount": 9,
+            "genre": ["Juvenile Fiction"],
+            "language": "en"
         },
         {
             "id": 70,
@@ -551,7 +583,9 @@
             "image": "http://books.google.com/books/publisher/content?id=NUTODwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE73cLp37dc3gS20ygz1_L7PxrHyQ3zY7tB7hZoyRUi-ieDVS2DmQsQMFQLEQmKP0qWl5vzdOQ_vYNRLFoCJX6hS0XXdrdTxAylb7aVteoSNIpls5HUDYzHC2nWZS47oiPHCNniqX&source=gbs_api",
             "flag": "new",
             "currency": "ARS",
-            "ratingCount": 9
+            "ratingCount": 9,
+            "genre": ["Juvenile Fiction"],
+            "language": "en"
         },
         {
             "id": 71,
@@ -563,7 +597,9 @@
             "image": "http://books.google.com/books/publisher/content?id=B4zIAgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE70qv_nNWG9gVD5pu1C0AlNTp7KMe0qRI3w5l_mwwekoONgvykhJJhFhbmjr-fcR_L1_svgr7U1Xh18mwIIN08gPlWdXAEdWz7qcAcTUX4GKVjBu6meldhJBRAf2MjRshurLcvi9&source=gbs_api",
             "flag": "on-sale",
             "currency": "ARS",
-            "ratingCount": 5
+            "ratingCount": 5,
+            "genre": ["Juvenile Fiction"],
+            "language": "en"
         },
         {
             "id": 72,
@@ -575,7 +611,9 @@
             "image": "http://books.google.com/books/publisher/content?id=zUPODwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE73TYw_lmZoRQxSy73j9u3s82UfvMyERuTu9oMuVRLOfYnmWMqiEDARrvUhtBAfboWEgTA8lJ1Z8zEFAGBeckbbrWEqhDqFtCNalS4SxD2BJTZzehjrWXKrfjL4vYMaT0qmruGlj&source=gbs_api",
             "flag": "new",
             "currency": "USD",
-            "ratingCount": 4
+            "ratingCount": 4,
+            "genre": ["Juvenile Fiction"],
+            "language": "en"
         },
         {
             "id": 73,
@@ -587,7 +625,9 @@
             "image": "http://books.google.com/books/publisher/content?id=lpTaDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE71IA-o3hakDUd8lkpCdp34PiSGKJNSgw5OsjN0tJbqdhi0Myo7wLcYh8MRkBiq8YyOO6tnVpPBKA2PyeFK02qNRzs2ijXyDu4bQ5aY7uRccJRx21FgDwk4ZBcqL5HagMEzse5NT&source=gbs_api",
             "flag": "on-sale",
             "currency": "USD",
-            "ratingCount": 4
+            "ratingCount": 4,
+            "genre": ["Juvenile Fiction"],
+            "language": "en"
         },
         {
             "id": 74,
@@ -599,7 +639,9 @@
             "image": "http://books.google.com/books/publisher/content?id=GJqVBgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE71STE4Wh3diRaebrTsjmrF_gHD7ps73XaCTysAEurm5Zeu9BSrapO_fRkJOj2-TRs_rDTaAP5Ozw1XcKYe2MdOoYG71sfR-lv3XJAL-0Z_FYqlmNMhucS9b_pfmcqTlwDKKxkRi&source=gbs_api",
             "flag": "new",
             "currency": "ARS",
-            "ratingCount": 10
+            "ratingCount": 10,
+            "genre": ["Juvenile Fiction"],
+            "language": "en"
         },
         {
             "id": 75,
@@ -611,7 +653,9 @@
             "image": "http://books.google.com/books/content?id=nIKWngEACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE70ZpR3LumslfMipaabPhlkWOPBudb0SWaJqHJPcyAPzKavPqsMHli8OrSzk-GQ5gmhjSOF2XJf02vgl0Zgy-TkUdK2JduPkd59sqCKYr_dgnIqIOqg2YPCAso9PKgbAcstLYpWs&source=gbs_api",
             "flag": "on-sale",
             "currency": "ARS",
-            "ratingCount": 8
+            "ratingCount": 8,
+            "genre": ["Juvenile Fiction"],
+            "language": "en"
         },
         {
             "id": 76,
@@ -623,7 +667,9 @@
             "image": "http://books.google.com/books/publisher/content?id=1tLPDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE70iF1JZxOG9JEW69Q-0ML4eskvzBq2SC8E5cvOOOH9K0NuTFA90x4uBlV0X-P0xDtC_-y0vS-1Bsf7SOvS2CpwGeuNRI5bie-Dt7tx4VpPWfuWDeS9eZOAZh0kUSeM0wN--mdLh&source=gbs_api",
             "flag": "new",
             "currency": "USD",
-            "ratingCount": 10
+            "ratingCount": 10,
+            "genre": ["Juvenile Fiction"],
+            "language": "en"
         },
         {
             "id": 77,
@@ -635,7 +681,9 @@
             "image": "http://books.google.com/books/content?id=P8ZXcgAACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73OY8K8RFbvtlurZVfrmzfnbX-IlGfbIce2aVmOxiPW_ybRBC-WnLBymOsLdVqztmZK9iVC_5Jh2_4jxI_zmaVy7dWL9My0ddJncCeqX6I8M2ajkePagKIKWI_jUwlGKp5N4AQu&source=gbs_api",
             "flag": "on-sale",
             "currency": "USD",
-            "ratingCount": 1
+            "ratingCount": 1,
+            "genre": ["Juvenile Fiction"],
+            "language": "en"
         },
         {
             "id": 78,
@@ -647,7 +695,9 @@
             "image": "http://books.google.com/books/content?id=99-UPwAACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE70rsFsYw1VHGyZWdBx6Ws8pTcm8X19F1dnnJ6shk_umPyv-NcGHlja5qxF9LrBzvtD5wSnZooVyr4aPHyhtuwJrQgIv1Y5017GfNT6zUFPFimppF7-6Hh3szn28-YRlEFxxHMgs&source=gbs_api",
             "flag": "on-sale",
             "currency": "USD",
-            "ratingCount": 3
+            "ratingCount": 3,
+            "genre": ["Juvenile Fiction"],
+            "language": "en"
         },
         {
             "id": 79,
@@ -659,7 +709,9 @@
             "image": "http://books.google.com/books/content?id=2Lm4t09OWi0C&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE735cqpxrpwdXaccshBi9KcIiRexrxOehVpWsvk5RW3CKvlEJ4jtEc08J1Mpb4Jc3kWR_IsuvyAuLTUXNT0athEWNgMfGx_51Qyywp8YaLapHbKNlDw1dDyTBduj4zKW29WiJnYh&source=gbs_api",
             "flag": "new",
             "currency": "ARS",
-            "ratingCount": 10
+            "ratingCount": 10,
+            "genre": ["Juvenile Fiction"],
+            "language": "en"
         },
         {
             "id": 80,
@@ -671,7 +723,9 @@
             "image": "http://books.google.com/books/content?id=WEjqwAEACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE70tKJZYux0WrSXuW_cASyqDBkzKAJAyx2yun_IaE5zSeCvq2_uj2qqrrVNJarrygcb3wq5rhne3ejPbYZNs4lIlBgmj1c3YxW27W5eDIK04GwJptv4bIx-GbLJnxVaZK1yxruB5&source=gbs_api",
             "flag": "new",
             "currency": "USD",
-            "ratingCount": 3
+            "ratingCount": 3,
+            "genre": ["Juvenile Fiction"],
+            "language": "en"
         },
         {
             "id": 81,
@@ -683,7 +737,9 @@
             "image": "http://books.google.com/books/publisher/content?id=9zhEBQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE71iz11-8yZ51ncVnuWmfGYaT-L-ZnLk6jY_UMFvYJ3eSj58J3G24PcQISfTfIYv-TlkZCFt6EHldj6PvgfMNp-Dllrn44t6b0S1JsBZeW1pVHLdyXio1i205Aen_j2gyxR2LFWd&source=gbs_api",
             "flag": "new",
             "currency": "USD",
-            "ratingCount": 1
+            "ratingCount": 1,
+            "genre": ["Juvenile Fiction"],
+            "language": "en"
         },
         {
             "id": 82,
@@ -695,7 +751,9 @@
             "image": "http://books.google.com/books/content?id=-3KNtgAACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE715_bYC3QqsSypt3wZOhUxgERcu61kCYA-1tGFjjoe52F9xfYQyHiFrE9g84ioB0SKylXjVi5juWdYbvJq26UHooCYOH0CSpfRlGGKKiAyvBhZSAi_PU6PRgqKNovMtHiSrSHKB&source=gbs_api",
             "flag": "new",
             "currency": "USD",
-            "ratingCount": 7
+            "ratingCount": 7,
+            "genre": ["Juvenile Fiction"],
+            "language": "en"
         }
     ]
 }
