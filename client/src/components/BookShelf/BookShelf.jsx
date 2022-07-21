@@ -3,9 +3,13 @@ import * as React from 'react';
 import { BookHolder } from './BookHolder/BookHolder';
 import { Book } from './BookHolder/Book/Book';
 import SearchBar from './SearchBar/SearchBar';
+import Filter from './Filters/Filter';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { getBooks } from '../../../redux/actions';
 
 const BookShelf = () => {
-	var products = [
+	/*var products = [
 		{
 			id: '1',
 			name: 'Bamboo Tan',
@@ -135,29 +139,37 @@ const BookShelf = () => {
 			description:
 				'With a sleek design and a captivating essence, this is a modern Classic made for every occasion.',
 		},
-	];
+	];*/
+	const dispatch = useDispatch();
+	const { books } = useSelector((state) => state);
+	console.log(books);
+
+	useEffect(() => {
+		if (!books.length) dispatch(getBooks());
+	}, [dispatch]);
+
 	return (
 		<Grid
 			templateAreas={`"header header"
 		          "nav main"
 		          "nav footer"`}
-			gridTemplateRows={'60px 1fr 40px'}
-			gridTemplateColumns={'250px 1fr'}
-			h='100em'
-			pt='16'
-			gap='1'
-			color='blackAlpha.700'
-			fontWeight='bold'>
-			<GridItem pl='2' bg='orange.300' area={'header'}>
+			gridTemplateRows={'300px 1fr 50px'}
+			gridTemplateColumns={'320px 1fr'}
+			h="100em"
+			pt="20"
+			gap="1"
+			fontWeight="bold"
+		>
+			<GridItem pl="2" area={'header'}>
 				<SearchBar />
 			</GridItem>
-			<GridItem pl='2' bg='pink.300' area={'nav'}>
-				Filters
+			<GridItem pl="2" area={'nav'}>
+				<Filter />
 			</GridItem>
-			<GridItem pl='2' bg='white' area={'main'}>
+			<GridItem pl="2" bg="whiteAlpha.100" area={'main'}>
 				<Box
-					maxW='7xl'
-					mx='auto'
+					maxW="7xl"
+					mx="auto"
 					px={{
 						base: '4',
 						md: '8',
@@ -167,15 +179,16 @@ const BookShelf = () => {
 						base: '6',
 						md: '8',
 						lg: '12',
-					}}>
+					}}
+				>
 					<BookHolder>
-						{products.map((product) => (
-							<Book key={product.id} product={product} />
+						{books.map((b) => (
+							<Book key={b.id} product={b} />
 						))}
 					</BookHolder>
 				</Box>
 			</GridItem>
-			<GridItem pl='2' bg='blue.300' area={'footer'}>
+			<GridItem pl="2" bg="blue.300" area={'footer'}>
 				Paging
 			</GridItem>
 		</Grid>

@@ -58,16 +58,15 @@ export default function NavBar() {
 						aria-label={'Toggle Navigation'}
 					/>
 				</Flex>
-				<Flex
-					flex={{ base: 1 }}
-					justify={{ base: 'center', md: 'start' }}>
+				<Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
 					<Text
 						textAlign={useBreakpointValue({
 							base: 'center',
 							md: 'left',
 						})}
 						fontFamily={'heading'}
-						color={useColorModeValue('gray.800', 'white')}>
+						color={useColorModeValue('gray.800', 'white')}
+					>
 						E-BookStore
 					</Text>
 
@@ -80,13 +79,15 @@ export default function NavBar() {
 					flex={{ base: 1, md: 0 }}
 					justify={'flex-end'}
 					direction={'row'}
-					spacing={6}>
+					spacing={6}
+				>
 					<Button
 						as={'a'}
 						fontSize={'sm'}
 						fontWeight={400}
 						variant={'link'}
-						href={'/login'}>
+						href={'/login'}
+					>
 						Sign In
 					</Button>
 					<Button
@@ -95,11 +96,12 @@ export default function NavBar() {
 						fontSize={'sm'}
 						fontWeight={600}
 						color={'white'}
-						bg={'#8B2635'}
+						bg={'brand.pepe'}
 						href={'/register'}
 						_hover={{
 							bg: '#2E3532',
-						}}>
+						}}
+					>
 						Sign Up
 					</Button>
 				</Stack>
@@ -132,7 +134,8 @@ const DesktopNav = () => {
 								_hover={{
 									textDecoration: 'none',
 									color: linkHoverColor,
-								}}>
+								}}
+							>
 								{navItem.label}
 							</Link>
 						</PopoverTrigger>
@@ -144,13 +147,11 @@ const DesktopNav = () => {
 								bg={popoverContentBgColor}
 								p={4}
 								rounded={'xl'}
-								minW={'sm'}>
+								minW={'sm'}
+							>
 								<Stack>
 									{navItem.children.map((child) => (
-										<DesktopSubNav
-											key={child.label}
-											{...child}
-										/>
+										<DesktopSubNav key={child.label} {...child} />
 									))}
 								</Stack>
 							</PopoverContent>
@@ -170,13 +171,15 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
 			display={'block'}
 			p={2}
 			rounded={'md'}
-			_hover={{ bg: useColorModeValue('#2E3532', 'gray.900') }}>
+			_hover={{ bg: useColorModeValue('#2E3532', 'gray.900') }}
+		>
 			<Stack direction={'row'} align={'center'}>
 				<Box>
 					<Text
 						transition={'all .3s ease'}
 						_groupHover={{ color: '#2E3532' }}
-						fontWeight={500}>
+						fontWeight={500}
+					>
 						{label}
 					</Text>
 					<Text fontSize={'sm'}>{subLabel}</Text>
@@ -191,7 +194,8 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
 					}}
 					justify={'flex-end'}
 					align={'center'}
-					flex={1}>
+					flex={1}
+				>
 					<Icon color={'#8B2635'} w={5} h={5} as={ChevronRightIcon} />
 				</Flex>
 			</Stack>
@@ -204,7 +208,8 @@ const MobileNav = () => {
 		<Stack
 			bg={useColorModeValue('white', 'gray.800')}
 			p={4}
-			display={{ md: 'none' }}>
+			display={{ md: 'none' }}
+		>
 			{NAV_ITEMS.map((navItem) => (
 				<MobileNavItem key={navItem.label} {...navItem} />
 			))}
@@ -225,10 +230,12 @@ const MobileNavItem = ({ label, children, href }) => {
 				align={'center'}
 				_hover={{
 					textDecoration: 'none',
-				}}>
+				}}
+			>
 				<Text
 					fontWeight={600}
-					color={useColorModeValue('gray.600', 'gray.200')}>
+					color={useColorModeValue('gray.600', 'gray.200')}
+				>
 					{label}
 				</Text>
 				{children && (
@@ -242,17 +249,15 @@ const MobileNavItem = ({ label, children, href }) => {
 				)}
 			</Flex>
 
-			<Collapse
-				in={isOpen}
-				animateOpacity
-				style={{ marginTop: '0!important' }}>
+			<Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
 				<Stack
 					mt={2}
 					pl={4}
 					borderLeft={1}
 					borderStyle={'solid'}
 					borderColor={useColorModeValue('gray.200', 'gray.700')}
-					align={'start'}>
+					align={'start'}
+				>
 					{children &&
 						children.map((child) => (
 							<Link key={child.label} py={2} href={child.href}>
@@ -286,14 +291,12 @@ const NAV_ITEMS = [
 		children: [
 			{
 				label: 'Weekly book club',
-				subLabel:
-					'Discuss about the weekly selected book on a live chat',
+				subLabel: 'Discuss about the weekly selected book on a live chat',
 				href: '/livechat',
 			},
 			{
 				label: 'F.A.Q',
-				subLabel:
-					'A frecuently asked questions forum to solve all your doubts',
+				subLabel: 'A frecuently asked questions forum to solve all your doubts',
 				href: '/faq',
 			},
 		],

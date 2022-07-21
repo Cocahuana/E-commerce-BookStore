@@ -20,7 +20,7 @@ axios.defaults.baseURL =
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
-		<Provider store={store}>
+		<Provider store={store} >
 			<ChakraProvider theme={theme}>
 				<BrowserRouter>
 					<App />
