@@ -4,7 +4,7 @@
         "id": 1,
         "title": "Harry Potter y la piedra filosofal",
         "authors": "J. K. Rowling",
-        "price": 547,
+        "price": 547.20,
         "description": "Harry Potter se ha quedado huérfano y vive en casa de sus abominables tíos y del insoportable primo Dudley. Harry se siente muy triste y solo, hasta que un buen día recibe una carta que cambiará su vida para siempre. En ella le comunican que ha sido aceptado como alumno en el colegio interno Hogwarts de magia y hechicería. A partir de ese momento, la suerte de Harry da un vuelco espectacular. En esa escuela tan especial aprenderá encantamientos, trucos fabulosos y tácticas de defensa contra las malas artes. Se convertirá en el campeón escolar de quidditch, especie de fútbol aéreo que se juega montado sobre escobas, y se hará un puñado de buenos amigos... aunque también algunos temibles enemigos. Pero sobre todo, conocerá los secretos que le permitirán cumplir con su destino. Pues, aunque no lo parezca a primera vista, Harry no es un chico común y corriente. ¡Es un verdadero mago! [Source : 4e de couverture]",
         "rating": 5,
         "image": "http://books.google.com/books/content?id=p3QQjwEACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73Udi4eQ0b1UE4bzq7ykhA_kCGkyaD5hRRto0V3NtzJbSYEw5WBKSFXzhU61_IotAzSOYyqeLZVQsMl2o_Amz-dnm7UtAUqcogCkO3vM3HyNrvZgklzeTX9YfDqA4wjiSjOc7R2&source=gbs_api",
@@ -44,7 +44,7 @@
         "title": "Harry Potter 4 y el cáliz de fuego",
         "authors": "J. K. Rowling",
         "price": 238,
-        "description": "Fantasy. På mystisk vis er Harry Potter blevet udvalgt til at deltage i en magisk trekamp mellem de forskellige troldmandsskoler. Samtidig er hans dødsfjende troldmanden Voldemort ved at genvinde sin magt",
+        "description": "Harry Potter se enfrenta a tiempos duros. Acosado por pesadillas que hacen que su cicatriz duela más que de costumbre, Harry está feliz por escapar de sus sueños inquietos al poder asistir al Campeonato Mundial de Quidditch y estar con sus amigos Ron y Hermione.",
         "rating": 4.5,
         "image": "http://books.google.com/books/content?id=NvNcAAAACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73fRCkqVkApFnfZ9R2Ak91ep-SZzWCed2di4JKfMiSDiW8fY6gfSXvtjegEjsZfYur-7cjkJQQOHLy6Baxy9j0WHXjvuoJQElGcjy0SivmarqDE6ZNkWixE-P5LC4MXOXEQKQNz&source=gbs_api",
         "peviewLink": null,
@@ -57,7 +57,7 @@
         "title": "El señor de los anillos",
         "authors": "John Ronald Reuel Tolkien",
         "price": 666,
-        "description": null,
+        "description": "La novela narra el viaje del protagonista principal, Frodo Bolsón, hobbit de la Comarca, para destruir el Anillo Único y la consiguiente guerra que provocará el enemigo para recuperarlo, ya que es la principal fuente de poder de su creador, el Señor oscuro Sauron.",
         "rating": null,
         "image": null,
         "peviewLink": null,
@@ -239,7 +239,7 @@
         "title": "El nombre del viento",
         "authors": "Patrick Rothfuss",
         "price": 238,
-        "description": null,
+        "description": "​La novela cuenta la historia de Kvothe, un personaje legendario que, tras años de retiro, accede a contar a un cronista los verdaderos motivos por los que se convirtió en leyenda",
         "rating": null,
         "image": null,
         "peviewLink": null,
@@ -384,7 +384,10 @@
         "price": 238,
         "description": "<p>A sus treinta y dos años, Russell Green lo tiene todo: una impresionante esposa, una hija adorable de seis años, una exitosa carrera como ejecutivo de publicidad y una gran casa en Charlotte. Russell vive en medio de un sueño, y su matrimonio con la encantadora Vivian es el centro de su existencia. Pero debajo de esta vida perfecta empiezan a aparecer los problemas y Russ está a punto de presenciar cómo varios aspectos de su vida que daba por sentados van a dar un giro por completo.</p><p>En cuestión de meses, Russell se queda sin trabajo y sin mujer, y deberá luchar para adaptarse a una nueva y desconcertante realidad. Descubriendo el desierto de la vida monoparental, Russell se embarcará en un viaje aterrador a la vez que gratificante, que pondrá a prueba sus habilidades y sus recursos emocionales más allá de lo que nunca habría imaginado.</p>",
         "rating": null,
-        "image": null
+        "image": null,
+        "flag": "new",
+        "currency": "USD",
+        "ratingCount": 3
     }
 ]
 }

@@ -18,8 +18,8 @@ module.exports = (sequelize) => {
 				type: DataTypes.FLOAT,
 				allowNull: true, //acordarse de este cambio. Agregar default?
 			},
-			curreny: {
-				type: DataTypes.FLOAT,
+			currency: {
+				type: DataTypes.TEXT,
 			},
 			description: {
 				type: DataTypes.TEXT,
