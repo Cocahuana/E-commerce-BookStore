@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { books } = require ('../controllers/hardcoded_books.json') 
+const { books } = require('../controllers/hardcoded_books.json');
 const { Books } = require('../db');
 
 /**
@@ -11,8 +11,7 @@ var app = require('../app');
 var debug = require('debug')('api:server');
 var http = require('http');
 const { conn } = require('../db.js');
-const books = require('../controllers/harcoded_books.json');
-const { Books } = require('../db');
+
 /**
  * Get port from environment and store in Express.
  */
@@ -30,11 +29,11 @@ var server = http.createServer(app);
  * We're using conn from db.js with the method sync to sync all the models at once.
  * Using property "force: false" to handle the emptying of database
  */
-conn.sync({ force: false }).then(() => {
+conn.sync({ force: true }).then(() => {
 	app.listen(process.env.PORT || 3001, () => {
 		console.log('%s listening at 3001'); // eslint-disable-line no-console
 		async function carga() {
-            await Books.bulkCreate(books);
+			await Books.bulkCreate(books);
 		}
 		carga();
 	});

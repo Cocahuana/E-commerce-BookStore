@@ -5,15 +5,15 @@ const {
 	getBookById,
 	deleteBookById,
 	postBook,
-	findAllBooks,
 } = require('../controllers/bookControllers');
 
 /* GET home page. */
 
 const router = Router();
+
 router.get('/popular', getPopularBooks);
 
-router.get('/books', findAllBooks);
+// router.get('/books', addTotalBooks);
 
 router.get('/books/:id', getBookById);
 
