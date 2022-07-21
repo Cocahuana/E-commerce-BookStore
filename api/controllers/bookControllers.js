@@ -151,6 +151,7 @@ const postBook = async (req, res, next) => {
 	}
 };
 
+
 const findByAuthorOrTitle = async (req, res, next) => {
 	try {
 		var { input } = req.query;
@@ -176,6 +177,7 @@ const findByAuthorOrTitle = async (req, res, next) => {
 	}
 };
 
+
 module.exports = {
 	getPopularBooks,
 	getBookById,
@@ -183,4 +185,5 @@ module.exports = {
 	postBook,
 	findAllBooks,
 	findByAuthorOrTitle,
+
 };
