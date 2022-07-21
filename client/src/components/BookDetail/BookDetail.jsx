@@ -4,8 +4,11 @@ import { useEffect } from 'react'
 import { getDetails } from '../../../redux/actions'
 import { Box, Container, Stack, Text, Image, Flex, VStack, Button, Heading, SimpleGrid, StackDivider, useColorModeValue, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon } from '@chakra-ui/react';
 import { TiShoppingCart } from "react-icons/ti"
+import StarRatings from "react-star-ratings"
 
-
+function handleonclick() {
+  alert("Branch develop deleted successfully")
+}
 
 
 function BookDetail(props) {
@@ -28,9 +31,9 @@ function BookDetail(props) {
     <SimpleGrid
       columns={{ base: 1, lg: 2 }}
       spacing={{ base: 8, md: 10 }}
-      py={{ base: 18, md: 24 }}>
+      py={{ base: 18, md: 23, lg: 24 }}>
 
-      <Flex>
+      <Flex paddingTop={{sm: "45px", base: "45px"}}>
         <Image
           rounded={'md'}
           alt={'book image'}
@@ -41,7 +44,7 @@ function BookDetail(props) {
           h={{ base: '100%', sm: '400px', lg: '680px' }}
         />
       </Flex>
-      <Stack justify ={"space-evenly"} spacing={{ base: 6, md: 10 }}>
+      <Stack justify ={"space-between"} spacing={{ base: 6, md: 10 }}>
         <Box as={'header'}>
           <Heading
             lineHeight={1.1}
@@ -60,21 +63,23 @@ function BookDetail(props) {
               borderColor={useColorModeValue('gray.200', 'gray.600')}
             />
           }>
-          <VStack justify={"space-between"} flexDir={"row"} spacing={{ base: 4, sm: 6 }}>
-            <Text
-              color={useColorModeValue('gray.500', 'gray.400')}
-              fontWeight={'300'}>
-                Author:
-              
+          <VStack color={useColorModeValue('gray.500', 'gray.400')} fontWeight={'300'} justify={"space-evenly"} align={"center"} flexDir={"row"} spacing={{ base: 2, sm: 4 }}>
+            
+            <Text>            
+                Author:             
               <Text>
                 {detail?.authors}
               </Text>
-
             </Text>
 
-            <Text fontSize={'lg'}>
-              Rating: {detail?.rating}
+            <Text paddingBottom={"15px"}>
+              Rating:
+              <Text>
+              <StarRatings starDimension="20px" name="react-star-rating" rating={detail?.rating ? detail.rating : 0} totalStars={5} starRatedColor="yellow" />
+              </Text>
             </Text>
+            
+
           </VStack>
         
         </Stack>
@@ -86,10 +91,11 @@ function BookDetail(props) {
             py={'3'}         
             w="45%"
             fontSize={{ base: '1xl', sm: '1xl', lg: '2xl' }}>
-            Price: {detail?.price ? detail?.price + "$" : "No existe el precio"}
+            Price: {detail?.price ? "$" + detail?.currency + " " + detail?.price : "No existe el precio"}
           </Text>
 
         <Button
+          onClick= {handleonclick}
           rounded={'100px'}
           w={'50%'}
           mt={8}
