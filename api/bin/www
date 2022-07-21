@@ -1,6 +1,7 @@
 #!/usr/bin/env node
+
+const { books } = require ('../controllers/hardcoded_books.json') 
 const { Books } = require('../db');
-const { books } = require('../controllers/hardcoded_books.json');
 
 /**
  * Module dependencies.
@@ -31,7 +32,7 @@ conn.sync({ force: false }).then(() => {
 	app.listen(process.env.PORT || 3001, () => {
 		console.log('%s listening at 3001'); // eslint-disable-line no-console
 		async function carga() {
-			await Books.bulkCreate(books);
+            await Books.bulkCreate(books);
 		}
 		carga();
 	});

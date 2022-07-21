@@ -48,7 +48,7 @@ const getPopularBooks = async (req, res, next) => {
 		});
 		res.send(wash);
 	} catch (error) {
-		next(error);
+		next(error); 
 	}
 };
 
@@ -90,6 +90,15 @@ const getPopularBooks = async (req, res, next) => {
 //  return response
     
 //}
+
+const findAllBooks = async (req, res, next) => {
+	try {
+		var result = await Books.findAll()
+		res.send(result)
+	} catch(e) {
+		next(e) 
+	}
+}
 
 
 /*const addTotalBooks = async (req, res, next) => {
@@ -149,4 +158,5 @@ module.exports = {
 	getBookById,
 	deleteBookById,
 	postBook,
+	findAllBooks
 };
