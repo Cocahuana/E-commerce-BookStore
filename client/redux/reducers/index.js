@@ -1,12 +1,16 @@
 // import actions types
 // import { GET_ALL_BOOKS } from '../actions/actionTypes'
-import { GET_DETAILS, GET_BOOKS } from '../actions/actionTypes'
+import {
+	GET_DETAILS,
+	GET_BOOKS,
+	GET_BOOKS_BY_TITLE_OR_AUTHOR,
+} from '../actions/actionTypes';
 
 // initial states
 
 const InitialState = {
 	books: [],
-	details: {}
+	details: {},
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -21,15 +25,20 @@ const rootReducer = (state = InitialState, action) => {
 		case GET_DETAILS: {
 			return {
 				...state,
-				details: action.payload
-			}
-			
+				details: action.payload,
+			};
 		}
 		case GET_BOOKS: {
 			return {
 				...state,
-				books: action.payload
-			}
+				books: action.payload,
+			};
+		}
+		case GET_BOOKS_BY_TITLE_OR_AUTHOR: {
+			return {
+				...state,
+				books: action.payload,
+			};
 		}
 
 		default: {
@@ -38,4 +47,4 @@ const rootReducer = (state = InitialState, action) => {
 	}
 };
 
-export default rootReducer
+export default rootReducer;
