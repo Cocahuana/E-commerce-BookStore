@@ -21,7 +21,8 @@ import { FaCommentDots } from 'react-icons/fa';
 
 export const Book = (props) => {
 	const { product, rootProps } = props;
-	const { title, image, price, salePrice, rating, ratingCount, id } = product;
+	const { title, authors, image, price, salePrice, rating, ratingCount, id } =
+		product;
 	return (
 		<Stack
 			spacing={useBreakpointValue({
@@ -57,31 +58,39 @@ export const Book = (props) => {
 					<BuenLink to={`/book/${id}`}>
 						<Link>
 							<Text
-								fontWeight='medium'
+								fontWeight='bold'
 								color={useColorModeValue(
 									'gray.700',
 									'gray.400'
 								)}>
-								{title.length < 36
+								{title.length < 25
 									? title
-									: title.slice(0, 30) + '...'}
+									: title.slice(0, 22) + '...'}
 							</Text>
-							<PriceTag
-								price={price}
-								salePrice={salePrice}
-								currency='USD'
-							/>
 						</Link>
 					</BuenLink>
-				</Stack>
-				<HStack>
-					<Rating defaultValue={rating} size='sm' />
 					<Text
-						fontSize='sm'
-						color={useColorModeValue('gray.600', 'gray.400')}>
-						{ratingCount}
+						fontWeight='medium'
+						color={useColorModeValue('gray.700', 'gray.400')}>
+						{authors}
 					</Text>
-					<Icon as={FaCommentDots} color='blue.500' />
+					<PriceTag
+						price={price}
+						salePrice={salePrice}
+						currency='USD'
+					/>
+				</Stack>
+				<HStack display='flex'>
+					<Rating defaultValue={rating} size='sm' />
+					<HStack>
+						<Text
+							fontSize='sm'
+							paddingLeft='16px'
+							color={useColorModeValue('gray.600', 'gray.400')}>
+							{ratingCount}
+						</Text>
+						<Icon as={FaCommentDots} color='blue.500' />
+					</HStack>
 				</HStack>
 			</Stack>
 			<Stack align='center'>

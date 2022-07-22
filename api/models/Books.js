@@ -28,11 +28,14 @@ module.exports = (sequelize) => {
 				type: DataTypes.TEXT,
 			},
 			previewLink: {
-				type:DataTypes.TEXT,
+				type: DataTypes.TEXT,
 			},
 			flag: {
 				type: DataTypes.STRING,
 				defaultValue: 'new',
+			},
+			salePrice: {
+				type: DataTypes.FLOAT,
 			},
 			currency: {
 				type: DataTypes.STRING,
