@@ -3,6 +3,7 @@ import {
 	Box,
 	Button,
 	HStack,
+	Icon,
 	Image,
 	Link,
 	Skeleton,
@@ -15,10 +16,12 @@ import * as React from 'react';
 import { Rating } from './Rating';
 import { FavouriteButton } from './FavouriteButton';
 import { PriceTag } from './PriceTag';
+import { Link as BuenLink } from 'react-router-dom';
+import { FaCommentDots } from 'react-icons/fa';
 
 export const Book = (props) => {
 	const { product, rootProps } = props;
-	const { title, image, price, salePrice, rating } = product;
+	const { title, image, price, salePrice, rating, ratingCount, id } = product;
 	return (
 		<Stack
 			spacing={useBreakpointValue({
@@ -27,18 +30,21 @@ export const Book = (props) => {
 			})}
 			{...rootProps}>
 			<Box position='relative'>
-				<AspectRatio ratio={4 / 3}>
-					<Image
-						src={image}
-						alt={title}
-						draggable='false'
-						fallback={<Skeleton />}
-						borderRadius={useBreakpointValue({
-							base: 'md',
-							md: 'xl',
-						})}
-					/>
-				</AspectRatio>
+				<BuenLink to={`/book/${id}`}>
+					<Link>
+						<Image
+							src={image}
+							alt={title}
+							draggable='false'
+							fallback={<Skeleton />}
+							boxSize='56'
+							borderRadius={useBreakpointValue({
+								base: 'md',
+								md: 'xl',
+							})}
+						/>
+					</Link>
+				</BuenLink>
 				<FavouriteButton
 					position='absolute'
 					top='4'
@@ -47,25 +53,35 @@ export const Book = (props) => {
 				/>
 			</Box>
 			<Stack>
-				<Stack spacing='1'>
-					<Text
-						fontWeight='medium'
-						color={useColorModeValue('gray.700', 'gray.400')}>
-						{title}
-					</Text>
-					<PriceTag
-						price={price}
-						salePrice={salePrice}
-						currency='USD'
-					/>
+				<Stack spacing='2'>
+					<BuenLink to={`/book/${id}`}>
+						<Link>
+							<Text
+								fontWeight='medium'
+								color={useColorModeValue(
+									'gray.700',
+									'gray.400'
+								)}>
+								{title.length < 36
+									? title
+									: title.slice(0, 30) + '...'}
+							</Text>
+							<PriceTag
+								price={price}
+								salePrice={salePrice}
+								currency='USD'
+							/>
+						</Link>
+					</BuenLink>
 				</Stack>
 				<HStack>
 					<Rating defaultValue={rating} size='sm' />
 					<Text
 						fontSize='sm'
 						color={useColorModeValue('gray.600', 'gray.400')}>
-						12 Reviews
+						{ratingCount}
 					</Text>
+					<Icon as={FaCommentDots} color='blue.500' />
 				</HStack>
 			</Stack>
 			<Stack align='center'>

@@ -4,8 +4,9 @@ import { BookHolder } from './BookHolder/BookHolder';
 import { Book } from './BookHolder/Book/Book';
 import SearchBar from './SearchBar/SearchBar';
 import Filter from './Filters/Filter';
+import { Paging } from './Paging/Paging';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getBooks } from '../../../redux/actions';
 
 const BookShelf = () => {
@@ -142,7 +143,12 @@ const BookShelf = () => {
 	];*/
 	const dispatch = useDispatch();
 	const { books } = useSelector((state) => state);
-	console.log(books);
+	const [CurrentPage, setCurrentPage] = useState(1);
+	const BooksPerPage = 10;
+	const indexOfLastBook = CurrentPage * BooksPerPage;
+	const indexOfFirstBook = indexOfLastBook - BooksPerPage;
+
+	let slicedBooks = books.slice(indexOfFirstBook, indexOfLastBook);
 
 	useEffect(() => {
 		if (!books.length) dispatch(getBooks());
@@ -154,22 +160,27 @@ const BookShelf = () => {
 		          "nav main"
 		          "nav footer"`}
 			gridTemplateRows={'300px 1fr 50px'}
-			gridTemplateColumns={'320px 1fr'}
-			h="100em"
-			pt="20"
-			gap="1"
-			fontWeight="bold"
-		>
-			<GridItem pl="2" area={'header'}>
+			gridTemplateColumns={'300px 1fr'}
+			h='95em'
+			pt='20'
+			gap='1'
+			fontWeight='bold'>
+			<GridItem pl='2' area={'header'}>
 				<SearchBar />
 			</GridItem>
-			<GridItem pl="2" area={'nav'}>
+			<GridItem pl='2' area={'nav'}>
 				<Filter />
 			</GridItem>
-			<GridItem pl="2" bg="whiteAlpha.100" area={'main'}>
+			<GridItem pl='2' bg='whiteAlpha.100' area={'main'}>
+				<Paging
+					BooksPerPage={BooksPerPage}
+					TotalBooksLength={books.length}
+					setCurrentPage={setCurrentPage}
+					CurrentPage={CurrentPage}
+				/>
 				<Box
-					maxW="7xl"
-					mx="auto"
+					maxW='7xl'
+					mx='auto'
 					px={{
 						base: '4',
 						md: '8',
@@ -179,17 +190,19 @@ const BookShelf = () => {
 						base: '6',
 						md: '8',
 						lg: '12',
-					}}
-				>
+					}}>
 					<BookHolder>
-						{books.map((b) => (
+						{slicedBooks.map((b) => (
 							<Book key={b.id} product={b} />
 						))}
 					</BookHolder>
 				</Box>
-			</GridItem>
-			<GridItem pl="2" bg="blue.300" area={'footer'}>
-				Paging
+				<Paging
+					BooksPerPage={BooksPerPage}
+					TotalBooksLength={books.length}
+					setCurrentPage={setCurrentPage}
+					currentpage={CurrentPage}
+				/>
 			</GridItem>
 		</Grid>
 	);
