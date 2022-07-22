@@ -5,6 +5,10 @@ import axios from 'axios';
 
 export const GET_DETAILS = 'GET_DETAILS';
 export const GET_BOOKS = 'GET_BOOKS';
+<<<<<<< HEAD
 export const GET_GENRES = 'GET_GENRES';
 export const FILTER_GENRE = 'FILTER_GENRE';
 export const ORDER_RATING = 'ORDER_RATING';
+=======
+export const GET_BOOKS_BY_TITLE_OR_AUTHOR = 'GET_BOOKS_BY_TITLE_OR_AUTHOR';
+>>>>>>> 87b8b36d89c61e19b9986bfab18b013a8ba7a790

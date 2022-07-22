@@ -6,6 +6,7 @@ import {
 	GET_GENRES,
 	FILTER_GENRE,
 	ORDER_RATING,
+	GET_BOOKS_BY_TITLE_OR_AUTHOR,
 } from '../actions/actionTypes';
 
 // initial states
@@ -32,6 +33,12 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		}
 		case GET_BOOKS: {
+			return {
+				...state,
+				books: action.payload,
+			};
+		}
+		case GET_BOOKS_BY_TITLE_OR_AUTHOR: {
 			return {
 				...state,
 				books: action.payload,

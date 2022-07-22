@@ -2,6 +2,7 @@ import React from 'react';
 import { PagButton } from './PagButton/PagButton';
 import { Flex, Icon } from '@chakra-ui/react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { CurrentPagBtn } from './PagButton/CurrentPageBtn';
 
 export const Paging = ({
 	BooksPerPage,
@@ -37,11 +38,24 @@ export const Paging = ({
 					/>
 				</PagButton>
 				{pageNumbers &&
-					pageNumbers.map((e) => (
-						<PagButton key={e} p onClick={() => setCurrentPage(e)}>
-							{e}
-						</PagButton>
-					))}
+					pageNumbers.map((e) =>
+						CurrentPage === e ? (
+							//Renderiza currentPage
+							<CurrentPagBtn
+								key={e}
+								p
+								onClick={() => setCurrentPage(e)}>
+								{e}
+							</CurrentPagBtn>
+						) : (
+							<PagButton
+								key={e}
+								p
+								onClick={() => setCurrentPage(e)}>
+								{e}
+							</PagButton>
+						)
+					)}
 				<PagButton
 					onClick={() => {
 						if (

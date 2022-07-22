@@ -6,8 +6,10 @@ import {
 	GET_GENRES,
 	FILTER_GENRE,
 	ORDER_RATING,
+	GET_BOOKS,
+	GET_BOOKS_BY_TITLE_OR_AUTHOR,
 } from './actionTypes';
-import { GET_BOOKS } from './actionTypes';
+
 // const axios = require('axios');
 
 // export const getAllBooks = () => {
@@ -75,4 +77,20 @@ export function filterBookGenre(payload) {
 }
 export function orderBook(payload) {
 	return { type: ORDER_RATING, payload };
+}
+
+export function getBooksByTitleOrAuthor(titleOrAuthor) {
+	return async function (dispatch) {
+		console.log('query= ' + titleOrAuthor);
+		try {
+			var json = await axios.get(`/search?input=${titleOrAuthor}`);
+			return dispatch({
+				type: GET_BOOKS_BY_TITLE_OR_AUTHOR,
+				//json.data devuelve lo que nos da la ruta de arriba, ya filtrado por nombre
+				payload: json.data,
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
 }

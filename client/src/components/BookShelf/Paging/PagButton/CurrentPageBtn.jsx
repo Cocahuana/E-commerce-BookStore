@@ -1,13 +1,6 @@
 import React from 'react';
 import { chakra, Flex, Icon } from '@chakra-ui/react';
-export const PagButton = (props) => {
-	const activeStyle = {
-		bg: 'gray.500',
-		_dark: {
-			bg: 'gray.500',
-		},
-		color: 'blue',
-	};
+export const CurrentPagBtn = (props) => {
 	return (
 		<chakra.button
 			onClick={props.onClick}
@@ -15,15 +8,14 @@ export const PagButton = (props) => {
 			px={4}
 			py={2}
 			rounded='md'
-			bg='white'
+			bg='blue.500'
 			_dark={{
 				bg: 'gray.700',
 			}}
-			color='gray.700'
+			color='white'
 			opacity={props.disabled && 0.6}
-			_hover={!props.disabled && activeStyle}
 			cursor={props.disabled && 'not-allowed'}
-			{...(props.active && activeStyle)}
+			{...props.active}
 			display={
 				props.p &&
 				!props.active && {
