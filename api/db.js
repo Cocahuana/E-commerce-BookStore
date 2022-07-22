@@ -80,7 +80,7 @@ const {
 	User,
 	PurchaseOrder,
 	Language,
-	Category,
+	Genre,
 	Comment,
 	Books,
 	Favorite_List,
@@ -88,19 +88,19 @@ const {
 
 // Aca vendrian las relaciones
 
-/*Books.belongsToMany(PurchaseOrder, {through: order_books, timestamps: false});
-PurchaseOrder.belongsToMany(Books, {through: order_books, timestamps: false});
+Books.belongsToMany(PurchaseOrder, {through: "order_books", timestamps: false});
+PurchaseOrder.belongsToMany(Books, {through:"order_books", timestamps: false});
 
 
-Books.belongsToMany(Category, {through: category_books, timestamps: false}); 
-Category.belongsToMany(Books, {through: category_books, timestamps: false});
+Books.belongsToMany(Genre, {through: "genre_books", timestamps: false}); 
+Genre.belongsToMany(Books, {through: "genre_books", timestamps: false});
 
-Books.belongsToMany(Language, {through: language_books, timestamps: false});
-Language.belongsToMany(Books, {through: language_books, timestamps: false});
+Books.belongsToMany(Language, {through: "language_books", timestamps: false});
+Language.belongsToMany(Books, {through: "language_books", timestamps: false});
 
 
-Books.belongsToMany(Favorite_List, {through: favorite_books, timestamps: false});
-Favorite_List.belongsToMany(Books, {through: favorite_books, timestamps: false});*/
+Books.belongsToMany(Favorite_List, {through: "favorite_books", timestamps: false});
+Favorite_List.belongsToMany(Books, {through: "favorite_books", timestamps: false});
 
 module.exports = {
 	...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

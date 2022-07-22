@@ -1,11 +1,11 @@
-{
+{ 
     "languages":
     [
         {
-            "language": "es"
+            "name": "ESPAÑOL"
         },
         {
-            "language": "en"
+            "name": "ENGLISH"
         }
     ]
 }
