@@ -1,9 +1,15 @@
 // import actions types
 // import { GET_ALL_BOOKS } from './actionTypes'
 import axios from 'axios';
-import { GET_DETAILS } from './actionTypes';
-import { GET_BOOKS } from './actionTypes';
-import { GET_BOOKS_BY_TITLE_OR_AUTHOR } from './actionTypes';
+import {
+	GET_DETAILS,
+	GET_GENRES,
+	FILTER_GENRE,
+	ORDER_RATING,
+	GET_BOOKS,
+	GET_BOOKS_BY_TITLE_OR_AUTHOR,
+} from './actionTypes';
+
 // const axios = require('axios');
 
 // export const getAllBooks = () => {
@@ -53,6 +59,25 @@ export const getBooks = () => {
 		}
 	};
 };
+export const getGenres = () => {
+	return async function (dispatch) {
+		try {
+			let result = await axios.get('/genres');
+			return dispatch({
+				type: GET_GENRES,
+				payload: result.data,
+			});
+		} catch (error) {
+			alert(error);
+		}
+	};
+};
+export function filterBookGenre(payload) {
+	return { type: FILTER_GENRE, payload };
+}
+export function orderBook(payload) {
+	return { type: ORDER_RATING, payload };
+}
 
 export function getBooksByTitleOrAuthor(titleOrAuthor) {
 	return async function (dispatch) {
