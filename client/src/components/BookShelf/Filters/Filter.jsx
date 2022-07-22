@@ -26,6 +26,7 @@ import {
 } from '../../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
+
 function Filter() {
 	const dispatch = useDispatch();
 	const { genres } = useSelector((state) => state);
