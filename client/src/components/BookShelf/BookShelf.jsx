@@ -166,7 +166,7 @@ const BookShelf = () => {
 			gap='1'
 			fontWeight='bold'>
 			<GridItem pl='2' area={'header'}>
-				<SearchBar />
+				<SearchBar setCurrentPage={setCurrentPage} />
 			</GridItem>
 			<GridItem pl='2' area={'nav'}>
 				<Filter />
