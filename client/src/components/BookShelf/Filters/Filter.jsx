@@ -19,6 +19,7 @@ import {
 import React, { Fragment } from 'react';
 import { useState } from 'react';
 
+
 function Filter() {
 	const [sliderValue, setSliderValue] = useState([30, 80]);
 	return (
