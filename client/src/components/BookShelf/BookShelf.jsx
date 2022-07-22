@@ -161,22 +161,13 @@ const BookShelf = () => {
 		          "nav footer"`}
 			gridTemplateRows={'300px 1fr 50px'}
 			gridTemplateColumns={'300px 1fr'}
-<<<<<<< HEAD
 			h="95em"
 			pt="20"
 			gap="1"
 			fontWeight="bold"
 		>
 			<GridItem pl="2" area={'header'}>
-				<SearchBar />
-=======
-			h='95em'
-			pt='20'
-			gap='1'
-			fontWeight='bold'>
-			<GridItem pl='2' area={'header'}>
 				<SearchBar setCurrentPage={setCurrentPage} />
->>>>>>> 87b8b36d89c61e19b9986bfab18b013a8ba7a790
 			</GridItem>
 			<GridItem pl="2" area={'nav'}>
 				<Filter />
