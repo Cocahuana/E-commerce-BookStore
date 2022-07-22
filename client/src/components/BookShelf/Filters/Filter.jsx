@@ -16,11 +16,34 @@ import {
 	useColorModeValue,
 	VStack,
 } from '@chakra-ui/react';
-import React, { Fragment } from 'react';
-import { useState } from 'react';
+import React, { Fragment, useState } from 'react';
+import { useEffect } from 'react';
+import {
+	filterBookGenre,
+	getGenres,
+	orderBook,
+} from '../../../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Filter() {
-	const [sliderValue, setSliderValue] = useState([30, 80]);
+	const dispatch = useDispatch();
+	const { genres } = useSelector((state) => state);
+
+	const handdleSelect = (e) => {
+		e.preventDefault();
+		dispatch(filterBookGenre(e.target.value));
+	};
+	const handleOrderBy = (e) => {
+		e.preventDefault();
+		dispatch(orderBook(e.target.value));
+	};
+
+	useEffect(() => {
+		dispatch(getGenres());
+	}, [dispatch]);
+
+	const [sliderValue, setSliderValue] = useState([6.09, 80]);
+
 	return (
 		<Stack
 			boxShadow={useColorModeValue(
@@ -57,12 +80,11 @@ function Filter() {
 					<Flex>Generos</Flex>
 					<Flex direction="column">
 						<Stack spacing={4}>
-							<Checkbox>Genero</Checkbox>
-							<Checkbox>Genero1</Checkbox>
-							<Checkbox>Genero1</Checkbox>
-							<Checkbox>Genero1</Checkbox>
-							<Checkbox>Genero1</Checkbox>
-							<Checkbox>Genero1</Checkbox>
+							{genres.map((p, g) => (
+								<Checkbox onChange={handdleSelect} value={p.name} key={g}>
+									{p.name}
+								</Checkbox>
+							))}
 						</Stack>
 					</Flex>
 				</Stack>
@@ -78,12 +100,23 @@ function Filter() {
 				Price
 				<RangeSlider
 					aria-label={['min', 'max']}
-					defaultValue={[30, 80]}
+					defaultValue={[6.09, 80]}
 					onChange={(val) => setSliderValue(val)}
 				>
 					<RangeSliderTrack>
 						<RangeSliderFilledTrack />
 					</RangeSliderTrack>
+					<RangeSliderMark
+						value={sliderValue[0]}
+						textAlign="center"
+						bg="blue.500"
+						color="white"
+						mt="-10"
+						ml="-5"
+						w="12"
+					>
+						{sliderValue[0]}$
+					</RangeSliderMark>
 
 					<RangeSliderMark
 						value={sliderValue[1]}
@@ -110,10 +143,16 @@ function Filter() {
 				<Stack spacing={0} direction="column" alignItems="center">
 					<Flex>Rating</Flex>
 					<Flex direction="column" p={2}>
-						<Select variant="filled" placeholder="rating">
-							<option value="option1">Option 1</option>
-							<option value="option2">Option 2</option>
-							<option value="option3">Option 3</option>
+						<Select
+							onChange={handleOrderBy}
+							variant="filled"
+							defaultValue={'Default'}
+						>
+							<option value="Default" disabled>
+								rating
+							</option>
+							<option value="highToLow">Rating High to Low</option>
+							<option value="lowToHi">Rating Low to High</option>
 						</Select>
 					</Flex>
 				</Stack>
