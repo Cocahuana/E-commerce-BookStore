@@ -178,7 +178,6 @@ function BookDetail(props) {
 							fontWeight={"10px"}
 							color={useColorModeValue('white', 'gray.900')}
 							rounded={'100px'}
-							mt={5}
 							size={'md'}
 							bg={useColorModeValue('blue.500', 'blue.200')}
 							textTransform={'uppercase'}
