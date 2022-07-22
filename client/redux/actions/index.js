@@ -29,7 +29,6 @@ export const getDetails = (id) => {
     return async function (dispatch) {       
         try {
             let det = await axios.get(`/books/${id}`)
-            console.log(det, "det")
             return dispatch({
                 type: GET_DETAILS,
                 payload: det.data
