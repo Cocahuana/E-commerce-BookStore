@@ -62,9 +62,9 @@ export const Book = (props) => {
 									'gray.700',
 									'gray.400'
 								)}>
-								{title.length < 36
+								{title.length < 25
 									? title
-									: title.slice(0, 30) + '...'}
+									: title.slice(0, 22) + '...'}
 							</Text>
 							<PriceTag
 								price={price}
@@ -74,14 +74,17 @@ export const Book = (props) => {
 						</Link>
 					</BuenLink>
 				</Stack>
-				<HStack>
+				<HStack display='flex'>
 					<Rating defaultValue={rating} size='sm' />
-					<Text
-						fontSize='sm'
-						color={useColorModeValue('gray.600', 'gray.400')}>
-						{ratingCount}
-					</Text>
-					<Icon as={FaCommentDots} color='blue.500' />
+					<HStack>
+						<Text
+							fontSize='sm'
+							paddingLeft='16px'
+							color={useColorModeValue('gray.600', 'gray.400')}>
+							{ratingCount}
+						</Text>
+						<Icon as={FaCommentDots} color='blue.500' />
+					</HStack>
 				</HStack>
 			</Stack>
 			<Stack align='center'>
