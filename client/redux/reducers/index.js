@@ -15,6 +15,7 @@ const InitialState = {
 	books: [],
 	details: {},
 	genres: [],
+	booksCopy: [],
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -36,6 +37,7 @@ const rootReducer = (state = InitialState, action) => {
 			return {
 				...state,
 				books: action.payload,
+				booksCopy: action.payload,
 			};
 		}
 		case GET_BOOKS_BY_TITLE_OR_AUTHOR: {
@@ -53,7 +55,7 @@ const rootReducer = (state = InitialState, action) => {
 		case FILTER_GENRE: {
 			var newArrFilterCreate = [];
 
-			newArrFilterCreate = state.books.filter((p) => {
+			newArrFilterCreate = state.booksCopy.filter((p) => {
 				var flag = false;
 				p.Genres.forEach((element) => {
 					if (element.name === action.payload) {
