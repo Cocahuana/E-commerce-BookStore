@@ -152,6 +152,18 @@ const findByAuthorOrTitle = async (req, res, next) => {
 	}
 };
 
+const allGenres = async (req, res, next) => {
+	try {
+		var respuesta =  await Genre.findAll({
+			attributes: ['name']
+		});
+		res.json(respuesta)
+	} catch (e) {
+		next(e)
+	}
+
+}
+
 module.exports = {
 	getPopularBooks,
 	getBookById,
@@ -160,4 +172,5 @@ module.exports = {
 	putBook,
 	findByAuthorOrTitle,
 	findAllBooks,
+	allGenres
 };
