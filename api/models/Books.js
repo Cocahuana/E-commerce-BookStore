@@ -2,14 +2,15 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
 	sequelize.define(
-		'Books', 
+		'Books',
 		{
 			//generates ID automatically
 			title: {
 				type: DataTypes.TEXT, //cambiado a text sino tira error
 				allowNull: false,
 			},
-			authors: { //en la api viene como authors, fue cambiado
+			authors: {
+				//en la api viene como authors, fue cambiado
 				type: DataTypes.STRING,
 				//allowNull: false,
 			},
@@ -24,11 +25,24 @@ module.exports = (sequelize) => {
 				type: DataTypes.FLOAT,
 			},
 			image: {
-				type: DataTypes.TEXT, //default value?
-			},
-			peviewLink: {
 				type: DataTypes.TEXT,
-			}
+			},
+			previewLink: {
+				type: DataTypes.TEXT,
+			},
+			flag: {
+				type: DataTypes.STRING,
+				defaultValue: 'new',
+			},
+			salePrice: {
+				type: DataTypes.FLOAT,
+			},
+			currency: {
+				type: DataTypes.STRING,
+			},
+			ratingCount: {
+				type: DataTypes.INTEGER,
+			},
 		},
 		{ timestamps: false }
 	);

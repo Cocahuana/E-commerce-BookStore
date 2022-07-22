@@ -1,0 +1,29 @@
+{ 
+    "genres":
+    [
+        {
+            "name": "Fiction"
+        },
+        {
+            "name": "Juvenile Fiction"
+        },
+        {
+            "name": "Young Adult Fiction"
+        },
+        {
+            "name": "Drama"
+        },
+        {
+            "name": "Juvenile Nonfiction"
+        },
+        {
+            "name": "Literary Criticism"
+        },
+        {
+            "name": "Thriller"
+        },
+        {
+            "name": "Body, Mind & Spirit"
+        }
+    ]
+}
