@@ -161,18 +161,17 @@ const BookShelf = () => {
 		          "nav footer"`}
 			gridTemplateRows={'300px 1fr 50px'}
 			gridTemplateColumns={'300px 1fr'}
-			h="95em"
-			pt="20"
-			gap="1"
-			fontWeight="bold"
-		>
-			<GridItem pl="2" area={'header'}>
+			h='100em'
+			pt='20'
+			gap='1'
+			fontWeight='bold'>
+			<GridItem pl='2' area={'header'}>
 				<SearchBar setCurrentPage={setCurrentPage} />
 			</GridItem>
-			<GridItem pl="2" area={'nav'}>
+			<GridItem pl='2' area={'nav'}>
 				<Filter />
 			</GridItem>
-			<GridItem pl="2" bg="whiteAlpha.100" area={'main'}>
+			<GridItem pl='2' bg='whiteAlpha.100' area={'main'}>
 				<Paging
 					BooksPerPage={BooksPerPage}
 					TotalBooksLength={books.length}
@@ -180,8 +179,8 @@ const BookShelf = () => {
 					CurrentPage={CurrentPage}
 				/>
 				<Box
-					maxW="7xl"
-					mx="auto"
+					maxW='7xl'
+					mx='auto'
 					px={{
 						base: '4',
 						md: '8',
@@ -191,8 +190,7 @@ const BookShelf = () => {
 						base: '6',
 						md: '8',
 						lg: '12',
-					}}
-				>
+					}}>
 					<BookHolder>
 						{slicedBooks.map((b) => (
 							<Book key={b.id} product={b} />
@@ -203,7 +201,7 @@ const BookShelf = () => {
 					BooksPerPage={BooksPerPage}
 					TotalBooksLength={books.length}
 					setCurrentPage={setCurrentPage}
-					currentpage={CurrentPage}
+					CurrentPage={CurrentPage}
 				/>
 			</GridItem>
 		</Grid>
