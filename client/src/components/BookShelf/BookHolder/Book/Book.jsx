@@ -21,7 +21,8 @@ import { FaCommentDots } from 'react-icons/fa';
 
 export const Book = (props) => {
 	const { product, rootProps } = props;
-	const { title, image, price, salePrice, rating, ratingCount, id } = product;
+	const { title, authors, image, price, salePrice, rating, ratingCount, id } =
+		product;
 	return (
 		<Stack
 			spacing={useBreakpointValue({
@@ -57,7 +58,7 @@ export const Book = (props) => {
 					<BuenLink to={`/book/${id}`}>
 						<Link>
 							<Text
-								fontWeight='medium'
+								fontWeight='bold'
 								color={useColorModeValue(
 									'gray.700',
 									'gray.400'
@@ -66,13 +67,18 @@ export const Book = (props) => {
 									? title
 									: title.slice(0, 22) + '...'}
 							</Text>
-							<PriceTag
-								price={price}
-								salePrice={salePrice}
-								currency='USD'
-							/>
 						</Link>
 					</BuenLink>
+					<Text
+						fontWeight='medium'
+						color={useColorModeValue('gray.700', 'gray.400')}>
+						{authors}
+					</Text>
+					<PriceTag
+						price={price}
+						salePrice={salePrice}
+						currency='USD'
+					/>
 				</Stack>
 				<HStack display='flex'>
 					<Rating defaultValue={rating} size='sm' />
