@@ -6,16 +6,14 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 
-
 /* Deploy back start */
 //Here we require cors, otherwise it will not work properly
 const app = express();
-//const cors = require('cors');
+const cors = require('cors');
 
+app.name = 'API';
 
-//app.name = 'API';
-
-//app.use(cors());
+app.use(cors());
 /* Deploy back end */
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
