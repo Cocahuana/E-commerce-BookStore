@@ -27,15 +27,15 @@ import {
 } from '../../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
-
-function Filter() {
+function Filter({ setCurrentPage }) {
 	const dispatch = useDispatch();
-	const { genres, book } = useSelector((state) => state);
+	const { genres } = useSelector((state) => state);
 
 	const handleSelect = (e) => {
 		e.preventDefault();
 		if (e.target.checked) {
 			dispatch(filterBookGenre(e.target.value));
+			setCurrentPage(1);
 		} else dispatch(getBooks());
 	};
 	const handleOrderBy = (e) => {
@@ -45,7 +45,7 @@ function Filter() {
 
 	const handleslidechange = (e) => {
 		dispatch(slideprice(e));
-	}
+	};
 
 	useEffect(() => {
 		dispatch(getGenres());

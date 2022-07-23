@@ -8,6 +8,7 @@ import {
 	FILTER_GENRE,
 	ORDER_RATING,
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
+	RESET_DETAILS,
 	FILTER_SLIDE,
 } from '../actions/actionTypes';
 
@@ -104,6 +105,12 @@ const rootReducer = (state = InitialState, action) => {
 				...state,
 				books: [...state.books.sort(ordern)],
 			};
+		case RESET_DETAILS: {
+			return {
+				...state,
+				details: {},
+			};
+		}
 
 		case FILTER_SLIDE:
 			let price = [];
@@ -112,7 +119,7 @@ const rootReducer = (state = InitialState, action) => {
 					value.price >= action.payload[0] &&
 					value.price <= action.payload[1]
 			);
-			console.log(price)
+			console.log(price);
 			return {
 				...state,
 				books: [...price],

@@ -9,7 +9,8 @@ import {
 	ORDER_RATING,
 	GET_BOOKS,
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
-	FILTER_SLIDE
+	RESET_DETAILS,
+	FILTER_SLIDE,
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -97,6 +98,12 @@ export function getBooksByTitleOrAuthor(titleOrAuthor) {
 	};
 }
 
+export function resetDetails() {
+	return {
+		type: RESET_DETAILS,
+	};
+}
+
 export function slideprice(payload) {
-	return {type: FILTER_SLIDE, payload}	
+	return { type: FILTER_SLIDE, payload };
 }

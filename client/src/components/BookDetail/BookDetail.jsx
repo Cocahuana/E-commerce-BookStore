@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { getDetails } from '../../../redux/actions';
+import { getDetails, resetDetails } from '../../../redux/actions';
 import { Link as BuenLink } from 'react-router-dom';
 import {
 	Box,
@@ -34,6 +34,9 @@ function BookDetail(props) {
 
 	useEffect(() => {
 		dispatch(getDetails(props.match.params.id));
+		return () => {
+			dispatch(resetDetails());
+		};
 	}, [dispatch]);
 
 	let detail = useSelector((state) => state.details);
@@ -152,16 +155,25 @@ function BookDetail(props) {
 								minW={'100%'}
 								allowMultiple
 								padding={'15px'}>
-								<AccordionItem rounded={"10px"}>
+								<AccordionItem rounded={'10px'}>
 									<h2>
-										<AccordionButton rounded={"10px"} bg={useColorModeValue('blue.500', 'blue.200')}>
+										<AccordionButton
+											rounded={'10px'}
+											bg={useColorModeValue(
+												'blue.500',
+												'blue.200'
+											)}>
 											<Box flex='1' textAlign='left'>
 												Description
 											</Box>
 											<AccordionIcon />
 										</AccordionButton>
 									</h2>
-									<AccordionPanel textAlign={"justify"} rounded={"10px"} bg={"gray.300"} pb={4}>
+									<AccordionPanel
+										textAlign={'justify'}
+										rounded={'10px'}
+										bg={'gray.300'}
+										pb={4}>
 										<div
 											dangerouslySetInnerHTML={{
 												__html: detail?.description,
@@ -172,37 +184,44 @@ function BookDetail(props) {
 							</Accordion>
 
 							<BuenLink to={'/books'}>
-							<Button
-							align={"center"}
-							justify={"center"}
-							fontWeight={"10px"}
-							color={useColorModeValue('white', 'gray.900')}
-							rounded={'100px'}
-							size={'md'}
-							bg={useColorModeValue('blue.500', 'blue.200')}
-							textTransform={'uppercase'}
-							_hover=
-								transform: 'translateY(2px)',
-								boxShadow: 'lg',
-								Home</Button>
+								<Button
+									align={'center'}
+									justify={'center'}
+									fontWeight={'10px'}
+									color={useColorModeValue(
+										'white',
+										'gray.900'
+									)}
+									rounded={'100px'}
+									size={'md'}
+									bg={useColorModeValue(
+										'blue.500',
+										'blue.200'
+									)}
+									textTransform={'uppercase'}
+									_hover={{
+										transform: 'translateY(2px)',
+										boxShadow: 'lg',
+										Home,
+									}}></Button>
+							</BuenLink>
 						</Stack>
 						<BuenLink to={'/books'}>
 							<Button
-								fontWeight={"1px"}
+								fontWeight={'1px'}
 								color={useColorModeValue('white', 'gray.900')}
 								rounded={'100px'}
 								mt={5}
 								size={'md'}
 								bg={useColorModeValue('blue.500', 'blue.200')}
 								textTransform={'uppercase'}
-								_hover=
+								_hover={{
 									transform: 'translateY(2px)',
-									boxShadow: 'lg',						
-								Home							
+									boxShadow: 'lg',
+								}}>
+								Home
 							</Button>
 						</BuenLink>
-
-						</Stack>
 					</Stack>
 				</SimpleGrid>
 			</Box>
