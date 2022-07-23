@@ -202,8 +202,9 @@ function BookDetail(props) {
 									_hover={{
 										transform: 'translateY(2px)',
 										boxShadow: 'lg',
-										Home,
-									}}></Button>
+									}}>
+									Home
+								</Button>
 							</BuenLink>
 						</Stack>
 						<BuenLink to={'/books'}>
