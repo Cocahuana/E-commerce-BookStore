@@ -23,12 +23,13 @@ import {
 	getGenres,
 	orderBook,
 	getBooks,
+	slideprice,
 } from '../../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 function Filter() {
 	const dispatch = useDispatch();
-	const { genres } = useSelector((state) => state);
+	const { genres, book } = useSelector((state) => state);
 
 	const handleSelect = (e) => {
 		e.preventDefault();
@@ -41,11 +42,15 @@ function Filter() {
 		dispatch(orderBook(e.target.value));
 	};
 
+	const handleslidechange = (e) => {
+		dispatch(slideprice(e));
+	}
+
 	useEffect(() => {
 		dispatch(getGenres());
 	}, [dispatch]);
 
-	const [sliderValue, setSliderValue] = useState([6.09, 80]);
+	const [sliderValue, setSliderValue] = useState([6.09, 2000]);
 
 	return (
 		<Stack
@@ -105,8 +110,8 @@ function Filter() {
 				Price
 				<RangeSlider
 					aria-label={['min', 'max']}
-					defaultValue={[6.09, 80]}
-					onChange={(val) => val === p.price ? p.price : alert("no")}>
+					defaultValue={[6.09, 2000]}
+					onChange={(val) => handleslidechange(val)}>
 					<RangeSliderTrack>
 						<RangeSliderFilledTrack />
 					</RangeSliderTrack>

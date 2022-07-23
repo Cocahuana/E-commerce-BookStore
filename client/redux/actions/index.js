@@ -1,5 +1,6 @@
 // import actions types
 // import { GET_ALL_BOOKS } from './actionTypes'
+import { Slide } from '@chakra-ui/react';
 import axios from 'axios';
 import {
 	GET_DETAILS,
@@ -8,6 +9,7 @@ import {
 	ORDER_RATING,
 	GET_BOOKS,
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
+	FILTER_SLIDE
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -93,4 +95,8 @@ export function getBooksByTitleOrAuthor(titleOrAuthor) {
 			console.log(error);
 		}
 	};
+}
+
+export function slideprice(payload) {
+	return {type: FILTER_SLIDE, payload}	
 }
