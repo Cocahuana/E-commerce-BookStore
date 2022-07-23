@@ -84,7 +84,6 @@ export function orderBook(payload) {
 
 export function getBooksByTitleOrAuthor(titleOrAuthor) {
 	return async function (dispatch) {
-		console.log('query= ' + titleOrAuthor);
 		try {
 			var json = await axios.get(`/search?input=${titleOrAuthor}`);
 			return dispatch({
