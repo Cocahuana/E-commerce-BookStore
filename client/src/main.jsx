@@ -9,8 +9,10 @@ import { ChakraProvider } from '@chakra-ui/react';
 import './index.css';
 import theme from './components/theme/index';
 import './components/theme/styleFont.css';
-
 /* Deploy front Start */
+// require('dotenv').config();
+// require('dotenv').config();
+// import dotenv from 'dotenv';
 // dotenv.config();
 //We need to settle the port for back when we work with the actions. REACT_APP is mandatory, otherwise, it will not work properly
 //In order to use Vite, we need to use import.meta.env instead of dotenv.config() and process.env
