@@ -179,9 +179,12 @@ function LandingPage() {
 							_dark={{
 								color: 'gray.400',
 							}}>
-							Lorem ipsum, dolor sit amet consectetur adipisicing
-							elit. Itaque laudantium voluptatem officiis
-							voluptatum explicabo.
+							Or if you want to see all books:
+							<BuenLink to={'/books'}>
+								<Button size='xs' margin={2}>
+									Click Here
+								</Button>
+							</BuenLink>
 						</chakra.p>
 					</motion.div>
 				</Flex>
