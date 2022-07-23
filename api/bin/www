@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-const { Op } = require('sequelize');
-const { Books, Language, Genre } = require('../db');
-const { books } = require('../controllers/hardcoded_books.json');
-const { genres } = require('../controllers/hardcoded_genres.json');
-const { languages } = require('../controllers/hardcoded_languages.json');
+// const { Op } = require('sequelize');
+// const { Books, Language, Genre } = require('../db');
+// const { books } = require('../controllers/hardcoded_books.json');
+// const { genres } = require('../controllers/hardcoded_genres.json');
+// const { languages } = require('../controllers/hardcoded_languages.json');
 
 /**
  * Module dependencies.
