@@ -148,23 +148,32 @@ function BookDetail(props) {
 						</Stack>
 
 						<Stack
-							direction='row'
+							direction='column'
 							alignItems='center'
 							justifyContent={'center'}>
 							<Accordion
 								minW={'100%'}
 								allowMultiple
 								padding={'15px'}>
-								<AccordionItem>
+								<AccordionItem rounded={'10px'}>
 									<h2>
-										<AccordionButton>
+										<AccordionButton
+											rounded={'10px'}
+											bg={useColorModeValue(
+												'blue.500',
+												'blue.200'
+											)}>
 											<Box flex='1' textAlign='left'>
 												Description
 											</Box>
 											<AccordionIcon />
 										</AccordionButton>
 									</h2>
-									<AccordionPanel pb={4}>
+									<AccordionPanel
+										textAlign={'justify'}
+										rounded={'10px'}
+										bg={'gray.300'}
+										pb={4}>
 										<div
 											dangerouslySetInnerHTML={{
 												__html: detail?.description,
@@ -173,6 +182,29 @@ function BookDetail(props) {
 									</AccordionPanel>
 								</AccordionItem>
 							</Accordion>
+
+							<BuenLink to={'/books'}>
+								<Button
+									align={'center'}
+									justify={'center'}
+									fontWeight={'10px'}
+									color={useColorModeValue(
+										'white',
+										'gray.900'
+									)}
+									rounded={'100px'}
+									size={'md'}
+									bg={useColorModeValue(
+										'blue.500',
+										'blue.200'
+									)}
+									textTransform={'uppercase'}
+									_hover={{
+										transform: 'translateY(2px)',
+										boxShadow: 'lg',
+										Home,
+									}}></Button>
+							</BuenLink>
 						</Stack>
 						<BuenLink to={'/books'}>
 							<Button

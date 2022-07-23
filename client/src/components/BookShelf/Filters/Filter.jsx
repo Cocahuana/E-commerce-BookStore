@@ -107,7 +107,9 @@ function Filter({ setCurrentPage }) {
 				<RangeSlider
 					aria-label={['min', 'max']}
 					defaultValue={[6.09, 80]}
-					onChange={(val) => setSliderValue(val)}>
+					onChange={(val) =>
+						val === p.price ? p.price : alert('no')
+					}>
 					<RangeSliderTrack>
 						<RangeSliderFilledTrack />
 					</RangeSliderTrack>
