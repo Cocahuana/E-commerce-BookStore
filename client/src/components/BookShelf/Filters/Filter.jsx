@@ -26,8 +26,7 @@ import {
 } from '../../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
-
-function Filter() {
+function Filter({ setCurrentPage }) {
 	const dispatch = useDispatch();
 	const { genres } = useSelector((state) => state);
 
@@ -35,6 +34,7 @@ function Filter() {
 		e.preventDefault();
 		if (e.target.checked) {
 			dispatch(filterBookGenre(e.target.value));
+			setCurrentPage(1);
 		} else dispatch(getBooks());
 	};
 	const handleOrderBy = (e) => {

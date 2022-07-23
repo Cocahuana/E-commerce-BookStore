@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { getDetails } from '../../../redux/actions';
+import { getDetails, resetDetails } from '../../../redux/actions';
 import { Link as BuenLink } from 'react-router-dom';
 import {
 	Box,
@@ -34,6 +34,9 @@ function BookDetail(props) {
 
 	useEffect(() => {
 		dispatch(getDetails(props.match.params.id));
+		return () => {
+			dispatch(resetDetails());
+		};
 	}, [dispatch]);
 
 	let detail = useSelector((state) => state.details);
@@ -173,19 +176,18 @@ function BookDetail(props) {
 						</Stack>
 						<BuenLink to={'/books'}>
 							<Button
-								fontWeight={"1px"}
+								fontWeight={'1px'}
 								color={useColorModeValue('white', 'gray.900')}
 								rounded={'100px'}
 								mt={5}
 								size={'md'}
 								bg={useColorModeValue('blue.500', 'blue.200')}
 								textTransform={'uppercase'}
-								_hover=
-								{{
+								_hover={{
 									transform: 'translateY(2px)',
 									boxShadow: 'lg',
- 							}}>								
-								Home							
+								}}>
+								Home
 							</Button>
 						</BuenLink>
 					</Stack>

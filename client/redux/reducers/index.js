@@ -7,6 +7,7 @@ import {
 	FILTER_GENRE,
 	ORDER_RATING,
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
+	RESET_DETAILS,
 } from '../actions/actionTypes';
 
 // initial states
@@ -102,6 +103,12 @@ const rootReducer = (state = InitialState, action) => {
 				...state,
 				books: [...state.books.sort(ordern)],
 			};
+		case RESET_DETAILS: {
+			return {
+				...state,
+				details: {},
+			};
+		}
 		default:
 			return {
 				...state,

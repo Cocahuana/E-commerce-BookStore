@@ -169,7 +169,7 @@ const BookShelf = () => {
 				<SearchBar setCurrentPage={setCurrentPage} />
 			</GridItem>
 			<GridItem pl='2' area={'nav'}>
-				<Filter />
+				<Filter setCurrentPage={setCurrentPage} />
 			</GridItem>
 			<GridItem pl='2' bg='whiteAlpha.100' area={'main'}>
 				<Paging

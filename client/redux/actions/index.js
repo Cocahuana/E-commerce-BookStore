@@ -8,6 +8,7 @@ import {
 	ORDER_RATING,
 	GET_BOOKS,
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
+	RESET_DETAILS,
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -92,5 +93,11 @@ export function getBooksByTitleOrAuthor(titleOrAuthor) {
 		} catch (error) {
 			console.log(error);
 		}
+	};
+}
+
+export function resetDetails() {
+	return {
+		type: RESET_DETAILS,
 	};
 }
