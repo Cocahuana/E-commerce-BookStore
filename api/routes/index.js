@@ -8,7 +8,7 @@ const {
 	putBook,
 	findAllBooks,
 	findByAuthorOrTitle,
-	allGenres
+	allGenres,
 } = require('../controllers/bookControllers');
 
 /* GET home page. */
@@ -29,8 +29,8 @@ router.put('/books', putBook);
 
 router.get('/search', findByAuthorOrTitle);
 
-router.get('/books', findAllBooks);
+// router.get('/books', findAllBooks);
 
-router.get('/genres', allGenres)
+router.get('/genres', allGenres);
 
 module.exports = router;
