@@ -60,40 +60,41 @@ function Filter({ setCurrentPage }) {
 				'2px 6px 8px rgba(9, 17, 28, 0.9)'
 			)}
 			bg={useColorModeValue('whiteAlpha.300', 'gray.800')}
-			rounded='md'
-			overflow='hidden'>
+			rounded="md"
+			overflow="hidden"
+		>
 			<Flex
-				justify='center'
-				alignItems='center'
+				justify="center"
+				alignItems="center"
 				_hover={{ bg: useColorModeValue('gray.200', 'gray.700') }}
-				h='32'>
+				h="32"
+			>
 				<Text
-					fontWeight='semibold'
+					fontWeight="semibold"
 					fontSize={{
 						base: '2xl',
 						md: 'md',
 						lg: '2xl',
-					}}>
+					}}
+				>
 					Filters
 				</Text>
 			</Flex>
 			<Flex
-				justify='space-between'
-				alignItems='center'
-				_hover={{ bg: useColorModeValue('gray.200', 'gray.700') }}>
-				<Stack
-					spacing={5}
-					direction='column'
-					alignItems='center'
-					pl='2'>
+				justify="space-between"
+				alignItems="center"
+				_hover={{ bg: useColorModeValue('gray.200', 'gray.700') }}
+			>
+				<Stack spacing={5} direction="column" alignItems="center" pl="2">
 					<Flex>Generos</Flex>
-					<Flex direction='column'>
+					<Flex direction="column">
 						<Stack spacing={4}>
 							{genres.map((p, g) => (
 								<Checkbox
 									onChange={(e) => handleSelect(e)}
 									value={p.name}
-									key={g}>
+									key={g}
+								>
 									{p.name}
 								</Checkbox>
 							))}
@@ -103,38 +104,42 @@ function Filter({ setCurrentPage }) {
 			</Flex>
 
 			<Flex
-				justifyContent='center'
-				alignItems='center'
-				direction='column'
+				justifyContent="center"
+				alignItems="center"
+				direction="column"
 				_hover={{ bg: useColorModeValue('gray.200', 'gray.700') }}
-				h='32'>
+				h="32"
+			>
 				Price
 				<RangeSlider
 					aria-label={['min', 'max']}
 					defaultValue={[6.09, 2000]}
-					onChange={(val) => handleslidechange(val)}>
+					onChange={(val) => handleslidechange(val)}
+				>
 					<RangeSliderTrack>
 						<RangeSliderFilledTrack />
 					</RangeSliderTrack>
 					<RangeSliderMark
 						value={sliderValue[0]}
-						textAlign='center'
-						bg='blue.500'
-						color='white'
-						mt='-10'
-						ml='-5'
-						w='12'>
+						textAlign="center"
+						bg="blue.500"
+						color="white"
+						mt="-10"
+						ml="-5"
+						w="12"
+					>
 						{sliderValue[0]}$
 					</RangeSliderMark>
 
 					<RangeSliderMark
 						value={sliderValue[1]}
-						textAlign='center'
-						bg='blue.500'
-						color='white'
-						mt='-10'
-						ml='-5'
-						w='12'>
+						textAlign="center"
+						bg="blue.500"
+						color="white"
+						mt="-10"
+						ml="-5"
+						w="12"
+					>
 						{sliderValue[1]}$
 					</RangeSliderMark>
 					<RangeSliderThumb index={0} />
@@ -143,24 +148,24 @@ function Filter({ setCurrentPage }) {
 			</Flex>
 
 			<Flex
-				h='40'
-				justify='space-between'
-				alignItems='center'
-				_hover={{ bg: useColorModeValue('gray.200', 'gray.700') }}>
-				<Stack spacing={0} direction='column' alignItems='center'>
+				h="40"
+				justify="space-between"
+				alignItems="center"
+				_hover={{ bg: useColorModeValue('gray.200', 'gray.700') }}
+			>
+				<Stack spacing={0} direction="column" alignItems="center">
 					<Flex>Rating</Flex>
-					<Flex direction='column' p={2}>
+					<Flex direction="column" p={2}>
 						<Select
 							onChange={handleOrderBy}
-							variant='filled'
-							defaultValue={'Default'}>
-							<option value='Default' disabled>
+							variant="filled"
+							defaultValue={'Default'}
+						>
+							<option value="Default" disabled>
 								rating
 							</option>
-							<option value='highToLow'>
-								Rating High to Low
-							</option>
-							<option value='lowToHi'>Rating Low to High</option>
+							<option value="highToLow">Rating High to Low</option>
+							<option value="lowToHi">Rating Low to High</option>
 						</Select>
 					</Flex>
 				</Stack>
