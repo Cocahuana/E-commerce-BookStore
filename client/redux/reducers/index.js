@@ -10,6 +10,7 @@ import {
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
 	RESET_DETAILS,
 	FILTER_SLIDE,
+	LOADING,
 } from '../actions/actionTypes';
 
 // initial states
@@ -19,6 +20,7 @@ const InitialState = {
 	details: {},
 	genres: [],
 	booksCopy: [],
+	loading: true,
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -34,6 +36,7 @@ const rootReducer = (state = InitialState, action) => {
 				...state,
 				books: action.payload,
 				booksCopy: action.payload,
+				loading: false,
 			};
 		}
 		case GET_BOOKS_BY_TITLE_OR_AUTHOR: {
