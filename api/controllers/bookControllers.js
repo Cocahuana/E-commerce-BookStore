@@ -160,6 +160,7 @@ const allGenres = async (req, res, next) => {
 		res.json(respuesta);
 	} catch (e) {
 		res.status(404).send(e);
+
 	}
 };
 

@@ -25,13 +25,6 @@ const InitialState = {
 
 const rootReducer = (state = InitialState, action) => {
 	switch (action.type) {
-		// case GET_ALL_BOOKS: {
-		//     return {
-		//         ...state,
-		//         books: action.payload
-		//     }
-		// }
-
 		case GET_DETAILS: {
 			return {
 				...state,

@@ -28,6 +28,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 
 function Filter({ setCurrentPage }) {
+
 	const dispatch = useDispatch();
 	const { genres } = useSelector((state) => state);
 	
