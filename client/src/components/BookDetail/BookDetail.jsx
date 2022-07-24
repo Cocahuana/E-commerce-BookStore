@@ -207,22 +207,6 @@ function BookDetail(props) {
 								</Button>
 							</BuenLink>
 						</Stack>
-						<BuenLink to={'/books'}>
-							<Button
-								fontWeight={'1px'}
-								color={useColorModeValue('white', 'gray.900')}
-								rounded={'100px'}
-								mt={5}
-								size={'md'}
-								bg={useColorModeValue('blue.500', 'blue.200')}
-								textTransform={'uppercase'}
-								_hover={{
-									transform: 'translateY(2px)',
-									boxShadow: 'lg',
-								}}>
-								Home
-							</Button>
-						</BuenLink>
 					</Stack>
 				</SimpleGrid>
 			</Box>
