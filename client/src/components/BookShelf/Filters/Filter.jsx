@@ -30,6 +30,7 @@ import { useDispatch, useSelector } from 'react-redux';
 function Filter({ setCurrentPage }) {
 	const dispatch = useDispatch();
 	const { genres } = useSelector((state) => state);
+	
 
 	const handleSelect = (e) => {
 		e.preventDefault();
@@ -45,13 +46,14 @@ function Filter({ setCurrentPage }) {
 
 	const handleslidechange = (e) => {
 		dispatch(slideprice(e));
+		setSliderValue(e);
 	};
 
 	useEffect(() => {
 		dispatch(getGenres());
 	}, [dispatch]);
 
-	const [sliderValue, setSliderValue] = useState([6.09, 2000]);
+	const [sliderValue, setSliderValue] = useState([0, 2000]);
 
 	return (
 		<Stack
@@ -109,11 +111,16 @@ function Filter({ setCurrentPage }) {
 				_hover={{ bg: useColorModeValue('gray.200', 'gray.700') }}
 				h='32'>
 				Price
+
 				<RangeSlider
+					w='70%'
+					step={100}
+					min={0}
+					max={2000}
 					aria-label={['min', 'max']}
-					defaultValue={[6.09, 2000]}
+					defaultValue={[0, 2000]}
 					onChange={(val) => handleslidechange(val)}>
-					<RangeSliderTrack>
+					<RangeSliderTrack bg='blue.100'>
 						<RangeSliderFilledTrack />
 					</RangeSliderTrack>
 					<RangeSliderMark
@@ -121,9 +128,9 @@ function Filter({ setCurrentPage }) {
 						textAlign='center'
 						bg='blue.500'
 						color='white'
-						mt='-10'
+						mt='5'
 						ml='-5'
-						w='12'>
+						w='15'>
 						{sliderValue[0]}$
 					</RangeSliderMark>
 
@@ -132,14 +139,15 @@ function Filter({ setCurrentPage }) {
 						textAlign='center'
 						bg='blue.500'
 						color='white'
-						mt='-10'
+						mt='5'
 						ml='-5'
-						w='12'>
+						w='15'>
 						{sliderValue[1]}$
 					</RangeSliderMark>
 					<RangeSliderThumb index={0} />
 					<RangeSliderThumb index={1} />
 				</RangeSlider>
+	
 			</Flex>
 
 			<Flex

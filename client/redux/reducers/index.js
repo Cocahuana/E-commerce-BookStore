@@ -119,7 +119,6 @@ const rootReducer = (state = InitialState, action) => {
 					value.price >= action.payload[0] &&
 					value.price <= action.payload[1]
 			);
-			console.log(price);
 			return {
 				...state,
 				books: [...price],
