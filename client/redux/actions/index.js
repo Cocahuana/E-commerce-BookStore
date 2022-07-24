@@ -1,5 +1,6 @@
 // import actions types
 // import { GET_ALL_BOOKS } from './actionTypes'
+import { Slide } from '@chakra-ui/react';
 import axios from 'axios';
 import {
 	GET_DETAILS,
@@ -8,6 +9,8 @@ import {
 	ORDER_RATING,
 	GET_BOOKS,
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
+	RESET_DETAILS,
+	FILTER_SLIDE,
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -81,7 +84,6 @@ export function orderBook(payload) {
 
 export function getBooksByTitleOrAuthor(titleOrAuthor) {
 	return async function (dispatch) {
-		console.log('query= ' + titleOrAuthor);
 		try {
 			var json = await axios.get(`/search?input=${titleOrAuthor}`);
 			return dispatch({
@@ -93,4 +95,14 @@ export function getBooksByTitleOrAuthor(titleOrAuthor) {
 			console.log(error);
 		}
 	};
+}
+
+export function resetDetails() {
+	return {
+		type: RESET_DETAILS,
+	};
+}
+
+export function slideprice(payload) {
+	return { type: FILTER_SLIDE, payload };
 }

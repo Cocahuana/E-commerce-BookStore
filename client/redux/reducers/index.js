@@ -1,5 +1,6 @@
 // import actions types
 // import { GET_ALL_BOOKS } from '../actions/actionTypes'
+import { filter } from '@chakra-ui/react';
 import {
 	GET_DETAILS,
 	GET_BOOKS,
@@ -7,6 +8,8 @@ import {
 	FILTER_GENRE,
 	ORDER_RATING,
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
+	RESET_DETAILS,
+	FILTER_SLIDE,
 } from '../actions/actionTypes';
 
 // initial states
@@ -95,6 +98,25 @@ const rootReducer = (state = InitialState, action) => {
 				...state,
 				books: [...state.books.sort(ordern)],
 			};
+		case RESET_DETAILS: {
+			return {
+				...state,
+				details: {},
+			};
+		}
+
+		case FILTER_SLIDE:
+			let price = [];
+			price = state.booksCopy.filter(
+				(value) =>
+					value.price >= action.payload[0] &&
+					value.price <= action.payload[1]
+			);
+			return {
+				...state,
+				books: [...price],
+			};
+
 		default:
 			return {
 				...state,
