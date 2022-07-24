@@ -11,6 +11,7 @@ import {
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
 	RESET_DETAILS,
 	FILTER_SLIDE,
+	LOADING,
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -52,6 +53,9 @@ export const getDetails = (id) => {
 export const getBooks = () => {
 	return async function (dispatch) {
 		try {
+			dispatch({
+				type: LOADING,
+			});
 			let result = await axios.get('/books');
 			return dispatch({
 				type: GET_BOOKS,
@@ -84,7 +88,6 @@ export function orderBook(payload) {
 
 export function getBooksByTitleOrAuthor(titleOrAuthor) {
 	return async function (dispatch) {
-		console.log('query= ' + titleOrAuthor);
 		try {
 			var json = await axios.get(`/search?input=${titleOrAuthor}`);
 			return dispatch({

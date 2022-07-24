@@ -1,4 +1,11 @@
-import { Box, Container, Grid, GridItem } from '@chakra-ui/react';
+import {
+	Box,
+	Container,
+	Grid,
+	GridItem,
+	Spinner,
+	Center,
+} from '@chakra-ui/react';
 import * as React from 'react';
 import { BookHolder } from './BookHolder/BookHolder';
 import { Book } from './BookHolder/Book/Book';
@@ -150,6 +157,8 @@ const BookShelf = () => {
 
 	let slicedBooks = books.slice(indexOfFirstBook, indexOfLastBook);
 
+	const loading = useSelector((state) => state.loading);
+
 	useEffect(() => {
 		if (!books.length) dispatch(getBooks());
 	}, [dispatch]);
@@ -192,9 +201,23 @@ const BookShelf = () => {
 						lg: '12',
 					}}>
 					<BookHolder>
-						{slicedBooks.map((b) => (
-							<Book key={b.id} product={b} />
-						))}
+						{loading ? (
+							<Center>
+								<Spinner
+									thickness='4px'
+									speed='0.65s'
+									emptyColor='gray.200'
+									color='blue.500'
+									size='xl'
+								/>
+							</Center>
+						) : typeof slicedBooks === 'string' ? (
+							<h2>No books found!</h2>
+						) : (
+							slicedBooks.map((b) => (
+								<Book key={b.id} product={b} />
+							))
+						)}
 					</BookHolder>
 				</Box>
 				<Paging

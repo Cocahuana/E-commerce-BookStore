@@ -1,4 +1,3 @@
-import { MoonIcon, QuestionIcon, SunIcon } from '@chakra-ui/icons';
 import {
 	Box,
 	Button,
@@ -25,7 +24,6 @@ function Carousel() {
 
 	const handleSelect = (e) => {
 		dispatch(filterBookGenre(e.target.value));
-
 		history.push('/books');
 	};
 

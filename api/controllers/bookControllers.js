@@ -24,16 +24,16 @@ const getPopularBooks = async (req, res, next) => {
 const findAllBooks = async (req, res, next) => {
 	try {
 		var result = await Books.findAll({
-			include:[
+			include: [
 				{
 					model: Genre,
-					through: {attributes: []},
+					through: { attributes: [] },
 				},
 				{
 					model: Language,
-					through: {attributes: []},
+					through: { attributes: [] },
 				},
-			]
+			],
 		});
 		res.send(result);
 	} catch (e) {
@@ -123,7 +123,7 @@ const putBook = async (req, res, next) => {
 			res.status(400).send(`Book with id ${id} not found`);
 		}
 	} catch (e) {
-		next(e);
+		res.status(404).send(e);
 	}
 };
 
@@ -148,21 +148,21 @@ const findByAuthorOrTitle = async (req, res, next) => {
 			}
 		}
 	} catch (e) {
-		next(e);
+		res.status(404).send(e);
 	}
 };
 
 const allGenres = async (req, res, next) => {
 	try {
-		var respuesta =  await Genre.findAll({
-			attributes: ['name']
+		var respuesta = await Genre.findAll({
+			attributes: ['name'],
 		});
-		res.json(respuesta)
+		res.json(respuesta);
 	} catch (e) {
-		next(e)
-	}
+		res.status(404).send(e);
 
-}
+	}
+};
 
 module.exports = {
 	getPopularBooks,
@@ -172,5 +172,5 @@ module.exports = {
 	putBook,
 	findByAuthorOrTitle,
 	findAllBooks,
-	allGenres
+	allGenres,
 };
