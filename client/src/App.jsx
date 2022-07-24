@@ -10,6 +10,7 @@ import details from './components/BookDetail/BookDetail';
 import landing from './components/Landing/LandingPage';
 import Page404 from './components/Page404/Page404';
 import './App.css';
+import ScrollToTop from './components/ScrollToTop';
 
 /*
  NO SACAR EL SWITCH, AMIGUENSE CON REACT ROUTER DOM V5 :D
@@ -18,15 +19,16 @@ import './App.css';
 function App() {
 	return (
 		<React.Fragment>
+			<ScrollToTop />
 			<Nav />
 			<Switch>
-				<Route exact path='/' component={landing} />
-				<Route path='/books' component={BookShelf} />
-				<Route path='/book/:id' component={details} />
-				<Route path='/register' component={register} />
-				<Route path='/login' component={login} />
-				<Route path='/us' component={AboutUs} />
-				<Route path='*' component={Page404} />
+				<Route exact path="/" component={landing} />
+				<Route path="/books" component={BookShelf} />
+				<Route path="/book/:id" component={details} />
+				<Route path="/register" component={register} />
+				<Route path="/login" component={login} />
+				<Route path="/us" component={AboutUs} />
+				<Route path="*" component={Page404} />
 			</Switch>
 			<Footer />
 		</React.Fragment>

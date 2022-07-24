@@ -17,7 +17,7 @@ import { filterBookGenre, getGenres } from '../../../redux/actions';
 import { Link as BuenLink } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 
-function Carousel() {
+function Carousel({ books }) {
 	const dispatch = useDispatch();
 	const { genres } = useSelector((state) => state);
 	const history = useHistory();
@@ -177,57 +177,54 @@ function Carousel() {
 					</Flex>
 				</Box>
 				<SimpleGrid columns={{ base: 1, sm: 2, md: 5 }} spacing={5}>
-					<Box
-						bg="white"
-						_dark={{
-							bg: 'gray.800',
-						}}
-						shadow="lg"
-						boxShadow="md"
-						rounded="md"
-						borderWidth={1}
-					>
-						<Image
-							w="full"
-							h={'56'}
-							fit="cover"
-							src="https://books.google.com/books/publisher/content/images/frontcover/uDuGDwAAQBAJ?fife=w240-h480"
-							alt="avatar"
-						/>
+					{books.slice(0, 5).map((b, i) => (
+						<Box
+							bg="white"
+							_dark={{
+								bg: 'gray.800',
+							}}
+							shadow="lg"
+							boxShadow="md"
+							rounded="md"
+							key={i}
+							borderWidth={1}
+						>
+							<Image w="full" h={'56'} fit="cover" src={b.image} alt="avatar" />
 
-						<Box py={5} textAlign="center">
-							<chakra.h1
-								fontSize="md"
-								fontWeight="semibold"
-								color="gray.700"
-								_dark={{
-									color: 'gray.200',
-								}}
-							>
-								Starsight
-							</chakra.h1>
-							<chakra.span
-								fontSize="sm"
-								color="gray.700"
-								_dark={{
-									color: 'gray.200',
-								}}
-							>
-								Brandon Sanderson
-							</chakra.span>
-							<chakra.h2
-								fontSize="md"
-								fontWeight="semibold"
-								color="gray.700"
-								_dark={{
-									color: 'gray.200',
-								}}
-							>
-								$ 46.67
-							</chakra.h2>
+							<Box py={5} textAlign="center">
+								<chakra.h1
+									fontSize="md"
+									fontWeight="semibold"
+									color="gray.700"
+									_dark={{
+										color: 'gray.200',
+									}}
+								>
+									{b.title}
+								</chakra.h1>
+								<chakra.span
+									fontSize="sm"
+									color="gray.700"
+									_dark={{
+										color: 'gray.200',
+									}}
+								>
+									{b.authors}
+								</chakra.span>
+								<chakra.h2
+									fontSize="md"
+									fontWeight="semibold"
+									color="gray.700"
+									_dark={{
+										color: 'gray.200',
+									}}
+								>
+									$ {b.price}
+								</chakra.h2>
+							</Box>
 						</Box>
-					</Box>
-					<Box
+					))}
+					{/* <Box
 						bg="white"
 						_dark={{
 							bg: 'gray.800',
@@ -430,7 +427,7 @@ function Carousel() {
 								$ 65
 							</chakra.h2>
 						</Box>
-					</Box>
+					</Box> */}
 				</SimpleGrid>
 			</Stack>
 			<Stack pt={2} minH={800} justifyContent="center">
