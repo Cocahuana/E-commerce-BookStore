@@ -10,6 +10,7 @@ const {
 	findByAuthorOrTitle,
 	allGenres,
 } = require('../controllers/bookControllers');
+const { registerUser } = require('../controllers/userControllers');
 
 /* GET home page. */
 
@@ -32,5 +33,7 @@ router.get('/search', findByAuthorOrTitle);
 // router.get('/books', findAllBooks);
 
 router.get('/genres', allGenres);
+
+router.post('/register', registerUser)
 
 module.exports = router;
