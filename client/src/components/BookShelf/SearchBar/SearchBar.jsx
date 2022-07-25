@@ -30,7 +30,6 @@ function SearchBar({ setCurrentPage }) {
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		console.log('Title' + title);
 		dispatch(getBooksByTitleOrAuthor(title));
 		setTitle('');
 		setCurrentPage(1);

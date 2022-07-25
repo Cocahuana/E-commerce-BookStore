@@ -17,8 +17,34 @@ import {
 import { motion } from 'framer-motion';
 import { Search2Icon } from '@chakra-ui/icons';
 import Carousel from '../Carousel/Carousel';
+import { Link as BuenLink } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	getBooksByTitleOrAuthor,
+	getBooks,
+} from '../../../redux/actions/index.js';
 
 function LandingPage() {
+	const dispatch = useDispatch();
+
+	const [search, setSearch] = useState('');
+
+	const handleOnChange = (e) => {
+		e.preventDefault();
+		setSearch(e.target.value);
+	};
+
+	const handleOnClick = (e) => {
+		dispatch(getBooksByTitleOrAuthor(search));
+	};
+
+	const { books } = useSelector((state) => state);
+
+	useEffect(() => {
+		if (!books.length) dispatch(getBooks());
+	}, [dispatch]);
+
 	return (
 		<Box>
 			<SimpleGrid
@@ -47,7 +73,7 @@ function LandingPage() {
 					justifyContent="center"
 					px={{
 						base: 4,
-						lg: 20,
+						lg: 30,
 					}}
 					py={24}
 					bg="brand.pepe"
@@ -80,7 +106,6 @@ function LandingPage() {
 							_dark={{
 								color: 'gray.300',
 							}}
-							lineHeight="shorter"
 						>
 							Online library.
 						</chakra.h1>
@@ -99,6 +124,8 @@ function LandingPage() {
 								type="text"
 								placeholder="Find your book here..."
 								bg="white"
+								value={search}
+								onChange={(e) => handleOnChange(e)}
 							/>
 						</Box>
 						<motion.div
@@ -120,19 +147,24 @@ function LandingPage() {
 									type="email"
 									placeholder="Find your book here..."
 									bg="white"
+									value={search}
+									onChange={(e) => handleOnChange(e)}
 								/>
 								<InputRightElement w="auto" bg="blue.500" roundedRight={4}>
-									<Button
-										color="white"
-										variant="solid"
-										colorScheme="brand"
-										size="lg"
-										type="submit"
-										roundedLeft={0}
-										leftIcon={<Search2Icon />}
-									>
-										Search Book
-									</Button>
+									<BuenLink to={`/books`}>
+										<Button
+											color="white"
+											variant="solid"
+											colorScheme="brand"
+											size="lg"
+											type="submit"
+											roundedLeft={0}
+											onClick={(e) => handleOnClick(e)}
+											leftIcon={<Search2Icon />}
+										>
+											Search Book
+										</Button>
+									</BuenLink>
 								</InputRightElement>
 							</InputGroup>
 						</motion.div>
@@ -154,8 +186,12 @@ function LandingPage() {
 								color: 'gray.400',
 							}}
 						>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Itaque
-							laudantium voluptatem officiis voluptatum explicabo.
+							Or if you want to see all books:
+							<BuenLink to={'/books'}>
+								<Button size="xs" margin={2}>
+									Click Here
+								</Button>
+							</BuenLink>
 						</chakra.p>
 					</motion.div>
 				</Flex>
@@ -176,7 +212,7 @@ function LandingPage() {
 				</Flex>
 			</SimpleGrid>
 			<Stack bg="blackAlpha.100" justifyContent="center">
-				<Carousel />
+				<Carousel books={books} />
 			</Stack>
 		</Box>
 	);
