@@ -11,6 +11,7 @@ import {
 	Text,
 	useBreakpointValue,
 	useColorModeValue,
+	Center,
 } from '@chakra-ui/react';
 import * as React from 'react';
 import { Rating } from './Rating';
@@ -21,8 +22,17 @@ import { FaCommentDots } from 'react-icons/fa';
 
 export const Book = (props) => {
 	const { product, rootProps } = props;
-	const { title, authors, image, price, salePrice, rating, ratingCount, id } =
-		product;
+	const {
+		title,
+		authors,
+		image,
+		price,
+		salePrice,
+		rating,
+		ratingCount,
+		id,
+		currency,
+	} = product;
 	return (
 		<Stack
 			spacing={useBreakpointValue({
@@ -30,7 +40,7 @@ export const Book = (props) => {
 				md: '5',
 			})}
 			{...rootProps}>
-			<Box position='relative' h='30vh' w='20vh'>
+			<Box position='relative' h='30vh' w='100%'>
 				<BuenLink to={`/book/${id}`}>
 					<Link>
 						<Image
@@ -78,7 +88,7 @@ export const Book = (props) => {
 					<PriceTag
 						price={price}
 						salePrice={salePrice}
-						currency='USD'
+						currency={currency}
 					/>
 				</Stack>
 				<HStack display='flex'>
@@ -95,7 +105,7 @@ export const Book = (props) => {
 				</HStack>
 			</Stack>
 			<Stack align='center'>
-				<Button colorScheme='blue' isFullWidth>
+				<Button w='100%' colorScheme='blue' isFullWidth>
 					Add to cart
 				</Button>
 				<Link
