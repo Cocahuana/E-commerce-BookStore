@@ -33,10 +33,7 @@ function Filter({ setCurrentPage }) {
 	const { genres, books, isBoxChecked } = useSelector((state) => state);
 	console.log(books);
 	let prices = books.map((e) => e.price);
-	const [sliderValue, setSliderValue] = useState([
-		Math.min(prices),
-		Math.max(prices),
-	]);
+	const [sliderValue, setSliderValue] = useState([0, 2000]);
 	const [isChecked, setIsChecked] = useState(isBoxChecked);
 
 	const handleSelect = (e) => {
@@ -130,7 +127,7 @@ function Filter({ setCurrentPage }) {
 				Price
 				<RangeSlider
 					w='70%'
-					step={100}
+					step={50}
 					min={0}
 					max={2000}
 					aria-label={['min', 'max']}
