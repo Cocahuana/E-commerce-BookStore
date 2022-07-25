@@ -11,6 +11,7 @@ import {
 	Text,
 	useBreakpointValue,
 	useColorModeValue,
+	Center,
 } from '@chakra-ui/react';
 import * as React from 'react';
 import { Rating } from './Rating';
@@ -39,7 +40,7 @@ export const Book = (props) => {
 				md: '5',
 			})}
 			{...rootProps}>
-			<Box position='relative' h='30vh' w='20vh'>
+			<Box position='relative' h='30vh' w='100%'>
 				<BuenLink to={`/book/${id}`}>
 					<Link>
 						<Image
@@ -48,6 +49,7 @@ export const Book = (props) => {
 							draggable='false'
 							fallback={<Skeleton />}
 							h='30vh'
+							w='100%'
 							borderRadius={useBreakpointValue({
 								base: 'md',
 								md: 'xl',
@@ -103,7 +105,7 @@ export const Book = (props) => {
 				</HStack>
 			</Stack>
 			<Stack align='center'>
-				<Button colorScheme='blue' isFullWidth>
+				<Button w='100%' colorScheme='blue' isFullWidth>
 					Add to cart
 				</Button>
 				<Link
