@@ -25,6 +25,7 @@ export const Book = (props) => {
 		product;
 	return (
 		<Stack
+			maxW={'20vh'}
 			spacing={useBreakpointValue({
 				base: '4',
 				md: '5',
