@@ -16,10 +16,7 @@ import {
 import React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-	getBooksByTitleOrAuthor,
-	getBooks,
-} from '../../../../redux/actions/index';
+import { getBooksByTitleOrAuthor } from '../../../../redux/actions/index';
 
 function SearchBar({ setCurrentPage }) {
 	const dispatch = useDispatch();
@@ -34,13 +31,6 @@ function SearchBar({ setCurrentPage }) {
 	function handleSubmit(e) {
 		e.preventDefault();
 		dispatch(getBooksByTitleOrAuthor(title));
-		setTitle('');
-		setCurrentPage(1);
-	}
-
-	function handleOnEmpty(e) {
-		e.preventDefault();
-		dispatch(getBooks());
 		setTitle('');
 		setCurrentPage(1);
 	}
@@ -131,17 +121,6 @@ function SearchBar({ setCurrentPage }) {
 											roundedLeft={0}
 											leftIcon={<Search2Icon />}>
 											Search
-										</Button>
-										<Button
-											onClick={handleOnEmpty}
-											color='white'
-											variant='solid'
-											colorScheme='brand'
-											size='lg'
-											type='submit'
-											roundedLeft={0}
-											leftIcon={<Search2Icon />}>
-											Empty Search
 										</Button>
 									</InputRightElement>
 								</InputGroup>

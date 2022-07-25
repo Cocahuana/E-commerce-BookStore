@@ -2,11 +2,22 @@ import { HStack, Text, useColorModeValue as mode } from '@chakra-ui/react';
 import * as React from 'react';
 
 export const PriceTag = (props) => {
-	const { price, salePrice, rootProps, priceProps, salePriceProps } = props;
+	const {
+		price,
+		salePrice,
+		rootProps,
+		priceProps,
+		salePriceProps,
+		currency,
+	} = props;
+	console.log('currency: ' + currency);
 	return (
 		<HStack spacing='1' {...rootProps}>
+			<Text fontWeight={'bold'}>
+				{currency == 'USD' ? 'US$ ' : 'AR$ '}
+			</Text>
 			<Price isOnSale={!!salePrice} textProps={priceProps}>
-				{'$' + price}
+				{price}
 			</Price>
 			{salePrice && (
 				<SalePrice {...salePriceProps}>{'$' + salePrice}</SalePrice>

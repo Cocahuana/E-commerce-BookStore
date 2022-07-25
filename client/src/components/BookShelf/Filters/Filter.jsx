@@ -24,21 +24,30 @@ import {
 	orderBook,
 	getBooks,
 	slideprice,
+	saveChecked,
 } from '../../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 function Filter({ setCurrentPage }) {
-
 	const dispatch = useDispatch();
-	const { genres } = useSelector((state) => state);
-	
+	const { genres, books, isBoxChecked } = useSelector((state) => state);
+	console.log(books);
+	let prices = books.map((e) => e.price);
+	const [sliderValue, setSliderValue] = useState([0, 2000]);
+	const [isChecked, setIsChecked] = useState(isBoxChecked);
 
 	const handleSelect = (e) => {
 		e.preventDefault();
 		if (e.target.checked) {
-			dispatch(filterBookGenre(e.target.value));
-			setCurrentPage(1);
-		} else dispatch(getBooks());
+			if (!isChecked.includes(e.target.value)) {
+				setIsChecked([...isChecked, e.target.value]);
+			}
+		} else {
+			setIsChecked(
+				isChecked.filter((checkBox) => checkBox !== e.target.value)
+			);
+			dispatch(filterBookGenre(isChecked));
+		}
 	};
 	const handleOrderBy = (e) => {
 		e.preventDefault();
@@ -52,9 +61,12 @@ function Filter({ setCurrentPage }) {
 
 	useEffect(() => {
 		dispatch(getGenres());
-	}, [dispatch]);
-
-	const [sliderValue, setSliderValue] = useState([0, 2000]);
+		dispatch(filterBookGenre(isChecked));
+		setCurrentPage(1);
+		return () => {
+			dispatch(saveChecked(isChecked));
+		};
+	}, [dispatch, isChecked]);
 
 	return (
 		<Stack
@@ -96,6 +108,7 @@ function Filter({ setCurrentPage }) {
 								<Checkbox
 									onChange={(e) => handleSelect(e)}
 									value={p.name}
+									isChecked={isChecked.includes(p.name)}
 									key={g}>
 									{p.name}
 								</Checkbox>
@@ -112,10 +125,9 @@ function Filter({ setCurrentPage }) {
 				_hover={{ bg: useColorModeValue('gray.200', 'gray.700') }}
 				h='32'>
 				Price
-
 				<RangeSlider
 					w='70%'
-					step={100}
+					step={50}
 					min={0}
 					max={2000}
 					aria-label={['min', 'max']}
@@ -148,7 +160,6 @@ function Filter({ setCurrentPage }) {
 					<RangeSliderThumb index={0} />
 					<RangeSliderThumb index={1} />
 				</RangeSlider>
-	
 			</Flex>
 
 			<Flex
