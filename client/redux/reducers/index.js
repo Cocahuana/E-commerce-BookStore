@@ -11,6 +11,7 @@ import {
 	RESET_DETAILS,
 	FILTER_SLIDE,
 	LOADING,
+	SAVE_CHECKED,
 } from '../actions/actionTypes';
 
 // initial states
@@ -21,6 +22,7 @@ const InitialState = {
 	genres: [],
 	booksCopy: [],
 	loading: true,
+	isBoxChecked: [],
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -52,21 +54,35 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		}
 		case FILTER_GENRE: {
-			var newArrFilterCreate = [];
+			let filteredBooks = [];
 
-			newArrFilterCreate = state.booksCopy.filter((p) => {
-				var flag = false;
-				p.Genres.forEach((element) => {
-					if (element.name === action.payload) {
-						flag = true;
+			if (action.payload.length > 0) {
+				for (let i = 0; i < state.booksCopy.length; i++) {
+					let flag = false;
+					let cont = 0;
+					for (let j = 0; j < action.payload.length; j++) {
+						if (
+							state.booksCopy[i].Genres.map(
+								(e) => e.name
+							).includes(action.payload[j])
+						) {
+							cont += 1;
+						}
+						if (cont === action.payload.length) {
+							flag = true;
+						}
 					}
-				});
-				return flag;
-			});
+					if (flag) {
+						filteredBooks.push(state.booksCopy[i]);
+					}
+				}
+			} else {
+				filteredBooks = [...state.booksCopy];
+			}
 
 			return {
 				...state,
-				books: [...newArrFilterCreate],
+				books: filteredBooks,
 			};
 		}
 		case ORDER_RATING:
@@ -118,6 +134,12 @@ const rootReducer = (state = InitialState, action) => {
 			return {
 				...state,
 				books: [...price],
+			};
+
+		case SAVE_CHECKED:
+			return {
+				...state,
+				isBoxChecked: action.payload,
 			};
 
 		default:

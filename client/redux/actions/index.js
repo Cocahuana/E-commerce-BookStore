@@ -12,6 +12,7 @@ import {
 	RESET_DETAILS,
 	FILTER_SLIDE,
 	LOADING,
+	SAVE_CHECKED,
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -109,4 +110,8 @@ export function resetDetails() {
 
 export function slideprice(payload) {
 	return { type: FILTER_SLIDE, payload };
+}
+
+export function saveChecked(payload) {
+	return { type: SAVE_CHECKED, payload };
 }
