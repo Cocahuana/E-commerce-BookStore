@@ -123,7 +123,7 @@ const putBook = async (req, res, next) => {
 			res.status(400).send(`Book with id ${id} not found`);
 		}
 	} catch (e) {
-		next(e);
+		res.status(404).send(e);
 	}
 };
 
@@ -148,7 +148,7 @@ const findByAuthorOrTitle = async (req, res, next) => {
 			}
 		}
 	} catch (e) {
-		next(e);
+		res.status(404).send(e);
 	}
 };
 
@@ -159,7 +159,8 @@ const allGenres = async (req, res, next) => {
 		});
 		res.json(respuesta);
 	} catch (e) {
-		next(e);
+		res.status(404).send(e);
+
 	}
 };
 

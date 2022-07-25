@@ -72,7 +72,7 @@ function LandingPage() {
 					justifyContent='center'
 					px={{
 						base: 4,
-						lg: 20,
+						lg: 30,
 					}}
 					py={24}
 					bg='brand.pepe'>
@@ -101,8 +101,7 @@ function LandingPage() {
 							color='brand.600'
 							_dark={{
 								color: 'gray.300',
-							}}
-							lineHeight='shorter'>
+							}}>
 							Online library.
 						</chakra.h1>
 						Find
@@ -204,7 +203,7 @@ function LandingPage() {
 				</Flex>
 			</SimpleGrid>
 			<Stack bg='blackAlpha.100' justifyContent='center'>
-				<Carousel />
+				<Carousel books={books} />
 			</Stack>
 		</Box>
 	);
