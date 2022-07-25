@@ -30,7 +30,13 @@ import { useDispatch, useSelector } from 'react-redux';
 function Filter({ setCurrentPage }) {
 	const dispatch = useDispatch();
 	const { genres } = useSelector((state) => state);
-	
+	const books = useSelector((state) => state.booksCopy)
+
+	// let price = books.map((e) => {
+	// 	return e.price
+	// })
+	// console.log(Math.max(...price))
+
 
 	const handleSelect = (e) => {
 		e.preventDefault();
