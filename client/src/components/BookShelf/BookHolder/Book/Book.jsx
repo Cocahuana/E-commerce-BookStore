@@ -39,6 +39,7 @@ export const Book = (props) => {
 							draggable='false'
 							fallback={<Skeleton />}
 							h='30vh'
+							w='100%'
 							borderRadius={useBreakpointValue({
 								base: 'md',
 								md: 'xl',
