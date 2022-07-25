@@ -30,7 +30,7 @@ export const Book = (props) => {
 				md: '5',
 			})}
 			{...rootProps}>
-			<Box position='relative'>
+			<Box position='relative' h='30vh' w='20vh'>
 				<BuenLink to={`/book/${id}`}>
 					<Link>
 						<Image
@@ -38,7 +38,7 @@ export const Book = (props) => {
 							alt={title}
 							draggable='false'
 							fallback={<Skeleton />}
-							boxSize='56'
+							h='30vh'
 							borderRadius={useBreakpointValue({
 								base: 'md',
 								md: 'xl',
