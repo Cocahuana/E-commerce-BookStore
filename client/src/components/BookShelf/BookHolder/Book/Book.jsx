@@ -21,8 +21,17 @@ import { FaCommentDots } from 'react-icons/fa';
 
 export const Book = (props) => {
 	const { product, rootProps } = props;
-	const { title, authors, image, price, salePrice, rating, ratingCount, id } =
-		product;
+	const {
+		title,
+		authors,
+		image,
+		price,
+		salePrice,
+		rating,
+		ratingCount,
+		id,
+		currency,
+	} = product;
 	return (
 		<Stack
 			spacing={useBreakpointValue({
@@ -77,7 +86,7 @@ export const Book = (props) => {
 					<PriceTag
 						price={price}
 						salePrice={salePrice}
-						currency='USD'
+						currency={currency}
 					/>
 				</Stack>
 				<HStack display='flex'>
