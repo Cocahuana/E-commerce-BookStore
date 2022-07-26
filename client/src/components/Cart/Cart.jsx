@@ -1,8 +1,15 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { delCart } from '../../../redux/actions';
+import { Button } from '@chakra-ui/react';
 
 const Cart = () => {
 	const { cart } = useSelector((state) => state);
+	const dispatch = useDispatch();
+
+	const handleOnDelete = (id) => {
+		dispatch(delCart(id));
+	};
 	return (
 		<div>
 			{cart.length > 0 ? (
@@ -12,6 +19,10 @@ const Cart = () => {
 							<h4>{e.id}</h4>
 							<h4>{e.title}</h4>
 							<h4>{e.authors}</h4>
+							<h4>{e.price}</h4>
+							<Button onClick={() => handleOnDelete(e.id)}>
+								X
+							</Button>
 						</div>
 					);
 				})

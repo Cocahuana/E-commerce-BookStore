@@ -18,10 +18,26 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import axios from 'axios';
 
 function SignUp() {
 	const [show, setShow] = React.useState(false);
 	const handleClick = () => setShow(!show);
+	const [usernameReg, setUsernameReg] = useState('');
+	const [passwordReg, setPasswordReg] = useState('');
+	const [emailReg, setEmailReg] = useState('');
+
+	const register = () => {
+		axios({
+			method: 'post',
+			data: {
+				username: usernameReg,
+				email: emailReg,
+				password: passwordReg,
+			},
+			url: 'http://localhost:3001/register',
+		}).then((res) => alert(JSON.stringify(res.data)));
+	};
 
 	return (
 		<Stack
@@ -34,18 +50,30 @@ function SignUp() {
 
 					<FormControl id='username'>
 						<FormLabel>Username</FormLabel>
-						<Input bg={'white'} />
+						<Input
+							placeholder='username'
+							onChange={(e) => setUsernameReg(e.target.value)}
+							bg={'white'}
+						/>
 					</FormControl>
 
 					<FormControl id='email'>
 						<FormLabel>Email address</FormLabel>
-						<Input bg={'white'} type='email' />
+						<Input
+							placeholder='email'
+							onChange={(e) => setEmailReg(e.target.value)}
+							bg={'white'}
+							type='email'
+						/>
 					</FormControl>
 
-					<FormControl id='password'>
+					<FormControl
+						id='password'
+						onChange={(e) => setPasswordReg(e.target.value)}>
 						<FormLabel>Password</FormLabel>
 						<InputGroup>
 							<Input
+								placeholder='password'
 								bg={'white'}
 								type={show ? 'text' : 'password'}
 							/>
@@ -60,7 +88,10 @@ function SignUp() {
 					</FormControl>
 
 					<Stack spacing={6}>
-						<Button colorScheme={'blue'} variant={'solid'}>
+						<Button
+							colorScheme={'blue'}
+							variant={'solid'}
+							onClick={(event) => register(event)}>
 							Sign up
 						</Button>
 					</Stack>

@@ -11,6 +11,7 @@ import {
 	Text,
 	useBreakpointValue,
 	useColorModeValue,
+	Center,
 } from '@chakra-ui/react';
 import * as React from 'react';
 import { Rating } from './Rating';
@@ -23,8 +24,6 @@ import { addToCart } from '../../../../../redux/actions';
 
 export const Book = (props) => {
 	const { product, rootProps } = props;
-	const { title, authors, image, price, salePrice, rating, ratingCount, id } =
-		product;
 
 	const dispatch = useDispatch();
 
@@ -32,6 +31,17 @@ export const Book = (props) => {
 		dispatch(addToCart(id));
 	};
 
+	const {
+		title,
+		authors,
+		image,
+		price,
+		salePrice,
+		rating,
+		ratingCount,
+		id,
+		currency,
+	} = product;
 	return (
 		<Stack
 			spacing={useBreakpointValue({
@@ -39,7 +49,7 @@ export const Book = (props) => {
 				md: '5',
 			})}
 			{...rootProps}>
-			<Box position='relative' h='30vh' w='20vh'>
+			<Box position='relative' h='30vh' w='100%'>
 				<BuenLink to={`/book/${id}`}>
 					<Link>
 						<Image
@@ -48,6 +58,7 @@ export const Book = (props) => {
 							draggable='false'
 							fallback={<Skeleton />}
 							h='30vh'
+							w='100%'
 							borderRadius={useBreakpointValue({
 								base: 'md',
 								md: 'xl',
@@ -86,7 +97,7 @@ export const Book = (props) => {
 					<PriceTag
 						price={price}
 						salePrice={salePrice}
-						currency='USD'
+						currency={currency}
 					/>
 				</Stack>
 				<HStack display='flex'>
