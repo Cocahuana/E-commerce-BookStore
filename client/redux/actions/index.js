@@ -15,6 +15,9 @@ import {
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
 	RESET_DETAILS,
 	LOADING,
+	ADD_CART,
+	DEL_CART,
+	DEL_ALL_CART,
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -129,3 +132,43 @@ export function orderBook(payload) {
 	return { type: ORDER_RATING, payload };
 }
 //------------------------------------------------------------------------------------------------------
+
+// ---------CART------------
+
+export function addToCart(id) {
+	return async function (dispatch) {
+		try {
+			dispatch({
+				type: ADD_CART,
+				payload: id,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+}
+
+export function delCart(id) {
+	return async function (dispatch) {
+		try {
+			return dispatch({
+				type: DEL_CART,
+				payload: id,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+}
+
+export function delAllCart() {
+	return async function (dispatch) {
+		try {
+			return dispatch({
+				type: DEL_ALL_CART,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+}
