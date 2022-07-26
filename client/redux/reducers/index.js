@@ -12,7 +12,23 @@ import {
 	FILTER_SLIDE,
 	LOADING,
 	SAVE_CHECKED,
+	ADD_CART,
+	DEL_CART,
+	DEL_ALL_CART,
 } from '../actions/actionTypes';
+
+// ------------LocalStorage constants------------
+let cartFromLocalStorage = JSON.parse(localStorage.getItem('cart'));
+if (!cartFromLocalStorage) {
+	cartFromLocalStorage = [];
+}
+
+let summaryFromLocalStorage = JSON.parse(localStorage.getItem('summary'));
+if (!summaryFromLocalStorage) {
+	summaryFromLocalStorage = 0;
+}
+
+// ----------------------------------------------
 
 // initial states
 
@@ -23,6 +39,8 @@ const InitialState = {
 	booksCopy: [],
 	loading: true,
 	isBoxChecked: [],
+	cart: cartFromLocalStorage,
+	summary: summaryFromLocalStorage,
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -146,6 +164,34 @@ const rootReducer = (state = InitialState, action) => {
 			return {
 				...state,
 				isBoxChecked: action.payload,
+			};
+
+		case ADD_CART:
+			let exist = state.cart.filter((el) => el.id === action.payload);
+			if (exist.length === 1) return state;
+			let newItem = state.books.find((p) => p.id === action.payload);
+			let sum = newItem.price;
+			console.log('sum', sum);
+			console.log('summary', state.summary);
+			return {
+				...state,
+				cart: [...state.cart, { ...newItem }],
+				summary: state.summary + sum,
+			};
+		case DEL_CART:
+			let itemToDelete = state.cart.find((p) => p.id === action.payload);
+			let substr = itemToDelete.price;
+			return {
+				...state,
+				cart: state.cart.filter((p) => p.id !== action.payload),
+				summary: state.summary - substr,
+			};
+
+		case DEL_ALL_CART:
+			return {
+				...state,
+				cart: [],
+				summary: 0,
 			};
 
 		default:
