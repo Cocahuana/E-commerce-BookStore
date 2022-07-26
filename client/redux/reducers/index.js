@@ -25,7 +25,7 @@ const InitialState = {
 	filters: {
 		genres: [],
 		rating: '',
-		slider: [0, 2000],
+		price: [0, 2000],
 		onsale: false,
 		currency: '',
 		language: '',
@@ -79,11 +79,31 @@ const rootReducer = (state = InitialState, action) => {
 
 		case APPLY_FILTERS: {
 			// Aplico los filtros del estado global (filters)
-			var filteredBooks = state.booksCopy; //variable donde se guardaran los libros que coincidan con todas las condiciones
-			//--------Filtro por genero------------
-			if (!state.filters.genres.length) {
-				filteredBooks = filteredBooks.filter();
-			}
+			var filteredBooks = state.booksCopy.filter((book) => { //variable donde se guardaran los libros que coincidan con todas las condiciones
+				
+				var flag = true //asumo que el libro debe incluirse y si no cumple algun filtro cambio la flag para q sea filtrado
+				
+				//--------Filtro por oferta------------
+				if (state.filters.onsale && !book.flag==='on-sale') return false
+
+				//--------Filtro por moneda------------
+				if (state.filters.currency && state.filters.currency!==book.currency) return false
+
+				//--------Filtro por lenguaje------------
+				if (state.filters.language && state.filters.language!==book.language) return false 
+				
+				//--------Filtro por genero------------
+				if (!state.filters.genres.length) {
+					let bookgenres = book.genres.map(g=>g.name)
+					state.filters.genres.forEach(filtergenre => {
+						if (!bookgenres.includes(filtergenre)) return false
+					})
+				}
+				
+				//--------Filtro por precio------------
+				if (book.price<state.filters.price[0] || book.price>state.filters.price[1]) return false
+
+			});
 		}
 		//-----------------------------------------------------------------------------------------------------
 		case FILTER_GENRE: {
