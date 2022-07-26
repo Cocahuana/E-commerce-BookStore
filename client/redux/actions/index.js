@@ -43,7 +43,7 @@ import {
 export const getDetails = (id) => {
 	return async function (dispatch) {
 		try {
-			let det = await axios.get(`/books/${id}`);
+			let det = await axios.get(`/books/book/${id}`);
 			return dispatch({
 				type: GET_DETAILS,
 				payload: det.data,
@@ -93,7 +93,7 @@ export function orderBook(payload) {
 export function getBooksByTitleOrAuthor(titleOrAuthor) {
 	return async function (dispatch) {
 		try {
-			var json = await axios.get(`/search?input=${titleOrAuthor}`);
+			var json = await axios.get(`/books/search?input=${titleOrAuthor}`);
 			return dispatch({
 				type: GET_BOOKS_BY_TITLE_OR_AUTHOR,
 				//json.data devuelve lo que nos da la ruta de arriba, ya filtrado por nombre
