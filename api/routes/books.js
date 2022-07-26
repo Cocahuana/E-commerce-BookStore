@@ -8,13 +8,14 @@ const {
 	findAllBooks,
 	findByAuthorOrTitle,
 } = require('../controllers/bookControllers');
+const passport = require('passport') 
 
 
 const router = Router();
 
 router.get('/', findAllBooks);
 
-router.get('/:id', getBookById);
+router.get('/:id', /*passport.authenticate('jwt', {session: false}),*/ getBookById);
 
 router.delete('/:id', deleteBookById);
 

@@ -24,7 +24,6 @@
 		"passport": "^0.6.0",
 		"passport-jwt": "^4.0.0",
 		"pg": "^8.5.1",
-		"pug": "2.0.0-beta11",
 		"sequelize": "^6.3.5"
 	}
 }

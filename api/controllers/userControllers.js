@@ -47,7 +47,7 @@ const userLogin = async (req, res, next) => {
         if(!userCheck.username) return res.send("Email or password does not match!")
         if(userCheck.password !== password) return res.send("Email or password does not match!")
 
-        const jwtToken = jwt.sign({
+        const jwtToken = jwt.sign({ //token creation 
             id: userCheck.id,
             email: userCheck.email,
             status: userCheck.status
