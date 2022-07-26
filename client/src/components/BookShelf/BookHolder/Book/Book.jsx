@@ -18,11 +18,20 @@ import { FavouriteButton } from './FavouriteButton';
 import { PriceTag } from './PriceTag';
 import { Link as BuenLink } from 'react-router-dom';
 import { FaCommentDots } from 'react-icons/fa';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart } from '../../../../../redux/actions';
 
 export const Book = (props) => {
 	const { product, rootProps } = props;
 	const { title, authors, image, price, salePrice, rating, ratingCount, id } =
 		product;
+
+	const dispatch = useDispatch();
+
+	const handleAddToCart = () => {
+		dispatch(addToCart(id));
+	};
+
 	return (
 		<Stack
 			spacing={useBreakpointValue({
@@ -94,7 +103,10 @@ export const Book = (props) => {
 				</HStack>
 			</Stack>
 			<Stack align='center'>
-				<Button colorScheme='blue' isFullWidth>
+				<Button
+					colorScheme='blue'
+					isFullWidth
+					onClick={handleAddToCart}>
 					Add to cart
 				</Button>
 				<Link

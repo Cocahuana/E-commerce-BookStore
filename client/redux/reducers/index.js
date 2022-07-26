@@ -12,6 +12,9 @@ import {
 	FILTER_SLIDE,
 	LOADING,
 	SAVE_CHECKED,
+	ADD_CART,
+	DEL_CART,
+	DEL_ALL_CART,
 } from '../actions/actionTypes';
 
 // initial states
@@ -23,6 +26,7 @@ const InitialState = {
 	booksCopy: [],
 	loading: true,
 	isBoxChecked: [],
+	cart: [],
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -146,6 +150,26 @@ const rootReducer = (state = InitialState, action) => {
 			return {
 				...state,
 				isBoxChecked: action.payload,
+			};
+
+		case ADD_CART:
+			let exist = state.cart.filter((el) => el.id === action.payload);
+			if (exist.length === 1) return state;
+			let newItem = state.books.find((p) => p.id === action.payload);
+			return {
+				...state,
+				cart: [...state.cart, { ...newItem }],
+			};
+		case DEL_CART:
+			return {
+				...state,
+				cart: state.cart.filter((p) => p.id !== action.payload),
+			};
+
+		case DEL_ALL_CART:
+			return {
+				...state,
+				cart: [],
 			};
 
 		default:
