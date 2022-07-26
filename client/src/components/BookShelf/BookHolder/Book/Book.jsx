@@ -44,6 +44,7 @@ export const Book = (props) => {
 	} = product;
 	return (
 		<Stack
+			maxW={'20vh'}
 			spacing={useBreakpointValue({
 				base: '4',
 				md: '5',
@@ -78,6 +79,7 @@ export const Book = (props) => {
 					<BuenLink to={`/book/${id}`}>
 						<Link>
 							<Text
+								h='3rem'
 								fontWeight='bold'
 								color={useColorModeValue(
 									'gray.700',
@@ -90,6 +92,8 @@ export const Book = (props) => {
 						</Link>
 					</BuenLink>
 					<Text
+						h='2rem'
+						mt={'16px'}
 						fontWeight='medium'
 						color={useColorModeValue('gray.700', 'gray.400')}>
 						{authors}
