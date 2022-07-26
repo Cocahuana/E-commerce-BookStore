@@ -42,6 +42,12 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		}
 		case GET_BOOKS_BY_TITLE_OR_AUTHOR: {
+			if (typeof action.payload === 'string') {
+				return {
+					...state,
+					books: [],
+				};
+			}
 			return {
 				...state,
 				books: action.payload,

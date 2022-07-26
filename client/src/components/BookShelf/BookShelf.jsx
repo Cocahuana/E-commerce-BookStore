@@ -80,8 +80,7 @@ const BookShelf = () => {
 									size='xl'
 								/>
 							</Center>
-						) : typeof slicedBooks === 'string' ||
-						  slicedBooks.length === 0 ? (
+						) : slicedBooks.length === 0 ? (
 							<h2>No books found!</h2>
 						) : (
 							slicedBooks.map((b) => (

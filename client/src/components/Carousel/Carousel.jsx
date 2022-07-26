@@ -171,7 +171,7 @@ function Carousel({ books }) {
 					</Flex>
 				</Box>
 				<SimpleGrid columns={{ base: 1, sm: 2, md: 5 }} spacing={5}>
-					{books.slice(0, 5).map((b, i) => (
+					{books?.slice(0, 5)?.map((b, i) => (
 						<Box
 							bg='white'
 							_dark={{
