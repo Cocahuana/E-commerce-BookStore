@@ -19,7 +19,13 @@ const SummaryPurchase = () => {
 
 	return (
 		<div>
-			<PriceTag price={summaryFormatted} />
+			{summary > 0 ? (
+				<div>
+					<PriceTag price={summaryFormatted} />
+				</div>
+			) : (
+				<div></div>
+			)}
 		</div>
 	);
 };

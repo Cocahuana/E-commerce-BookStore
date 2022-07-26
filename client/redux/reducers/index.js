@@ -178,6 +178,7 @@ const rootReducer = (state = InitialState, action) => {
 			return {
 				...state,
 				cart: [],
+				summary: 0,
 			};
 
 		default:
