@@ -6,6 +6,9 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
+
+require('./Auth/passport')
+
 var indexRouter = require('./routes/index');
 
 /* Deploy back start */
@@ -13,6 +16,7 @@ var indexRouter = require('./routes/index');
 
 const app = express();
 const cors = require('cors');
+
 
 app.name = 'API';
 
