@@ -572,7 +572,7 @@
 			"salePrice": 11.99,
 			"currency": "USD",
 			"ratingCount": 2,
-			"genre": ["Body, Mind  Spirit"],
+			"genre": ["Body, Mind & Spirit"],
 			"language": "ENGLISH",
 			"stock": 50
 		},
@@ -1145,7 +1145,7 @@
 			"flag": "new",
 			"currency": "USD",
 			"ratingCount": 5,
-			"genre": ["Body, Mind  Spirit"],
+			"genre": ["Body, Mind & Spirit"],
 			"language": "ESPAÑOL",
 			"stock": 50
 		},
@@ -1159,7 +1159,7 @@
 			"flag": "new",
 			"currency": "USD",
 			"ratingCount": 1,
-			"genre": ["Body, Mind  Spirit"],
+			"genre": ["Body, Mind & Spirit"],
 			"language": "ESPAÑOL",
 			"stock": 45
 		},
@@ -1173,7 +1173,7 @@
 			"flag": "new",
 			"currency": "USD",
 			"ratingCount": 1,
-			"genre": ["Body, Mind  Spirit"],
+			"genre": ["Body, Mind & Spirit"],
 			"language": "ESPAÑOL",
 			"stock": 48
 		},
@@ -1273,7 +1273,7 @@
 			"currency": "USD",
 			"salePrice": 7.99,
 			"ratingCount": 1,
-			"genre": ["Body, Mind  Spirit"],
+			"genre": ["Body, Mind & Spirit"],
 			"language": "ESPAÑOL",
 			"stock": 49
 		},
@@ -1288,7 +1288,7 @@
 			"currency": "USD",
 			"salePrice": 7.99,
 			"ratingCount": 1,
-			"genre": ["Body, Mind  Spirit"],
+			"genre": ["Body, Mind & Spirit"],
 			"language": "ESPAÑOL",
 			"stock": 50
 		},
