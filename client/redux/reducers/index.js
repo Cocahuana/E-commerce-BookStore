@@ -6,12 +6,14 @@ import {
 	GET_BOOKS,
 	GET_GENRES,
 	FILTER_GENRE,
+	FILTER_PRICE,
+	FILTER_LANGUAGE,
+	FILTER_ONSALE,
+	APPLY_FILTERS,
 	ORDER_RATING,
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
 	RESET_DETAILS,
-	FILTER_SLIDE,
 	LOADING,
-	FILTER_GENRES,
 } from '../actions/actionTypes';
 
 // initial states
@@ -68,7 +70,8 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		}
 		//---------------------------------------------FILTERS------------------------------------------------
-		case FILTER_GENRES:
+		//guardo el filtro pór generos en el estado global
+		case FILTER_GENRE:
 			return {
 				...state,
 				filters: {
@@ -77,67 +80,85 @@ const rootReducer = (state = InitialState, action) => {
 				},
 			};
 
+		//guardo el filtro pór precios en el estado global
+		case FILTER_PRICE:
+			return {
+				...state,
+				filters: {
+					...state.filters,
+					price: action.payload,
+				},
+			};
+
+		//guardo el filtro pór lenguajes en el estado global
+		case FILTER_LANGUAGE:
+			return {
+				...state,
+				filters: {
+					...state.filters,
+					language: action.payload,
+				},
+			};
+
+		//guardo el filtro pór ofertas en el estado global
+		case FILTER_ONSALE:
+			return {
+				...state,
+				filters: {
+					...state.filters,
+					onsale: action.payload,
+				},
+			};
+
+		// Aplico los filtros del estado global (filters)
 		case APPLY_FILTERS: {
-			// Aplico los filtros del estado global (filters)
-			var filteredBooks = state.booksCopy.filter((book) => { //variable donde se guardaran los libros que coincidan con todas las condiciones
-				
-				var flag = true //asumo que el libro debe incluirse y si no cumple algun filtro cambio la flag para q sea filtrado
-				
+			var filteredBooks = state.books.filter((book) => {
+				//variable donde se guardaran los libros que coincidan con todas las condiciones
+
+				//asumo que el libro debe incluirse y si no cumple algun filtro devuelvo false para q sea filtrado (no se incluya en el array)
+
 				//--------Filtro por oferta------------
-				if (state.filters.onsale && !book.flag==='on-sale') return false
+				if (state.filters.onsale && !book.flag === 'on-sale')
+					return false;
 
 				//--------Filtro por moneda------------
-				if (state.filters.currency && state.filters.currency!==book.currency) return false
+				//if (state.filters.currency && state.filters.currency!==book.currency) return false
 
 				//--------Filtro por lenguaje------------
-				if (state.filters.language && state.filters.language!==book.language) return false 
-				
+				if (
+					state.filters.language &&
+					state.filters.language !== book.language
+				)
+					return false;
+
+				//--------Filtro por precio------------
+				if (
+					book.price < state.filters.price[0] ||
+					book.price > state.filters.price[1]
+				)
+					return false;
+
 				//--------Filtro por genero------------
 				if (!state.filters.genres.length) {
-					let bookgenres = book.genres.map(g=>g.name)
-					state.filters.genres.forEach(filtergenre => {
-						if (!bookgenres.includes(filtergenre)) return false
-					})
+					let bookgenres = book.genres.map((g) => g.name);
+					state.filters.genres.forEach((filtergenre) => {
+						if (!bookgenres.includes(filtergenre)) return false;
+					});
 				}
-				
-				//--------Filtro por precio------------
-				if (book.price<state.filters.price[0] || book.price>state.filters.price[1]) return false
 
+				return true; //si no se corto la ejecucion en ningun momento es porque se cumplen todos los filtros
 			});
-		}
-		//-----------------------------------------------------------------------------------------------------
-		case FILTER_GENRE: {
-			let filteredBooks = [];
 
-			if (action.payload.length > 0) {
-				for (let i = 0; i < state.booksCopy.length; i++) {
-					let flag = false;
-					let cont = 0;
-					for (let j = 0; j < action.payload.length; j++) {
-						if (
-							state.booksCopy[i].Genres.map(
-								(e) => e.name
-							).includes(action.payload[j])
-						) {
-							cont += 1;
-						}
-						if (cont === action.payload.length) {
-							flag = true;
-						}
-					}
-					if (flag) {
-						filteredBooks.push(state.booksCopy[i]);
-					}
-				}
-			} else {
-				filteredBooks = [...state.booksCopy];
-			}
+			console.log('reducer', filteredBooks);
 
+			//modifico el estado de los libros reemplazando con los libros filtrados
 			return {
 				...state,
 				books: filteredBooks,
 			};
 		}
+		//-----------------------------------------------------------------------------------------------------
+		//----------------------------------------------SORTS--------------------------------------------------
 		case ORDER_RATING:
 			var ordern;
 			switch (action.payload) {
@@ -176,18 +197,7 @@ const rootReducer = (state = InitialState, action) => {
 				details: {},
 			};
 		}
-
-		case FILTER_SLIDE:
-			let price = [];
-			price = state.booksCopy.filter(
-				(value) =>
-					value.price >= action.payload[0] &&
-					value.price <= action.payload[1]
-			);
-			return {
-				...state,
-				books: [...price],
-			};
+		//-----------------------------------------------------------------------------------------------------
 
 		default:
 			return {

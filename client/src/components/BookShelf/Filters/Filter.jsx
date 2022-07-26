@@ -14,15 +14,13 @@ import {
 	Stack,
 	Text,
 	useColorModeValue,
-	VStack,
 } from '@chakra-ui/react';
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import {
 	filterBookGenre,
 	getGenres,
 	orderBook,
-	getBooks,
 	slideprice,
 	saveChecked,
 } from '../../../../redux/actions';
@@ -30,11 +28,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 function Filter({ setCurrentPage }) {
 	const dispatch = useDispatch();
-	const { genres, books, isBoxChecked } = useSelector((state) => state);
-	console.log(books);
-	let prices = books.map((e) => e.price);
-	const [sliderValue, setSliderValue] = useState([0, 2000]);
-	const [isChecked, setIsChecked] = useState(isBoxChecked);
+	const { genres, books, filters } = useSelector((state) => state);
+	console.log('renderizado', books, filters);
+	const [sliderValue, setSliderValue] = useState(filters.price);
+	const [isChecked, setIsChecked] = useState(filters.genres);
 
 	const handleSelect = (e) => {
 		e.preventDefault();
