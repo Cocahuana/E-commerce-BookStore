@@ -1,5 +1,5 @@
-import { SimpleGrid } from '@chakra-ui/react';
-import * as React from 'react';
+import { SimpleGrid } from "@chakra-ui/react";
+import * as React from "react";
 
 export const BookHolder = (props) => {
 	const columns = React.useMemo(() => {
@@ -7,22 +7,22 @@ export const BookHolder = (props) => {
 			React.isValidElement
 		).length;
 		return {
-			base: Math.min(2, count),
+			base: Math.min(1, count),
 			md: Math.min(3, count),
-			lg: Math.min(4, count),
-			xl: Math.min(5, count),
+			lg: Math.min(3, count),
+			xl: Math.min(4, count),
 		};
 	}, [props.children]);
 	return (
 		<SimpleGrid
 			columns={columns}
 			columnGap={{
-				base: '4',
-				md: '6',
+				base: "4",
+				md: "6",
 			}}
 			rowGap={{
-				base: '8',
-				md: '10',
+				base: "8",
+				md: "10",
 			}}
 			{...props}
 		/>
