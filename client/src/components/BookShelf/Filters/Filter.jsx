@@ -33,8 +33,8 @@ function Filter({ setCurrentPage }) {
 
 	const { genres, booksCopy, isBoxChecked } = useSelector((state) => state);
 
-	const [min, setMin] = useState(0)
-	const [max, setMax] = useState(0)
+	const [min, setMin] = useState(0);
+	const [max, setMax] = useState(0);
 	const [defaultslidevalue, setDefaultslidevalue] = useState([0, 0]);
 	const [isChecked, setIsChecked] = useState(isBoxChecked);
 
@@ -45,10 +45,10 @@ function Filter({ setCurrentPage }) {
 	useEffect(() => {
 		let Max = prices ? Math.max(...prices) : 'Cargando';
 		let Min = prices ? Math.min(...prices) : 'Cargando';
-		setMin(Min)
-		setMax(Max)
-		setDefaultslidevalue([Min, Max])
-	},[booksCopy])
+		setDefaultslidevalue([Min, Max]);
+		setMin(Min);
+		setMax(Max);
+	}, [booksCopy]);
 
 	const handleSelect = (e) => {
 		e.preventDefault();
@@ -70,9 +70,8 @@ function Filter({ setCurrentPage }) {
 
 	const handleslidechange = (e) => {
 		dispatch(slideprice(e));
-		setMin(e[0])
-		setMax(e[1])
-		console.log(e)
+		setMin(e[0]);
+		setMax(e[1]);
 	};
 
 	useEffect(() => {
@@ -141,13 +140,13 @@ function Filter({ setCurrentPage }) {
 				_hover={{ bg: useColorModeValue('gray.200', 'gray.700') }}
 				h='32'>
 				Price
-				<RangeSlider
+				<RangeSlider				
 					w='70%'
 					step={50}
+					value={[min, max]}
 					min={defaultslidevalue[0]}
 					max={defaultslidevalue[1]}
 					aria-label={['min', 'max']}
-					defaultValue={[defaultslidevalue[0], defaultslidevalue[1]]}
 					onChange={(val) => handleslidechange(val)}>
 					<RangeSliderTrack bg='blue.100'>
 						<RangeSliderFilledTrack />
