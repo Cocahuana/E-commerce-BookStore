@@ -11,7 +11,7 @@ import {
 	RESET_DETAILS,
 	FILTER_SLIDE,
 	LOADING,
-	SAVE_CHECKED,
+	FILTER_GENRES,
 } from '../actions/actionTypes';
 
 // initial states
@@ -22,6 +22,14 @@ const InitialState = {
 	genres: [],
 	booksCopy: [],
 	loading: true,
+	filters: {
+		genres: [],
+		rating: '',
+		slider: [0, 2000],
+		onsale: false,
+		currency: '',
+		language: '',
+	},
 	isBoxChecked: [],
 };
 
@@ -59,6 +67,25 @@ const rootReducer = (state = InitialState, action) => {
 				genres: action.payload,
 			};
 		}
+		//---------------------------------------------FILTERS------------------------------------------------
+		case FILTER_GENRES:
+			return {
+				...state,
+				filters: {
+					...state.filters,
+					genres: action.payload,
+				},
+			};
+
+		case APPLY_FILTERS: {
+			// Aplico los filtros del estado global (filters)
+			var filteredBooks = state.booksCopy; //variable donde se guardaran los libros que coincidan con todas las condiciones
+			//--------Filtro por genero------------
+			if (!state.filters.genres.length) {
+				filteredBooks = filteredBooks.filter();
+			}
+		}
+		//-----------------------------------------------------------------------------------------------------
 		case FILTER_GENRE: {
 			let filteredBooks = [];
 
@@ -140,12 +167,6 @@ const rootReducer = (state = InitialState, action) => {
 			return {
 				...state,
 				books: [...price],
-			};
-
-		case SAVE_CHECKED:
-			return {
-				...state,
-				isBoxChecked: action.payload,
 			};
 
 		default:

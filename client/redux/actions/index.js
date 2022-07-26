@@ -12,7 +12,7 @@ import {
 	RESET_DETAILS,
 	FILTER_SLIDE,
 	LOADING,
-	SAVE_CHECKED,
+	FILTER_GENRES,
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -113,5 +113,5 @@ export function slideprice(payload) {
 }
 
 export function saveChecked(payload) {
-	return { type: SAVE_CHECKED, payload };
+	return { type: FILTER_GENRES, payload };
 }
