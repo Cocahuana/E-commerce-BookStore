@@ -130,7 +130,7 @@ const rootReducer = (state = InitialState, action) => {
 
 		// Aplico los filtros del estado global (filters)
 		case APPLY_FILTERS: {
-			var filteredBooks = state.books.filter((book) => {
+			var filteredBooks = state.booksCopy.filter((book) => {
 				//variable donde se guardaran los libros que coincidan con todas las condiciones
 
 				//asumo que el libro debe incluirse y si no cumple algun filtro devuelvo false para q sea filtrado (no se incluya en el array)

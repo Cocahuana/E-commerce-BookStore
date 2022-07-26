@@ -85,9 +85,6 @@ export const getGenres = () => {
 		}
 	};
 };
-export function filterBookGenre(payload) {
-	return { type: FILTER_GENRE, payload };
-}
 
 export function getBooksByTitleOrAuthor(titleOrAuthor) {
 	return async function (dispatch) {
