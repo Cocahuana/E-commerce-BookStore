@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { delCart } from '../../../redux/actions';
 import { Button } from '@chakra-ui/react';
+import {
+	Box,
+	HStack,
+	Icon,
+	Image,
+	Link,
+	Stack,
+	Text,
+	useColorModeValue as mode,
+} from '@chakra-ui/react';
 
 const Cart = () => {
 	const { cart } = useSelector((state) => state);
+	const [sum, setSum] = useState([]);
 	const dispatch = useDispatch();
 
 	const handleOnDelete = (id) => {
@@ -16,13 +27,33 @@ const Cart = () => {
 				cart?.map((e) => {
 					return (
 						<div>
-							<h4>{e.id}</h4>
-							<h4>{e.title}</h4>
-							<h4>{e.authors}</h4>
-							<h4>{e.price}</h4>
 							<Button onClick={() => handleOnDelete(e.id)}>
 								X
 							</Button>
+							<Stack direction='row' spacing='5' width='full'>
+								<Image
+									rounded='lg'
+									width='100px'
+									height='100px'
+									fit='cover'
+									src={e.image}
+									alt={e.title}
+									draggable='false'
+									loading='lazy'
+								/>
+								<Box pt='4'>
+									<Stack spacing='0.5'>
+										<Text fontWeight='medium'>
+											{e.title}
+										</Text>
+										<Text fontWeight='medium'>
+											{e.price}
+											{e.currency}$
+										</Text>
+									</Stack>
+									{sum}
+								</Box>
+							</Stack>
 						</div>
 					);
 				})

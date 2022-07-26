@@ -27,6 +27,7 @@ const InitialState = {
 	loading: true,
 	isBoxChecked: [],
 	cart: [],
+	summary: 0,
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -156,14 +157,21 @@ const rootReducer = (state = InitialState, action) => {
 			let exist = state.cart.filter((el) => el.id === action.payload);
 			if (exist.length === 1) return state;
 			let newItem = state.books.find((p) => p.id === action.payload);
+			let sum = newItem.price;
+			console.log('sum', sum);
+			console.log('summary', state.summary);
 			return {
 				...state,
 				cart: [...state.cart, { ...newItem }],
+				summary: state.summary + sum,
 			};
 		case DEL_CART:
+			let itemToDelete = state.cart.find((p) => p.id === action.payload);
+			let substr = itemToDelete.price;
 			return {
 				...state,
 				cart: state.cart.filter((p) => p.id !== action.payload),
+				summary: state.summary - substr,
 			};
 
 		case DEL_ALL_CART:

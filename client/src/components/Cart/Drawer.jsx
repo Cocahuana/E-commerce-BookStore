@@ -13,6 +13,7 @@ import {
 import Cart from './Cart';
 import { useDispatch } from 'react-redux';
 import { delAllCart } from '../../../redux/actions';
+import SummaryPurchase from './SummaryPurchase';
 
 const CartDrawer = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -41,6 +42,7 @@ const CartDrawer = () => {
 					<DrawerHeader></DrawerHeader>
 					<DrawerBody>
 						<Cart />
+						<SummaryPurchase />
 						<Button onClick={() => handleDeleteCart()}>
 							Empty Cart
 						</Button>
