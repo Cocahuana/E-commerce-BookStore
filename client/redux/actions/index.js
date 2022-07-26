@@ -13,6 +13,9 @@ import {
 	FILTER_SLIDE,
 	LOADING,
 	SAVE_CHECKED,
+	ADD_CART,
+	DEL_CART,
+	DEL_ALL_CART,
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -114,4 +117,44 @@ export function slideprice(payload) {
 
 export function saveChecked(payload) {
 	return { type: SAVE_CHECKED, payload };
+}
+
+// ---------CART------------
+
+export function addToCart(id) {
+	return async function (dispatch) {
+		try {
+			dispatch({
+				type: ADD_CART,
+				payload: id,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+}
+
+export function delCart(id) {
+	return async function (dispatch) {
+		try {
+			return dispatch({
+				type: DEL_CART,
+				payload: id,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+}
+
+export function delAllCart() {
+	return async function (dispatch) {
+		try {
+			return dispatch({
+				type: DEL_ALL_CART,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
 }

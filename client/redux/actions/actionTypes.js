@@ -3,13 +3,23 @@ import axios from 'axios';
 
 // export const GET_ALL_BOOKS = 'GET_ALL_BOOKS';
 
+// -------------GET BOOKS-------------
 export const GET_DETAILS = 'GET_DETAILS';
 export const GET_BOOKS = 'GET_BOOKS';
 export const GET_GENRES = 'GET_GENRES';
+export const GET_BOOKS_BY_TITLE_OR_AUTHOR = 'GET_BOOKS_BY_TITLE_OR_AUTHOR';
+
+// -------------FILTER/SORT-------------
 export const FILTER_GENRE = 'FILTER_GENRE';
 export const ORDER_RATING = 'ORDER_RATING';
-export const GET_BOOKS_BY_TITLE_OR_AUTHOR = 'GET_BOOKS_BY_TITLE_OR_AUTHOR';
 export const RESET_DETAILS = 'RESET_DETAILS';
 export const FILTER_SLIDE = 'FILTER_SLIDE';
-export const LOADING = 'LOADING';
 export const SAVE_CHECKED = 'SAVE_CHECKED';
+
+// -------------LOADING-------------
+export const LOADING = 'LOADING';
+
+// -------------CART-------------
+export const ADD_CART = 'ADD_CART';
+export const DEL_CART = 'DEL_CART';
+export const DEL_ALL_CART = 'DEL_ALL_CART';

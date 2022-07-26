@@ -2,6 +2,7 @@ import {
 	Avatar,
 	Box,
 	Button,
+	Center,
 	Checkbox,
 	Flex,
 	Icon,
@@ -27,6 +28,7 @@ import {
 	saveChecked,
 } from '../../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { PriceTag } from '../BookHolder/Book/PriceTag';
 
 function Filter({ setCurrentPage }) {
 	const dispatch = useDispatch();
@@ -86,17 +88,13 @@ function Filter({ setCurrentPage }) {
 	return (
 		<Stack
 			boxShadow={useColorModeValue(
-				'2px 6px 8px rgba(160, 174, 192, 0.6)',
-				'2px 6px 8px rgba(9, 17, 28, 0.9)'
+				'2px 6px 22px rgba(160, 174, 192, 0.6)',
+				'2px 6px 18px rgba(9, 17, 28, 0.9)'
 			)}
 			bg={useColorModeValue('whiteAlpha.300', 'gray.800')}
 			rounded='md'
 			overflow='hidden'>
-			<Flex
-				justify='center'
-				alignItems='center'
-				_hover={{ bg: useColorModeValue('gray.200', 'gray.700') }}
-				h='32'>
+			<Flex justify='center' alignItems='center' bg={'gray.100'} h='32'>
 				<Text
 					fontWeight='semibold'
 					fontSize={{
@@ -107,16 +105,12 @@ function Filter({ setCurrentPage }) {
 					Filters
 				</Text>
 			</Flex>
-			<Flex
-				justify='space-between'
-				alignItems='center'
-				_hover={{ bg: useColorModeValue('gray.200', 'gray.700') }}>
+			<Flex justify='space-between' alignItems='center'>
 				<Stack
 					spacing={5}
 					direction='column'
 					alignItems='center'
 					pl='2'>
-					<Flex>Generos</Flex>
 					<Flex direction='column'>
 						<Stack spacing={4}>
 							{genres.map((p, g) => (
@@ -137,12 +131,10 @@ function Filter({ setCurrentPage }) {
 				justifyContent='center'
 				alignItems='center'
 				direction='column'
-				_hover={{ bg: useColorModeValue('gray.200', 'gray.700') }}
 				h='32'>
 				Price
-				<RangeSlider				
+				<RangeSlider
 					w='70%'
-					step={50}
 					value={[min, max]}
 					min={defaultslidevalue[0]}
 					max={defaultslidevalue[1]}
@@ -151,55 +143,57 @@ function Filter({ setCurrentPage }) {
 					<RangeSliderTrack bg='blue.100'>
 						<RangeSliderFilledTrack />
 					</RangeSliderTrack>
-					<RangeSliderMark
-						value={min}
-						textAlign='center'
-						bg='blue.500'
-						color='white'
-						mt='5'
-						ml='-5'
-						w='15'>
-						{min}$
-					</RangeSliderMark>
 
-					<RangeSliderMark
-						value={max}
-						textAlign='center'
-						bg='blue.500'
-						color='white'
-						mt='5'
-						ml='-8'
-						w='15'>
-						{max}$
-					</RangeSliderMark>
+						<RangeSliderMark
+							value={min}
+							textAlign='center'
+							bg='blue.500'
+							color='white'
+							mt='5'
+							ml='-10'
+							w='20'>
+							US$ {min}
+						</RangeSliderMark>
+									
+						<RangeSliderMark
+							value={max}
+							textAlign='center'
+							bg='blue.500'
+							color='white'
+							mt='5'
+							ml='-10'
+							w='20'>
+							US$ {max}
+						</RangeSliderMark>
+				
 					<RangeSliderThumb index={0} />
 					<RangeSliderThumb index={1} />
 				</RangeSlider>
 			</Flex>
 
-			<Flex
-				h='40'
-				justify='space-between'
-				alignItems='center'
-				_hover={{ bg: useColorModeValue('gray.200', 'gray.700') }}>
-				<Stack spacing={0} direction='column' alignItems='center'>
-					<Flex>Rating</Flex>
-					<Flex direction='column' p={2}>
-						<Select
-							onChange={handleOrderBy}
-							variant='filled'
-							defaultValue={'Default'}>
-							<option value='Default' disabled>
-								rating
-							</option>
-							<option value='highToLow'>
-								Rating High to Low
-							</option>
-							<option value='lowToHi'>Rating Low to High</option>
-						</Select>
-					</Flex>
-				</Stack>
-			</Flex>
+			<Center>
+				<Flex h='40' justify='space-between' alignItems='center'>
+					<Stack spacing={0} direction='column' alignItems='center'>
+						<Flex>Rating</Flex>
+						<Flex direction='column' p={2}>
+							<Select
+								onChange={handleOrderBy}
+								variant='filled'
+								defaultValue={'Default'}>
+								<option value='Default' disabled>
+									rating
+								</option>
+								<option value='highToLow'>
+									Rating High to Low
+								</option>
+								<option value='lowToHi'>
+									Rating Low to High
+								</option>
+							</Select>
+						</Flex>
+					</Stack>
+				</Flex>
+			</Center>
 		</Stack>
 	);
 }

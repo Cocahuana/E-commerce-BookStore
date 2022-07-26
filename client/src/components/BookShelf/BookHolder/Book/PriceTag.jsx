@@ -1,5 +1,5 @@
-import { HStack, Text, useColorModeValue as mode } from '@chakra-ui/react';
-import * as React from 'react';
+import { HStack, Text, useColorModeValue as mode } from "@chakra-ui/react";
+import * as React from "react";
 
 export const PriceTag = (props) => {
 	const {
@@ -12,15 +12,13 @@ export const PriceTag = (props) => {
 	} = props;
 	
 	return (
-		<HStack spacing='1' {...rootProps}>
-			<Text fontWeight={'bold'}>
-				{currency == 'USD' ? 'US$ ' : 'AR$ '}
-			</Text>
+		<HStack spacing="1" {...rootProps}>
+			<Text fontWeight={"bold"}>{currency == "USD" ? "US$ " : "AR$ "}</Text>
 			<Price isOnSale={!!salePrice} textProps={priceProps}>
 				{price}
 			</Price>
 			{salePrice && (
-				<SalePrice {...salePriceProps}>{'$' + salePrice}</SalePrice>
+				<SalePrice {...salePriceProps}>{"$" + salePrice}</SalePrice>
 			)}
 		</HStack>
 	);
@@ -28,16 +26,17 @@ export const PriceTag = (props) => {
 
 const Price = (props) => {
 	const { isOnSale, children, textProps } = props;
-	const defaultColor = mode('gray.700', 'gray.400');
-	const onSaleColor = mode('gray.400', 'gray.700');
+	const defaultColor = mode("gray.700", "gray.400");
+	const onSaleColor = mode("gray.400", "gray.700");
 	const color = isOnSale ? onSaleColor : defaultColor;
 	return (
 		<Text
-			as='span'
-			fontWeight='medium'
+			as="span"
+			fontWeight="medium"
 			color={color}
-			textDecoration={isOnSale ? 'line-through' : 'none'}
-			{...textProps}>
+			textDecoration={isOnSale ? "line-through" : "none"}
+			{...textProps}
+		>
 			{children}
 		</Text>
 	);
@@ -45,9 +44,9 @@ const Price = (props) => {
 
 const SalePrice = (props) => (
 	<Text
-		as='span'
-		fontWeight='semibold'
-		color={mode('gray.800', 'gray.100')}
+		as="span"
+		fontWeight="semibold"
+		color={mode("gray.800", "gray.100")}
 		{...props}
 	/>
 );
