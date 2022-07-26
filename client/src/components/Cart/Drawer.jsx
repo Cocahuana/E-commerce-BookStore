@@ -9,6 +9,8 @@ import {
 	DrawerCloseButton,
 	useDisclosure,
 	Button,
+	Box,
+	useColorModeValue,
 } from '@chakra-ui/react';
 import Cart from './Cart';
 import { useDispatch } from 'react-redux';
@@ -27,8 +29,6 @@ const CartDrawer = () => {
 		dispatch(delAllCart());
 	};
 
-	const sizes = ['xs', 'sm', 'md', 'lg', 'xl', 'full'];
-
 	return (
 		<>
 			<Button onClick={() => handleClick()} key={'sm'} m={4}>
@@ -42,10 +42,23 @@ const CartDrawer = () => {
 					<DrawerHeader></DrawerHeader>
 					<DrawerBody>
 						<Cart />
-						<SummaryPurchase />
-						<Button onClick={() => handleDeleteCart()}>
-							Empty Cart
-						</Button>
+						<Box p='10px' float='right'>
+							<Button
+								bg={useColorModeValue('blue.500', 'blue.200')}
+								color={useColorModeValue('white', 'gray.900')}
+								size='sm'
+								_hover={{
+									transform: 'translateY(2px)',
+									boxShadow: 'lg',
+									bg: useColorModeValue(
+										'gray.400',
+										'gray.600'
+									),
+								}}
+								onClick={() => handleDeleteCart()}>
+								Empty Cart
+							</Button>
+						</Box>
 					</DrawerBody>
 				</DrawerContent>
 			</Drawer>

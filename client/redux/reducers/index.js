@@ -17,6 +17,19 @@ import {
 	DEL_ALL_CART,
 } from '../actions/actionTypes';
 
+// ------------LocalStorage constants------------
+let cartFromLocalStorage = JSON.parse(localStorage.getItem('cart'));
+if (!cartFromLocalStorage) {
+	cartFromLocalStorage = [];
+}
+
+let summaryFromLocalStorage = JSON.parse(localStorage.getItem('summary'));
+if (!summaryFromLocalStorage) {
+	summaryFromLocalStorage = 0;
+}
+
+// ----------------------------------------------
+
 // initial states
 
 const InitialState = {
@@ -26,8 +39,8 @@ const InitialState = {
 	booksCopy: [],
 	loading: true,
 	isBoxChecked: [],
-	cart: [],
-	summary: 0,
+	cart: cartFromLocalStorage,
+	summary: summaryFromLocalStorage,
 };
 
 const rootReducer = (state = InitialState, action) => {

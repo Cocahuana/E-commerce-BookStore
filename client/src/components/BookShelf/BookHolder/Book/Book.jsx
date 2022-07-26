@@ -48,9 +48,10 @@ export const Book = (props) => {
 			spacing={useBreakpointValue({
 				base: '4',
 				md: '5',
+				lg: '4',
 			})}
 			{...rootProps}>
-			<Box position='relative' h='30vh' w='100%'>
+			<Box position='relative'>
 				<BuenLink to={`/book/${id}`}>
 					<Link>
 						<Image
@@ -58,8 +59,11 @@ export const Book = (props) => {
 							alt={title}
 							draggable='false'
 							fallback={<Skeleton />}
-							h='30vh'
-							w='100%'
+							boxSize={{
+								base: 'min-content',
+								md: 'md',
+								lg: '60',
+							}}
 							borderRadius={useBreakpointValue({
 								base: 'md',
 								md: 'xl',
@@ -118,10 +122,7 @@ export const Book = (props) => {
 				</HStack>
 			</Stack>
 			<Stack align='center'>
-				<Button
-					colorScheme='blue'
-					isFullWidth
-					onClick={handleAddToCart}>
+				<Button colorScheme='blue' onClick={handleAddToCart}>
 					Add to cart
 				</Button>
 				<Link
