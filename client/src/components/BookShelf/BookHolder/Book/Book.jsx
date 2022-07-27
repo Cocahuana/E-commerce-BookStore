@@ -11,6 +11,7 @@ import {
 	Text,
 	useBreakpointValue,
 	useColorModeValue,
+	Center,
 } from '@chakra-ui/react';
 import * as React from 'react';
 import { Rating } from './Rating';
@@ -18,16 +19,36 @@ import { FavouriteButton } from './FavouriteButton';
 import { PriceTag } from './PriceTag';
 import { Link as BuenLink } from 'react-router-dom';
 import { FaCommentDots } from 'react-icons/fa';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart } from '../../../../../redux/actions';
 
 export const Book = (props) => {
 	const { product, rootProps } = props;
-	const { title, authors, image, price, salePrice, rating, ratingCount, id } =
-		product;
+
+	const dispatch = useDispatch();
+
+	const handleAddToCart = () => {
+		dispatch(addToCart(id));
+	};
+
+	const {
+		title,
+		authors,
+		image,
+		price,
+		salePrice,
+		rating,
+		ratingCount,
+		id,
+		currency,
+	} = product;
 	return (
 		<Stack
+			maxW={'20vh'}
 			spacing={useBreakpointValue({
 				base: '4',
 				md: '5',
+				lg: '4',
 			})}
 			{...rootProps}>
 			<Box position='relative'>
@@ -38,7 +59,11 @@ export const Book = (props) => {
 							alt={title}
 							draggable='false'
 							fallback={<Skeleton />}
-							boxSize='56'
+							boxSize={{
+								base: 'min-content',
+								md: 'md',
+								lg: '60',
+							}}
 							borderRadius={useBreakpointValue({
 								base: 'md',
 								md: 'xl',
@@ -58,6 +83,7 @@ export const Book = (props) => {
 					<BuenLink to={`/book/${id}`}>
 						<Link>
 							<Text
+								h='3rem'
 								fontWeight='bold'
 								color={useColorModeValue(
 									'gray.700',
@@ -70,6 +96,8 @@ export const Book = (props) => {
 						</Link>
 					</BuenLink>
 					<Text
+						h='2rem'
+						mt={'16px'}
 						fontWeight='medium'
 						color={useColorModeValue('gray.700', 'gray.400')}>
 						{authors}
@@ -77,7 +105,7 @@ export const Book = (props) => {
 					<PriceTag
 						price={price}
 						salePrice={salePrice}
-						currency='USD'
+						currency={currency}
 					/>
 				</Stack>
 				<HStack display='flex'>
@@ -94,7 +122,7 @@ export const Book = (props) => {
 				</HStack>
 			</Stack>
 			<Stack align='center'>
-				<Button colorScheme='blue' isFullWidth>
+				<Button colorScheme='blue' onClick={handleAddToCart}>
 					Add to cart
 				</Button>
 				<Link

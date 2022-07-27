@@ -1,6 +1,6 @@
-import { MoonIcon, QuestionIcon, SunIcon } from '@chakra-ui/icons';
 import {
 	Box,
+	Button,
 	chakra,
 	Container,
 	Flex,
@@ -9,11 +9,27 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { getGenres, saveFilterGenre } from '../../../redux/actions';
+import { Link as BuenLink } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-function Carousel() {
+function Carousel({ books }) {
+	const dispatch = useDispatch();
+	const { genres } = useSelector((state) => state);
+	const history = useHistory();
+
+	const handleSelect = (e) => {
+		dispatch(saveFilterGenre([e.target.value]));
+		history.push('/books');
+	};
+
+	useEffect(() => {
+		dispatch(getGenres());
+	}, [dispatch]);
 	const slides = [
 		{
 			img: 'https://books.google.com/books/content/images/frontcover/aVPNxmllbAUC?fife=w240-h480',
@@ -87,79 +103,41 @@ function Carousel() {
 							lineHeight='shorter'>
 							Category
 						</chakra.h1>
-						<chakra.h1
-							fontSize={{
-								base: '10px',
-								md: '15px',
-								lg: '20px',
-							}}
-							fontWeight='semibold'
-							color='brand.600'
-							lineHeight='shorter'
-							cursor='pointer'>
-							Show all -
-						</chakra.h1>
+						<BuenLink to='/books'>
+							<chakra.h1
+								fontSize={{
+									base: '10px',
+									md: '15px',
+									lg: '20px',
+								}}
+								fontWeight='semibold'
+								color='brand.600'
+								lineHeight='shorter'
+								cursor='pointer'>
+								Show all -
+							</chakra.h1>
+						</BuenLink>
 					</Flex>
 				</Box>
 				<SimpleGrid
-					columns={{ base: 1, sm: 2, md: 5 }}
+					columns={{ base: 1, sm: 2, md: 5, lg: 6 }}
 					spacing={5}
 					mt={2}>
-					<Box
-						p={5}
-						boxShadow='md'
-						rounded='md'
-						borderWidth={1}
-						align='center'>
-						<Text fontWeight='bold' fontSize='x-large'>
-							Romance
-						</Text>
-						<MoonIcon />
-					</Box>
-					<Box
-						p={5}
-						boxShadow='md'
-						rounded='md'
-						borderWidth={1}
-						align='center'>
-						<Text fontWeight='bold' fontSize='x-large'>
-							Romance
-						</Text>
-						<SunIcon />
-					</Box>
-					<Box
-						p={5}
-						boxShadow='md'
-						rounded='md'
-						borderWidth={1}
-						align='center'>
-						<Text fontWeight='extrabold' fontSize='x-large'>
-							Fantasy
-						</Text>
-						<QuestionIcon />
-					</Box>
-					<Box
-						p={5}
-						boxShadow='md'
-						rounded='md'
-						borderWidth={1}
-						align='center'>
-						<Text fontWeight='extrabold' fontSize='x-large'>
-							Fantasy
-						</Text>
-						<SunIcon />
-					</Box>
-					<Box
-						p={5}
-						boxShadow='md'
-						rounded='md'
-						borderWidth={1}
-						align='center'>
-						<Text fontWeight='extrabold' fontSize='x-large'>
-							Fantasy
-						</Text>
-						<MoonIcon />
-					</Box>
+					{genres.slice(0, 6).map((p, i) => (
+						<Button
+							key={i}
+							p={2}
+							size='lg'
+							boxShadow='md'
+							rounded='md'
+							align='center'
+							value={p.name}
+							onClick={handleSelect}
+							cursor='pointer'
+							fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>
+							{p.name}
+						</Button>
+					))}
 				</SimpleGrid>
 			</Stack>
 			<Stack pt={1} minH={400} justifyContent='center'>
@@ -176,255 +154,72 @@ function Carousel() {
 							lineHeight='shorter'>
 							Nuevos lanzamientos
 						</chakra.h1>
-						<chakra.h1
-							fontSize={{
-								base: '10px',
-								md: '15px',
-								lg: '20px',
-							}}
-							fontWeight='semibold'
-							color='brand.600'
-							lineHeight='shorter'
-							cursor='pointer'>
-							Show all -
-						</chakra.h1>
+						<BuenLink to='/books'>
+							<chakra.h1
+								fontSize={{
+									base: '10px',
+									md: '15px',
+									lg: '20px',
+								}}
+								fontWeight='semibold'
+								color='brand.600'
+								lineHeight='shorter'
+								cursor='pointer'>
+								Show all -
+							</chakra.h1>
+						</BuenLink>
 					</Flex>
 				</Box>
 				<SimpleGrid columns={{ base: 1, sm: 2, md: 5 }} spacing={5}>
-					<Box
-						bg='white'
-						_dark={{
-							bg: 'gray.800',
-						}}
-						shadow='lg'
-						boxShadow='md'
-						rounded='md'
-						borderWidth={1}>
-						<Image
-							w='full'
-							h={'56'}
-							fit='cover'
-							src='https://books.google.com/books/publisher/content/images/frontcover/uDuGDwAAQBAJ?fife=w240-h480'
-							alt='avatar'
-						/>
+					{books?.slice(0, 5)?.map((b, i) => (
+						<Box
+							bg='white'
+							_dark={{
+								bg: 'gray.800',
+							}}
+							shadow='lg'
+							boxShadow='md'
+							rounded='md'
+							key={i}
+							borderWidth={1}>
+							<Image
+								w='full'
+								h={'56'}
+								fit='cover'
+								src={b.image}
+								alt='avatar'
+							/>
 
-						<Box py={5} textAlign='center'>
-							<chakra.h1
-								fontSize='md'
-								fontWeight='semibold'
-								color='gray.700'
-								_dark={{
-									color: 'gray.200',
-								}}>
-								Starsight
-							</chakra.h1>
-							<chakra.span
-								fontSize='sm'
-								color='gray.700'
-								_dark={{
-									color: 'gray.200',
-								}}>
-								Brandon Sanderson
-							</chakra.span>
-							<chakra.h2
-								fontSize='md'
-								fontWeight='semibold'
-								color='gray.700'
-								_dark={{
-									color: 'gray.200',
-								}}>
-								$ 46.67
-							</chakra.h2>
+							<Box py={5} textAlign='center'>
+								<chakra.h1
+									fontSize='md'
+									fontWeight='semibold'
+									color='gray.700'
+									_dark={{
+										color: 'gray.200',
+									}}>
+									{b.title}
+								</chakra.h1>
+								<chakra.span
+									fontSize='sm'
+									color='gray.700'
+									_dark={{
+										color: 'gray.200',
+									}}>
+									{b.authors}
+								</chakra.span>
+								<chakra.h2
+									fontSize='md'
+									fontWeight='semibold'
+									color='gray.700'
+									_dark={{
+										color: 'gray.200',
+									}}>
+									$ {b.price}
+								</chakra.h2>
+							</Box>
 						</Box>
-					</Box>
-					<Box
-						bg='white'
-						_dark={{
-							bg: 'gray.800',
-						}}
-						shadow='lg'
-						boxShadow='md'
-						rounded='md'
-						borderWidth={1}
-						align='center'>
-						<Image
-							w='full'
-							h={56}
-							fit='cover'
-							src='https://books.google.com/books/publisher/content/images/frontcover/tTMGAwAAQBAJ?fife=w240-h480'
-							alt='avatar'
-						/>
-
-						<Box py={5} textAlign='center'>
-							<chakra.h1
-								fontSize='md'
-								fontWeight='semibold'
-								color='gray.700'
-								_dark={{
-									color: 'gray.200',
-								}}>
-								Divergent Series Four-Book
-							</chakra.h1>
-							<chakra.span
-								fontSize='sm'
-								color='gray.700'
-								_dark={{
-									color: 'gray.200',
-								}}>
-								Veronica Roth
-							</chakra.span>
-							<chakra.h2
-								fontSize='md'
-								fontWeight='semibold'
-								color='gray.700'
-								_dark={{
-									color: 'gray.200',
-								}}>
-								$ 61.99
-							</chakra.h2>
-						</Box>
-					</Box>
-					<Box
-						bg='white'
-						_dark={{
-							bg: 'gray.800',
-						}}
-						shadow='lg'
-						boxShadow='md'
-						rounded='md'
-						borderWidth={1}
-						align='center'>
-						<Image
-							w='full'
-							h={56}
-							fit='cover'
-							src='https://books.google.com/books/content/images/frontcover/Yz8Fnw0PlEQC?fife=w240-h480'
-							alt='avatar'
-						/>
-
-						<Box py={5} textAlign='center'>
-							<chakra.h1
-								fontSize='md'
-								fontWeight='semibold'
-								color='gray.700'
-								_dark={{
-									color: 'gray.200',
-								}}>
-								The Hunger Games
-							</chakra.h1>
-							<chakra.span
-								fontSize='sm'
-								color='gray.700'
-								_dark={{
-									color: 'gray.200',
-								}}>
-								Suzanne Collins
-							</chakra.span>
-							<chakra.h2
-								fontSize='md'
-								fontWeight='semibold'
-								color='gray.700'
-								_dark={{
-									color: 'gray.200',
-								}}>
-								$ 42.50
-							</chakra.h2>
-						</Box>
-					</Box>
-					<Box
-						bg='white'
-						_dark={{
-							bg: 'gray.800',
-						}}
-						shadow='lg'
-						boxShadow='md'
-						rounded='md'
-						borderWidth={1}
-						align='center'>
-						<Image
-							w='full'
-							h={56}
-							fit='cover'
-							src='https://books.google.com/books/publisher/content/images/frontcover/0BwyDwAAQBAJ?fife=w240-h480'
-							alt='avatar'
-						/>
-
-						<Box py={5} textAlign='center'>
-							<chakra.h1
-								fontSize='md'
-								fontWeight='semibold'
-								color='gray.700'
-								_dark={{
-									color: 'gray.200',
-								}}>
-								Soy un titulo de prueba
-							</chakra.h1>
-							<chakra.span
-								fontSize='sm'
-								color='gray.700'
-								_dark={{
-									color: 'gray.200',
-								}}>
-								Soy un texto de prueba
-							</chakra.span>
-							<chakra.h2
-								fontSize='md'
-								fontWeight='semibold'
-								color='gray.700'
-								_dark={{
-									color: 'gray.200',
-								}}>
-								$ 58
-							</chakra.h2>
-						</Box>
-					</Box>
-					<Box
-						bg='white'
-						_dark={{
-							bg: 'gray.800',
-						}}
-						shadow='lg'
-						boxShadow='md'
-						rounded='md'
-						borderWidth={1}
-						align='center'>
-						<Image
-							w='full'
-							h={56}
-							fit='cover'
-							src='https://books.google.com/books/publisher/content/images/frontcover/_fpRDwAAQBAJ?fife=w240-h480'
-							alt='avatar'
-						/>
-
-						<Box py={5} textAlign='center'>
-							<chakra.h1
-								fontSize='md'
-								fontWeight='semibold'
-								color='gray.700'
-								_dark={{
-									color: 'gray.200',
-								}}>
-								Soy un titulo de prueba 2
-							</chakra.h1>
-							<chakra.span
-								fontSize='sm'
-								color='gray.700'
-								_dark={{
-									color: 'gray.200',
-								}}>
-								Soy un texto de prueba 2
-							</chakra.span>
-							<chakra.h2
-								fontSize='md'
-								fontWeight='semibold'
-								color='gray.700'
-								_dark={{
-									color: 'gray.200',
-								}}>
-								$ 65
-							</chakra.h2>
-						</Box>
-					</Box>
+					))}
 				</SimpleGrid>
 			</Stack>
 			<Stack pt={2} minH={800} justifyContent='center'>
@@ -441,18 +236,20 @@ function Carousel() {
 							lineHeight='shorter'>
 							Top Books
 						</chakra.h1>
-						<chakra.h1
-							fontSize={{
-								base: '10px',
-								md: '15px',
-								lg: '20px',
-							}}
-							fontWeight='semibold'
-							color='brand.600'
-							lineHeight='shorter'
-							cursor='pointer'>
-							Show all -
-						</chakra.h1>
+						<BuenLink to='/books'>
+							<chakra.h1
+								fontSize={{
+									base: '10px',
+									md: '15px',
+									lg: '20px',
+								}}
+								fontWeight='semibold'
+								color='brand.600'
+								lineHeight='shorter'
+								cursor='pointer'>
+								Show all -
+							</chakra.h1>
+						</BuenLink>
 					</Flex>
 				</Box>
 				<Box>
