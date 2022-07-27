@@ -25,6 +25,7 @@ import {
 	ChevronRightIcon,
 } from '@chakra-ui/icons';
 import { Link as BuenLink } from 'react-router-dom';
+import Drawer from '../Cart/Drawer';
 
 export default function NavBar() {
 	const { isOpen, onToggle } = useDisclosure();
@@ -94,6 +95,7 @@ export default function NavBar() {
 						<Switch size={'lg'} onChange={toggleColorMode} />
 					</Center>
 
+					<Drawer />
 					<Button
 						as={'a'}
 						fontSize={'sm'}

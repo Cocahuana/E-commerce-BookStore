@@ -35,7 +35,7 @@ function SignUp() {
 				email: emailReg,
 				password: passwordReg,
 			},
-			url: 'http://localhost:3001/register',
+			url: 'http://localhost:3001/user/register',
 		}).then((res) => alert(JSON.stringify(res.data)));
 	};
 

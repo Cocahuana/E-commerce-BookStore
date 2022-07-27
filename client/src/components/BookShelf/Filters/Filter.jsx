@@ -15,57 +15,56 @@ import {
 	Stack,
 	Text,
 	useColorModeValue,
-	VStack,
 } from '@chakra-ui/react';
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import {
-	filterBookGenre,
+	applyFilters,
 	getGenres,
-	orderBook,
-	getBooks,
-	slideprice,
-	saveChecked,
+	saveOrder,
+	saveFilterGenre,
+	saveFilterPrice,
 } from '../../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 function Filter({ setCurrentPage }) {
 	const dispatch = useDispatch();
-	const { genres, books, isBoxChecked } = useSelector((state) => state);
+	const { genres, books, filters } = useSelector((state) => state);
+	const [sliderValue, setSliderValue] = useState(filters.price);
+	const [isChecked, setIsChecked] = useState(filters.genres);
+	const [orderBy, setOrderBy] = useState(filters.order);
 
-	let prices = books.map((e) => e.price);
-	const [sliderValue, setSliderValue] = useState([0, 2000]);
-	const [isChecked, setIsChecked] = useState(isBoxChecked);
-
-	const handleSelect = (e) => {
+	const handleCheckChange = (e) => {
 		e.preventDefault();
 		if (e.target.checked) {
+			//agrego el genero al estado local si se marca
 			if (!isChecked.includes(e.target.value)) {
 				setIsChecked([...isChecked, e.target.value]);
 			}
 		} else {
-			setIsChecked(isChecked.filter((checkBox) => checkBox !== e.target.value));
-			dispatch(filterBookGenre(isChecked));
+			setIsChecked(
+				//remuevoe el genero del estado local si se desmarca
+				isChecked.filter((checkBox) => checkBox !== e.target.value)
+			);
 		}
 	};
 	const handleOrderBy = (e) => {
 		e.preventDefault();
-		dispatch(orderBook(e.target.value));
+		setOrderBy(e.target.value);
 	};
 
-	const handleslidechange = (e) => {
-		dispatch(slideprice(e));
-		setSliderValue(e);
+	const handleSlideChange = (pricesArr) => {
+		setSliderValue(pricesArr);
 	};
 
 	useEffect(() => {
 		dispatch(getGenres());
-		dispatch(filterBookGenre(isChecked));
+		dispatch(saveFilterGenre(isChecked));
+		dispatch(saveFilterPrice(sliderValue));
+		dispatch(saveOrder(orderBy));
+		dispatch(applyFilters());
 		setCurrentPage(1);
-		return () => {
-			dispatch(saveChecked(isChecked));
-		};
-	}, [dispatch, isChecked]);
+	}, [dispatch, isChecked, sliderValue, orderBy]);
 
 	return (
 		<Stack
@@ -100,7 +99,7 @@ function Filter({ setCurrentPage }) {
 						<Stack spacing={4}>
 							{genres.map((p, g) => (
 								<Checkbox
-									onChange={(e) => handleSelect(e)}
+									onChange={(e) => handleCheckChange(e)}
 									value={p.name}
 									isChecked={isChecked.includes(p.name)}
 									key={g}
@@ -127,7 +126,7 @@ function Filter({ setCurrentPage }) {
 					max={2000}
 					aria-label={['min', 'max']}
 					defaultValue={[0, 2000]}
-					onChange={(val) => handleslidechange(val)}
+					onChange={(pricesArr) => handleSlideChange(pricesArr)}
 				>
 					<RangeSliderTrack bg='blue.100'>
 						<RangeSliderFilledTrack />
@@ -173,8 +172,8 @@ function Filter({ setCurrentPage }) {
 								<option value='Default' disabled>
 									rating
 								</option>
-								<option value='highToLow'>Rating High to Low</option>
-								<option value='lowToHi'>Rating Low to High</option>
+								<option value='highest'>Rating High to Low</option>
+								<option value='lowest'>Rating Low to High</option>
 							</Select>
 						</Flex>
 					</Stack>
