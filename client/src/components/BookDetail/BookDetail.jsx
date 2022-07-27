@@ -162,7 +162,13 @@ function BookDetail(props) {
 												'blue.500',
 												'blue.200'
 											)}>
-											<Box flex='1' textAlign='left'>
+											<Box
+												color={useColorModeValue(
+													'white',
+													'gray.900'
+												)}
+												flex='1'
+												textAlign='left'>
 												Description
 											</Box>
 											<AccordionIcon />
