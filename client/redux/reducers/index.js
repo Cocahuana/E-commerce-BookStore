@@ -236,7 +236,6 @@ const rootReducer = (state = InitialState, action) => {
 			let exist = state.cart.filter((el) => el.id === action.payload);
 			if (exist.length === 1) return state;
 			let newItem = state.booksCopy.find((p) => p.id === action.payload);
-			console.log('book', state.booksCopy);
 			let sum = newItem.price;
 			return {
 				...state,
@@ -259,7 +258,6 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 			};
 		case 'LOGIN':
-			console.log(action.payload);
 			return {
 				...state,
 				token: action.payload,

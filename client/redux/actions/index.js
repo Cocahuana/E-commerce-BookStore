@@ -107,15 +107,18 @@ export function resetDetails() {
 	};
 }
 
-export function userLogin(user){
-	return async function(dispatch){
-		var resp = await axios.post(`/user/login`, {username: user.email, password: user.password})
-		console.log(resp)
+export function userLogin(user) {
+	return async function (dispatch) {
+		var resp = await axios.post(`/user/login`, {
+			username: user.email,
+			password: user.password,
+		});
+		console.log(resp);
 		return dispatch({
 			type: 'LOGIN',
-			payload: resp.data.token
-		})
-	}
+			payload: resp.data.token,
+		});
+	};
 }
 
 //-------------------------------------------------FILTERS---------------------------------------------
