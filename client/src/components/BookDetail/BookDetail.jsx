@@ -29,6 +29,9 @@ function BookDetail(props) {
 	const dispatch = useDispatch();
 	const { id } = props.match.params;
 
+	const { cart } = useSelector((state) => state);
+	const { summary } = useSelector((state) => state);
+
 	const handleonclick = (id) => {
 		dispatch(addToCart(id));
 		alert('Product added into the cart');
@@ -36,6 +39,8 @@ function BookDetail(props) {
 
 	useEffect(() => {
 		dispatch(getDetails(id));
+		localStorage.setItem('cart', JSON.stringify(cart));
+		localStorage.setItem('summary', JSON.stringify(summary));
 		return () => {
 			dispatch(resetDetails());
 		};
