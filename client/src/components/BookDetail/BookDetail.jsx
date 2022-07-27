@@ -42,7 +42,6 @@ function BookDetail(props) {
 	}, [dispatch]);
 
 	let detail = useSelector((state) => state.details);
-
 	return (
 		<Container align={'center'} bg='brand.pepe' minW={'100%'} minH={'90vh'}>
 			<Box maxW={'7xl'}>
