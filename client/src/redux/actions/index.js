@@ -18,6 +18,9 @@ import {
 	ADD_CART,
 	DEL_CART,
 	DEL_ALL_CART,
+	RESET_FILTERS,
+	LOGIN,
+	SIGN_UP,
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -93,7 +96,7 @@ export function getBooksByTitleOrAuthor(titleOrAuthor) {
 			return dispatch({
 				type: GET_BOOKS_BY_TITLE_OR_AUTHOR,
 				//json.data devuelve lo que nos da la ruta de arriba, ya filtrado por nombre
-				payload: json.data,
+				payload: { data: json.data, query: titleOrAuthor },
 			});
 		} catch (error) {
 			console.log(error);
@@ -107,15 +110,35 @@ export function resetDetails() {
 	};
 }
 
-export function userLogin(user){
-	return async function(dispatch){
-		var resp = await axios.post(`/user/login`, {username: user.email, password: user.password})
-		console.log(resp)
+//----------------------------------------------USERS-----------------------------------------
+
+export function userLogin(user) {
+	return async function (dispatch) {
+		var resp = await axios.post(`/user/login`, {
+			username: user.email,
+			password: user.password,
+		});
+		console.log(resp);
 		return dispatch({
-			type: 'LOGIN',
-			payload: resp.data.token
-		})
-	}
+			type: LOGIN,
+			payload: resp.data.token,
+		});
+	};
+}
+
+export function userSignUp(user) {
+	return async function (dispatch) {
+		var result = await axios.post(`/user/register`, {
+			username: user.username,
+			email: user.email,
+			password: user.password,
+		});
+		console.log(result);
+		return dispatch({
+			type: SIGN_UP,
+			payload: result.data.username,
+		});
+	};
 }
 
 //-------------------------------------------------FILTERS---------------------------------------------
@@ -133,6 +156,9 @@ export function saveFilterOnSale(payload) {
 }
 export function applyFilters(payload) {
 	return { type: APPLY_FILTERS, payload };
+}
+export function resetFilters(payload) {
+	return { type: RESET_FILTERS, payload };
 }
 //------------------------------------------------------------------------------------------------------
 //-------------------------------------------------SORTS------------------------------------------------

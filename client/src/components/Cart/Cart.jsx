@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { delCart } from '../../../redux/actions';
+import { delCart } from '../../redux/actions/index';
 import { PriceTag } from '../BookShelf/BookHolder/Book/PriceTag';
 import {
 	Button,

@@ -23,7 +23,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	getBooksByTitleOrAuthor,
 	getBooks,
-} from '../../../redux/actions/index.js';
+} from '../../redux/actions/index.js';
 
 function LandingPage() {
 	const dispatch = useDispatch();
@@ -65,8 +65,7 @@ function LandingPage() {
 					zIndex: -1,
 					content: '" "',
 				}}
-				minH={800}
-			>
+				minH={800}>
 				<Flex
 					direction='column'
 					alignItems='start'
@@ -76,8 +75,7 @@ function LandingPage() {
 						lg: 30,
 					}}
 					py={24}
-					bg='brand.pepe'
-				>
+					bg='brand.pepe'>
 					<Badge
 						color='white'
 						px={3}
@@ -85,15 +83,13 @@ function LandingPage() {
 						mb={3}
 						variant='solid'
 						colorScheme='brand'
-						rounded='full'
-					>
+						rounded='full'>
 						Beta
 					</Badge>
 					<motion.div
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1, x: 0 }}
-						transition={{ duration: 0.8 }}
-					>
+						transition={{ duration: 0.8 }}>
 						<chakra.h1
 							mb={6}
 							fontSize={{
@@ -104,8 +100,7 @@ function LandingPage() {
 							fontWeight='bold'
 							_dark={{
 								color: 'gray.800',
-							}}
-						>
+							}}>
 							Online library.
 						</chakra.h1>
 						Find
@@ -115,8 +110,7 @@ function LandingPage() {
 							display={{
 								base: 'block',
 								lg: 'none',
-							}}
-						>
+							}}>
 							<Input
 								size='lg'
 								color='brand.900'
@@ -130,16 +124,14 @@ function LandingPage() {
 						<motion.div
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
-							transition={{ duration: 2 }}
-						>
+							transition={{ duration: 2 }}>
 							<InputGroup
 								size='lg'
 								w='full'
 								display={{
 									base: 'none',
 									lg: 'flex',
-								}}
-							>
+								}}>
 								<Input
 									size='lg'
 									type='email'
@@ -148,7 +140,10 @@ function LandingPage() {
 									value={search}
 									onChange={(e) => handleOnChange(e)}
 								/>
-								<InputRightElement w='auto' bg='blue.500' roundedRight={4}>
+								<InputRightElement
+									w='auto'
+									bg='blue.500'
+									roundedRight={4}>
 									<BuenLink to={`/books`}>
 										<Button
 											color='white'
@@ -158,8 +153,7 @@ function LandingPage() {
 											type='submit'
 											roundedLeft={0}
 											onClick={(e) => handleOnClick(e)}
-											leftIcon={<Search2Icon />}
-										>
+											leftIcon={<Search2Icon />}>
 											Search Book
 										</Button>
 									</BuenLink>
@@ -170,8 +164,7 @@ function LandingPage() {
 					<motion.div
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
-						transition={{ duration: 1 }}
-					>
+						transition={{ duration: 1 }}>
 						<chakra.p
 							pr={{
 								base: 0,
@@ -181,8 +174,7 @@ function LandingPage() {
 							fontSize='md'
 							_dark={{
 								color: 'gray.800',
-							}}
-						>
+							}}>
 							Or if you want to see all books:
 							<BuenLink to={'/books'}>
 								<Button size='xs' margin={2} colorScheme='gray'>
@@ -196,8 +188,7 @@ function LandingPage() {
 					<motion.div
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
-						transition={{ duration: 1 }}
-					>
+						transition={{ duration: 1 }}>
 						<Image
 							src='https://cdn.dribbble.com/users/1226039/screenshots/6531907/reader_getup-02.png'
 							alt='bookk'
