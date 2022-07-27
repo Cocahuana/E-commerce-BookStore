@@ -43,7 +43,7 @@ function BookDetail(props) {
 		return () => {
 			dispatch(resetDetails());
 		};
-	}, [dispatch]);
+	}, [dispatch, cart]);
 
 	let detail = useSelector((state) => state.details);
 	return (

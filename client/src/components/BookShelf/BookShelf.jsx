@@ -34,6 +34,8 @@ const BookShelf = () => {
 
 	useEffect(() => {
 		if (!books.length) dispatch(getBooks());
+		localStorage.setItem('cart', JSON.stringify(cart));
+		localStorage.setItem('summary', JSON.stringify(summary));
 	}, [dispatch, cart]);
 
 	return (
