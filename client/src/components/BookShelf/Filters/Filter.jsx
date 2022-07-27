@@ -30,8 +30,6 @@ import { useDispatch, useSelector } from 'react-redux';
 function Filter({ setCurrentPage }) {
 	const dispatch = useDispatch();
 	const { genres, books, filters } = useSelector((state) => state);
-
-	console.log('renderizado', filters);
 	const [sliderValue, setSliderValue] = useState(filters.price);
 	const [isChecked, setIsChecked] = useState(filters.genres);
 	const [orderBy, setOrderBy] = useState(filters.order);

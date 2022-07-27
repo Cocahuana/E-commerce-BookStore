@@ -121,7 +121,6 @@ export function saveFilterOnSale(payload) {
 	return { type: FILTER_ONSALE, payload };
 }
 export function applyFilters(payload) {
-	console.log('applying filters');
 	return { type: APPLY_FILTERS, payload };
 }
 //------------------------------------------------------------------------------------------------------

@@ -236,8 +236,6 @@ const rootReducer = (state = InitialState, action) => {
 			if (exist.length === 1) return state;
 			let newItem = state.books.find((p) => p.id === action.payload);
 			let sum = newItem.price;
-			console.log('sum', sum);
-			console.log('summary', state.summary);
 			return {
 				...state,
 				cart: [...state.cart, { ...newItem }],
