@@ -42,7 +42,7 @@ function SignIn() {
 
 	const handleSignUp = (event) => {
 		dispatch(userLogin(user));
-		history.push(`/books`);
+		//history.push(`/books`);
 	};
 
 	return (
