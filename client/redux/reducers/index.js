@@ -52,6 +52,7 @@ const InitialState = {
 	isBoxChecked: [],
 	cart: cartFromLocalStorage,
 	summary: summaryFromLocalStorage,
+	token: ''
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -256,6 +257,12 @@ const rootReducer = (state = InitialState, action) => {
 				cart: [],
 				summary: 0,
 			};
+		case 'LOGIN': 
+		console.log(action.payload)
+			return{
+				...state,
+				token: action.payload
+			}
 
 		default:
 			return {
