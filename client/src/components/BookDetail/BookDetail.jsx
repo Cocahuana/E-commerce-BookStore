@@ -34,7 +34,6 @@ function BookDetail(props) {
 
 	const handleonclick = (id) => {
 		dispatch(addToCart(id));
-		alert('Product added into the cart');
 	};
 
 	useEffect(() => {
@@ -169,7 +168,13 @@ function BookDetail(props) {
 												'blue.500',
 												'blue.200'
 											)}>
-											<Box flex='1' textAlign='left'>
+											<Box
+												color={useColorModeValue(
+													'white',
+													'gray.900'
+												)}
+												flex='1'
+												textAlign='left'>
 												Description
 											</Box>
 											<AccordionIcon />

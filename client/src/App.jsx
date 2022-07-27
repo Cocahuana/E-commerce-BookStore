@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import BookShelf from './components/BookShelf/BookShelf';
 import AboutUs from './components/AboutUs/AboutUs';
 import login from './components/SignIN/SignIn';
+import userprofile from "./components/UserProfile/UserProfile"
 import Nav from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
 import register from './components/SignUP/SignUp';
@@ -27,6 +28,7 @@ function App() {
 				<Route path="/book/:id" component={details} />
 				<Route path="/register" component={register} />
 				<Route path="/login" component={login} />
+				<Route path="/profile" component={userprofile} />
 				<Route path="/us" component={AboutUs} />
 				<Route path="*" component={Page404} />
 			</Switch>
