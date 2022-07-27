@@ -35,7 +35,7 @@ const registerUser = async (req, res, next) => {
 			username: username,
 		});
 
-		res.send('User created succesfully!');
+		res.status(200).send('User created succesfully!');
 	} catch (err) {
 		next(err);
 	}
@@ -54,7 +54,7 @@ const userLogin = async (req, res, next) => {
 				[Op.or]: [{ username: username }, { email: username }],
 			},
 		});
-
+		//Habría que filtrar la password para que no se mande al front, caso contrario alguien mediante los estados podrías verlo y des-hashearlo
 		console.log(userCheck);
 		if (!userCheck)
 			return res.status(400).send('Email or password does not match!');
@@ -71,7 +71,9 @@ const userLogin = async (req, res, next) => {
 				MY_SECRET,
 				{ expiresIn: '12h' }
 			);
-			res.json({ token: jwtToken });
+			// When username and password are both correct, we send to the actions the token for authentication and the status
+			// Status means whick role have just Sign in.
+			res.status(200).json({ token: jwtToken, status: userCheck.status });
 		}
 	} catch (e) {
 		next(e);
