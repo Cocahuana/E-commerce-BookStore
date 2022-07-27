@@ -24,12 +24,12 @@ import {
 	saveOrder,
 	saveFilterGenre,
 	saveFilterPrice,
-} from '../../../../redux/actions';
+} from '../../../redux/actions/index';
 import { useDispatch, useSelector } from 'react-redux';
 
 function Filter({ setCurrentPage }) {
 	const dispatch = useDispatch();
-	const { genres, books, filters } = useSelector((state) => state);
+	const { genres, filters, booksCopy } = useSelector((state) => state);
 	const [sliderValue, setSliderValue] = useState(filters.price);
 	const [isChecked, setIsChecked] = useState(filters.genres);
 	const [orderBy, setOrderBy] = useState(filters.order);
@@ -64,7 +64,7 @@ function Filter({ setCurrentPage }) {
 		dispatch(saveOrder(orderBy));
 		dispatch(applyFilters());
 		setCurrentPage(1);
-	}, [dispatch, isChecked, sliderValue, orderBy]);
+	}, [dispatch, isChecked, sliderValue, orderBy, booksCopy]);
 
 	return (
 		<Stack
@@ -75,7 +75,11 @@ function Filter({ setCurrentPage }) {
 			bg={useColorModeValue('whiteAlpha.300', 'gray.800')}
 			rounded='md'
 			overflow='hidden'>
-			<Flex justify='center' alignItems='center' bg={'gray.100'} h='32'>
+			<Flex
+				justify='center'
+				alignItems='center'
+				bg={useColorModeValue('gray.200', 'blackAlpha.300')}
+				h='32'>
 				<Text
 					fontWeight='semibold'
 					fontSize={{
@@ -116,11 +120,11 @@ function Filter({ setCurrentPage }) {
 				Price
 				<RangeSlider
 					w='70%'
-					step={50}
+					step={1}
 					min={0}
-					max={2000}
+					max={60}
 					aria-label={['min', 'max']}
-					defaultValue={[0, 2000]}
+					defaultValue={filters.price}
 					onChange={(pricesArr) => handleSlideChange(pricesArr)}>
 					<RangeSliderTrack bg='blue.100'>
 						<RangeSliderFilledTrack />

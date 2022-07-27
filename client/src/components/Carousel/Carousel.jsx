@@ -13,7 +13,7 @@ import React, { useEffect } from 'react';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getGenres, saveFilterGenre } from '../../../redux/actions';
+import { getGenres, saveFilterGenre } from '../../redux/actions/index';
 import { Link as BuenLink } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 
@@ -45,6 +45,9 @@ function Carousel({ books }) {
 		},
 		{
 			img: 'https://books.google.com/books/content/images/frontcover/wrOQLV6xB-wC?fife=w240-h480',
+		},
+		{
+			img: 'https://books.google.com/books/publisher/content/images/frontcover/GTwBCwAAQBAJ?fife=w240-h480',
 		},
 	];
 
@@ -83,6 +86,12 @@ function Carousel({ books }) {
 			<Image
 				objectFit='cover'
 				src='https://books.google.com/books/content/images/frontcover/wrOQLV6xB-wC?fife=w240-h480'
+			/>
+		</Box>,
+		<Box className='item' data-value='6'>
+			<Image
+				objectFit='cover'
+				src='https://books.google.com/books/publisher/content/images/frontcover/GTwBCwAAQBAJ?fife=w240-h480'
 			/>
 		</Box>,
 	];

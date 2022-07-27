@@ -18,10 +18,33 @@ import {
 	Checkbox,
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { useDispatch } from 'react-redux';
+import { userLogin } from '../../redux/actions/index';
+import { useHistory } from 'react-router-dom';
+import { Link as BuenLink } from 'react-router-dom';
 
 function SignIn() {
+	const history = useHistory();
+	const dispatch = useDispatch();
 	const [show, setShow] = React.useState(false);
 	const handleClick = () => setShow(!show);
+
+	const [user, setnewUser] = useState({
+		email: '',
+		password: '',
+	});
+
+	const handleOnChange = (e) => {
+		setnewUser({
+			...user,
+			[e.target.name]: e.target.value,
+		});
+	};
+
+	const handleSignUp = (event) => {
+		dispatch(userLogin(user));
+		//history.push(`/books`);
+	};
 
 	return (
 		<Stack
@@ -34,13 +57,19 @@ function SignIn() {
 
 					<FormControl id='username'>
 						<FormLabel>Username or email</FormLabel>
-						<Input bg={'white'} />
+						<Input
+							bg={'white'}
+							name='email'
+							onChange={(e) => handleOnChange(e)}
+						/>
 					</FormControl>
 
 					<FormControl id='password'>
 						<FormLabel>Password</FormLabel>
 						<InputGroup>
 							<Input
+								name='password'
+								onChange={(e) => handleOnChange(e)}
 								bg={'white'}
 								type={show ? 'text' : 'password'}
 							/>
@@ -68,7 +97,10 @@ function SignIn() {
 							</Button>
 						</Stack>
 
-						<Button colorScheme={'blue'} variant={'solid'}>
+						<Button
+							colorScheme={'blue'}
+							variant={'solid'}
+							onClick={(event) => handleSignUp(event)}>
 							Sign in
 						</Button>
 					</Stack>
@@ -76,13 +108,14 @@ function SignIn() {
 					<Stack pt={6}>
 						<Text align={'center'}>
 							Don´t have an account?{' '}
-							<Button
-								as={'a'}
-								color={'blue.400'}
-								variant={'link'}
-								href={'/register'}>
-								Register
-							</Button>
+							<BuenLink to='/register'>
+								<Button
+									as={'a'}
+									color={'blue.400'}
+									variant={'link'}>
+									Register
+								</Button>
+							</BuenLink>
 						</Text>
 					</Stack>
 				</Stack>
