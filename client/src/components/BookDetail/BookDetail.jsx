@@ -31,7 +31,6 @@ function BookDetail(props) {
 
 	const handleonclick = (id) => {
 		dispatch(addToCart(id));
-		alert('Product added into the cart');
 	};
 
 	useEffect(() => {
