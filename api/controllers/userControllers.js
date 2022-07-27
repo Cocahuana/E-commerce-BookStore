@@ -22,7 +22,7 @@ const registerUser = async (req, res, next) => {
         const newUser = await User.create({ 
             email: email, 
             password: hashedPassword,
-            username: username, 
+            username: username,
         }) 
 
         res.send('User created succesfully!') 
@@ -36,6 +36,7 @@ const registerUser = async (req, res, next) => {
 const userLogin = async (req, res, next) => {
     const {username, password} = req.body;
     try{
+        let hashedPassword = crypto.createHash('md5').update(password).digest('hex');
         let userCheck = await User.findOne({
             where:{
                 [Op.or]: [
@@ -45,7 +46,7 @@ const userLogin = async (req, res, next) => {
             }
         })
         if(!userCheck.username) return res.send("Email or password does not match!")
-        if(userCheck.password !== password) return res.send("Email or password does not match!")
+        if(userCheck.password !== hashedPassword) return res.send("Email or password does not match!")
 
         const jwtToken = jwt.sign({ //token creation 
             id: userCheck.id,
