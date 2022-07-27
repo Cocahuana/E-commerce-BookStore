@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { addToCart, getDetails, resetDetails } from '../../../redux/actions';
+import { addToCart, getDetails, resetDetails } from '../../redux/actions';
 import { Link as BuenLink } from 'react-router-dom';
 import {
 	Box,

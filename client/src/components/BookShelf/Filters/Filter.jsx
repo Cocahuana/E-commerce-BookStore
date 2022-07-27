@@ -120,18 +120,11 @@ function Filter({ setCurrentPage }) {
 				Price
 				<RangeSlider
 					w='70%'
-<<<<<<< HEAD
-					min={0}
-					max={200}
-					aria-label={['min', 'max']}
-					defaultValue={[0, 2000]}
-=======
 					step={1}
 					min={0}
 					max={60}
 					aria-label={['min', 'max']}
 					defaultValue={filters.price}
->>>>>>> 5fd2b653e83da1b530351c0c73a440a9c91afbae
 					onChange={(pricesArr) => handleSlideChange(pricesArr)}>
 					<RangeSliderTrack bg='blue.100'>
 						<RangeSliderFilledTrack />
