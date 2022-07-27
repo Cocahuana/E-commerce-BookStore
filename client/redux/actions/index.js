@@ -4,15 +4,17 @@ import { Slide } from '@chakra-ui/react';
 import axios from 'axios';
 import {
 	GET_DETAILS,
+	GET_BOOKS,
 	GET_GENRES,
 	FILTER_GENRE,
-	ORDER_RATING,
-	GET_BOOKS,
+	FILTER_PRICE,
+	FILTER_LANGUAGE,
+	FILTER_ONSALE,
+	APPLY_FILTERS,
+	SORT_ORDER,
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
 	RESET_DETAILS,
-	FILTER_SLIDE,
 	LOADING,
-	SAVE_CHECKED,
 	ADD_CART,
 	DEL_CART,
 	DEL_ALL_CART,
@@ -83,12 +85,6 @@ export const getGenres = () => {
 		}
 	};
 };
-export function filterBookGenre(payload) {
-	return { type: FILTER_GENRE, payload };
-}
-export function orderBook(payload) {
-	return { type: ORDER_RATING, payload };
-}
 
 export function getBooksByTitleOrAuthor(titleOrAuthor) {
 	return async function (dispatch) {
@@ -111,13 +107,28 @@ export function resetDetails() {
 	};
 }
 
-export function slideprice(payload) {
-	return { type: FILTER_SLIDE, payload };
+//-------------------------------------------------FILTERS---------------------------------------------
+export function saveFilterGenre(payload) {
+	return { type: FILTER_GENRE, payload };
 }
-
-export function saveChecked(payload) {
-	return { type: SAVE_CHECKED, payload };
+export function saveFilterPrice(payload) {
+	return { type: FILTER_PRICE, payload };
 }
+export function saveFilterLanguage(payload) {
+	return { type: FILTER_LANGUAGE, payload };
+}
+export function saveFilterOnSale(payload) {
+	return { type: FILTER_ONSALE, payload };
+}
+export function applyFilters(payload) {
+	return { type: APPLY_FILTERS, payload };
+}
+//------------------------------------------------------------------------------------------------------
+//-------------------------------------------------SORTS------------------------------------------------
+export function saveOrder(payload) {
+	return { type: SORT_ORDER, payload };
+}
+//------------------------------------------------------------------------------------------------------
 
 // ---------CART------------
 
