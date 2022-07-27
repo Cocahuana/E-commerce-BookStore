@@ -23,7 +23,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	getBooksByTitleOrAuthor,
 	getBooks,
-} from '../../../redux/actions/index.js';
+} from '../../redux/actions/index.js';
 
 function LandingPage() {
 	const dispatch = useDispatch();
@@ -98,9 +98,8 @@ function LandingPage() {
 								lg: '7xl',
 							}}
 							fontWeight='bold'
-							color='brand.600'
 							_dark={{
-								color: 'gray.300',
+								color: 'gray.800',
 							}}>
 							Online library.
 						</chakra.h1>
@@ -135,7 +134,6 @@ function LandingPage() {
 								}}>
 								<Input
 									size='lg'
-									color='brand.900'
 									type='email'
 									placeholder='Find your book here...'
 									bg='white'
@@ -174,13 +172,12 @@ function LandingPage() {
 							}}
 							mb={4}
 							fontSize='md'
-							color='brand.600'
 							_dark={{
-								color: 'gray.400',
+								color: 'gray.800',
 							}}>
 							Or if you want to see all books:
 							<BuenLink to={'/books'}>
-								<Button size='xs' margin={2}>
+								<Button size='xs' margin={2} colorScheme='gray'>
 									Click Here
 								</Button>
 							</BuenLink>

@@ -9,13 +9,13 @@ const { MY_SECRET } = process.env;
 //sirve para autenticar endpoints
 //el payload del jwt va a ser el user id
 
-passport.use(
+passport.use('jwt-auth',
     new StrategyJwt(
         {
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), 
         secretOrKey: process.env.MY_SECRET,
         },
-        authUser = async (jwtPayload, done) => {
+        authenticateUser = async (jwtPayload, done) => {
             try {
                 var findUser = await User.findOne({ 
                     where: { id: jwtPayload.id } 
@@ -29,3 +29,40 @@ passport.use(
     )
 );
 
+passport.use("jwt-admin",
+    new StrategyJwt({
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrKey: MY_SECRET,
+    },
+        authorizeAdmin = async (jwtPayload, done) => {
+            try{
+            if(jwtPayload.status === "Admin"){
+                let adminCheck = await User.findOne({
+                    where:{
+                        id: jwtPayload.id,
+                        status: "Admin",
+                    }
+                })
+                done(null, adminCheck)
+            } else done(null, false, {message: "User is not an admin!"}) 
+        }catch(error){
+            done(error);
+        }
+    })
+    );
+    
+passport.use("jwt-banned",
+new StrategyJwt({
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: MY_SECRET,
+},
+    rejectBanned = async (jwtPayload, done) => {
+        try{
+        if(jwtPayload.status === "Banned"){
+            done(null, false, {message: "User is banned, they cannot review!"})
+        } else done(null, true)
+    }catch(error){
+        done(error);
+    }
+})
+);

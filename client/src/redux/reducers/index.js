@@ -1,6 +1,5 @@
 // import actions types
 // import { GET_ALL_BOOKS } from '../actions/actionTypes'
-import { filter } from '@chakra-ui/react';
 import {
 	GET_DETAILS,
 	GET_BOOKS,
@@ -13,10 +12,12 @@ import {
 	APPLY_FILTERS,
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
 	RESET_DETAILS,
-	LOADING,
 	ADD_CART,
 	DEL_CART,
 	DEL_ALL_CART,
+	RESET_FILTERS,
+	SIGN_UP,
+	LOGIN,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -36,6 +37,7 @@ if (!summaryFromLocalStorage) {
 
 const InitialState = {
 	books: [],
+	query: '',
 	details: {},
 	genres: [],
 	booksCopy: [],
@@ -52,6 +54,8 @@ const InitialState = {
 	isBoxChecked: [],
 	cart: cartFromLocalStorage,
 	summary: summaryFromLocalStorage,
+	token: '',
+	registeredUsers: [],
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -71,15 +75,18 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		}
 		case GET_BOOKS_BY_TITLE_OR_AUTHOR: {
-			if (typeof action.payload === 'string') {
+			if (typeof action.payload.data === 'string') {
 				return {
 					...state,
 					books: [],
+					query: action.payload.query,
 				};
 			}
 			return {
 				...state,
-				books: action.payload,
+				booksCopy: action.payload.data,
+				books: action.payload.data,
+				query: action.payload.query,
 			};
 		}
 		case GET_GENRES: {
@@ -129,6 +136,7 @@ const rootReducer = (state = InitialState, action) => {
 				},
 			};
 
+		//guardo el ordenamiento en el estado global
 		case SORT_ORDER:
 			return {
 				...state,
@@ -138,9 +146,25 @@ const rootReducer = (state = InitialState, action) => {
 				},
 			};
 
+		//guardo el filtro pór ofertas en el estado global
+		case RESET_FILTERS:
+			return {
+				...state,
+				filters: {
+					genres: [],
+					rating: '',
+					price: [0, 60],
+					onsale: false,
+					currency: '',
+					language: '',
+					order: '',
+				},
+			};
+
 		// Aplico los filtros del estado global (filters)
 		case APPLY_FILTERS: {
 			//------------------------------------------FILTERS----------------------------------------
+			console.log('reducer', state.books);
 			var filteredBooks = state.booksCopy.filter((book) => {
 				//variable donde se guardaran los libros que coincidan con todas las condiciones
 
@@ -234,7 +258,7 @@ const rootReducer = (state = InitialState, action) => {
 		case ADD_CART:
 			let exist = state.cart.filter((el) => el.id === action.payload);
 			if (exist.length === 1) return state;
-			let newItem = state.books.find((p) => p.id === action.payload);
+			let newItem = state.booksCopy.find((p) => p.id === action.payload);
 			let sum = newItem.price;
 			return {
 				...state,
@@ -255,6 +279,17 @@ const rootReducer = (state = InitialState, action) => {
 				...state,
 				cart: [],
 				summary: 0,
+			};
+		case LOGIN:
+			return {
+				...state,
+				token: action.payload,
+			};
+		case SIGN_UP:
+			return {
+				...state,
+				registeredUsers: action.payload,
+				// tal vez lo podemos usar para mostrar los usuarios registrados en admin dashboard
 			};
 
 		default:
