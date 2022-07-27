@@ -17,6 +17,8 @@ import {
 	ADD_CART,
 	DEL_CART,
 	DEL_ALL_CART,
+	SIGN_UP,
+	LOGIN
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -52,7 +54,8 @@ const InitialState = {
 	isBoxChecked: [],
 	cart: cartFromLocalStorage,
 	summary: summaryFromLocalStorage,
-	token: ''
+	token: '',
+	registeredUsers: []
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -257,11 +260,17 @@ const rootReducer = (state = InitialState, action) => {
 				cart: [],
 				summary: 0,
 			};
-		case 'LOGIN': 
+		case LOGIN: 
 		console.log(action.payload)
 			return{
 				...state,
 				token: action.payload
+			}
+		case SIGN_UP: 
+			return{ 
+				...state,
+				registeredUsers: action.payload
+				// tal vez lo podemos usar para mostrar los usuarios registrados en admin dashboard
 			}
 
 		default:

@@ -25,3 +25,7 @@ export const LOADING = 'LOADING';
 export const ADD_CART = 'ADD_CART';
 export const DEL_CART = 'DEL_CART';
 export const DEL_ALL_CART = 'DEL_ALL_CART';
+
+//------------USER---------------
+export const LOGIN = 'LOGIN'
+export const SIGN_UP = 'SIGN_UP'

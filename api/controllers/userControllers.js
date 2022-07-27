@@ -8,9 +8,9 @@ const crypto = require("crypto")
 
 
 const registerUser = async (req, res, next) => {
-
     const { email, password, username } = req.body; 
     try {
+
         const alreadyExists = await User.findAll({ where: {email: email}})
 
         if(alreadyExists.length){
