@@ -77,7 +77,12 @@ function Filter({ setCurrentPage }) {
 			rounded='md'
 			overflow='hidden'
 		>
-			<Flex justify='center' alignItems='center' bg={'gray.100'} h='32'>
+			<Flex
+				justify='center'
+				alignItems='center'
+				bg={useColorModeValue('gray.200', 'blackAlpha.300')}
+				h='32'
+			>
 				<Text
 					fontWeight='semibold'
 					fontSize={{

@@ -46,6 +46,9 @@ function Carousel({ books }) {
 		{
 			img: 'https://books.google.com/books/content/images/frontcover/wrOQLV6xB-wC?fife=w240-h480',
 		},
+		{
+			img: 'https://books.google.com/books/publisher/content/images/frontcover/GTwBCwAAQBAJ?fife=w240-h480',
+		},
 	];
 
 	const responsive = {
@@ -85,6 +88,12 @@ function Carousel({ books }) {
 				src='https://books.google.com/books/content/images/frontcover/wrOQLV6xB-wC?fife=w240-h480'
 			/>
 		</Box>,
+		<Box className='item' data-value='6'>
+			<Image
+				objectFit='cover'
+				src='https://books.google.com/books/publisher/content/images/frontcover/GTwBCwAAQBAJ?fife=w240-h480'
+			/>
+		</Box>,
 	];
 
 	return (
@@ -100,7 +109,8 @@ function Carousel({ books }) {
 							}}
 							fontWeight='semibold'
 							color='brand.600'
-							lineHeight='shorter'>
+							lineHeight='shorter'
+						>
 							Category
 						</chakra.h1>
 						<BuenLink to='/books'>
@@ -113,7 +123,8 @@ function Carousel({ books }) {
 								fontWeight='semibold'
 								color='brand.600'
 								lineHeight='shorter'
-								cursor='pointer'>
+								cursor='pointer'
+							>
 								Show all -
 							</chakra.h1>
 						</BuenLink>
@@ -122,7 +133,8 @@ function Carousel({ books }) {
 				<SimpleGrid
 					columns={{ base: 1, sm: 2, md: 5, lg: 6 }}
 					spacing={5}
-					mt={2}>
+					mt={2}
+				>
 					{genres.slice(0, 6).map((p, i) => (
 						<Button
 							key={i}
@@ -134,7 +146,8 @@ function Carousel({ books }) {
 							value={p.name}
 							onClick={handleSelect}
 							cursor='pointer'
-							fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>
+							fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}
+						>
 							{p.name}
 						</Button>
 					))}
@@ -151,7 +164,8 @@ function Carousel({ books }) {
 							}}
 							fontWeight='semibold'
 							color='brand.600'
-							lineHeight='shorter'>
+							lineHeight='shorter'
+						>
 							Nuevos lanzamientos
 						</chakra.h1>
 						<BuenLink to='/books'>
@@ -164,7 +178,8 @@ function Carousel({ books }) {
 								fontWeight='semibold'
 								color='brand.600'
 								lineHeight='shorter'
-								cursor='pointer'>
+								cursor='pointer'
+							>
 								Show all -
 							</chakra.h1>
 						</BuenLink>
@@ -181,14 +196,9 @@ function Carousel({ books }) {
 							boxShadow='md'
 							rounded='md'
 							key={i}
-							borderWidth={1}>
-							<Image
-								w='full'
-								h={'56'}
-								fit='cover'
-								src={b.image}
-								alt='avatar'
-							/>
+							borderWidth={1}
+						>
+							<Image w='full' h={'56'} fit='cover' src={b.image} alt='avatar' />
 
 							<Box py={5} textAlign='center'>
 								<chakra.h1
@@ -197,7 +207,8 @@ function Carousel({ books }) {
 									color='gray.700'
 									_dark={{
 										color: 'gray.200',
-									}}>
+									}}
+								>
 									{b.title}
 								</chakra.h1>
 								<chakra.span
@@ -205,7 +216,8 @@ function Carousel({ books }) {
 									color='gray.700'
 									_dark={{
 										color: 'gray.200',
-									}}>
+									}}
+								>
 									{b.authors}
 								</chakra.span>
 								<chakra.h2
@@ -214,7 +226,8 @@ function Carousel({ books }) {
 									color='gray.700'
 									_dark={{
 										color: 'gray.200',
-									}}>
+									}}
+								>
 									$ {b.price}
 								</chakra.h2>
 							</Box>
@@ -233,7 +246,8 @@ function Carousel({ books }) {
 							}}
 							fontWeight='semibold'
 							color='brand.600'
-							lineHeight='shorter'>
+							lineHeight='shorter'
+						>
 							Top Books
 						</chakra.h1>
 						<BuenLink to='/books'>
@@ -246,7 +260,8 @@ function Carousel({ books }) {
 								fontWeight='semibold'
 								color='brand.600'
 								lineHeight='shorter'
-								cursor='pointer'>
+								cursor='pointer'
+							>
 								Show all -
 							</chakra.h1>
 						</BuenLink>

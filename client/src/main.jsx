@@ -5,10 +5,11 @@ import App from './App';
 import axios from 'axios';
 import store from './../redux/store/index';
 import { BrowserRouter } from 'react-router-dom';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, ColorModeProvider } from '@chakra-ui/react';
 import './index.css';
 import theme from './components/theme/index';
 import './components/theme/styleFont.css';
+
 /* Deploy front Start */
 // require('dotenv').config();
 // require('dotenv').config();
@@ -24,9 +25,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
 		<Provider store={store}>
 			<ChakraProvider theme={theme}>
-				<BrowserRouter>
-					<App />
-				</BrowserRouter>
+				<ColorModeProvider>
+					<BrowserRouter>
+						<App />
+					</BrowserRouter>
+				</ColorModeProvider>
 			</ChakraProvider>
 		</Provider>
 	</React.StrictMode>
