@@ -17,6 +17,7 @@ import {
 	ADD_CART,
 	DEL_CART,
 	DEL_ALL_CART,
+	RESET_FILTERS,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -36,6 +37,7 @@ if (!summaryFromLocalStorage) {
 
 const InitialState = {
 	books: [],
+	query: '',
 	details: {},
 	genres: [],
 	booksCopy: [],
@@ -52,7 +54,7 @@ const InitialState = {
 	isBoxChecked: [],
 	cart: cartFromLocalStorage,
 	summary: summaryFromLocalStorage,
-	token: ''
+	token: '',
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -72,15 +74,18 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		}
 		case GET_BOOKS_BY_TITLE_OR_AUTHOR: {
-			if (typeof action.payload === 'string') {
+			if (typeof action.payload.data === 'string') {
 				return {
 					...state,
 					books: [],
+					query: action.payload.query,
 				};
 			}
 			return {
 				...state,
-				books: action.payload,
+				booksCopy: action.payload.data,
+				books: action.payload.data,
+				query: action.payload.query,
 			};
 		}
 		case GET_GENRES: {
@@ -130,6 +135,7 @@ const rootReducer = (state = InitialState, action) => {
 				},
 			};
 
+		//guardo el ordenamiento en el estado global
 		case SORT_ORDER:
 			return {
 				...state,
@@ -139,9 +145,25 @@ const rootReducer = (state = InitialState, action) => {
 				},
 			};
 
+		//guardo el filtro pór ofertas en el estado global
+		case RESET_FILTERS:
+			return {
+				...state,
+				filters: {
+					genres: [],
+					rating: '',
+					price: [0, 60],
+					onsale: false,
+					currency: '',
+					language: '',
+					order: '',
+				},
+			};
+
 		// Aplico los filtros del estado global (filters)
 		case APPLY_FILTERS: {
 			//------------------------------------------FILTERS----------------------------------------
+			console.log('reducer', state.books);
 			var filteredBooks = state.booksCopy.filter((book) => {
 				//variable donde se guardaran los libros que coincidan con todas las condiciones
 
@@ -257,12 +279,12 @@ const rootReducer = (state = InitialState, action) => {
 				cart: [],
 				summary: 0,
 			};
-		case 'LOGIN': 
-		console.log(action.payload)
-			return{
+		case 'LOGIN':
+			console.log(action.payload);
+			return {
 				...state,
-				token: action.payload
-			}
+				token: action.payload,
+			};
 
 		default:
 			return {
