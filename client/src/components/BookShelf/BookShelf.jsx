@@ -7,7 +7,7 @@ import Filter from './Filters/Filter';
 import { Paging } from './Paging/Paging';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getBooks } from '../../redux/actions';
+import { getBooks } from '../../redux/actions/index';
 
 const BookShelf = () => {
 	const dispatch = useDispatch();

@@ -22,7 +22,7 @@ import axios from 'axios';
 import { Link as BuenLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { userSignUp } from '../../redux/actions';
+import { userSignUp } from '../../redux/actions/index';
 
 function SignUp() {
 	const [show, setShow] = React.useState(false);

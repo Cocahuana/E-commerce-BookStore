@@ -18,12 +18,9 @@ import {
 	ADD_CART,
 	DEL_CART,
 	DEL_ALL_CART,
-<<<<<<< HEAD:client/src/redux/actions/index.js
 	RESET_FILTERS,
-=======
 	LOGIN,
 	SIGN_UP,
->>>>>>> develop:client/redux/actions/index.js
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -113,7 +110,8 @@ export function resetDetails() {
 	};
 }
 
-<<<<<<< HEAD:client/src/redux/actions/index.js
+//----------------------------------------------USERS-----------------------------------------
+
 export function userLogin(user) {
 	return async function (dispatch) {
 		var resp = await axios.post(`/user/login`, {
@@ -122,34 +120,25 @@ export function userLogin(user) {
 		});
 		console.log(resp);
 		return dispatch({
-			type: 'LOGIN',
+			type: LOGIN,
 			payload: resp.data.token,
 		});
 	};
-=======
-//----------------------------------------------USERS-----------------------------------------
-
-export function userLogin(user){
-	return async function(dispatch){
-		var resp = await axios.post(`/user/login`, {username: user.email, password: user.password})
-		console.log(resp)
-		return dispatch({
-			type: LOGIN,
-			payload: resp.data.token
-		})
-	}
->>>>>>> develop:client/redux/actions/index.js
 }
 
-export function userSignUp(user){
-	return async function(dispatch){
-		var result = await axios.post(`/user/register`, {username: user.username, email: user.email, password: user.password})
-		console.log(result)
+export function userSignUp(user) {
+	return async function (dispatch) {
+		var result = await axios.post(`/user/register`, {
+			username: user.username,
+			email: user.email,
+			password: user.password,
+		});
+		console.log(result);
 		return dispatch({
 			type: SIGN_UP,
-			payload: result.data.username
-		})
-	}
+			payload: result.data.username,
+		});
+	};
 }
 
 //-------------------------------------------------FILTERS---------------------------------------------

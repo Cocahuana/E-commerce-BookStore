@@ -19,7 +19,7 @@ import {
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useDispatch } from 'react-redux';
-import { userLogin } from '../../redux/actions';
+import { userLogin } from '../../redux/actions/index';
 import { useHistory } from 'react-router-dom';
 import { Link as BuenLink } from 'react-router-dom';
 
