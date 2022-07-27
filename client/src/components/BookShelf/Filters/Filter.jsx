@@ -24,7 +24,7 @@ import {
 	saveOrder,
 	saveFilterGenre,
 	saveFilterPrice,
-} from '../../../../redux/actions';
+} from '../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 function Filter({ setCurrentPage }) {

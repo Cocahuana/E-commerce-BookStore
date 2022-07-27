@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	getBooksByTitleOrAuthor,
 	resetFilters,
-} from '../../../../redux/actions/index';
+} from '../../../redux/actions/index';
 
 function SearchBar({ setCurrentPage }) {
 	const dispatch = useDispatch();

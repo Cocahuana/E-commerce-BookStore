@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import Cart from './Cart';
 import { useDispatch } from 'react-redux';
-import { delAllCart } from '../../../redux/actions';
+import { delAllCart } from '../../redux/actions';
 import SummaryPurchase from './SummaryPurchase';
 
 const CartDrawer = () => {

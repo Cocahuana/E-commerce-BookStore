@@ -20,7 +20,7 @@ import { PriceTag } from './PriceTag';
 import { Link as BuenLink } from 'react-router-dom';
 import { FaCommentDots } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCart } from '../../../../../redux/actions';
+import { addToCart } from '../../../../redux/actions';
 
 export const Book = (props) => {
 	const { product, rootProps } = props;

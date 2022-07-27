@@ -19,6 +19,7 @@ import {
 import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import axios from 'axios';
+import { Link as BuenLink } from 'react-router-dom';
 
 function SignUp() {
 	const [show, setShow] = React.useState(false);
@@ -99,13 +100,14 @@ function SignUp() {
 					<Stack pt={6}>
 						<Text align={'center'}>
 							Already a user?{' '}
-							<Button
-								as={'a'}
-								color={'blue.400'}
-								variant={'link'}
-								href={'/login'}>
-								Login
-							</Button>
+							<BuenLink to='/login'>
+								<Button
+									as={'a'}
+									color={'blue.400'}
+									variant={'link'}>
+									Login
+								</Button>
+							</BuenLink>
 						</Text>
 					</Stack>
 				</Stack>
