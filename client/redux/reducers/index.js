@@ -52,7 +52,7 @@ const InitialState = {
 	isBoxChecked: [],
 	cart: cartFromLocalStorage,
 	summary: summaryFromLocalStorage,
-	token: ''
+	token: '',
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -235,7 +235,8 @@ const rootReducer = (state = InitialState, action) => {
 		case ADD_CART:
 			let exist = state.cart.filter((el) => el.id === action.payload);
 			if (exist.length === 1) return state;
-			let newItem = state.books.find((p) => p.id === action.payload);
+			let newItem = state.booksCopy.find((p) => p.id === action.payload);
+			console.log('book', state.booksCopy);
 			let sum = newItem.price;
 			return {
 				...state,
@@ -257,12 +258,12 @@ const rootReducer = (state = InitialState, action) => {
 				cart: [],
 				summary: 0,
 			};
-		case 'LOGIN': 
-		console.log(action.payload)
-			return{
+		case 'LOGIN':
+			console.log(action.payload);
+			return {
 				...state,
-				token: action.payload
-			}
+				token: action.payload,
+			};
 
 		default:
 			return {
