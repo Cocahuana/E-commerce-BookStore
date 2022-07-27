@@ -17,6 +17,7 @@ export const FILTER_LANGUAGE = 'FILTER_LANGUAGE';
 export const FILTER_ONSALE = 'FILTER_ONSALE';
 export const SORT_ORDER = 'SORT_ORDER';
 export const APPLY_FILTERS = 'APPLY_FILTERS';
+export const RESET_FILTERS = 'RESET_FILTERS';
 
 // -------------LOADING-------------
 export const LOADING = 'LOADING';

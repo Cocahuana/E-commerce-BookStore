@@ -19,13 +19,14 @@ import {
 import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import axios from 'axios';
+import { Link as BuenLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { userSignUp } from '../../../redux/actions/index';
+import { userSignUp } from '../../redux/actions/index';
 
 function SignUp() {
 	const [show, setShow] = React.useState(false);
-	const handleClick = () => setShow(!show);
+	//const handleClick = () => setShow(!show);
 	const dispatch = useDispatch();
 	const history = useHistory();
 
@@ -109,13 +110,14 @@ function SignUp() {
 					<Stack pt={6}>
 						<Text align={'center'}>
 							Already a user?{' '}
-							<Button
-								as={'a'}
-								color={'blue.400'}
-								variant={'link'}
-								href={'/login'}>
-								Login
-							</Button>
+							<BuenLink to='/login'>
+								<Button
+									as={'a'}
+									color={'blue.400'}
+									variant={'link'}>
+									Login
+								</Button>
+							</BuenLink>
 						</Text>
 					</Stack>
 				</Stack>

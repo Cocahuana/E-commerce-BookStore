@@ -19,8 +19,9 @@ import {
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useDispatch } from 'react-redux';
-import { userLogin } from '../../../redux/actions/index';
+import { userLogin } from '../../redux/actions/index';
 import { useHistory } from 'react-router-dom';
+import { Link as BuenLink } from 'react-router-dom';
 
 function SignIn() {
 	const history = useHistory();
@@ -107,13 +108,14 @@ function SignIn() {
 					<Stack pt={6}>
 						<Text align={'center'}>
 							Don´t have an account?{' '}
-							<Button
-								as={'a'}
-								color={'blue.400'}
-								variant={'link'}
-								href={'/register'}>
-								Register
-							</Button>
+							<BuenLink to='/register'>
+								<Button
+									as={'a'}
+									color={'blue.400'}
+									variant={'link'}>
+									Register
+								</Button>
+							</BuenLink>
 						</Text>
 					</Stack>
 				</Stack>

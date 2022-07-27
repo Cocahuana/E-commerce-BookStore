@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import App from './App';
 import axios from 'axios';
-import store from './../redux/store/index';
+import store from './redux/store';
 import { BrowserRouter } from 'react-router-dom';
 import { ChakraProvider, ColorModeProvider } from '@chakra-ui/react';
 import './index.css';
