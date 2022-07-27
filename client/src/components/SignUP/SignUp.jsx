@@ -20,24 +20,32 @@ import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 import { Link as BuenLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { userSignUp } from '../../../redux/actions/index';
 
 function SignUp() {
 	const [show, setShow] = React.useState(false);
 	const handleClick = () => setShow(!show);
-	const [usernameReg, setUsernameReg] = useState('');
-	const [passwordReg, setPasswordReg] = useState('');
-	const [emailReg, setEmailReg] = useState('');
+	const dispatch = useDispatch();
+	const history = useHistory();
 
-	const register = () => {
-		axios({
-			method: 'post',
-			data: {
-				username: usernameReg,
-				email: emailReg,
-				password: passwordReg,
-			},
-			url: 'http://localhost:3001/user/register',
-		}).then((res) => alert(JSON.stringify(res.data)));
+	const [registerUser, setRegisterUser] = useState({
+		username: '',
+		email: '',
+		password: '',
+	});
+
+	const handleOnChange = (e) => {
+		setRegisterUser({
+			...registerUser,
+			[e.target.name]: e.target.value,
+		});
+	};
+
+	const handleRegister = (event) => {
+		dispatch(userSignUp(registerUser));
+		history.push(`/login`);
 	};
 
 	return (
@@ -53,7 +61,8 @@ function SignUp() {
 						<FormLabel>Username</FormLabel>
 						<Input
 							placeholder='username'
-							onChange={(e) => setUsernameReg(e.target.value)}
+							name='username'
+							onChange={(e) => handleOnChange(e)}
 							bg={'white'}
 						/>
 					</FormControl>
@@ -62,19 +71,20 @@ function SignUp() {
 						<FormLabel>Email address</FormLabel>
 						<Input
 							placeholder='email'
-							onChange={(e) => setEmailReg(e.target.value)}
+							name='email'
+							onChange={(e) => handleOnChange(e)}
 							bg={'white'}
 							type='email'
 						/>
 					</FormControl>
 
-					<FormControl
-						id='password'
-						onChange={(e) => setPasswordReg(e.target.value)}>
+					<FormControl id='password'>
 						<FormLabel>Password</FormLabel>
 						<InputGroup>
 							<Input
 								placeholder='password'
+								name='password'
+								onChange={(e) => handleOnChange(e)}
 								bg={'white'}
 								type={show ? 'text' : 'password'}
 							/>
@@ -92,7 +102,7 @@ function SignUp() {
 						<Button
 							colorScheme={'blue'}
 							variant={'solid'}
-							onClick={(event) => register(event)}>
+							onClick={(event) => handleRegister(event)}>
 							Sign up
 						</Button>
 					</Stack>

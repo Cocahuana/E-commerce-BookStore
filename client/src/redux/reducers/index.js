@@ -1,6 +1,5 @@
 // import actions types
 // import { GET_ALL_BOOKS } from '../actions/actionTypes'
-import { filter } from '@chakra-ui/react';
 import {
 	GET_DETAILS,
 	GET_BOOKS,
@@ -13,11 +12,12 @@ import {
 	APPLY_FILTERS,
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
 	RESET_DETAILS,
-	LOADING,
 	ADD_CART,
 	DEL_CART,
 	DEL_ALL_CART,
 	RESET_FILTERS,
+	SIGN_UP,
+	LOGIN,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -55,6 +55,7 @@ const InitialState = {
 	cart: cartFromLocalStorage,
 	summary: summaryFromLocalStorage,
 	token: '',
+	registeredUsers: [],
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -279,11 +280,16 @@ const rootReducer = (state = InitialState, action) => {
 				cart: [],
 				summary: 0,
 			};
-		case 'LOGIN':
-			console.log(action.payload);
+		case LOGIN:
 			return {
 				...state,
 				token: action.payload,
+			};
+		case SIGN_UP:
+			return {
+				...state,
+				registeredUsers: action.payload,
+				// tal vez lo podemos usar para mostrar los usuarios registrados en admin dashboard
 			};
 
 		default:
