@@ -8,7 +8,7 @@ export const CurrentPagBtn = (props) => {
 			px={4}
 			py={2}
 			rounded='md'
-			bg='blue.500'
+			bg='brand.pepeoscuro'
 			_dark={{
 				bg: 'gray.700',
 			}}
@@ -22,7 +22,8 @@ export const CurrentPagBtn = (props) => {
 					base: 'none',
 					sm: 'block',
 				}
-			}>
+			}
+		>
 			{props.children}
 		</chakra.button>
 	);

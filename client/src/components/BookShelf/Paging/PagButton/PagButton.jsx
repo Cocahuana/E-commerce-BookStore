@@ -6,7 +6,7 @@ export const PagButton = (props) => {
 		_dark: {
 			bg: 'gray.500',
 		},
-		color: 'blue',
+		color: 'white',
 	};
 	return (
 		<chakra.button
@@ -30,7 +30,8 @@ export const PagButton = (props) => {
 					base: 'none',
 					sm: 'block',
 				}
-			}>
+			}
+		>
 			{props.children}
 		</chakra.button>
 	);

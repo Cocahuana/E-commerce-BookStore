@@ -1,35 +1,15 @@
 const express = require('express');
 const { Router } = require('express');
-const {
-	getPopularBooks,
-	getBookById,
-	deleteBookById,
-	postBook,
-	putBook,
-	findAllBooks,
-	findByAuthorOrTitle,
-	allGenres,
-} = require('../controllers/bookControllers');
-
+const bookRoutes = require("./books");
+const userRoutes = require("./user");
+const {	allGenres } = require("../controllers/bookControllers");
 /* GET home page. */
 
 const router = Router();
 
-//router.get('/popular', getPopularBooks);
+router.use("/books", bookRoutes);
 
-router.get('/books', findAllBooks);
-
-router.get('/books/:id', getBookById);
-
-router.delete('/books/:id', deleteBookById);
-
-router.post('/books', postBook);
-
-router.put('/books', putBook);
-
-router.get('/search', findByAuthorOrTitle);
-
-// router.get('/books', findAllBooks);
+router.use("/user", userRoutes);
 
 router.get('/genres', allGenres);
 

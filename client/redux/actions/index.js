@@ -4,15 +4,20 @@ import { Slide } from '@chakra-ui/react';
 import axios from 'axios';
 import {
 	GET_DETAILS,
+	GET_BOOKS,
 	GET_GENRES,
 	FILTER_GENRE,
-	ORDER_RATING,
-	GET_BOOKS,
+	FILTER_PRICE,
+	FILTER_LANGUAGE,
+	FILTER_ONSALE,
+	APPLY_FILTERS,
+	SORT_ORDER,
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
 	RESET_DETAILS,
-	FILTER_SLIDE,
 	LOADING,
-	SAVE_CHECKED,
+	ADD_CART,
+	DEL_CART,
+	DEL_ALL_CART,
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -40,7 +45,7 @@ import {
 export const getDetails = (id) => {
 	return async function (dispatch) {
 		try {
-			let det = await axios.get(`/books/${id}`);
+			let det = await axios.get(`/books/book/${id}`);
 			return dispatch({
 				type: GET_DETAILS,
 				payload: det.data,
@@ -80,17 +85,11 @@ export const getGenres = () => {
 		}
 	};
 };
-export function filterBookGenre(payload) {
-	return { type: FILTER_GENRE, payload };
-}
-export function orderBook(payload) {
-	return { type: ORDER_RATING, payload };
-}
 
 export function getBooksByTitleOrAuthor(titleOrAuthor) {
 	return async function (dispatch) {
 		try {
-			var json = await axios.get(`/search?input=${titleOrAuthor}`);
+			var json = await axios.get(`/books/search?input=${titleOrAuthor}`);
 			return dispatch({
 				type: GET_BOOKS_BY_TITLE_OR_AUTHOR,
 				//json.data devuelve lo que nos da la ruta de arriba, ya filtrado por nombre
@@ -108,10 +107,65 @@ export function resetDetails() {
 	};
 }
 
-export function slideprice(payload) {
-	return { type: FILTER_SLIDE, payload };
+//-------------------------------------------------FILTERS---------------------------------------------
+export function saveFilterGenre(payload) {
+	return { type: FILTER_GENRE, payload };
+}
+export function saveFilterPrice(payload) {
+	return { type: FILTER_PRICE, payload };
+}
+export function saveFilterLanguage(payload) {
+	return { type: FILTER_LANGUAGE, payload };
+}
+export function saveFilterOnSale(payload) {
+	return { type: FILTER_ONSALE, payload };
+}
+export function applyFilters(payload) {
+	return { type: APPLY_FILTERS, payload };
+}
+//------------------------------------------------------------------------------------------------------
+//-------------------------------------------------SORTS------------------------------------------------
+export function saveOrder(payload) {
+	return { type: SORT_ORDER, payload };
+}
+//------------------------------------------------------------------------------------------------------
+
+// ---------CART------------
+
+export function addToCart(id) {
+	return async function (dispatch) {
+		try {
+			dispatch({
+				type: ADD_CART,
+				payload: id,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
 }
 
-export function saveChecked(payload) {
-	return { type: SAVE_CHECKED, payload };
+export function delCart(id) {
+	return async function (dispatch) {
+		try {
+			return dispatch({
+				type: DEL_CART,
+				payload: id,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+}
+
+export function delAllCart() {
+	return async function (dispatch) {
+		try {
+			return dispatch({
+				type: DEL_ALL_CART,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
 }
