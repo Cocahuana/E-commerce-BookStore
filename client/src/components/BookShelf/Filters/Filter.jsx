@@ -20,9 +20,8 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import {
 	applyFilters,
-	filterBookGenre,
 	getGenres,
-	orderBook,
+	saveOrder,
 	saveFilterGenre,
 	saveFilterPrice,
 } from '../../../../redux/actions';
@@ -32,9 +31,10 @@ function Filter({ setCurrentPage }) {
 	const dispatch = useDispatch();
 	const { genres, books, filters } = useSelector((state) => state);
 
-	console.log('renderizado', books, filters);
+	console.log('renderizado', filters);
 	const [sliderValue, setSliderValue] = useState(filters.price);
 	const [isChecked, setIsChecked] = useState(filters.genres);
+	const [orderBy, setOrderBy] = useState(filters.order);
 
 	const handleCheckChange = (e) => {
 		e.preventDefault();
@@ -52,7 +52,7 @@ function Filter({ setCurrentPage }) {
 	};
 	const handleOrderBy = (e) => {
 		e.preventDefault();
-		dispatch(orderBook(e.target.value));
+		setOrderBy(e.target.value);
 	};
 
 	const handleSlideChange = (pricesArr) => {
@@ -63,12 +63,10 @@ function Filter({ setCurrentPage }) {
 		dispatch(getGenres());
 		dispatch(saveFilterGenre(isChecked));
 		dispatch(saveFilterPrice(sliderValue));
+		dispatch(saveOrder(orderBy));
 		dispatch(applyFilters());
 		setCurrentPage(1);
-		// return () => {
-		// 	dispatch(saveChecked(isChecked));
-		// };
-	}, [dispatch, isChecked, sliderValue]);
+	}, [dispatch, isChecked, sliderValue, orderBy]);
 
 	return (
 		<Stack
@@ -167,10 +165,10 @@ function Filter({ setCurrentPage }) {
 								<option value='Default' disabled>
 									rating
 								</option>
-								<option value='highToLow'>
+								<option value='highest'>
 									Rating High to Low
 								</option>
-								<option value='lowToHi'>
+								<option value='lowest'>
 									Rating Low to High
 								</option>
 							</Select>

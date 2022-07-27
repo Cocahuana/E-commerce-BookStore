@@ -11,7 +11,7 @@ import {
 	FILTER_LANGUAGE,
 	FILTER_ONSALE,
 	APPLY_FILTERS,
-	ORDER_RATING,
+	SORT_ORDER,
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
 	RESET_DETAILS,
 	LOADING,
@@ -121,12 +121,13 @@ export function saveFilterOnSale(payload) {
 	return { type: FILTER_ONSALE, payload };
 }
 export function applyFilters(payload) {
+	console.log('applying filters');
 	return { type: APPLY_FILTERS, payload };
 }
 //------------------------------------------------------------------------------------------------------
 //-------------------------------------------------SORTS------------------------------------------------
-export function orderBook(payload) {
-	return { type: ORDER_RATING, payload };
+export function saveOrder(payload) {
+	return { type: SORT_ORDER, payload };
 }
 //------------------------------------------------------------------------------------------------------
 

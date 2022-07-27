@@ -13,7 +13,7 @@ import React, { useEffect } from 'react';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveChecked, getGenres } from '../../../redux/actions';
+import { getGenres, saveFilterGenre } from '../../../redux/actions';
 import { Link as BuenLink } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 
@@ -23,7 +23,7 @@ function Carousel({ books }) {
 	const history = useHistory();
 
 	const handleSelect = (e) => {
-		dispatch(saveChecked([e.target.value]));
+		dispatch(saveFilterGenre([e.target.value]));
 		history.push('/books');
 	};
 

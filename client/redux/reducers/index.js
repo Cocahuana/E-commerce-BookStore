@@ -9,8 +9,8 @@ import {
 	FILTER_PRICE,
 	FILTER_LANGUAGE,
 	FILTER_ONSALE,
+	SORT_ORDER,
 	APPLY_FILTERS,
-	ORDER_RATING,
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
 	RESET_DETAILS,
 	LOADING,
@@ -43,10 +43,11 @@ const InitialState = {
 	filters: {
 		genres: [],
 		rating: '',
-		price: [0, 2000],
+		price: [0, 60],
 		onsale: false,
 		currency: '',
 		language: '',
+		order: '',
 	},
 	isBoxChecked: [],
 	cart: cartFromLocalStorage,
@@ -87,7 +88,7 @@ const rootReducer = (state = InitialState, action) => {
 				genres: action.payload,
 			};
 		}
-		//---------------------------------------------FILTERS------------------------------------------------
+		//---------------------------------------------FILTERS & SORTS------------------------------------------------
 		//guardo el filtro pór generos en el estado global
 		case FILTER_GENRE:
 			return {
@@ -128,8 +129,18 @@ const rootReducer = (state = InitialState, action) => {
 				},
 			};
 
+		case SORT_ORDER:
+			return {
+				...state,
+				filters: {
+					...state.filters,
+					order: action.payload,
+				},
+			};
+
 		// Aplico los filtros del estado global (filters)
 		case APPLY_FILTERS: {
+			//------------------------------------------FILTERS----------------------------------------
 			var filteredBooks = state.booksCopy.filter((book) => {
 				//variable donde se guardaran los libros que coincidan con todas las condiciones
 
@@ -157,65 +168,68 @@ const rootReducer = (state = InitialState, action) => {
 					return false;
 
 				//--------Filtro por genero------------
-				if (!state.filters.genres.length) {
-					let bookgenres = book.genres.map((g) => g.name);
+				if (state.filters.genres.length) {
+					let bookgenres = book.Genres.map((g) => g.name);
+					let flag = true;
 					state.filters.genres.forEach((filtergenre) => {
-						if (!bookgenres.includes(filtergenre)) return false;
+						if (!bookgenres.includes(filtergenre)) flag = false;
 					});
+					if (flag === false) return false;
 				}
 
 				return true; //si no se corto la ejecucion en ningun momento es porque se cumplen todos los filtros
 			});
+			//------------------------------------------SORTS----------------------------------------
+			if (state.filters.order) {
+				//---------------Sorting Function------------------
+				var ordern;
+				switch (state.filters.order) {
+					case 'highest':
+						ordern = function (a, b) {
+							if (a.rating < b.rating) {
+								return 1;
+							}
+							if (a.rating > b.rating) {
+								return -1;
+							}
+							return 0;
+						};
+						break;
+					case 'lowest':
+						ordern = function (a, b) {
+							if (a.rating < b.rating) {
+								return -1;
+							}
+							if (a.rating > b.rating) {
+								return 1;
+							}
+							return 0;
+						};
+						break;
+					default:
+						ordern = function (a, b) {
+							return 0;
+						};
+						break;
+				}
+				//-----------------Applying Sort---------------------
+				filteredBooks = filteredBooks.sort(ordern);
+			}
 
-			console.log('reducer', filteredBooks);
-
-			//modifico el estado de los libros reemplazando con los libros filtrados
+			//modifico el estado de los libros reemplazando con los libros filtrados y ordenados
 			return {
 				...state,
 				books: filteredBooks,
 			};
 		}
 		//-----------------------------------------------------------------------------------------------------
-		//----------------------------------------------SORTS--------------------------------------------------
-		case ORDER_RATING:
-			var ordern;
-			switch (action.payload) {
-				case 'highToLow':
-					ordern = function (a, b) {
-						if (a.rating < b.rating) {
-							return 1;
-						}
-						if (a.rating > b.rating) {
-							return -1;
-						}
-						return 0;
-					};
-					break;
-				case 'lowToHi':
-					ordern = function (a, b) {
-						if (a.rating < b.rating) {
-							return -1;
-						}
-						if (a.rating > b.rating) {
-							return 1;
-						}
-						return 0;
-					};
-					break;
-				default:
-					break;
-			}
-			return {
-				...state,
-				books: [...state.books.sort(ordern)],
-			};
+
 		case RESET_DETAILS: {
 			return {
 				...state,
 				details: {},
 			};
 		}
-		//-----------------------------------------------------------------------------------------------------
 
 		case ADD_CART:
 			let exist = state.cart.filter((el) => el.id === action.payload);
