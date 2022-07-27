@@ -6,14 +6,23 @@ module.exports = (sequelize) => {
 	sequelize.define(
 		'PurchaseOrder',
 		{
-			address: {
-				type: DataTypes.STRING,
+			cart: {
+				type: DataTypes.ARRAY(DataTypes.JSON),
+				allowNull: true,
+			},
+			status: {
+				type: DataTypes.ENUM(
+					'open',
+					'created',
+					'processing',
+					'approved',
+					'cancelled'
+				),
 				allowNull: false,
 			},
-			postal_code: {
-				type: DataTypes.INTEGER,
-				allowNull: false,
-			},
+			// payment_id:{
+
+			// }
 		},
 		{ timestamps: false }
 	);
