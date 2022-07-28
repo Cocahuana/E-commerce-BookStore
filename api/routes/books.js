@@ -2,7 +2,6 @@ const express = require('express');
 const { Router } = require('express');
 const {
 	getBookById,
-	deleteBookById,
 	postBook,
 	putBook,
 	findAllBooks,
@@ -24,11 +23,9 @@ router.get('/', findAllBooks);
 
 router.get('/book/:id', getBookById);
 
-router.delete('/:id', deleteBookById);
+router.post('/', passport.authenticate('jwt-admin', {session: false}), postBook);
 
-router.post('/', postBook);
-
-router.put('/', putBook);
+router.put('/', passport.authenticate('jwt-admin', {session: false}), putBook);
 
 router.get('/search', findByAuthorOrTitle);
 
