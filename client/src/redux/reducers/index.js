@@ -315,6 +315,8 @@ const rootReducer = (state = InitialState, action) => {
 		case SIGN_OUT:
 			// We clear the whole localStorage and set isSignedIn false, and the token as an empty string
 			localStorage.setItem('cart', JSON.stringify([]));
+			localStorage.setItem('isSignedIn', false);
+			localStorage.removeItem('token');
 			return {
 				...state,
 				token: '',
