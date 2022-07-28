@@ -9,13 +9,15 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import BooksTable from './BooksTable';
-import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 
 function Dashboard() {
+	const { adminBooks } = useSelector((state) => state);
+
 	return (
 		<Flex direction='column' pt={{ base: '120px', md: '75px', sm: '20px' }}>
 			<Container maxW={'container.xl'}>
-				<BooksTable />
+				<BooksTable books={adminBooks} />
 			</Container>
 		</Flex>
 	);

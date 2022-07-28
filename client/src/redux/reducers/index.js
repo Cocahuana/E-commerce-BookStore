@@ -56,6 +56,7 @@ const InitialState = {
 	summary: summaryFromLocalStorage,
 	token: '',
 	registeredUsers: [],
+	adminBooks: [],
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -71,6 +72,7 @@ const rootReducer = (state = InitialState, action) => {
 				...state,
 				books: action.payload,
 				booksCopy: action.payload,
+				adminBooks: action.payload,
 				loading: false,
 			};
 		}
@@ -171,17 +173,13 @@ const rootReducer = (state = InitialState, action) => {
 				//asumo que el libro debe incluirse y si no cumple algun filtro devuelvo false para q sea filtrado (no se incluya en el array)
 
 				//--------Filtro por oferta------------
-				if (state.filters.onsale && !book.flag === 'on-sale')
-					return false;
+				if (state.filters.onsale && !book.flag === 'on-sale') return false;
 
 				//--------Filtro por moneda------------
 				//if (state.filters.currency && state.filters.currency!==book.currency) return false
 
 				//--------Filtro por lenguaje------------
-				if (
-					state.filters.language &&
-					state.filters.language !== book.language
-				)
+				if (state.filters.language && state.filters.language !== book.language)
 					return false;
 
 				//--------Filtro por precio------------
