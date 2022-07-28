@@ -1,6 +1,7 @@
 import React from 'react';
+import axios from 'axios';
 import { useState, useRef } from 'react';
-import SignOut from "../SignOut/Signout"
+import SignOut from '../SignOut/Signout';
 import {
 	Box,
 	Stack,
@@ -23,50 +24,50 @@ import {
 } from '@chakra-ui/react';
 
 function UserProfile() {
-	const [userProfile, setUserProfile] = useState(null);
 
-	const { isOpen, onOpen, onClose } = useDisclosure();
-	const profileImage = useRef(null);
+	const [image, setImage] = useState('');
+	// const { isOpen, onOpen, onClose } = useDisclosure();
+	const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
+	const profileImage = useRef(null)
 
 	const openChooseImage = () => {
-		profileImage.current.click();
-	};
+	  profileImage.current.click()
+	}
 
-	const changeProfileImage = (event) => {
-		const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
-		const selected = event.target.files[0];
-
-		if (selected && ALLOWED_TYPES.includes(selected.type)) {
-			let reader = new FileReader();
-			reader.onloadend = () => setUserProfile(reader.result);
-			return reader.readAsDataURL(selected);
-		}
-
-		onOpen();
+	const uploadImage = (e) => {
+		const files = e.target.files[0];
+		const data = new FormData();
+		data.append('file', files);
+		data.append('upload_preset', 'proyect_preset');
+		axios
+			.post('https://api.cloudinary.com/v1_1/lucho/image/upload', data)
+			.then((res) => setImage(res.data.secure_url))
+			.catch((err) => console.log(err));
 	};
 
 	return (
-		<Stack px={'5%'} pt={{lg: '5%', md: "10%", sm: "15%", base: "25%"}} h={'85vh'}>
+		<Stack
+			px={'5%'}
+			pt={{ lg: '5%', md: '10%', sm: '15%', base: '25%' }}
+			h={'85vh'}>
 			<Box
-                
-                rounded={"5px"}
+				rounded={'5px'}
 				bgGradient={'linear(to-r, blue.600, blue.100)'}
-                maxW={"100%"}
+				maxW={'100%'}
 				h={'10%'}
-                alignContent={"center"}
+				alignContent={'center'}
 				justifyContent={'center'}>
 				<Text
 					fontSize={'3rem'}
 					justifyContent={'center'}
-					align={'center'}
-					>
+					align={'center'}>
 					Bienvenido
 				</Text>
 			</Box>
 			<Stack
 				align={'center'}
-				justify={"center"}
-				direction={{md: "row", lg:"row", base: "column"}}
+				justify={'center'}
+				direction={{ md: 'row', lg: 'row', base: 'column' }}
 				h={'100vh'}>
 				<VStack
 					h={'100%'}
@@ -76,13 +77,12 @@ function UserProfile() {
 					borderBottomWidth={1}
 					borderColor='brand.light'>
 					<Avatar
+						id='foto'
 						size='2xl'
 						cursor='pointer'
 						onClick={openChooseImage}
 						src={
-							userProfile
-								? userProfile
-								: 'https://cdn-icons-png.flaticon.com/512/1053/1053244.png?w=360'
+						image
 						}>
 						<AvatarBadge bg='brand.blue' boxSize='1em'>
 							<svg
@@ -99,10 +99,11 @@ function UserProfile() {
 					</Avatar>
 					<input
 						hidden
-						type='file'
 						ref={profileImage}
-						onChange={changeProfileImage}
+						type='file'
+						onChange={uploadImage}
 					/>
+{/* 
 					<Modal isOpen={isOpen} onClose={onClose}>
 						<ModalOverlay />
 						<ModalContent>
@@ -124,7 +125,7 @@ function UserProfile() {
 								<Button onClick={onClose}>Close</Button>
 							</ModalFooter>
 						</ModalContent>
-					</Modal>
+					</Modal> */}
 					<VStack align={'left'} spacing={1}>
 						<Heading as='h3' fontSize='xl' color='brand.dark'>
 							User Name
@@ -134,12 +135,15 @@ function UserProfile() {
 						</Text>
 					</VStack>
 				</VStack>
-				<Stack px={'5%'} h={{lg: "60%", md: "60%", base: "150rem"}} w={{lg: '50%', md: "50%", base: "100%"}}>
+				<Stack
+					px={'5%'}
+					h={{ lg: '60%', md: '60%', base: '150rem' }}
+					w={{ lg: '50%', md: '50%', base: '100%' }}>
 					<VStack align={'center'}>
 						<Button w={'100%'}>Favourite list</Button>
 						<Button w={'100%'}>Change your password</Button>
 						<br />
-                        <SignOut/>
+						<SignOut />
 					</VStack>
 				</Stack>
 			</Stack>
