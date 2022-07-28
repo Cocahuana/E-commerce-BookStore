@@ -19,6 +19,7 @@ import {
 	SIGN_UP,
 	LOGIN,
 	SIGN_OUT,
+	CHECK_TOKEN,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -299,6 +300,11 @@ const rootReducer = (state = InitialState, action) => {
 				token: action.payload.token,
 				userRol: action.payload.status,
 				isSignedIn: true,
+			};
+		// Aca checkeamos si el estado del token está o no actualizado
+		case CHECK_TOKEN:
+			return {
+				...state,
 			};
 		case SIGN_UP:
 			return {
