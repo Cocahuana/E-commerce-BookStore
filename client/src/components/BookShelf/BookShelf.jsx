@@ -36,6 +36,7 @@ const BookShelf = () => {
 
 	useEffect(() => {
 		if (!books.length) dispatch(getBooks());
+		// setting variables in localStorage ----
 		localStorage.setItem('cart', JSON.stringify(cart));
 		localStorage.setItem('summary', JSON.stringify(summary));
 		if (token.length === 0) {
@@ -51,11 +52,14 @@ const BookShelf = () => {
 			<Box pt={'16'} bg={'gray.100'}>
 				<SearchBar setCurrentPage={setCurrentPage} />
 			</Box>
+			// ------------------------------------------ // SIMPLE MESSAGE TO
+			SEE IF YOU ARE LOGGED IN
 			{token ? (
 				<h1>AGUANTE MESSI CARETAS ESTOY LOGUEADO</h1>
 			) : (
 				<h1>MATAME NO ME LOGUEE</h1>
 			)}
+			// ------------------------------------------
 			<Container maxW={'container.xl'} py={'5'}>
 				<Flex
 					flexDirection={{

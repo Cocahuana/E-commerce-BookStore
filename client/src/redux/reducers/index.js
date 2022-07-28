@@ -292,8 +292,7 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 			};
 		case LOGIN:
-			// localStorage.setItem('isSignedIn', true);
-			// localStorage.setItem('token', token);
+			// Signed in, passing token, user rol and setting the state "isSignedIn" with value true
 			return {
 				...state,
 				token: action.payload.token,
@@ -307,8 +306,7 @@ const rootReducer = (state = InitialState, action) => {
 				// tal vez lo podemos usar para mostrar los usuarios registrados en admin dashboard
 			};
 		case SIGN_OUT:
-			// localStorage.removeItem('token');
-			// localStorage.setItem('signedIn', false);
+			// We clear the whole localStorage and set isSignedIn false, and the token as an empty string
 			localStorage.clear();
 			return {
 				...state,

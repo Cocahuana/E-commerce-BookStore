@@ -36,6 +36,11 @@ export default function NavBar() {
 	const { colorMode, toggleColorMode } = useColorMode();
 	const { isSignedIn } = useSelector((state) => state);
 
+	/*
+	Basically, it asks if isSignedIn is false, it renders the navBar with the SignIn - SignUp, 
+	if it's true( which means you are logged in), it renders the signout button
+	*/
+
 	return isSignedIn === false ? (
 		<Box
 			position='fixed'
