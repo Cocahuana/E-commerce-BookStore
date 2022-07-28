@@ -1,7 +1,7 @@
 const axios = require('axios');
 require('dotenv').config();
 const { MY_SECRET } = process.env;
-const { User } = require('../db');
+const { User, Books } = require('../db');
 const { Op } = require('sequelize');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
@@ -9,19 +9,10 @@ const crypto = require('crypto');
 const registerUser = async (req, res, next) => {
 	const { email, password, username } = req.body;
 	try {
-		const alreadyExistsEmail = await User.findAll({
-			where: { email: email },
-		});
-		const alreadyExistsUsername = await User.findAll({
-			where: { username: username },
-		});
+		const alreadyExists = await User.findAll({ where: { email: email } });
 
-		if (alreadyExistsEmail.length) {
-			res.status(400).send('Email already registered');
-			return;
-		}
-		if (alreadyExistsUsername.length) {
-			res.status(400).send('That Username is already registered');
+		if (alreadyExists.length) {
+			res.send('Email already registered');
 			return;
 		}
 		let hashedPassword = crypto
@@ -34,7 +25,8 @@ const registerUser = async (req, res, next) => {
 			password: hashedPassword,
 			username: username,
 		});
-		res.status(200).send('User created succesfully!');
+
+		res.send('User created succesfully!');
 	} catch (err) {
 		next(err);
 	}
@@ -42,6 +34,7 @@ const registerUser = async (req, res, next) => {
 
 const userLogin = async (req, res, next) => {
 	const { username, password } = req.body;
+	console.log(req.body);
 	try {
 		let hashedPassword = crypto
 			.createHash('md5')
@@ -52,7 +45,8 @@ const userLogin = async (req, res, next) => {
 				[Op.or]: [{ username: username }, { email: username }],
 			},
 		});
-		//Habría que filtrar la password para que no se mande al front, caso contrario alguien mediante los estados podrías verlo y des-hashearlo
+
+		console.log(userCheck);
 		if (!userCheck)
 			return res.status(400).send('Email or password does not match!');
 		else if (userCheck.password !== hashedPassword)
@@ -68,31 +62,101 @@ const userLogin = async (req, res, next) => {
 				MY_SECRET,
 				{ expiresIn: '12h' }
 			);
-			// When username and password are both correct, we send to the actions the token for authentication and the status
-			// Status means whick role have just Sign in.
-			res.status(200).json({ token: jwtToken, status: userCheck.status });
+			res.json({ token: jwtToken });
 		}
 	} catch (e) {
 		next(e);
 	}
 };
 
-const searchUserByUsername = async (req, res, next) => {
-	let { username } = req.params;
+const addFavorite = async (req, res) => {
+	let { idUser, idBook } = req.body.booksFav;
 	try {
-		username = `%${username}%`;
-		let userCheck = await User.findOne({
-			where: {
-				username: {
-					[Op.iLike]: username,
-				},
-			},
-		});
-		if (userCheck) res.json(userCheck);
-		else res.status(400).json({ message: 'User has not been found' });
-	} catch (e) {
-		next(e);
+		let user = await User.findByPk(idUser);
+
+		if (user) {
+			let newArray = user.favorites;
+			if (!newArray.includes(idBook)) {
+				newArray.push(idBook);
+			} else {
+				throw new Error('Invalid id');
+			}
+
+			await User.upsert({
+				id: user.id,
+				email: user.email,
+				password: user.password,
+				username: user.username,
+				profile_picture: user.profile_picture,
+				status: user.status,
+				favorites: newArray,
+			});
+
+			res.send('Added id');
+		} else {
+			throw new Error('Invalid user');
+		}
+
+		res.send('Agregado a Favoritos');
+	} catch (error) {
+		res.status(400).json(error.message);
 	}
 };
 
-module.exports = { registerUser, userLogin, searchUserByUsername };
+const getFavorite = async (req, res) => {
+	let { idUser } = req.params;
+
+	try {
+		let user = await User.findByPk(idUser);
+
+		if (user) {
+			let response = user.favorites;
+			res.send(response);
+		} else {
+			throw new Error('Invalid user');
+		}
+	} catch (error) {
+		res.status(400).json(error.message);
+	}
+};
+
+const deleteFavorite = async (req, res) => {
+	let { idUser, idBook } = req.body.booksFav;
+
+	try {
+		let user = await User.findByPk(idUser);
+
+		if (user) {
+			let newArray = user.favorites;
+			if (newArray.includes(idBook)) {
+				newArray = newArray.filter((e) => e !== idBook);
+			} else {
+				throw new Error('Invalid id');
+			}
+
+			await User.upsert({
+				id: user.id,
+				email: user.email,
+				password: user.password,
+				username: user.username,
+				profile_picture: user.profile_picture,
+				status: user.status,
+				favorites: newArray,
+			});
+
+			res.send('Id removed');
+		} else {
+			throw new Error('Invalid user');
+		}
+	} catch (error) {
+		res.status(400).json(error.message);
+	}
+};
+
+module.exports = {
+	registerUser,
+	userLogin,
+	addFavorite,
+	getFavorite,
+	deleteFavorite,
+};
