@@ -1,6 +1,6 @@
 // import actions types
 // import { GET_ALL_BOOKS } from './actionTypes'
-import { Slide } from '@chakra-ui/react';
+
 import Swal from 'sweetalert2';
 
 import axios from 'axios';
@@ -24,6 +24,7 @@ import {
 	LOGIN,
 	SIGN_UP,
 	SIGN_OUT,
+	HIDE_BOOKS,
 	CHECK_TOKEN,
 } from './actionTypes';
 
@@ -113,6 +114,21 @@ export function resetDetails() {
 		type: RESET_DETAILS,
 	};
 }
+//----------------------------------------------ADMIN-----------------------------------------
+
+export const hideBook = () => {
+	return async function (dispatch) {
+		try {
+			let result = await axios.put('/hide');
+			return dispatch({
+				type: HIDE_BOOKS,
+				payload: result.data,
+			});
+		} catch (error) {
+			alert(error);
+		}
+	};
+};
 
 //----------------------------------------------USERS-----------------------------------------
 
