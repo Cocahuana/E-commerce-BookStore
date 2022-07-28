@@ -24,25 +24,31 @@ import {
 } from '@chakra-ui/react';
 
 function UserProfile() {
-
 	const [image, setImage] = useState('');
-	// const { isOpen, onOpen, onClose } = useDisclosure();
+	const { isOpen, onOpen, onClose } = useDisclosure();
 	const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
-	const profileImage = useRef(null)
+	const profileImage = useRef(null);
 
 	const openChooseImage = () => {
-	  profileImage.current.click()
-	}
+		profileImage.current.click();
+	};
 
 	const uploadImage = (e) => {
 		const files = e.target.files[0];
-		const data = new FormData();
-		data.append('file', files);
-		data.append('upload_preset', 'proyect_preset');
-		axios
-			.post('https://api.cloudinary.com/v1_1/lucho/image/upload', data)
-			.then((res) => setImage(res.data.secure_url))
-			.catch((err) => console.log(err));
+		if (files && ALLOWED_TYPES.includes(files.type)) {
+			const data = new FormData();
+			data.append('file', files);
+			data.append('upload_preset', 'proyect_preset');
+			axios
+				.post(
+					'https://api.cloudinary.com/v1_1/lucho/image/upload',
+					data
+				)
+				.then((res) => setImage(res.data.secure_url))
+				.catch((err) => console.log(err));
+		} else {
+			onOpen();
+		}
 	};
 
 	return (
@@ -81,9 +87,7 @@ function UserProfile() {
 						size='2xl'
 						cursor='pointer'
 						onClick={openChooseImage}
-						src={
-						image
-						}>
+						src={image}>
 						<AvatarBadge bg='brand.blue' boxSize='1em'>
 							<svg
 								width='0.4em'
@@ -103,7 +107,7 @@ function UserProfile() {
 						type='file'
 						onChange={uploadImage}
 					/>
-{/* 
+
 					<Modal isOpen={isOpen} onClose={onClose}>
 						<ModalOverlay />
 						<ModalContent>
@@ -125,7 +129,7 @@ function UserProfile() {
 								<Button onClick={onClose}>Close</Button>
 							</ModalFooter>
 						</ModalContent>
-					</Modal> */}
+					</Modal>
 					<VStack align={'left'} spacing={1}>
 						<Heading as='h3' fontSize='xl' color='brand.dark'>
 							User Name
