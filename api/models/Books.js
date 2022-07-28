@@ -43,6 +43,10 @@ module.exports = (sequelize) => {
 			ratingCount: {
 				type: DataTypes.INTEGER,
 			},
+			stock: {
+				type: DataTypes.INTEGER,
+				defaultValue: 100,
+			}
 		},
 		{ timestamps: false }
 	);
