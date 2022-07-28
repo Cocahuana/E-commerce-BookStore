@@ -1,6 +1,8 @@
 // import actions types
 // import { GET_ALL_BOOKS } from './actionTypes'
 import { Slide } from '@chakra-ui/react';
+import Swal from 'sweetalert2';
+
 import axios from 'axios';
 import {
 	GET_DETAILS,
@@ -18,8 +20,10 @@ import {
 	ADD_CART,
 	DEL_CART,
 	DEL_ALL_CART,
+	RESET_FILTERS,
 	LOGIN,
 	SIGN_UP,
+	SIGN_OUT,
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -95,7 +99,7 @@ export function getBooksByTitleOrAuthor(titleOrAuthor) {
 			return dispatch({
 				type: GET_BOOKS_BY_TITLE_OR_AUTHOR,
 				//json.data devuelve lo que nos da la ruta de arriba, ya filtrado por nombre
-				payload: json.data,
+				payload: { data: json.data, query: titleOrAuthor },
 			});
 		} catch (error) {
 			console.log(error);
@@ -111,26 +115,52 @@ export function resetDetails() {
 
 //----------------------------------------------USERS-----------------------------------------
 
-export function userLogin(user){
-	return async function(dispatch){
-		var resp = await axios.post(`/user/login`, {username: user.email, password: user.password})
-		console.log(resp)
-		return dispatch({
-			type: LOGIN,
-			payload: resp.data.token
-		})
-	}
+export function userLogin(user) {
+	return async function (dispatch) {
+		try {
+			let resp = await axios.post(`/user/login`, {
+				username: user.email,
+				password: user.password,
+			});
+			console.log(resp);
+			Swal.fire(
+				'Good job!',
+				'You have been signed in successfully!',
+				'success'
+			);
+			return dispatch({
+				type: LOGIN,
+				payload: resp.data,
+			});
+			// Te envia a books cuando el login es exitoso
+		} catch (error) {
+			// Te lanza un error cuando la autenticacion falló o no es correcta
+			Swal.fire({
+				icon: 'error',
+				title: 'Oops...',
+				text: 'Email or password are incorrect :,(',
+			});
+		}
+	};
 }
 
-export function userSignUp(user){
-	return async function(dispatch){
-		var result = await axios.post(`/user/register`, {username: user.username, email: user.email, password: user.password})
-		console.log(result)
+export function userSignUp(user) {
+	return async function (dispatch) {
+		var result = await axios.post(`/user/register`, {
+			username: user.username,
+			email: user.email,
+			password: user.password,
+		});
+
 		return dispatch({
 			type: SIGN_UP,
-			payload: result.data.username
-		})
-	}
+			payload: result.data.username,
+		});
+	};
+}
+
+export function userSignOut() {
+	return { type: SIGN_OUT };
 }
 
 //-------------------------------------------------FILTERS---------------------------------------------
@@ -148,6 +178,9 @@ export function saveFilterOnSale(payload) {
 }
 export function applyFilters(payload) {
 	return { type: APPLY_FILTERS, payload };
+}
+export function resetFilters(payload) {
+	return { type: RESET_FILTERS, payload };
 }
 //------------------------------------------------------------------------------------------------------
 //-------------------------------------------------SORTS------------------------------------------------

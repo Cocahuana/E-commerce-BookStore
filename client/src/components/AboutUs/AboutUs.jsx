@@ -1,10 +1,8 @@
 import React from 'react';
 import {
-	Heading,
 	Text,
 	chakra,
 	Box,
-	Container,
 	Avatar,
 	Flex,
 	SimpleGrid,
@@ -15,81 +13,73 @@ import {
 
 const testimonials = [
 	{
-		name: 'Matias Farias',
+		name: 'Mati',
 		position: 'developer',
 		company: 'BookStore',
-		image:
-			'https://media-exp1.licdn.com/dms/image/C4E03AQG1T43fQUxrXg/profile-displayphoto-shrink_200_200/0/1620223234059?e=1663804800&v=beta&t=XLAAn-oViBmX17S-k6tsiMCu1G0VQw1AEW6AMcf3Tn8',
+		image: 'https://media-exp1.licdn.com/dms/image/C4E03AQG1T43fQUxrXg/profile-displayphoto-shrink_200_200/0/1620223234059?e=1663804800&v=beta&t=XLAAn-oViBmX17S-k6tsiMCu1G0VQw1AEW6AMcf3Tn8',
 		content: `Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
 		rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
 		risus at semper`,
 	},
 	{
-		name: 'Alejandro Díaz',
+		name: 'Ale',
 		position: 'CEO',
 		company: 'BookStore',
-		image:
-			'https://media-exp1.licdn.com/dms/image/C5603AQEpi5VxOr05rw/profile-displayphoto-shrink_200_200/0/1632938782612?e=1663804800&v=beta&t=LEz42gvrQXgiDn8A5QuF5sP6LG4F4ZeqoWATjN5nG-w',
+		image: 'https://media-exp1.licdn.com/dms/image/C5603AQEpi5VxOr05rw/profile-displayphoto-shrink_200_200/0/1632938782612?e=1663804800&v=beta&t=LEz42gvrQXgiDn8A5QuF5sP6LG4F4ZeqoWATjN5nG-w',
 		content: `Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
 		rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
 		risus at semper`,
 	},
 	{
-		name: 'Luciano',
+		name: 'Lucho',
 		position: 'developer',
 		company: 'BookStore',
-		image:
-			'https://media-exp1.licdn.com/dms/image/C5603AQGu6VKsTDyi4Q/profile-displayphoto-shrink_200_200/0/1614379338899?e=1663804800&v=beta&t=yVuO9DQMrYdymoEH95aGdV9Cb_EEH1-7eHJ4BTWGZVU',
+		image: 'https://media-exp1.licdn.com/dms/image/C5603AQGu6VKsTDyi4Q/profile-displayphoto-shrink_200_200/0/1614379338899?e=1663804800&v=beta&t=yVuO9DQMrYdymoEH95aGdV9Cb_EEH1-7eHJ4BTWGZVU',
 		content: `Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
 		rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
 		risus at semper`,
 	},
 	{
-		name: 'Trinidad',
+		name: 'Trini',
 		position: 'developer',
 		company: 'BookStore',
-		image:
-			'https://media-exp1.licdn.com/dms/image/C4D03AQEcb0vchcf9lw/profile-displayphoto-shrink_200_200/0/1654380893259?e=1663804800&v=beta&t=jeR_ICRGp6ZpObUz1D6044w77Jg2o8FFhwVBNPo_g7Y',
+		image: 'https://media-exp1.licdn.com/dms/image/C4D03AQEcb0vchcf9lw/profile-displayphoto-shrink_200_200/0/1654380893259?e=1663804800&v=beta&t=jeR_ICRGp6ZpObUz1D6044w77Jg2o8FFhwVBNPo_g7Y',
 		content: `Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
 		rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
 		risus at semper`,
 	},
 	{
-		name: 'Rodrigo Soriano',
-		position: 'Bad developer',
+		name: 'Rodri',
+		position: 'GOD developer',
 		company: 'BookStore',
-		image:
-			'https://media-exp1.licdn.com/dms/image/D4D35AQGTIKySsYzJ3A/profile-framedphoto-shrink_200_200/0/1652569710679?e=1658808000&v=beta&t=ZWHsY3kI_3HVV3jXGw2g0uX9UEs0L3FmhdVJapaBZFY',
+		image: 'https://media-exp1.licdn.com/dms/image/C4D03AQH_lUshhI_MWA/profile-displayphoto-shrink_200_200/0/1652545023557?e=1664409600&v=beta&t=_T1Jw5caShcd1NIUOFmNlvlLbaZptwydjNrj-Zw1S0w',
 		content: `Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
 		rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
 		risus at semper`,
 	},
 	{
-		name: 'Ezequiel',
+		name: 'Eze',
 		position: 'Dj developer',
 		company: 'BookStore',
-		image:
-			'https://media-exp1.licdn.com/dms/image/C4D03AQEcb0vchcf9lw/profile-displayphoto-shrink_200_200/0/1654380893259?e=1663804800&v=beta&t=jeR_ICRGp6ZpObUz1D6044w77Jg2o8FFhwVBNPo_g',
+		image: 'https://media-exp1.licdn.com/dms/image/C4D03AQEfHUP7juANMA/profile-displayphoto-shrink_200_200/0/1642718526971?e=1664409600&v=beta&t=s_aT2CJVubXY2l7XNdWMZ0C3KWgWq2Pw4a3FbIUlMVk',
 		content: `Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
 		rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
 		risus at semper`,
 	},
 	{
-		name: 'Gabriel',
+		name: 'Gabi',
 		position: '.json developer',
 		company: 'BookStore',
-		image:
-			'https://media-exp1.licdn.com/dms/image/C4D03AQEcb0vchcf9lw/profile-displayphoto-shrink_200_200/0/1654380893259?e=1663804800&v=beta&t=jeR_ICRGp6ZpObUz1D6044w77Jg2o8FFhwVBNPo_g',
+		image: 'https://media-exp1.licdn.com/dms/image/D4D35AQEjfcHMzjYW4g/profile-framedphoto-shrink_200_200/0/1652637831839?e=1659571200&v=beta&t=zbljChkan5pcBECPpP60OoB4pWFEZ2Rv1kjs20tlo24',
 		content: `Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
 		rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
 		risus at semper`,
 	},
 	{
-		name: 'Ivan',
+		name: 'Ivo',
 		position: 'Backend Developer',
 		company: 'BookStore',
-		image:
-			'https://media-exp1.licdn.com/dms/image/C4D03AQEcb0vchcf9lw/profile-displayphoto-shrink_200_200/0/1654380893259?e=1663804800&v=beta&t=jeR_ICRGp6ZpObUz1D6044w77Jg2o8FFhwVBNPo_g',
+		image: 'https://ca.slack-edge.com/TPRS7H4PN-U031M29E25C-01724309db4f-512',
 		content: `Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
 		rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
 		risus at semper`,
@@ -105,8 +95,7 @@ function AboutUs() {
 			}}
 			w='full'
 			justifyContent='center'
-			alignItems='center'
-		>
+			alignItems='center'>
 			<Flex
 				shadow='xl'
 				bg='white'
@@ -116,8 +105,7 @@ function AboutUs() {
 				px={8}
 				py={20}
 				mx='auto'
-				flexDirection='column'
-			>
+				flexDirection='column'>
 				<Flex flexDirection='column' alignItems={'center'}>
 					<chakra.h2
 						mb={4}
@@ -137,8 +125,7 @@ function AboutUs() {
 						}}
 						lineHeight={{
 							md: 'shorter',
-						}}
-					>
+						}}>
 						What's E-Bookstore?
 					</chakra.h2>
 					<chakra.p
@@ -154,10 +141,9 @@ function AboutUs() {
 						}}
 						fontSize={{
 							md: 'lg',
-						}}
-					>
-						It's an online bookstore where you can save, comment, rate and buy
-						your favorite digital and physical books
+						}}>
+						It's an online bookstore where you can save, comment,
+						rate and buy your favorite digital and physical books
 					</chakra.p>
 				</Flex>
 
@@ -168,8 +154,7 @@ function AboutUs() {
 					order={{
 						base: 'initial',
 						md: 2,
-					}}
-				>
+					}}>
 					<chakra.h2
 						mb={4}
 						fontSize={{
@@ -189,8 +174,7 @@ function AboutUs() {
 						}}
 						lineHeight={{
 							md: 'shorter',
-						}}
-					>
+						}}>
 						Why E-Bookstore?
 					</chakra.h2>
 					<chakra.p
@@ -206,12 +190,12 @@ function AboutUs() {
 						}}
 						fontSize={{
 							md: 'lg',
-						}}
-					>
-						Because if we dont, we aint passing Next to our Because if we dont,
-						we aint passing and free plugins you can use our expansive Because
-						if we dont, we aint passing Payments and build advanced and Because
-						if we dont, we aint passing
+						}}>
+						Because if we dont, we aint passing Next to our Because
+						if we dont, we aint passing and free plugins you can use
+						our expansive Because if we dont, we aint passing
+						Payments and build advanced and Because if we dont, we
+						aint passing
 					</chakra.p>
 				</Flex>
 				<Flex
@@ -221,8 +205,7 @@ function AboutUs() {
 					order={{
 						base: 'initial',
 						md: 2,
-					}}
-				>
+					}}>
 					<chakra.h1
 						mb={4}
 						fontSize={{
@@ -239,8 +222,7 @@ function AboutUs() {
 						color='brand.pepe'
 						_dark={{
 							color: 'gray.400',
-						}}
-					>
+						}}>
 						Our Team
 					</chakra.h1>
 					<SimpleGrid
@@ -248,16 +230,14 @@ function AboutUs() {
 						placeItems='center'
 						spacing={10}
 						mt={12}
-						mb={4}
-					>
+						mb={4}>
 						{testimonials.map((obj, index) => (
 							<Stack
 								key={index}
 								direction={{ base: 'column', sm: 'row' }}
 								spacing={2}
 								mb={5}
-								justify='center'
-							>
+								justify='center'>
 								<Stack
 									maxW='345px'
 									boxShadow='lg'
@@ -280,11 +260,15 @@ function AboutUs() {
 										right: { base: 'unset', sm: '-10px' },
 										left: { base: '48%', sm: 'unset' },
 										bottom: { base: '-15px', sm: 'unset' },
-										transform: { base: 'rotate(90deg)', sm: 'unset' },
+										transform: {
+											base: 'rotate(90deg)',
+											sm: 'unset',
+										},
 										display: 'block',
-									}}
-								>
-									<chakra.p fontWeight='light' fontSize='medium'>
+									}}>
+									<chakra.p
+										fontWeight='light'
+										fontSize='medium'>
 										{obj.content}
 									</chakra.p>
 								</Stack>
@@ -293,8 +277,7 @@ function AboutUs() {
 									spacing={2}
 									p={2}
 									justify='flex-end'
-									alignItems='center'
-								>
+									alignItems='center'>
 									<Avatar
 										size='lg'
 										showBorder={true}
@@ -306,7 +289,10 @@ function AboutUs() {
 										<Text fontWeight='bold' fontSize='md'>
 											{obj.name}
 										</Text>
-										<Text fontWeight='medium' fontSize='xs' color='gray.400'>
+										<Text
+											fontWeight='medium'
+											fontSize='xs'
+											color='gray.400'>
 											{obj.position}, {obj.company}
 										</Text>
 									</Box>

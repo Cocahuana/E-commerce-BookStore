@@ -31,73 +31,77 @@ var server = http.createServer(app);
  * We're using conn from db.js with the method sync to sync all the models at once.
  * Using property "force: false" to handle the emptying of database
  */
-conn.sync({ force: true }).then(() => {
+conn.sync({ force: false }).then(() => {
 	app.listen(process.env.PORT || 3001, async () => {
 		console.log('%s listening at 3001'); // eslint-disable-line no-console
 		console.log('Puerto: ' + process.env.PORT);
 		// function cambiarDeLugar(){
 
-		// let infoCheck = await Books.findAll();
-		// if (infoCheck.length === 0) {
-		await Books.bulkCreate(books);
-		await Genre.bulkCreate(genres);
-		await Language.bulkCreate(languages);
-		let genreNames = genres.map((genre) => {
-			return genre.name;
-		});
-		let booksToAssociate;
-		let genreBooks;
-		let genresToAssociate;
-		let arrayPromises = [];
-		for (let i in genreNames) {
-			genreBooks = books.map((book) =>
-				book.genre.includes(genreNames[i]) ? book.title : null
-			);
+		let infoCheck = await Books.findAll();
+		if (infoCheck.length === 0) {
+			await Books.bulkCreate(books);
+			await Genre.bulkCreate(genres);
+			await Language.bulkCreate(languages);
+			let genreNames = genres.map((genre) => {
+				return genre.name;
+			});
+			let booksToAssociate;
+			let genreBooks;
+			let genresToAssociate;
+			let arrayPromises = [];
+			for (let i in genreNames) {
+				genreBooks = books.map((book) =>
+					book.genre.includes(genreNames[i]) ? book.title : null
+				);
 
-			booksToAssociate = await Books.findAll({
-				where: {
-					title: {
-						[Op.in]: genreBooks,
+				booksToAssociate = await Books.findAll({
+					where: {
+						title: {
+							[Op.in]: genreBooks,
+						},
 					},
-				},
-			});
+				});
 
-			genresToAssociate = await Genre.findOne({
-				where: {
-					name: genreNames[i],
-				},
-			});
-
-			arrayPromises.push(genresToAssociate.addBooks(booksToAssociate));
-		}
-
-		let languageNames = languages.map((language) => {
-			return language.name;
-		});
-		let languagesToAssociate;
-		let languageBooks;
-		for (let i in languageNames) {
-			languageBooks = books.map((book) =>
-				book.language === languageNames[i] ? book.title : null
-			);
-			booksToAssociate = await Books.findAll({
-				where: {
-					title: {
-						[Op.in]: languageBooks,
+				genresToAssociate = await Genre.findOne({
+					where: {
+						name: genreNames[i],
 					},
-				},
-			});
+				});
 
-			languagesToAssociate = await Language.findOne({
-				where: {
-					name: languageNames[i],
-				},
-			});
+				arrayPromises.push(
+					genresToAssociate.addBooks(booksToAssociate)
+				);
+			}
 
-			arrayPromises.push(languagesToAssociate.addBooks(booksToAssociate));
+			let languageNames = languages.map((language) => {
+				return language.name;
+			});
+			let languagesToAssociate;
+			let languageBooks;
+			for (let i in languageNames) {
+				languageBooks = books.map((book) =>
+					book.language === languageNames[i] ? book.title : null
+				);
+				booksToAssociate = await Books.findAll({
+					where: {
+						title: {
+							[Op.in]: languageBooks,
+						},
+					},
+				});
+
+				languagesToAssociate = await Language.findOne({
+					where: {
+						name: languageNames[i],
+					},
+				});
+
+				arrayPromises.push(
+					languagesToAssociate.addBooks(booksToAssociate)
+				);
+			}
+			await Promise.all(arrayPromises);
 		}
-		await Promise.all(arrayPromises);
-		// }
 		// }
 	});
 });

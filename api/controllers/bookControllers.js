@@ -131,8 +131,17 @@ const findByAuthorOrTitle = async (req, res, next) => {
 						{ authors: { [Op.iLike]: input } },
 					],
 				},
+				include: [
+					{
+						model: Genre,
+						through: { attributes: [] },
+					},
+					{
+						model: Language,
+						through: { attributes: [] },
+					},
+				],
 			});
-			console.log(resp);
 			if (resp.length) {
 				res.json(resp);
 			} else {
@@ -152,7 +161,6 @@ const allGenres = async (req, res, next) => {
 		res.json(respuesta);
 	} catch (e) {
 		res.status(404).send(e);
-
 	}
 };
 

@@ -20,7 +20,8 @@ import { PriceTag } from './PriceTag';
 import { Link as BuenLink } from 'react-router-dom';
 import { FaCommentDots } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCart } from '../../../../../redux/actions';
+import { addToCart } from '../../../../redux/actions/index';
+import Swal from 'sweetalert2';
 
 export const Book = (props) => {
 	const { product, rootProps } = props;
@@ -29,6 +30,13 @@ export const Book = (props) => {
 
 	const handleAddToCart = () => {
 		dispatch(addToCart(id));
+		Swal.fire({
+			position: 'top-end',
+			icon: 'success',
+			title: 'Added to the cart successfully',
+			showConfirmButton: false,
+			timer: 1500,
+		});
 	};
 
 	const {

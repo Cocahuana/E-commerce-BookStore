@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { getDetails, resetDetails } from '../../../redux/actions';
+import { addToCart, getDetails, resetDetails } from '../../redux/actions';
 import { Link as BuenLink } from 'react-router-dom';
 import {
 	Box,
@@ -25,22 +25,27 @@ import {
 import { TiShoppingCart } from 'react-icons/ti';
 import { Rating } from '../BookShelf/BookHolder/Book/Rating';
 
-function handleonclick() {
-	alert('Product added into the cart');
-}
-
 function BookDetail(props) {
 	const dispatch = useDispatch();
+	const { id } = props.match.params;
+
+	const { cart } = useSelector((state) => state);
+	const { summary } = useSelector((state) => state);
+
+	const handleonclick = (id) => {
+		dispatch(addToCart(id));
+	};
 
 	useEffect(() => {
-		dispatch(getDetails(props.match.params.id));
+		dispatch(getDetails(id));
+		localStorage.setItem('cart', JSON.stringify(cart));
+		localStorage.setItem('summary', JSON.stringify(summary));
 		return () => {
 			dispatch(resetDetails());
 		};
-	}, [dispatch]);
+	}, [dispatch, cart]);
 
 	let detail = useSelector((state) => state.details);
-
 	return (
 		<Container align={'center'} bg='brand.pepe' minW={'100%'} minH={'90vh'}>
 			<Box maxW={'7xl'}>
@@ -129,7 +134,7 @@ function BookDetail(props) {
 							</Text>
 
 							<Button
-								onClick={handleonclick}
+								onClick={() => handleonclick(detail.id)}
 								rounded={'100px'}
 								w={'50%'}
 								mt={8}
@@ -163,7 +168,13 @@ function BookDetail(props) {
 												'blue.500',
 												'blue.200'
 											)}>
-											<Box flex='1' textAlign='left'>
+											<Box
+												color={useColorModeValue(
+													'white',
+													'gray.900'
+												)}
+												flex='1'
+												textAlign='left'>
 												Description
 											</Box>
 											<AccordionIcon />

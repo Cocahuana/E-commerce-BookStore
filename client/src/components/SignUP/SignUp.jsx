@@ -15,17 +15,20 @@ import {
 	useColorModeValue,
 	Image,
 	Checkbox,
+	FormHelperText,
+	FormErrorMessage,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import axios from 'axios';
+import { Link as BuenLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { userSignUp } from '../../../redux/actions/index';
+import { userSignUp } from '../../redux/actions/index';
+import validate from '../validations.js';
 
 function SignUp() {
 	const [show, setShow] = React.useState(false);
-	const handleClick = () => setShow(!show);
+	//const handleClick = () => setShow(!show);
 	const dispatch = useDispatch();
 	const history = useHistory();
 
@@ -35,16 +38,43 @@ function SignUp() {
 		password: '',
 	});
 
+	const [errors, setErrors] = useState({});
+
 	const handleOnChange = (e) => {
+		const { name, value } = e.target;
 		setRegisterUser({
 			...registerUser,
-			[e.target.name]: e.target.value,
+			[name]: value,
 		});
+		setErrors(
+			validate({
+				...registerUser,
+				[name]: value,
+			})
+		);
 	};
 
-	const handleRegister = (event) => {
-		dispatch(userSignUp(registerUser));
-		history.push(`/login`);
+	const handleRegister = (e) => {
+		e.preventDefault();
+
+		if (Object.values(errors).length > 0) {
+			alert('Please complete the information required');
+		} else if (
+			registerUser.username === '' ||
+			registerUser.email === '' ||
+			registerUser.password === ''
+		) {
+			alert('Please complete the form');
+		} else {
+			dispatch(userSignUp(registerUser));
+			alert('You have been registered successfully!');
+			setRegisterUser({
+				username: '',
+				email: '',
+				password: '',
+			});
+			history.push(`/login`);
+		}
 	};
 
 	return (
@@ -56,7 +86,7 @@ function SignUp() {
 				<Stack spacing={4} w={'full'} maxW={'md'}>
 					<Heading fontSize={'2xl'}>Sign up to your account</Heading>
 
-					<FormControl id='username'>
+					<FormControl id='username' isInvalid={errors.username}>
 						<FormLabel>Username</FormLabel>
 						<Input
 							placeholder='username'
@@ -64,9 +94,17 @@ function SignUp() {
 							onChange={(e) => handleOnChange(e)}
 							bg={'white'}
 						/>
+
+						{errors.username && errors.username ? (
+							<FormErrorMessage>
+								{errors.username}
+							</FormErrorMessage>
+						) : (
+							<FormHelperText>Example: Messi</FormHelperText>
+						)}
 					</FormControl>
 
-					<FormControl id='email'>
+					<FormControl id='email' isInvalid={errors.email}>
 						<FormLabel>Email address</FormLabel>
 						<Input
 							placeholder='email'
@@ -75,9 +113,16 @@ function SignUp() {
 							bg={'white'}
 							type='email'
 						/>
+						{errors.email && errors.email ? (
+							<FormErrorMessage>{errors.email}</FormErrorMessage>
+						) : (
+							<FormHelperText>
+								Example: Messi@email.com
+							</FormHelperText>
+						)}
 					</FormControl>
 
-					<FormControl id='password'>
+					<FormControl id='password' isInvalid={errors.password}>
 						<FormLabel>Password</FormLabel>
 						<InputGroup>
 							<Input
@@ -95,13 +140,20 @@ function SignUp() {
 								</Button>
 							</InputRightElement>
 						</InputGroup>
+						{errors.password && errors.password ? (
+							<FormErrorMessage>
+								{errors.password}
+							</FormErrorMessage>
+						) : (
+							<FormHelperText>Example: MessiG04t</FormHelperText>
+						)}
 					</FormControl>
 
 					<Stack spacing={6}>
 						<Button
 							colorScheme={'blue'}
 							variant={'solid'}
-							onClick={(event) => handleRegister(event)}>
+							onClick={(e) => handleRegister(e)}>
 							Sign up
 						</Button>
 					</Stack>
@@ -109,13 +161,14 @@ function SignUp() {
 					<Stack pt={6}>
 						<Text align={'center'}>
 							Already a user?{' '}
-							<Button
-								as={'a'}
-								color={'blue.400'}
-								variant={'link'}
-								href={'/login'}>
-								Login
-							</Button>
+							<BuenLink to='/login'>
+								<Button
+									as={'a'}
+									color={'blue.400'}
+									variant={'link'}>
+									Login
+								</Button>
+							</BuenLink>
 						</Text>
 					</Stack>
 				</Stack>

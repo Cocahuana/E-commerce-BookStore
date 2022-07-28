@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 import {
 	Flex,
 	Box,
@@ -16,33 +17,48 @@ import {
 	useColorModeValue,
 	Image,
 	Checkbox,
+	tokenToCSSVar,
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { useDispatch } from 'react-redux';
-import { userLogin } from '../../../redux/actions/index';
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogin } from '../../redux/actions/index';
 import { useHistory } from 'react-router-dom';
+import { Link as BuenLink } from 'react-router-dom';
 
 function SignIn() {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const [show, setShow] = React.useState(false);
-	const handleClick = () => setShow(!show);
+	// const handleClick = () => setShow(!show);
 
-	const [user, setnewUser] = useState({
+	const [user, setLoginUser] = useState({
 		email: '',
 		password: '',
 	});
 
 	const handleOnChange = (e) => {
-		setnewUser({
+		setLoginUser({
 			...user,
 			[e.target.name]: e.target.value,
 		});
 	};
 
-	const handleSignUp = (event) => {
-		dispatch(userLogin(user));
-		//history.push(`/books`);
+	const handleSignIn = (e) => {
+		e.preventDefault();
+
+		if (user.email === '' || user.password === '') {
+			Swal.fire({
+				icon: 'error',
+				title: 'Oops...',
+				text: 'Login inputs can not be empty, sorry!',
+			});
+		} else {
+			dispatch(userLogin(user));
+			setLoginUser({
+				email: '',
+				password: '',
+			});
+		}
 	};
 
 	return (
@@ -59,6 +75,7 @@ function SignIn() {
 						<Input
 							bg={'white'}
 							name='email'
+							value={user.email}
 							onChange={(e) => handleOnChange(e)}
 						/>
 					</FormControl>
@@ -70,6 +87,7 @@ function SignIn() {
 								name='password'
 								onChange={(e) => handleOnChange(e)}
 								bg={'white'}
+								value={user.password}
 								type={show ? 'text' : 'password'}
 							/>
 							<InputRightElement h={'full'}>
@@ -99,7 +117,7 @@ function SignIn() {
 						<Button
 							colorScheme={'blue'}
 							variant={'solid'}
-							onClick={(event) => handleSignUp(event)}>
+							onClick={(event) => handleSignIn(event)}>
 							Sign in
 						</Button>
 					</Stack>
@@ -107,13 +125,14 @@ function SignIn() {
 					<Stack pt={6}>
 						<Text align={'center'}>
 							Don´t have an account?{' '}
-							<Button
-								as={'a'}
-								color={'blue.400'}
-								variant={'link'}
-								href={'/register'}>
-								Register
-							</Button>
+							<BuenLink to='/register'>
+								<Button
+									as={'a'}
+									color={'blue.400'}
+									variant={'link'}>
+									Register
+								</Button>
+							</BuenLink>
 						</Text>
 					</Stack>
 				</Stack>

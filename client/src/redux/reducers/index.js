@@ -1,6 +1,5 @@
 // import actions types
 // import { GET_ALL_BOOKS } from '../actions/actionTypes'
-import { filter } from '@chakra-ui/react';
 import {
 	GET_DETAILS,
 	GET_BOOKS,
@@ -13,12 +12,13 @@ import {
 	APPLY_FILTERS,
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
 	RESET_DETAILS,
-	LOADING,
 	ADD_CART,
 	DEL_CART,
 	DEL_ALL_CART,
+	RESET_FILTERS,
 	SIGN_UP,
-	LOGIN
+	LOGIN,
+	SIGN_OUT,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -32,12 +32,22 @@ if (!summaryFromLocalStorage) {
 	summaryFromLocalStorage = 0;
 }
 
+let tokenFromLocalStorage = localStorage.getItem('token');
+if (!tokenFromLocalStorage) {
+	tokenFromLocalStorage = '';
+}
+let isSignedInFromLocalStorage = localStorage.getItem('isSignedIn');
+if (!tokenFromLocalStorage) {
+	isSignedInFromLocalStorage = false;
+}
+
 // ----------------------------------------------
 
 // initial states
 
 const InitialState = {
 	books: [],
+	query: '',
 	details: {},
 	genres: [],
 	booksCopy: [],
@@ -54,8 +64,10 @@ const InitialState = {
 	isBoxChecked: [],
 	cart: cartFromLocalStorage,
 	summary: summaryFromLocalStorage,
-	token: '',
-	registeredUsers: []
+	token: tokenFromLocalStorage,
+	registeredUsers: [],
+	userRol: null,
+	isSignedIn: isSignedInFromLocalStorage,
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -75,15 +87,18 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		}
 		case GET_BOOKS_BY_TITLE_OR_AUTHOR: {
-			if (typeof action.payload === 'string') {
+			if (typeof action.payload.data === 'string') {
 				return {
 					...state,
 					books: [],
+					query: action.payload.query,
 				};
 			}
 			return {
 				...state,
-				books: action.payload,
+				booksCopy: action.payload.data,
+				books: action.payload.data,
+				query: action.payload.query,
 			};
 		}
 		case GET_GENRES: {
@@ -133,12 +148,28 @@ const rootReducer = (state = InitialState, action) => {
 				},
 			};
 
+		//guardo el ordenamiento en el estado global
 		case SORT_ORDER:
 			return {
 				...state,
 				filters: {
 					...state.filters,
 					order: action.payload,
+				},
+			};
+
+		//guardo el filtro pór ofertas en el estado global
+		case RESET_FILTERS:
+			return {
+				...state,
+				filters: {
+					genres: [],
+					rating: '',
+					price: [0, 60],
+					onsale: false,
+					currency: '',
+					language: '',
+					order: '',
 				},
 			};
 
@@ -238,7 +269,7 @@ const rootReducer = (state = InitialState, action) => {
 		case ADD_CART:
 			let exist = state.cart.filter((el) => el.id === action.payload);
 			if (exist.length === 1) return state;
-			let newItem = state.books.find((p) => p.id === action.payload);
+			let newItem = state.booksCopy.find((p) => p.id === action.payload);
 			let sum = newItem.price;
 			return {
 				...state,
@@ -260,18 +291,28 @@ const rootReducer = (state = InitialState, action) => {
 				cart: [],
 				summary: 0,
 			};
-		case LOGIN: 
-		console.log(action.payload)
-			return{
+		case LOGIN:
+			// Signed in, passing token, user rol and setting the state "isSignedIn" with value true
+			return {
 				...state,
-				token: action.payload
-			}
-		case SIGN_UP: 
-			return{ 
+				token: action.payload.token,
+				userRol: action.payload.status,
+				isSignedIn: true,
+			};
+		case SIGN_UP:
+			return {
 				...state,
-				registeredUsers: action.payload
+				registeredUsers: action.payload,
 				// tal vez lo podemos usar para mostrar los usuarios registrados en admin dashboard
-			}
+			};
+		case SIGN_OUT:
+			// We clear the whole localStorage and set isSignedIn false, and the token as an empty string
+			localStorage.setItem('cart', JSON.stringify([]));
+			return {
+				...state,
+				token: '',
+				isSignedIn: false,
+			};
 
 		default:
 			return {

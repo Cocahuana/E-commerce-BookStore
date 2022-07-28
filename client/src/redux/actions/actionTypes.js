@@ -17,6 +17,7 @@ export const FILTER_LANGUAGE = 'FILTER_LANGUAGE';
 export const FILTER_ONSALE = 'FILTER_ONSALE';
 export const SORT_ORDER = 'SORT_ORDER';
 export const APPLY_FILTERS = 'APPLY_FILTERS';
+export const RESET_FILTERS = 'RESET_FILTERS';
 
 // -------------LOADING-------------
 export const LOADING = 'LOADING';
@@ -27,5 +28,6 @@ export const DEL_CART = 'DEL_CART';
 export const DEL_ALL_CART = 'DEL_ALL_CART';
 
 //------------USER---------------
-export const LOGIN = 'LOGIN'
-export const SIGN_UP = 'SIGN_UP'
+export const LOGIN = 'LOGIN';
+export const SIGN_UP = 'SIGN_UP';
+export const SIGN_OUT = 'SIGN_OUT';
