@@ -294,6 +294,7 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		case LOGIN:
 			// Signed in, passing token, user rol and setting the state "isSignedIn" with value true
+			localStorage.setItem('isSignedIn', true);
 			return {
 				...state,
 				token: action.payload.token,
