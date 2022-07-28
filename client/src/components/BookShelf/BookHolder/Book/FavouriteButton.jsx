@@ -21,7 +21,6 @@ export const FavouriteButton = (props) => (
 			icon={<Icon as={FiHeart} transition='all 0.15s ease' />}
 			boxShadow='base'
 			{...props}
-			onClick={console.log(props.id)}
 		/>
 	</LightMode>
 );
