@@ -1,4 +1,12 @@
-import { Box, Container, Spinner, Center, Flex } from '@chakra-ui/react';
+import {
+	Box,
+	Container,
+	Grid,
+	GridItem,
+	Spinner,
+	Center,
+	Flex,
+} from '@chakra-ui/react';
 import * as React from 'react';
 import { BookHolder } from './BookHolder/BookHolder';
 import { Book } from './BookHolder/Book/Book';
@@ -7,15 +15,18 @@ import Filter from './Filters/Filter';
 import { Paging } from './Paging/Paging';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getBooks } from '../../redux/actions/index';
+import { getBooks } from '../../redux/actions';
 
 const BookShelf = () => {
 	const dispatch = useDispatch();
-	const { books, cart, summary } = useSelector((state) => state);
+	const { books } = useSelector((state) => state);
 	const [CurrentPage, setCurrentPage] = useState(1);
 	const BooksPerPage = 12;
 	const indexOfLastBook = CurrentPage * BooksPerPage;
 	const indexOfFirstBook = indexOfLastBook - BooksPerPage;
+
+	const { cart } = useSelector((state) => state);
+	const { summary } = useSelector((state) => state);
 
 	let slicedBooks = books.slice(indexOfFirstBook, indexOfLastBook);
 
