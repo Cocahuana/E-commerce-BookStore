@@ -25,6 +25,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { userSignUp } from '../../redux/actions/index';
 import validate from '../validations.js';
+import Swal from 'sweetalert2';
 
 function SignUp() {
 	const [show, setShow] = React.useState(false);
@@ -67,7 +68,11 @@ function SignUp() {
 			alert('Please complete the form');
 		} else {
 			dispatch(userSignUp(registerUser));
-			alert('You have been registered successfully!');
+			Swal.fire(
+				'Sign Up',
+				'You have been registered successfully!',
+				'success'
+			);
 			setRegisterUser({
 				username: '',
 				email: '',
