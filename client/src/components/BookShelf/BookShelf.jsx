@@ -32,6 +32,8 @@ const BookShelf = () => {
 
 	const loading = useSelector((state) => state.loading);
 
+	const { token } = useSelector((state) => state);
+
 	useEffect(() => {
 		if (!books.length) dispatch(getBooks());
 		localStorage.setItem('cart', JSON.stringify(cart));
@@ -43,6 +45,11 @@ const BookShelf = () => {
 			<Box pt={'16'} bg={'gray.100'}>
 				<SearchBar setCurrentPage={setCurrentPage} />
 			</Box>
+			{token ? (
+				<h1>AGUANTE MESSI CARETAS ESTOY LOGUEADO</h1>
+			) : (
+				<h1>MATAME NO ME LOGUEE</h1>
+			)}
 			<Container maxW={'container.xl'} py={'5'}>
 				<Flex
 					flexDirection={{

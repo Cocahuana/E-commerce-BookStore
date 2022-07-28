@@ -121,7 +121,7 @@ export function userLogin(user) {
 		console.log(resp);
 		return dispatch({
 			type: LOGIN,
-			payload: resp.data.token,
+			payload: resp.data,
 		});
 	};
 }

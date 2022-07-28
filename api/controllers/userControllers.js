@@ -43,7 +43,6 @@ const registerUser = async (req, res, next) => {
 
 const userLogin = async (req, res, next) => {
 	const { username, password } = req.body;
-	console.log(req.body);
 	try {
 		let hashedPassword = crypto
 			.createHash('md5')
@@ -55,7 +54,6 @@ const userLogin = async (req, res, next) => {
 			},
 		});
 		//Habría que filtrar la password para que no se mande al front, caso contrario alguien mediante los estados podrías verlo y des-hashearlo
-		console.log(userCheck);
 		if (!userCheck)
 			return res.status(400).send('Email or password does not match!');
 		else if (userCheck.password !== hashedPassword)

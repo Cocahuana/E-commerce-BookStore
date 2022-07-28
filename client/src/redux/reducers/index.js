@@ -56,6 +56,7 @@ const InitialState = {
 	summary: summaryFromLocalStorage,
 	token: '',
 	registeredUsers: [],
+	userRol: null,
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -283,7 +284,8 @@ const rootReducer = (state = InitialState, action) => {
 		case LOGIN:
 			return {
 				...state,
-				token: action.payload,
+				token: action.payload.token,
+				userRol: action.payload.status,
 			};
 		case SIGN_UP:
 			return {
