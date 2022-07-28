@@ -38,6 +38,7 @@ const BookShelf = () => {
 		if (!books.length) dispatch(getBooks());
 		localStorage.setItem('cart', JSON.stringify(cart));
 		localStorage.setItem('summary', JSON.stringify(summary));
+		localStorage.setItem('token', token);
 	}, [dispatch, cart]);
 
 	return (
