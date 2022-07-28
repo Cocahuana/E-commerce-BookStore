@@ -13,6 +13,7 @@ import Page404 from './components/Page404/Page404';
 import './App.css';
 import ScrollToTop from './components/ScrollToTop';
 import Dashboard from './components/Dashboard/Dashboard';
+import FormAdd from './components/Dashboard/Forms/FormAdd';
 
 /*
  NO SACAR EL SWITCH, AMIGUENSE CON REACT ROUTER DOM V5 :D
@@ -31,6 +32,8 @@ function App() {
 				<Route path='/login' component={login} />
 				<Route path='/us' component={AboutUs} />
 				<Route path='/adminDashboard' component={Dashboard} />
+				<Route path='/addBook' component={FormAdd} />
+
 				<Route path='/profile' component={userprofile} />
 				<Route path='*' component={Page404} />
 			</Switch>

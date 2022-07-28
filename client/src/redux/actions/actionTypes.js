@@ -1,4 +1,3 @@
-import axios from 'axios';
 // Export all actions types
 
 // export const GET_ALL_BOOKS = 'GET_ALL_BOOKS';
@@ -31,3 +30,6 @@ export const DEL_ALL_CART = 'DEL_ALL_CART';
 export const LOGIN = 'LOGIN';
 export const SIGN_UP = 'SIGN_UP';
 export const SIGN_OUT = 'SIGN_OUT';
+
+//------------ADMIN---------------
+export const HIDE_BOOKS = 'HIDE_BOOKS';

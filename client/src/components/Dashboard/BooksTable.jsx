@@ -28,6 +28,7 @@ import { Search2Icon, SmallAddIcon } from '@chakra-ui/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { getBooksByTitleOrAuthor } from '../../redux/actions';
 import { useDispatch } from 'react-redux';
+import { Link as BuenLink } from 'react-router-dom';
 
 function BooksTable({ books }) {
 	const textColor = useColorModeValue('gray.700', 'white');
@@ -57,23 +58,25 @@ function BooksTable({ books }) {
 	// }, [titleBook]);
 
 	return (
-		<Box rounded={'md'} boxShadow={'xl'} id='scrollableDiv'>
+		<Box rounded={'md'} boxShadow={'xl'}>
 			<Flex p={'10'} justify={'space-between'} align='center'>
 				<Box>
 					<chakra.h1 fontWeight={'bold'} fontSize={'3xl'}>
 						List All Books
 					</chakra.h1>
-					<Button p='0px' variant='no-hover'>
-						<SmallAddIcon color={'green.600'} bg='green.100' />
-						<Text
-							fontSize='md'
-							color='gray.600'
-							fontWeight='bold'
-							cursor='pointer'
-						>
-							Create
-						</Text>
-					</Button>
+					<BuenLink to='/addBook'>
+						<Button p='0px' variant='no-hover'>
+							<SmallAddIcon color={'green.600'} bg='green.100' />
+							<Text
+								fontSize='md'
+								color='gray.600'
+								fontWeight='bold'
+								cursor='pointer'
+							>
+								Create
+							</Text>
+						</Button>
+					</BuenLink>
 				</Box>
 				<Flex>
 					<InputGroup>
@@ -188,7 +191,7 @@ function BooksTable({ books }) {
 											cursor='pointer'
 										>
 											<Icon color='red.500' as={FaTrashAlt} me='4px' />
-											Delete
+											Delete {b.id}
 										</Text>
 									</Button>
 								</Td>

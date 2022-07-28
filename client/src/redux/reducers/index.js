@@ -66,12 +66,9 @@ const InitialState = {
 	summary: summaryFromLocalStorage,
 	token: tokenFromLocalStorage,
 	registeredUsers: [],
-<<<<<<< HEAD
 	adminBooks: [],
-=======
 	userRol: null,
 	isSignedIn: isSignedInFromLocalStorage,
->>>>>>> 8390613fe504c23c1556520f97c8546432bc9117
 };
 
 const rootReducer = (state = InitialState, action) => {
