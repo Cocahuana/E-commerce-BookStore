@@ -40,9 +40,9 @@ const BookShelf = () => {
 		localStorage.setItem('cart', JSON.stringify(cart));
 		localStorage.setItem('summary', JSON.stringify(summary));
 		if (token.length === 0) {
-			localStorage.setItem('signedIn', false);
+			localStorage.setItem('isSignedIn', false);
 		} else {
-			localStorage.setItem('signedIn', true);
+			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('token', token);
 		}
 	}, [dispatch, cart, token]);

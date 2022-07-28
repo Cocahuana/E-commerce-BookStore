@@ -25,6 +25,7 @@ import {
 	SIGN_UP,
 	SIGN_OUT,
 	HIDE_BOOKS,
+	CHECK_TOKEN,
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -138,7 +139,6 @@ export function userLogin(user) {
 				username: user.email,
 				password: user.password,
 			});
-			console.log(resp);
 			Swal.fire(
 				'Good job!',
 				'You have been signed in successfully!',
@@ -148,15 +148,24 @@ export function userLogin(user) {
 				type: LOGIN,
 				payload: resp.data,
 			});
-			// Te envia a books cuando el login es exitoso
 		} catch (error) {
 			// Te lanza un error cuando la autenticacion falló o no es correcta
+			// Permaneces en la pagina del sign in
 			Swal.fire({
 				icon: 'error',
 				title: 'Oops...',
 				text: 'Email or password are incorrect :,(',
 			});
 		}
+	};
+}
+
+// Aca checkeamos si el estado del token está o no actualizado
+export function checkToken() {
+	return async function (dispatch) {
+		return dispatch({
+			type: CHECK_TOKEN,
+		});
 	};
 }
 

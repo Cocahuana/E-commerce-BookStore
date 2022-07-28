@@ -33,3 +33,5 @@ export const SIGN_OUT = 'SIGN_OUT';
 
 //------------ADMIN---------------
 export const HIDE_BOOKS = 'HIDE_BOOKS';
+
+export const CHECK_TOKEN = 'CHECK_TOKEN';

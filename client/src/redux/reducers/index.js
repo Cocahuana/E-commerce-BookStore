@@ -19,6 +19,7 @@ import {
 	SIGN_UP,
 	LOGIN,
 	SIGN_OUT,
+	CHECK_TOKEN,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -291,11 +292,17 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		case LOGIN:
 			// Signed in, passing token, user rol and setting the state "isSignedIn" with value true
+			localStorage.setItem('isSignedIn', true);
 			return {
 				...state,
 				token: action.payload.token,
 				userRol: action.payload.status,
 				isSignedIn: true,
+			};
+		// Aca checkeamos si el estado del token está o no actualizado
+		case CHECK_TOKEN:
+			return {
+				...state,
 			};
 		case SIGN_UP:
 			return {
@@ -306,6 +313,8 @@ const rootReducer = (state = InitialState, action) => {
 		case SIGN_OUT:
 			// We clear the whole localStorage and set isSignedIn false, and the token as an empty string
 			localStorage.setItem('cart', JSON.stringify([]));
+			localStorage.setItem('isSignedIn', false);
+			localStorage.removeItem('token');
 			return {
 				...state,
 				token: '',

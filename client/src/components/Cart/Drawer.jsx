@@ -15,6 +15,7 @@ import {
 import Cart from './Cart';
 import { useDispatch } from 'react-redux';
 import { delAllCart } from '../../redux/actions/index';
+import { TiShoppingCart } from 'react-icons/ti';
 import SummaryPurchase from './SummaryPurchase';
 
 const CartDrawer = () => {
@@ -31,7 +32,11 @@ const CartDrawer = () => {
 
 	return (
 		<>
-			<Button onClick={() => handleClick()} key={'sm'} m={4}>
+			<Button
+				onClick={() => handleClick()}
+				key={'sm'}
+				m={4}
+				leftIcon={<TiShoppingCart />}>
 				Cart
 			</Button>
 
