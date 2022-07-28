@@ -28,5 +28,6 @@ export const DEL_CART = 'DEL_CART';
 export const DEL_ALL_CART = 'DEL_ALL_CART';
 
 //------------USER---------------
-export const LOGIN = 'LOGIN'
-export const SIGN_UP = 'SIGN_UP'
+export const LOGIN = 'LOGIN';
+export const SIGN_UP = 'SIGN_UP';
+export const SIGN_OUT = 'SIGN_OUT';

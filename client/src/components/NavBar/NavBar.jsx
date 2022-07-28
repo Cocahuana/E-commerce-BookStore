@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
 	Box,
 	Flex,
@@ -17,6 +18,7 @@ import {
 	useDisclosure,
 	useColorMode,
 	Center,
+	HStack,
 } from '@chakra-ui/react';
 import {
 	HamburgerIcon,
@@ -26,11 +28,20 @@ import {
 } from '@chakra-ui/icons';
 import { Link as BuenLink } from 'react-router-dom';
 import Drawer from '../Cart/Drawer';
+import Signout from '../SignOut/Signout';
+import { useSelector } from 'react-redux';
 
 export default function NavBar() {
 	const { isOpen, onToggle } = useDisclosure();
 	const { colorMode, toggleColorMode } = useColorMode();
-	return (
+	const { isSignedIn } = useSelector((state) => state);
+
+	/*
+	Basically, it asks if isSignedIn is false, it renders the navBar with the SignIn - SignUp, 
+	if it's true( which means you are logged in), it renders the signout button
+	*/
+
+	return isSignedIn === false ? (
 		<Box
 			position='fixed'
 			width='100%'
@@ -97,29 +108,119 @@ export default function NavBar() {
 					</Center>
 
 					<Drawer />
-					<BuenLink to='/login'>
-						<Button
-							as={'a'}
-							fontSize={'sm'}
-							fontWeight={400}
-							variant={'link'}>
-							Sign In
-						</Button>
+					<HStack>
+						<BuenLink to='/login'>
+							<Button
+								as={'a'}
+								fontSize={'sm'}
+								fontWeight={400}
+								variant={'link'}>
+								Sign In
+							</Button>
+						</BuenLink>
+						<BuenLink to='/register'>
+							<Button
+								as={'a'}
+								display={{
+									base: 'none',
+									md: 'inline-flex',
+								}}
+								fontSize={'sm'}
+								fontWeight={600}
+								color={'white'}
+								bg={'brand.pepe'}
+								_hover={{
+									bg: '#2E3532',
+								}}>
+								Sign Up
+							</Button>
+						</BuenLink>
+					</HStack>
+				</Stack>
+			</Flex>
+
+			<Collapse in={isOpen} animateOpacity>
+				<MobileNav />
+			</Collapse>
+		</Box>
+	) : (
+		<Box
+			position='fixed'
+			width='100%'
+			zIndex={3}
+			backdropFilter={'auto'}
+			backdropBlur='8px'>
+			<Flex
+				bg={useColorModeValue('whiteAlpha.800', 'gray.700')}
+				color={useColorModeValue('gray.600', 'white')}
+				py={{ base: 2 }}
+				px={{ base: 4 }}
+				borderBottom={1}
+				//borderStyle={'solid'}
+				//borderColor={useColorModeValue('gray.200', 'gray.900')}
+				align={'center'}
+				boxShadow={useColorModeValue(
+					'0 4px 6px rgba(160,174,192,0.6)',
+					'0 4px 6px rgba(9,17,28,0.9'
+				)}>
+				<Flex
+					flex={{ base: 1, md: 'auto' }}
+					ml={{ base: -2 }}
+					display={{ base: 'flex', md: 'none' }}>
+					<IconButton
+						onClick={onToggle}
+						icon={
+							isOpen ? (
+								<CloseIcon w={3} h={3} />
+							) : (
+								<HamburgerIcon w={5} h={5} />
+							)
+						}
+						variant={'ghost'}
+						aria-label={'Toggle Navigation'}
+					/>
+				</Flex>
+				<Flex
+					flex={{ base: 1 }}
+					justify={{ base: 'center', md: 'start' }}>
+					<BuenLink to='/'>
+						<Text
+							textAlign={useBreakpointValue({
+								base: 'center',
+								md: 'left',
+							})}
+							fontFamily={'heading'}
+							color={useColorModeValue('gray.800', 'white')}>
+							E-BookStore
+						</Text>
 					</BuenLink>
-					<BuenLink to='/register'>
-						<Button
-							as={'a'}
-							display={{ base: 'none', md: 'inline-flex' }}
-							fontSize={'sm'}
-							fontWeight={600}
-							color={'white'}
-							bg={'brand.pepe'}
-							_hover={{
-								bg: '#2E3532',
-							}}>
-							Sign Up
-						</Button>
-					</BuenLink>
+
+					<Flex display={{ base: 'none', md: 'flex' }} ml={10}>
+						<DesktopNav />
+					</Flex>
+				</Flex>
+
+				<Stack
+					flex={{ base: 1, md: 0 }}
+					justify={'flex-end'}
+					direction={'row'}
+					spacing={6}>
+					<Center>
+						<Switch size={'lg'} onChange={toggleColorMode} />
+					</Center>
+
+					<Drawer />
+					<Button
+						display={{ base: 'none', md: 'inline-flex' }}
+						fontSize={'sm'}
+						fontWeight={600}
+						color={'white'}
+						bg={'red'}
+						_hover={{
+							bg: 'green',
+						}}>
+						<Signout />
+					</Button>
 				</Stack>
 			</Flex>
 

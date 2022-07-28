@@ -21,6 +21,7 @@ import {
 	RESET_FILTERS,
 	LOGIN,
 	SIGN_UP,
+	SIGN_OUT,
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -118,7 +119,7 @@ export function userLogin(user) {
 			username: user.email,
 			password: user.password,
 		});
-		console.log(resp);
+
 		return dispatch({
 			type: LOGIN,
 			payload: resp.data,
@@ -133,12 +134,16 @@ export function userSignUp(user) {
 			email: user.email,
 			password: user.password,
 		});
-		console.log(result);
+
 		return dispatch({
 			type: SIGN_UP,
 			payload: result.data.username,
 		});
 	};
+}
+
+export function userSignOut() {
+	return { type: SIGN_OUT };
 }
 
 //-------------------------------------------------FILTERS---------------------------------------------
