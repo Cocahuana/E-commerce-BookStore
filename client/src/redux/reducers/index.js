@@ -18,6 +18,7 @@ import {
 	RESET_FILTERS,
 	SIGN_UP,
 	LOGIN,
+	SIGN_OUT,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -29,6 +30,15 @@ if (!cartFromLocalStorage) {
 let summaryFromLocalStorage = JSON.parse(localStorage.getItem('summary'));
 if (!summaryFromLocalStorage) {
 	summaryFromLocalStorage = 0;
+}
+
+let tokenFromLocalStorage = localStorage.getItem('token');
+if (!tokenFromLocalStorage) {
+	tokenFromLocalStorage = '';
+}
+let isSignedInFromLocalStorage = localStorage.getItem('isSignedIn');
+if (!tokenFromLocalStorage) {
+	isSignedInFromLocalStorage = false;
 }
 
 // ----------------------------------------------
@@ -54,9 +64,14 @@ const InitialState = {
 	isBoxChecked: [],
 	cart: cartFromLocalStorage,
 	summary: summaryFromLocalStorage,
-	token: '',
+	token: tokenFromLocalStorage,
 	registeredUsers: [],
+<<<<<<< HEAD
 	adminBooks: [],
+=======
+	userRol: null,
+	isSignedIn: isSignedInFromLocalStorage,
+>>>>>>> 8390613fe504c23c1556520f97c8546432bc9117
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -166,7 +181,6 @@ const rootReducer = (state = InitialState, action) => {
 		// Aplico los filtros del estado global (filters)
 		case APPLY_FILTERS: {
 			//------------------------------------------FILTERS----------------------------------------
-			console.log('reducer', state.books);
 			var filteredBooks = state.booksCopy.filter((book) => {
 				//variable donde se guardaran los libros que coincidan con todas las condiciones
 
@@ -256,7 +270,7 @@ const rootReducer = (state = InitialState, action) => {
 		case ADD_CART:
 			let exist = state.cart.filter((el) => el.id === action.payload);
 			if (exist.length === 1) return state;
-			let newItem = state.books.find((p) => p.id === action.payload);
+			let newItem = state.booksCopy.find((p) => p.id === action.payload);
 			let sum = newItem.price;
 			return {
 				...state,
@@ -279,15 +293,28 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 			};
 		case LOGIN:
+			// Signed in, passing token, user rol and setting the state "isSignedIn" with value true
 			return {
 				...state,
-				token: action.payload,
+				token: action.payload.token,
+				userRol: action.payload.status,
+				isSignedIn: true,
 			};
 		case SIGN_UP:
 			return {
 				...state,
 				registeredUsers: action.payload,
 				// tal vez lo podemos usar para mostrar los usuarios registrados en admin dashboard
+			};
+		case SIGN_OUT:
+			// We clear the whole localStorage and set isSignedIn false, and the token as an empty string
+			localStorage.setItem('cart', JSON.stringify([]));
+			return {
+				...state,
+				token: '',
+				isSignedIn: false,
+				cart: [],
+				summary: 0,
 			};
 
 		default:

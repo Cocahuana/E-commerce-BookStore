@@ -1,4 +1,12 @@
-import { Box, Container, Spinner, Center, Flex } from '@chakra-ui/react';
+import {
+	Box,
+	Container,
+	Grid,
+	GridItem,
+	Spinner,
+	Center,
+	Flex,
+} from '@chakra-ui/react';
 import * as React from 'react';
 import { BookHolder } from './BookHolder/BookHolder';
 import { Book } from './BookHolder/Book/Book';
@@ -7,31 +15,53 @@ import Filter from './Filters/Filter';
 import { Paging } from './Paging/Paging';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getBooks } from '../../redux/actions/index';
+import { getBooks } from '../../redux/actions';
 
 const BookShelf = () => {
 	const dispatch = useDispatch();
-	const { books, cart, summary } = useSelector((state) => state);
+	const { books } = useSelector((state) => state);
 	const [CurrentPage, setCurrentPage] = useState(1);
 	const BooksPerPage = 12;
 	const indexOfLastBook = CurrentPage * BooksPerPage;
 	const indexOfFirstBook = indexOfLastBook - BooksPerPage;
 
+	const { cart } = useSelector((state) => state);
+	const { summary } = useSelector((state) => state);
+
 	let slicedBooks = books.slice(indexOfFirstBook, indexOfLastBook);
 
 	const loading = useSelector((state) => state.loading);
 
+	const { token } = useSelector((state) => state);
+
 	useEffect(() => {
 		if (!books.length) dispatch(getBooks());
+		// setting variables in localStorage ----
 		localStorage.setItem('cart', JSON.stringify(cart));
 		localStorage.setItem('summary', JSON.stringify(summary));
-	}, [dispatch, cart]);
+		if (token.length === 0) {
+			localStorage.setItem('signedIn', false);
+		} else {
+			localStorage.setItem('signedIn', true);
+			localStorage.setItem('token', token);
+		}
+	}, [dispatch, cart, token]);
 
 	return (
 		<Box>
 			<Box pt={'16'} bg={'gray.100'}>
 				<SearchBar setCurrentPage={setCurrentPage} />
 			</Box>
+			{
+				// ------------------------------------------ // SIMPLE MESSAGE TO
+				// SEE IF YOU ARE LOGGED IN
+				token ? (
+					<h1>AGUANTE MESSI CARETAS ESTOY LOGUEADO</h1>
+				) : (
+					<h1>MATAME NO ME LOGUEE</h1>
+				)
+				// ------------------------------------------
+			}
 			<Container maxW={'container.xl'} py={'5'}>
 				<Flex
 					flexDirection={{

@@ -1,6 +1,8 @@
 // import actions types
 // import { GET_ALL_BOOKS } from './actionTypes'
 import { Slide } from '@chakra-ui/react';
+import Swal from 'sweetalert2';
+
 import axios from 'axios';
 import {
 	GET_DETAILS,
@@ -21,6 +23,7 @@ import {
 	RESET_FILTERS,
 	LOGIN,
 	SIGN_UP,
+	SIGN_OUT,
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -114,15 +117,30 @@ export function resetDetails() {
 
 export function userLogin(user) {
 	return async function (dispatch) {
-		var resp = await axios.post(`/user/login`, {
-			username: user.email,
-			password: user.password,
-		});
-		console.log(resp);
-		return dispatch({
-			type: LOGIN,
-			payload: resp.data.token,
-		});
+		try {
+			let resp = await axios.post(`/user/login`, {
+				username: user.email,
+				password: user.password,
+			});
+			console.log(resp);
+			Swal.fire(
+				'Good job!',
+				'You have been signed in successfully!',
+				'success'
+			);
+			return dispatch({
+				type: LOGIN,
+				payload: resp.data,
+			});
+			// Te envia a books cuando el login es exitoso
+		} catch (error) {
+			// Te lanza un error cuando la autenticacion falló o no es correcta
+			Swal.fire({
+				icon: 'error',
+				title: 'Oops...',
+				text: 'Email or password are incorrect :,(',
+			});
+		}
 	};
 }
 
@@ -133,12 +151,16 @@ export function userSignUp(user) {
 			email: user.email,
 			password: user.password,
 		});
-		console.log(result);
+
 		return dispatch({
 			type: SIGN_UP,
 			payload: result.data.username,
 		});
 	};
+}
+
+export function userSignOut() {
+	return { type: SIGN_OUT };
 }
 
 //-------------------------------------------------FILTERS---------------------------------------------
