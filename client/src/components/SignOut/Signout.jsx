@@ -18,7 +18,19 @@ function signout() {
 		);
 	};
 	return (
-		<Button bg={'red.400'} w={'50%'} onClick={handleClick}>
+		<Button
+			bg={'red.500'}
+			w={'50%'}
+			onClick={handleClick}
+			display={{ base: 'none', md: 'inline-flex' }}
+			fontSize={'sm'}
+			fontWeight={600}
+			color={'black'}
+			_hover={{
+				fontSize: 'md',
+				bg: 'lightgray',
+			}}>
+			{' '}
 			Sign out
 		</Button>
 	);

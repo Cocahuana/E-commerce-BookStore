@@ -24,6 +24,7 @@ import {
 } from '@chakra-ui/react';
 import { TiShoppingCart } from 'react-icons/ti';
 import { Rating } from '../BookShelf/BookHolder/Book/Rating';
+import Swal from 'sweetalert2';
 
 function BookDetail(props) {
 	const dispatch = useDispatch();
@@ -34,6 +35,13 @@ function BookDetail(props) {
 
 	const handleonclick = (id) => {
 		dispatch(addToCart(id));
+		Swal.fire({
+			position: 'top-end',
+			icon: 'success',
+			title: 'Added to the cart successfully',
+			showConfirmButton: false,
+			timer: 1500,
+		});
 	};
 
 	useEffect(() => {
