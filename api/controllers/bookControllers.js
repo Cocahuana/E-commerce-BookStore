@@ -150,7 +150,6 @@ const findByAuthorOrTitle = async (req, res, next) => {
 					},
 				],
 			});
-			console.log(resp);
 			if (resp.length) {
 				res.json(resp);
 			} else {

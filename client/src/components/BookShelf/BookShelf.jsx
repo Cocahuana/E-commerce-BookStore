@@ -38,7 +38,13 @@ const BookShelf = () => {
 		if (!books.length) dispatch(getBooks());
 		localStorage.setItem('cart', JSON.stringify(cart));
 		localStorage.setItem('summary', JSON.stringify(summary));
-	}, [dispatch, cart]);
+		if (token.length === 0) {
+			localStorage.setItem('signedIn', false);
+		} else {
+			localStorage.setItem('signedIn', true);
+			localStorage.setItem('token', token);
+		}
+	}, [dispatch, cart, token]);
 
 	return (
 		<Box>

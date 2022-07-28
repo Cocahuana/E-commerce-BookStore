@@ -31,6 +31,11 @@ if (!summaryFromLocalStorage) {
 	summaryFromLocalStorage = 0;
 }
 
+let tokenFromLocalStorage = localStorage.getItem('token');
+if (!tokenFromLocalStorage) {
+	tokenFromLocalStorage = '';
+}
+
 // ----------------------------------------------
 
 // initial states
@@ -54,7 +59,7 @@ const InitialState = {
 	isBoxChecked: [],
 	cart: cartFromLocalStorage,
 	summary: summaryFromLocalStorage,
-	token: '',
+	token: tokenFromLocalStorage,
 	registeredUsers: [],
 	userRol: null,
 };
