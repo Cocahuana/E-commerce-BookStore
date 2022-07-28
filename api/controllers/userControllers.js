@@ -34,34 +34,27 @@ const registerUser = async (req, res, next) => {
 			password: hashedPassword,
 			username: username,
 		});
-
-}; 
-
-
-
-const searchUserByUsername = async (req, res, next) => {
-    let { username } = req.params;
-    try{
-        username = `%${username}%`;
-        let userCheck = await User.findOne({
-            where:{
-                username:{
-                    [Op.iLike]: username,
-                },
-            }
-        })
-        if(userCheck) res.json(userCheck)
-        else res.status(400).json({message: "User has not been found"})
-    }catch(e){
-        next(e);
-    };
-};
-
-module.exports = { registerUser, userLogin, searchUserByUsername }
-
 		res.status(200).send('User created succesfully!');
 	} catch (err) {
 		next(err);
+	}
+};
+
+const searchUserByUsername = async (req, res, next) => {
+	let { username } = req.params;
+	try {
+		username = `%${username}%`;
+		let userCheck = await User.findOne({
+			where: {
+				username: {
+					[Op.iLike]: username,
+				},
+			},
+		});
+		if (userCheck) res.json(userCheck);
+		else res.status(400).json({ message: 'User has not been found' });
+	} catch (e) {
+		next(e);
 	}
 };
 
@@ -102,4 +95,4 @@ const userLogin = async (req, res, next) => {
 	}
 };
 
-module.exports = { registerUser, userLogin, searchUserByUsername }
+module.exports = { registerUser, userLogin, searchUserByUsername };
