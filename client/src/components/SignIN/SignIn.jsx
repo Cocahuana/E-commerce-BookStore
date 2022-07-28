@@ -41,9 +41,9 @@ function SignIn() {
 		});
 	};
 
-	const handleSignUp = (event) => {
+	const handleSignIn = (event) => {
 		dispatch(userLogin(user));
-		//history.push(`/books`);
+		history.push(`/books`);
 	};
 
 	return (
@@ -100,7 +100,7 @@ function SignIn() {
 						<Button
 							colorScheme={'blue'}
 							variant={'solid'}
-							onClick={(event) => handleSignUp(event)}>
+							onClick={(event) => handleSignIn(event)}>
 							Sign in
 						</Button>
 					</Stack>
