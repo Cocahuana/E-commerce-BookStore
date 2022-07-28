@@ -18,6 +18,7 @@ import {
 	RESET_FILTERS,
 	SIGN_UP,
 	LOGIN,
+	SIGN_OUT,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -34,6 +35,10 @@ if (!summaryFromLocalStorage) {
 let tokenFromLocalStorage = localStorage.getItem('token');
 if (!tokenFromLocalStorage) {
 	tokenFromLocalStorage = '';
+}
+let isSignedInFromLocalStorage = localStorage.getItem('isSignedIn');
+if (!tokenFromLocalStorage) {
+	isSignedInFromLocalStorage = false;
 }
 
 // ----------------------------------------------
@@ -62,6 +67,7 @@ const InitialState = {
 	token: tokenFromLocalStorage,
 	registeredUsers: [],
 	userRol: null,
+	isSignedIn: isSignedInFromLocalStorage,
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -286,16 +292,28 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 			};
 		case LOGIN:
+			// localStorage.setItem('isSignedIn', true);
+			// localStorage.setItem('token', token);
 			return {
 				...state,
 				token: action.payload.token,
 				userRol: action.payload.status,
+				isSignedIn: true,
 			};
 		case SIGN_UP:
 			return {
 				...state,
 				registeredUsers: action.payload,
 				// tal vez lo podemos usar para mostrar los usuarios registrados en admin dashboard
+			};
+		case SIGN_OUT:
+			// localStorage.removeItem('token');
+			// localStorage.setItem('signedIn', false);
+			localStorage.clear();
+			return {
+				...state,
+				token: '',
+				isSignedIn: false,
 			};
 
 		default:
