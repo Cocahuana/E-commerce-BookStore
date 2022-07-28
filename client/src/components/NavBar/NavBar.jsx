@@ -210,17 +210,8 @@ export default function NavBar() {
 					</Center>
 
 					<Drawer />
-					<Button
-						display={{ base: 'none', md: 'inline-flex' }}
-						fontSize={'sm'}
-						fontWeight={600}
-						color={'white'}
-						bg={'red'}
-						_hover={{
-							bg: 'green',
-						}}>
-						<Signout />
-					</Button>
+
+					<Signout />
 				</Stack>
 			</Flex>
 
