@@ -31,3 +31,4 @@ export const DEL_ALL_CART = 'DEL_ALL_CART';
 export const LOGIN = 'LOGIN';
 export const SIGN_UP = 'SIGN_UP';
 export const SIGN_OUT = 'SIGN_OUT';
+export const CHECK_TOKEN = 'CHECK_TOKEN';
