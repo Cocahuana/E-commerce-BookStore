@@ -18,6 +18,7 @@ import {
 	RESET_FILTERS,
 	SIGN_UP,
 	LOGIN,
+	SIGN_OUT,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -29,6 +30,15 @@ if (!cartFromLocalStorage) {
 let summaryFromLocalStorage = JSON.parse(localStorage.getItem('summary'));
 if (!summaryFromLocalStorage) {
 	summaryFromLocalStorage = 0;
+}
+
+let tokenFromLocalStorage = localStorage.getItem('token');
+if (!tokenFromLocalStorage) {
+	tokenFromLocalStorage = '';
+}
+let isSignedInFromLocalStorage = localStorage.getItem('isSignedIn');
+if (!tokenFromLocalStorage) {
+	isSignedInFromLocalStorage = false;
 }
 
 // ----------------------------------------------
@@ -54,9 +64,10 @@ const InitialState = {
 	isBoxChecked: [],
 	cart: cartFromLocalStorage,
 	summary: summaryFromLocalStorage,
-	token: '',
+	token: tokenFromLocalStorage,
 	registeredUsers: [],
 	userRol: null,
+	isSignedIn: isSignedInFromLocalStorage,
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -165,7 +176,6 @@ const rootReducer = (state = InitialState, action) => {
 		// Aplico los filtros del estado global (filters)
 		case APPLY_FILTERS: {
 			//------------------------------------------FILTERS----------------------------------------
-			// console.log('reducer', state.books);
 			var filteredBooks = state.booksCopy.filter((book) => {
 				//variable donde se guardaran los libros que coincidan con todas las condiciones
 
@@ -282,16 +292,26 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 			};
 		case LOGIN:
+			// Signed in, passing token, user rol and setting the state "isSignedIn" with value true
 			return {
 				...state,
 				token: action.payload.token,
 				userRol: action.payload.status,
+				isSignedIn: true,
 			};
 		case SIGN_UP:
 			return {
 				...state,
 				registeredUsers: action.payload,
 				// tal vez lo podemos usar para mostrar los usuarios registrados en admin dashboard
+			};
+		case SIGN_OUT:
+			// We clear the whole localStorage and set isSignedIn false, and the token as an empty string
+			localStorage.clear();
+			return {
+				...state,
+				token: '',
+				isSignedIn: false,
 			};
 
 		default:
