@@ -21,7 +21,7 @@ import {
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { userLogin } from '../../redux/actions/index';
+import { userLogin, checkToken } from '../../redux/actions/index';
 import { useHistory } from 'react-router-dom';
 import { Link as BuenLink } from 'react-router-dom';
 
@@ -29,12 +29,28 @@ function SignIn() {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const [show, setShow] = React.useState(false);
+	const { token } = useSelector((state) => state);
 	// const handleClick = () => setShow(!show);
 
 	const [user, setLoginUser] = useState({
 		email: '',
 		password: '',
 	});
+
+	useEffect(() => {
+		// Checkea si el token esta o no vacio
+		dispatch(checkToken());
+		// Si llega el token (porque es correcto, sino llega vacio)
+		// entonces setea email y password y te manda a /books mientras
+		// te aparece un sweet alert sobre que el login fue un exito
+		if (token) {
+			setLoginUser({
+				email: '',
+				password: '',
+			});
+			history.push('/books');
+		}
+	}, [dispatch, token]);
 
 	const handleOnChange = (e) => {
 		setLoginUser({
@@ -53,11 +69,8 @@ function SignIn() {
 				text: 'Login inputs can not be empty, sorry!',
 			});
 		} else {
+			// Compueba si la autentication es correcta o no
 			dispatch(userLogin(user));
-			setLoginUser({
-				email: '',
-				password: '',
-			});
 		}
 	};
 
