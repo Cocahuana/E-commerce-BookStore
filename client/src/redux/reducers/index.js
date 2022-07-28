@@ -312,6 +312,8 @@ const rootReducer = (state = InitialState, action) => {
 				...state,
 				token: '',
 				isSignedIn: false,
+				cart: [],
+				summary: 0,
 			};
 
 		default:
