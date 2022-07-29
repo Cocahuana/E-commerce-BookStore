@@ -17,6 +17,7 @@ import './App.css';
 import ScrollToTop from './components/ScrollToTop';
 import Dashboard from './components/Dashboard/Dashboard';
 import FormAdd from './components/Dashboard/Forms/FormAdd';
+import { AuthContextProvider } from './components/firebase/context';
 
 /*
  NO SACAR EL SWITCH, AMIGUENSE CON REACT ROUTER DOM V5 :D
@@ -33,29 +34,35 @@ function App() {
 	}, [userRole]);
 
 	return (
-		<React.Fragment>
-			<ScrollToTop />
-			<Nav />
-			<Switch>
-				<Route exact path='/' component={landing} />
-				<Route path='/books' component={BookShelf} />
-				<Route path='/book/:id' component={details} />
-				<Route path='/register' component={register} />
-				<Route path='/login' component={login} />
-				<Route path='/us' component={AboutUs} />
-				<Route
-					path='/adminDashboard'
-					component={userRole === 'Admin' ? Dashboard : Unauthorized}
-				/>
-				<Route path='/addBook' component={FormAdd} />
-				<Route
-					path='/profile'
-					component={userRole === 'User' ? userprofile : Unauthorized}
-				/>
-				<Route path='*' component={Page404} />
-			</Switch>
-			<Footer />
-		</React.Fragment>
+		<AuthContextProvider>
+			<React.Fragment>
+				<ScrollToTop />
+				<Nav />
+				<Switch>
+					<Route exact path='/' component={landing} />
+					<Route path='/books' component={BookShelf} />
+					<Route path='/book/:id' component={details} />
+					<Route path='/register' component={register} />
+					<Route path='/login' component={login} />
+					<Route path='/us' component={AboutUs} />
+					<Route
+						path='/adminDashboard'
+						component={
+							userRole === 'Admin' ? Dashboard : Unauthorized
+						}
+					/>
+					<Route path='/addBook' component={FormAdd} />
+					<Route
+						path='/profile'
+						component={
+							userRole === 'User' ? userprofile : Unauthorized
+						}
+					/>
+					<Route path='*' component={Page404} />
+				</Switch>
+				<Footer />
+			</React.Fragment>
+		</AuthContextProvider>
 	);
 }
 

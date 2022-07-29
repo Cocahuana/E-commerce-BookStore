@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const { VITE_DB_USER, VITE_DB_PASSWORD, VITE_DB_HOST, DB_NAME } = process.env;
@@ -76,19 +76,20 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { User, PurchaseOrder, Language, Genre, Comment, Books, Favorite_List } =
+const { User, PurchaseOrder, Language, Genre, Comment, Books, Cart } =
 	sequelize.models;
+
+	let Cart_Books = sequelize.define("Cart_Books", {
+		amount: {
+			type: DataTypes.INTEGER,
+			defaultValue: 1,
+	},
+	}, {timestamps: false})
 
 // Aca vendrian las relaciones
 
-Books.belongsToMany(PurchaseOrder, {
-	through: 'order_books',
-	timestamps: false,
-});
-PurchaseOrder.belongsToMany(Books, {
-	through: 'order_books',
-	timestamps: false,
-});
+Books.belongsToMany(PurchaseOrder, { through: 'order_books', timestamps: false,});
+PurchaseOrder.belongsToMany(Books, { through: 'order_books', timestamps: false,});
 
 Books.belongsToMany(Genre, { through: 'genre_books', timestamps: false });
 Genre.belongsToMany(Books, { through: 'genre_books', timestamps: false });
@@ -101,14 +102,10 @@ Comment.belongsTo(Books, { timestamps: false });
 User.hasMany(Comment, { timestamps: false });
 Comment.belongsTo(User, { timestamps: false });
 
-Books.belongsToMany(Favorite_List, {
-	through: 'favorite_books',
-	timestamps: false,
-});
-Favorite_List.belongsToMany(Books, {
-	through: 'favorite_books',
-	timestamps: false,
-});
+Cart.belongsToMany(Books, { through: Cart_Books });
+Books.belongsToMany(Cart, { through: Cart_Books });
+User.hasMany(Cart);
+Cart.belongsTo(User);
 
 module.exports = {
 	...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
