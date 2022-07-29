@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { getDetails, resetDetails } from '../../../redux/actions';
+import { addToCart, getDetails, resetDetails } from '../../redux/actions';
 import { Link as BuenLink } from 'react-router-dom';
 import {
 	Box,
@@ -25,22 +25,23 @@ import {
 import { TiShoppingCart } from 'react-icons/ti';
 import { Rating } from '../BookShelf/BookHolder/Book/Rating';
 
-function handleonclick() {
-	alert('Product added into the cart');
-}
-
 function BookDetail(props) {
 	const dispatch = useDispatch();
+	const { id } = props.match.params;
+
+	const handleonclick = (id) => {
+		dispatch(addToCart(id));
+		alert('Product added into the cart');
+	};
 
 	useEffect(() => {
-		dispatch(getDetails(props.match.params.id));
+		dispatch(getDetails(id));
 		return () => {
 			dispatch(resetDetails());
 		};
 	}, [dispatch]);
 
 	let detail = useSelector((state) => state.details);
-
 	return (
 		<Container align={'center'} bg='brand.pepe' minW={'100%'} minH={'90vh'}>
 			<Box maxW={'7xl'}>
@@ -129,7 +130,7 @@ function BookDetail(props) {
 							</Text>
 
 							<Button
-								onClick={handleonclick}
+								onClick={() => handleonclick(detail.id)}
 								rounded={'100px'}
 								w={'50%'}
 								mt={8}
