@@ -27,6 +27,7 @@ import {
 	ModalBody,
 	ModalFooter,
 	useDisclosure,
+	useColorModeValue,
 } from '@chakra-ui/react';
 
 function UserProfile() {
@@ -69,11 +70,12 @@ function UserProfile() {
 	const deleteFavorite = () => {
 		dispatch(userDeleteFavorite()); //userid, bookid
 	};
-
+  
 	return (
 		<Stack
 			px={'5%'}
 			pt={{ lg: '5%', md: '10%', sm: '15%', base: '25%' }}
+			bg={useColorModeValue('white', 'gray.500')}
 			h={'85vh'}>
 			<Box
 				rounded={'5px'}

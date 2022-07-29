@@ -78,7 +78,7 @@ function SignIn() {
 		<Stack
 			minH={'100vh'}
 			direction={{ base: 'column', md: 'row' }}
-			bg={'lightgrey'}>
+			bg={useColorModeValue('gray.200', 'gray.500')}>
 			<Flex p={8} flex={1} align={'center'} justify={'center'}>
 				<Stack spacing={4} w={'full'} maxW={'md'} borderRadius={'10px'}>
 					<Heading fontSize={'2xl'}>Sign in to your account</Heading>
@@ -86,7 +86,7 @@ function SignIn() {
 					<FormControl id='username'>
 						<FormLabel>Username or email</FormLabel>
 						<Input
-							bg={'white'}
+							bg={useColorModeValue('whiteAlpha.800', 'gray.400')}
 							name='email'
 							value={user.email}
 							onChange={(e) => handleOnChange(e)}
@@ -99,7 +99,7 @@ function SignIn() {
 							<Input
 								name='password'
 								onChange={(e) => handleOnChange(e)}
-								bg={'white'}
+								bg={useColorModeValue('whiteAlpha.800', 'gray.400')}
 								value={user.password}
 								type={show ? 'text' : 'password'}
 							/>
