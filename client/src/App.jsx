@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import BookShelf from './components/BookShelf/BookShelf';
 import AboutUs from './components/AboutUs/AboutUs';
@@ -10,6 +12,7 @@ import register from './components/SignUP/SignUp';
 import details from './components/BookDetail/BookDetail';
 import landing from './components/Landing/LandingPage';
 import Page404 from './components/Page404/Page404';
+import Unauthorized from './components/Unauthorized401/Unauthorized';
 import './App.css';
 import ScrollToTop from './components/ScrollToTop';
 import Dashboard from './components/Dashboard/Dashboard';
@@ -20,6 +23,18 @@ import FormAdd from './components/Dashboard/Forms/FormAdd';
 */
 
 function App() {
+	const { userRole } = useSelector((state) => state);
+
+	useEffect(() => {
+		// setting variables in localStorage ----
+		if (userRole === null) {
+			localStorage.setItem('isSignedIn', false);
+		} else {
+			localStorage.setItem('isSignedIn', true);
+			localStorage.setItem('userRole', userRole);
+		}
+	}, [userRole]);
+
 	return (
 		<React.Fragment>
 			<ScrollToTop />
@@ -31,10 +46,15 @@ function App() {
 				<Route path='/register' component={register} />
 				<Route path='/login' component={login} />
 				<Route path='/us' component={AboutUs} />
-				<Route path='/adminDashboard' component={Dashboard} />
+				<Route
+					path='/adminDashboard'
+					component={userRole === 'Admin' ? Dashboard : Unauthorized}
+				/>
 				<Route path='/addBook' component={FormAdd} />
-
-				<Route path='/profile' component={userprofile} />
+				<Route
+					path='/profile'
+					component={userRole === 'User' ? userprofile : Unauthorized}
+				/>
 				<Route path='*' component={Page404} />
 			</Switch>
 			<Footer />

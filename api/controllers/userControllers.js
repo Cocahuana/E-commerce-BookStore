@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
 const registerUser = async (req, res, next) => {
-	const { email, password, username } = req.body;
+	const { email, password, username, status } = req.body;
 	try {
 		const alreadyExists = await User.findAll({ where: { email: email } });
 
@@ -24,6 +24,7 @@ const registerUser = async (req, res, next) => {
 			email: email,
 			password: hashedPassword,
 			username: username,
+			status: status,
 		});
 
 		res.send('User created succesfully!');
@@ -67,24 +68,6 @@ const userLogin = async (req, res, next) => {
 				id: userCheck.id,
 			});
 		}
-	} catch (e) {
-		next(e);
-	}
-};
-
-const searchUserByUsername = async (req, res, next) => {
-	let { username } = req.params;
-	try {
-		username = `%${username}%`;
-		let userCheck = await User.findOne({
-			where: {
-				username: {
-					[Op.iLike]: username,
-				},
-			},
-		});
-		if (userCheck) res.json(userCheck);
-		else res.status(400).json({ message: 'User has not been found' });
 	} catch (e) {
 		next(e);
 	}

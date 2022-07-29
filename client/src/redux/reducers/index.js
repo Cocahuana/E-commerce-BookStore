@@ -75,7 +75,7 @@ const InitialState = {
 	token: tokenFromLocalStorage,
 	registeredUsers: [],
 	adminBooks: [],
-	userRol: null,
+	userRole: null,
 	userId: userIdFromLocalStorage,
 	allUsers: [],
 	isSignedIn: isSignedInFromLocalStorage,
@@ -321,13 +321,13 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 			};
 		case LOGIN:
-			// Signed in, passing token, user rol and setting the state "isSignedIn" with value true
+			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
 			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('userId', action.payload.id);
 			return {
 				...state,
 				token: action.payload.token,
-				userRol: action.payload.status,
+				userRole: action.payload.status,
 				userId: action.payload.id,
 				isSignedIn: true,
 			};
@@ -347,6 +347,7 @@ const rootReducer = (state = InitialState, action) => {
 			localStorage.setItem('cart', JSON.stringify([]));
 			localStorage.setItem('isSignedIn', false);
 			localStorage.setItem('userId', null);
+			localStorage.setItem('userRole', null);
 			localStorage.removeItem('token');
 			return {
 				...state,
@@ -355,6 +356,7 @@ const rootReducer = (state = InitialState, action) => {
 				userId: null,
 				cart: [],
 				summary: 0,
+				userRole: null,
 			};
 		case USER_GET_FAVORITES:
 			let favoriteBooks = [];

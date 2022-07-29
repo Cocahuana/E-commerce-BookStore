@@ -32,7 +32,7 @@ const BookShelf = () => {
 
 	const loading = useSelector((state) => state.loading);
 
-	const { token } = useSelector((state) => state);
+	const { token, userRole } = useSelector((state) => state);
 
 	useEffect(() => {
 		if (!books.length) dispatch(getBooks());
@@ -44,6 +44,7 @@ const BookShelf = () => {
 		} else {
 			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('token', token);
+			localStorage.setItem('userRole', userRole);
 		}
 	}, [dispatch, cart, token]);
 
