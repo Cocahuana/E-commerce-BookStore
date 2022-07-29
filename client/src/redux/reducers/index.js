@@ -115,6 +115,8 @@ const rootReducer = (state = InitialState, action) => {
 				booksCopy: action.payload.data,
 				books: action.payload.data,
 				query: action.payload.query,
+				loading: false,
+				adminBooks: action.payload,
 			};
 		}
 		case GET_GENRES: {
@@ -364,6 +366,7 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 				userRole: null,
 			};
+			
 		case USER_GET_FAVORITES:
 			let favoriteBooks = [];
 			let booksIds = action.payload;
