@@ -15,7 +15,7 @@ router.post('/register', registerUser);
 
 router.post('/login', userLogin);
 
-// router.get('/search/:username', searchUserByUsername);
+router.get('/search/:username', searchUserByUsername);
 
 router.put('/favorites', addFavorite);
 
