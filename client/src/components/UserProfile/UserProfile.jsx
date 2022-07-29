@@ -22,11 +22,14 @@ import {
 	ModalFooter,
 	useDisclosure,
 	useColorModeValue,
+	List,
+	ListItem
 } from '@chakra-ui/react';
 
 function UserProfile() {
 	const [image, setImage] = useState('');
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const modal2 = useDisclosure();
 	const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
 	const profileImage = useRef(null);
 
@@ -51,7 +54,7 @@ function UserProfile() {
 			onOpen();
 		}
 	};
-	console.log(image);
+
 	return (
 		<Stack
 			px={'5%'}
@@ -146,7 +149,26 @@ function UserProfile() {
 					h={{ lg: '60%', md: '60%', base: '150rem' }}
 					w={{ lg: '50%', md: '50%', base: '100%' }}>
 					<VStack align={'center'}>
-						<Button w={'100%'}>Favourite list</Button>
+						<Button w={'100%'} onClick={modal2.onOpen}>
+							Favourite list
+						</Button>
+						<Modal
+							isCentered
+							size={'xxl'}
+							isOpen={modal2.isOpen}
+							onClose={modal2.onClose}>
+							<ModalContent>
+								<ModalHeader>Favourite List</ModalHeader>
+								<ModalCloseButton />
+								<ModalBody>
+									<HStack mt={1}>
+										<List>
+											<ListItem></ListItem>
+										</List>
+									</HStack>
+								</ModalBody>
+							</ModalContent>
+						</Modal>
 						<Button w={'100%'}>Change your password</Button>
 						<br />
 						<SignOut />
