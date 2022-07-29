@@ -1,7 +1,7 @@
 const axios = require('axios');
 require('dotenv').config();
 const { MY_SECRET } = process.env;
-const { User, Books } = require('../db');
+const { User, Books, Cart } = require('../db');
 const { Op } = require('sequelize');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
@@ -26,6 +26,9 @@ const registerUser = async (req, res, next) => {
 			username: username,
 			status: status,
 		});
+
+		let cartToAssociate = await Cart.create();
+		await cartToAssociate.setUser(newUser);
 
 		res.send('User created succesfully!');
 	} catch (err) {
