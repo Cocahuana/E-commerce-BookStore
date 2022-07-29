@@ -21,7 +21,7 @@ import {
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { userLogin, checkToken } from '../../redux/actions/index';
+import { userLogin, checkStates } from '../../redux/actions/index';
 import { useHistory } from 'react-router-dom';
 import { Link as BuenLink } from 'react-router-dom';
 
@@ -39,7 +39,7 @@ function SignIn() {
 
 	useEffect(() => {
 		// Checkea si el token esta o no vacio
-		dispatch(checkToken());
+		dispatch(checkStates());
 		// Si llega el token (porque es correcto, sino llega vacio)
 		// entonces setea email y password y te manda a /books mientras
 		// te aparece un sweet alert sobre que el login fue un exito
@@ -99,7 +99,10 @@ function SignIn() {
 							<Input
 								name='password'
 								onChange={(e) => handleOnChange(e)}
-								bg={useColorModeValue('whiteAlpha.800', 'gray.400')}
+								bg={useColorModeValue(
+									'whiteAlpha.800',
+									'gray.400'
+								)}
 								value={user.password}
 								type={show ? 'text' : 'password'}
 							/>

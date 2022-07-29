@@ -19,7 +19,7 @@ import {
 	SIGN_UP,
 	LOGIN,
 	SIGN_OUT,
-	CHECK_TOKEN,
+	CHECK_STATES,
 	GET_USERS,
 	USER_GET_FAVORITES,
 	POST_COMMENT,
@@ -336,7 +336,7 @@ const rootReducer = (state = InitialState, action) => {
 				isSignedIn: true,
 			};
 		// Aca checkeamos si el estado del token está o no actualizado
-		case CHECK_TOKEN:
+		case CHECK_STATES:
 			return {
 				...state,
 			};

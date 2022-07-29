@@ -25,7 +25,7 @@ import {
 	SIGN_UP,
 	SIGN_OUT,
 	HIDE_BOOKS,
-	CHECK_TOKEN,
+	CHECK_STATES,
 	GET_USERS,
 	USER_GET_FAVORITES,
 	POST_COMMENT,
@@ -168,10 +168,10 @@ export function userLogin(user) {
 }
 
 // Aca checkeamos si el estado del token está o no actualizado
-export function checkToken() {
+export function checkStates() {
 	return async function (dispatch) {
 		return dispatch({
-			type: CHECK_TOKEN,
+			type: CHECK_STATES,
 		});
 	};
 }
