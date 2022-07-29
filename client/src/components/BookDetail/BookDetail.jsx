@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { addToCart, getDetails, resetDetails } from '../../redux/actions';
+import {
+	addToCart,
+	getDetails,
+	resetDetails,
+	getAllUsers,
+	postComment,
+} from '../../redux/actions';
 import { Link as BuenLink } from 'react-router-dom';
 import {
 	Box,
@@ -21,17 +27,40 @@ import {
 	AccordionButton,
 	AccordionPanel,
 	AccordionIcon,
+	Avatar,
+	Editable,
+	EditablePreview,
+	EditableTextarea,
 } from '@chakra-ui/react';
 import { TiShoppingCart } from 'react-icons/ti';
 import { Rating } from '../BookShelf/BookHolder/Book/Rating';
 import Swal from 'sweetalert2';
 
+//console.log(borrame porfis)
+
 function BookDetail(props) {
 	const dispatch = useDispatch();
 	const { id } = props.match.params;
 
-	const { cart } = useSelector((state) => state);
-	const { summary } = useSelector((state) => state);
+	const { cart, summary, allUsers, userId, details } = useSelector(
+		(state) => state
+	);
+	const [textarea, setTextArea] = useState('');
+
+	const handleOnChange = (e) => {
+		setTextArea(e.target.value);
+	};
+
+	const handlePost = () => {
+		console.log('hola', textarea, userId, id);
+		dispatch(
+			postComment({
+				comment: textarea,
+				userId: userId,
+				bookId: id,
+			})
+		);
+	};
 
 	const handleonclick = (id) => {
 		dispatch(addToCart(id));
@@ -45,6 +74,7 @@ function BookDetail(props) {
 	};
 
 	useEffect(() => {
+		if (!allUsers.length) dispatch(getAllUsers());
 		dispatch(getDetails(id));
 		localStorage.setItem('cart', JSON.stringify(cart));
 		localStorage.setItem('summary', JSON.stringify(summary));
@@ -53,7 +83,14 @@ function BookDetail(props) {
 		};
 	}, [dispatch, cart]);
 
-	let detail = useSelector((state) => state.details);
+	let comments = details?.Comments?.map((c) => {
+		return {
+			text: c.text,
+			user: allUsers.filter((u) => c.UserId === u.id),
+		};
+	});
+
+	console.log(comments);
 	return (
 		<Container align={'center'} bg='brand.pepe' minW={'100%'} minH={'90vh'}>
 			<Box maxW={'7xl'}>
@@ -65,7 +102,7 @@ function BookDetail(props) {
 						<Image
 							rounded={'md'}
 							alt={'book image'}
-							src={detail?.image}
+							src={details?.image}
 							fit={'container'}
 							align={'center'}
 							w={'100%'}
@@ -84,7 +121,7 @@ function BookDetail(props) {
 									sm: '4xl',
 									lg: '5xl',
 								}}>
-								{detail?.title}
+								{details?.title}
 							</Text>
 						</Box>
 
@@ -107,7 +144,7 @@ function BookDetail(props) {
 								spacing={{ base: 2, sm: 4 }}>
 								<Text fontSize={'20px'}>
 									Author:
-									<Text>{detail?.authors}</Text>
+									<Text>{details?.authors}</Text>
 								</Text>
 
 								<Text fontSize={'20px'} paddingBottom={'20px'}>
@@ -115,8 +152,23 @@ function BookDetail(props) {
 									<Text paddingTop={'9px'}>
 										<Rating
 											size='20px'
-											defaultValue={detail?.rating}
+											defaultValue={details?.rating}
 										/>
+									</Text>
+								</Text>
+								<Text fontSize={'20px'} paddingBottom={'20px'}>
+									Genres:
+									<Text>
+										{details?.Genres?.map((e) => e.name) +
+											''}
+									</Text>
+								</Text>
+								<Text fontSize={'20px'} paddingBottom={'20px'}>
+									Languages:
+									<Text>
+										{details?.Languages?.map(
+											(e) => e.name
+										) + ''}
 									</Text>
 								</Text>
 							</VStack>
@@ -133,16 +185,16 @@ function BookDetail(props) {
 									lg: '2xl',
 								}}>
 								Price:{' '}
-								{detail?.price
+								{details?.price
 									? '$' +
-									  detail?.currency +
+									  details?.currency +
 									  ' ' +
-									  detail?.price
+									  details?.price
 									: 'No existe el precio'}
 							</Text>
 
 							<Button
-								onClick={() => handleonclick(detail.id)}
+								onClick={() => handleonclick(details.id)}
 								rounded={'100px'}
 								w={'50%'}
 								mt={8}
@@ -195,7 +247,7 @@ function BookDetail(props) {
 										pb={4}>
 										<div
 											dangerouslySetInnerHTML={{
-												__html: detail?.description,
+												__html: details?.description,
 											}}
 										/>
 									</AccordionPanel>
@@ -228,6 +280,41 @@ function BookDetail(props) {
 						</Stack>
 					</Stack>
 				</SimpleGrid>
+			</Box>
+			<Box>
+				<Text>Comments:</Text>
+				<Stack>
+					{comments?.map((comment) => {
+						return (
+							<Flex
+								flexDir='row'
+								pl='20px'
+								alignItems='center'
+								border='1px'
+								key={comment.user[0]?.username}
+								borderColor='black'>
+								<Box>
+									<Avatar
+										size='md'
+										showBorder={true}
+										borderColor='brand.pepeoscuro'
+										name='avatar'
+										src={comment.user[0]?.profile_picture}
+									/>
+									<Text>{comment.user[0]?.username}</Text>
+								</Box>
+								<Text pl='20px'>{comment.text}</Text>
+							</Flex>
+						);
+					})}
+					<Box>
+						<Editable defaultValue='Great Book! Love it.'>
+							<EditablePreview />
+							<EditableTextarea onChange={handleOnChange} />
+						</Editable>
+						<Button onClick={handlePost}>Post Comment</Button>
+					</Box>
+				</Stack>
 			</Box>
 		</Container>
 	);

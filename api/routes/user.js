@@ -7,6 +7,8 @@ const {
 	addFavorite,
 	getFavorite,
 	deleteFavorite,
+	searchUserById,
+	getAllUsers,
 } = require('../controllers/userControllers');
 
 const router = Router();
@@ -15,7 +17,11 @@ router.post('/register', registerUser);
 
 router.post('/login', userLogin);
 
-// router.get('/search/:username', searchUserByUsername);
+router.get('/search/:username', searchUserByUsername);
+
+router.get('/search/:id', searchUserById);
+
+router.get('/all', getAllUsers);
 
 router.put('/favorites', addFavorite);
 

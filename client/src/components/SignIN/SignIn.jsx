@@ -21,9 +21,11 @@ import {
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { userLogin, checkToken } from '../../redux/actions/index';
+import { userLogin, checkStates } from '../../redux/actions/index';
 import { useHistory } from 'react-router-dom';
 import { Link as BuenLink } from 'react-router-dom';
+import { GoogleButton } from 'react-google-button';
+import { UserAuth } from '../firebase/context.jsx';
 
 function SignIn() {
 	const history = useHistory();
@@ -39,7 +41,7 @@ function SignIn() {
 
 	useEffect(() => {
 		// Checkea si el token esta o no vacio
-		dispatch(checkToken());
+		dispatch(checkStates());
 		// Si llega el token (porque es correcto, sino llega vacio)
 		// entonces setea email y password y te manda a /books mientras
 		// te aparece un sweet alert sobre que el login fue un exito
@@ -74,11 +76,21 @@ function SignIn() {
 		}
 	};
 
+	const { googleSignIn } = UserAuth();
+
+	const handleGoogleSignIn = async () => {
+		try {
+			await googleSignIn();
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<Stack
 			minH={'100vh'}
 			direction={{ base: 'column', md: 'row' }}
-			bg={'lightgrey'}>
+			bg={useColorModeValue('gray.200', 'gray.500')}>
 			<Flex p={8} flex={1} align={'center'} justify={'center'}>
 				<Stack spacing={4} w={'full'} maxW={'md'} borderRadius={'10px'}>
 					<Heading fontSize={'2xl'}>Sign in to your account</Heading>
@@ -86,7 +98,7 @@ function SignIn() {
 					<FormControl id='username'>
 						<FormLabel>Username or email</FormLabel>
 						<Input
-							bg={'white'}
+							bg={useColorModeValue('whiteAlpha.800', 'gray.400')}
 							name='email'
 							value={user.email}
 							onChange={(e) => handleOnChange(e)}
@@ -99,7 +111,10 @@ function SignIn() {
 							<Input
 								name='password'
 								onChange={(e) => handleOnChange(e)}
-								bg={'white'}
+								bg={useColorModeValue(
+									'whiteAlpha.800',
+									'gray.400'
+								)}
 								value={user.password}
 								type={show ? 'text' : 'password'}
 							/>
@@ -133,6 +148,12 @@ function SignIn() {
 							onClick={(event) => handleSignIn(event)}>
 							Sign in
 						</Button>
+						<GoogleButton
+							colorScheme={'blue'}
+							variant={'solid'}
+							onClick={handleGoogleSignIn}>
+							Sign in with Google
+						</GoogleButton>
 					</Stack>
 
 					<Stack pt={6}>

@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
 const registerUser = async (req, res, next) => {
-	const { email, password, username } = req.body;
+	const { email, password, username, status } = req.body;
 	try {
 		const alreadyExists = await User.findAll({ where: { email: email } });
 
@@ -24,6 +24,7 @@ const registerUser = async (req, res, next) => {
 			email: email,
 			password: hashedPassword,
 			username: username,
+			status: status,
 		});
 
 		res.send('User created succesfully!');
@@ -34,7 +35,6 @@ const registerUser = async (req, res, next) => {
 
 const userLogin = async (req, res, next) => {
 	const { username, password } = req.body;
-	console.log(req.body);
 	try {
 		let hashedPassword = crypto
 			.createHash('md5')
@@ -46,11 +46,11 @@ const userLogin = async (req, res, next) => {
 			},
 		});
 
-		console.log(userCheck);
-		if (!userCheck)
-			return res.status(400).send('Email or password does not match!');
+		if (!userCheck) return res.status(400).send('User not found');
 		else if (userCheck.password !== hashedPassword)
-			return res.status(400).send('Email or password does not match!');
+			return res.status(400).send('Password does not match!');
+		else if (userCheck.username !== username)
+			return res.status(400).send('Username does not match!');
 		else {
 			const jwtToken = jwt.sign(
 				{
@@ -62,7 +62,11 @@ const userLogin = async (req, res, next) => {
 				MY_SECRET,
 				{ expiresIn: '12h' }
 			);
-			res.json({ token: jwtToken });
+			res.status(200).json({
+				token: jwtToken,
+				status: userCheck.status,
+				id: userCheck.id,
+			});
 		}
 	} catch (e) {
 		next(e);
@@ -70,7 +74,7 @@ const userLogin = async (req, res, next) => {
 };
 
 const addFavorite = async (req, res) => {
-	let { idUser, idBook } = req.body.booksFav;
+	let { idUser, idBook } = req.body;
 	try {
 		let user = await User.findByPk(idUser);
 
@@ -103,6 +107,45 @@ const addFavorite = async (req, res) => {
 	}
 };
 
+const searchUserById = async (req, res, next) => {
+	let { id } = req.params;
+	try {
+		let userCheck = await User.findByPk(id);
+		if (userCheck) res.json(userCheck);
+		else res.status(400).json({ message: 'User has not been found' });
+	} catch (e) {
+		next(e);
+	}
+};
+
+const searchUserByUsername = async (req, res, next) => {
+	let { username } = req.params;
+	try {
+		username = `%${username}%`;
+		let userCheck = await User.findOne({
+			where: {
+				username: {
+					[Op.iLike]: username,
+				},
+			},
+		});
+		if (userCheck) res.json(userCheck);
+		else res.status(400).json({ message: 'User has not been found' });
+	} catch (e) {
+		next(e);
+	}
+};
+
+const getAllUsers = async (req, res, next) => {
+	try {
+		let users = await User.findAll();
+		if (users) res.json(users);
+		else res.status(400).json({ message: 'not users found' });
+	} catch (e) {
+		next(e);
+	}
+};
+
 const getFavorite = async (req, res) => {
 	let { idUser } = req.params;
 
@@ -121,7 +164,7 @@ const getFavorite = async (req, res) => {
 };
 
 const deleteFavorite = async (req, res) => {
-	let { idUser, idBook } = req.body.booksFav;
+	let { idUser, idBook } = req.body;
 
 	try {
 		let user = await User.findByPk(idUser);
@@ -159,4 +202,7 @@ module.exports = {
 	addFavorite,
 	getFavorite,
 	deleteFavorite,
+	searchUserByUsername,
+	searchUserById,
+	getAllUsers,
 };

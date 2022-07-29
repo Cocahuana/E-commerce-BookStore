@@ -32,7 +32,7 @@ const BookShelf = () => {
 
 	const loading = useSelector((state) => state.loading);
 
-	const { token } = useSelector((state) => state);
+	const { token, userRole } = useSelector((state) => state);
 
 	useEffect(() => {
 		if (!books.length) dispatch(getBooks());
@@ -44,6 +44,7 @@ const BookShelf = () => {
 		} else {
 			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('token', token);
+			localStorage.setItem('userRole', userRole);
 		}
 	}, [dispatch, cart, token]);
 
@@ -52,16 +53,6 @@ const BookShelf = () => {
 			<Box pt={'16'} bg={'gray.100'}>
 				<SearchBar setCurrentPage={setCurrentPage} />
 			</Box>
-			{
-				// ------------------------------------------ // SIMPLE MESSAGE TO
-				// SEE IF YOU ARE LOGGED IN
-				token ? (
-					<h1>AGUANTE MESSI CARETAS ESTOY LOGUEADO</h1>
-				) : (
-					<h1>MATAME NO ME LOGUEE</h1>
-				)
-				// ------------------------------------------
-			}
 			<Container maxW={'container.xl'} py={'5'}>
 				<Flex
 					flexDirection={{

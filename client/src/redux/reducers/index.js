@@ -19,7 +19,10 @@ import {
 	SIGN_UP,
 	LOGIN,
 	SIGN_OUT,
-	CHECK_TOKEN,
+	CHECK_STATES,
+	GET_USERS,
+	USER_GET_FAVORITES,
+	POST_COMMENT,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -38,8 +41,16 @@ if (!tokenFromLocalStorage) {
 	tokenFromLocalStorage = '';
 }
 let isSignedInFromLocalStorage = localStorage.getItem('isSignedIn');
-if (!tokenFromLocalStorage) {
+if (!isSignedInFromLocalStorage) {
 	isSignedInFromLocalStorage = false;
+}
+let userIdFromLocalStorage = localStorage.getItem('userId');
+if (!userIdFromLocalStorage) {
+	userIdFromLocalStorage = false;
+}
+let userRoleFromLocalStorage = localStorage.getItem('userRole');
+if (!userRoleFromLocalStorage) {
+	userRoleFromLocalStorage = null;
 }
 
 // ----------------------------------------------
@@ -68,7 +79,9 @@ const InitialState = {
 	token: tokenFromLocalStorage,
 	registeredUsers: [],
 	adminBooks: [],
-	userRol: null,
+	userRole: userRoleFromLocalStorage,
+	userId: userIdFromLocalStorage,
+	allUsers: [],
 	isSignedIn: isSignedInFromLocalStorage,
 };
 
@@ -108,6 +121,23 @@ const rootReducer = (state = InitialState, action) => {
 			return {
 				...state,
 				genres: action.payload,
+			};
+		}
+
+		case POST_COMMENT: {
+			return {
+				...state,
+				details: {
+					...state.details,
+					Comments: [
+						...state.details.Comments,
+						{
+							text: action.payload.comment,
+							BookId: action.payload.bookId,
+							UserId: action.payload.userId,
+						},
+					],
+				},
 			};
 		}
 		//---------------------------------------------FILTERS & SORTS------------------------------------------------
@@ -185,13 +215,17 @@ const rootReducer = (state = InitialState, action) => {
 				//asumo que el libro debe incluirse y si no cumple algun filtro devuelvo false para q sea filtrado (no se incluya en el array)
 
 				//--------Filtro por oferta------------
-				if (state.filters.onsale && !book.flag === 'on-sale') return false;
+				if (state.filters.onsale && !book.flag === 'on-sale')
+					return false;
 
 				//--------Filtro por moneda------------
 				//if (state.filters.currency && state.filters.currency!==book.currency) return false
 
 				//--------Filtro por lenguaje------------
-				if (state.filters.language && state.filters.language !== book.language)
+				if (
+					state.filters.language &&
+					state.filters.language !== book.language
+				)
 					return false;
 
 				//--------Filtro por precio------------
@@ -291,16 +325,20 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 			};
 		case LOGIN:
-			// Signed in, passing token, user rol and setting the state "isSignedIn" with value true
+			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
+			localStorage.setItem('userId', action.payload.id);
 			localStorage.setItem('isSignedIn', true);
+			// localStorage.setItem('token', token);
+			// localStorage.setItem('userRole', userRole);
 			return {
 				...state,
 				token: action.payload.token,
-				userRol: action.payload.status,
+				userRole: action.payload.status,
+				userId: action.payload.id,
 				isSignedIn: true,
 			};
 		// Aca checkeamos si el estado del token está o no actualizado
-		case CHECK_TOKEN:
+		case CHECK_STATES:
 			return {
 				...state,
 			};
@@ -314,13 +352,35 @@ const rootReducer = (state = InitialState, action) => {
 			// We clear the whole localStorage and set isSignedIn false, and the token as an empty string
 			localStorage.setItem('cart', JSON.stringify([]));
 			localStorage.setItem('isSignedIn', false);
+			localStorage.setItem('userId', null);
+			localStorage.setItem('userRole', null);
 			localStorage.removeItem('token');
 			return {
 				...state,
 				token: '',
 				isSignedIn: false,
+				userId: null,
 				cart: [],
 				summary: 0,
+				userRole: null,
+			};
+		case USER_GET_FAVORITES:
+			let favoriteBooks = [];
+			let booksIds = action.payload;
+
+			favoriteBooks = state.booksCopy.filter((e) =>
+				booksIds.includes(e.id)
+			);
+
+			return {
+				...state,
+				books: favoriteBooks,
+			};
+
+		case GET_USERS:
+			return {
+				...state,
+				allUsers: action.payload,
 			};
 
 		default:
