@@ -53,16 +53,6 @@ const BookShelf = () => {
 			<Box pt={'16'} bg={'gray.100'}>
 				<SearchBar setCurrentPage={setCurrentPage} />
 			</Box>
-			{
-				// ------------------------------------------ // SIMPLE MESSAGE TO
-				// SEE IF YOU ARE LOGGED IN
-				token ? (
-					<h1>AGUANTE MESSI CARETAS ESTOY LOGUEADO</h1>
-				) : (
-					<h1>MATAME NO ME LOGUEE</h1>
-				)
-				// ------------------------------------------
-			}
 			<Container maxW={'container.xl'} py={'5'}>
 				<Flex
 					flexDirection={{
