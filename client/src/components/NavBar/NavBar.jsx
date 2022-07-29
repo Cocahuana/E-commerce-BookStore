@@ -40,15 +40,6 @@ export default function NavBar() {
 	Basically, it asks if isSignedIn is false, it renders the navBar with the SignIn - SignUp, 
 	if it's true( which means you are logged in), it renders the signout button
 	*/
-	useEffect(() => {
-		// setting variables in localStorage ----
-		if (userRole === null) {
-			localStorage.setItem('isSignedIn', false);
-		} else {
-			localStorage.setItem('isSignedIn', true);
-			localStorage.setItem('userRole', userRole);
-		}
-	}, [userRole]);
 
 	return userRole === null ? (
 		<Box
