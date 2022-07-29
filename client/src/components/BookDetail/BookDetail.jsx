@@ -36,6 +36,8 @@ import { TiShoppingCart } from 'react-icons/ti';
 import { Rating } from '../BookShelf/BookHolder/Book/Rating';
 import Swal from 'sweetalert2';
 
+//console.log(borrame porfis)
+
 function BookDetail(props) {
 	const dispatch = useDispatch();
 	const { id } = props.match.params;
