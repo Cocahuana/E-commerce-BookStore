@@ -21,6 +21,7 @@ import {
 	SIGN_OUT,
 	CHECK_TOKEN,
 	GET_USERS,
+	USER_GET_FAVORITES,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -327,6 +328,18 @@ const rootReducer = (state = InitialState, action) => {
 				isSignedIn: false,
 				cart: [],
 				summary: 0,
+			};
+		case USER_GET_FAVORITES:
+			let favoriteBooks = [];
+			let booksIds = action.payload;
+
+			favoriteBooks = state.booksCopy.filter((e) =>
+				booksIds.includes(e.id)
+			);
+
+			return {
+				...state,
+				books: favoriteBooks,
 			};
 
 		case GET_USERS:
