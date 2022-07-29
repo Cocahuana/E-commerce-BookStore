@@ -34,7 +34,7 @@ import { useSelector } from 'react-redux';
 export default function NavBar() {
 	const { isOpen, onToggle } = useDisclosure();
 	const { colorMode, toggleColorMode } = useColorMode();
-	const { userRole } = useSelector((state) => state);
+	const { userRole, isSignedIn } = useSelector((state) => state);
 
 	/*
 	Basically, it asks if isSignedIn is false, it renders the navBar with the SignIn - SignUp, 
