@@ -1,6 +1,6 @@
 const axios = require('axios');
 const db = require('../db');
-const { Books, Genre, Language } = require('../db');
+const { Books, Genre, Language, Comment, User } = require('../db');
 const { Op } = require('sequelize');
 
 const getPopularBooks = async (req, res, next) => {
@@ -23,24 +23,27 @@ const getPopularBooks = async (req, res, next) => {
 
 const findAllBooks = async (req, res, next) => {
 	try {
-		var result = await Books.findAll({
-			where:{
-				stock: {
-					[Op.not]: 0,
-				}
+		var result = await Books.findAll(
+			{
+				where: {
+					stock: {
+						[Op.not]: 0,
+					},
+				},
+			},
+			{
+				include: [
+					{
+						model: Genre,
+						through: { attributes: [] },
+					},
+					{
+						model: Language,
+						through: { attributes: [] },
+					},
+				],
 			}
-		},{
-			include: [
-				{
-					model: Genre,
-					through: { attributes: [] },
-				},
-				{
-					model: Language,
-					through: { attributes: [] },
-				},
-			],
-		});
+		);
 		res.send(result);
 	} catch (e) {
 		next(e);
@@ -50,7 +53,21 @@ const findAllBooks = async (req, res, next) => {
 const getBookById = async (req, res, next) => {
 	try {
 		const { id } = req.params;
-		const book = await Books.findByPk(parseInt(id));
+		const book = await Books.findByPk(parseInt(id), {
+			include: [
+				{
+					model: Genre,
+					through: { attributes: [] },
+				},
+				{
+					model: Language,
+					through: { attributes: [] },
+				},
+				{
+					model: Comment,
+				},
+			],
+		});
 		res.send(book);
 	} catch (error) {
 		next(error);
@@ -97,9 +114,13 @@ const putBook = async (req, res, next) => {
 					title: title ? title : currentBook.title,
 					authors: authors ? authors : currentBook.authors,
 					price: price ? price : currentBook.price,
-					description: description ? description : currentBook.description,
+					description: description
+						? description
+						: currentBook.description,
 					image: image ? image : currentBook.image,
-					previewLink: previewLink ? previewLink : currentBook.previewLink,
+					previewLink: previewLink
+						? previewLink
+						: currentBook.previewLink,
 					flag: flag ? flag : currentBook.flag,
 					currency: currency ? currency : currentBook.currency,
 					stock: stock ? stock : currentBook.stock,
@@ -116,6 +137,22 @@ const putBook = async (req, res, next) => {
 		}
 	} catch (e) {
 		res.status(404).send(e);
+	}
+};
+
+const postComment = async (req, res, next) => {
+	try {
+		const { comment, userId, bookId } = req.body;
+		const user = await User.findByPk(userId); //descomentar cuando haya users
+		const book = await Books.findByPk(parseInt(bookId));
+		const newComment = await Comment.create({
+			text: comment,
+		});
+		await book.addComment(newComment);
+		await user.addComment(newComment); //descomentar cuando haya users
+		res.send('Comment Created!');
+	} catch (error) {
+		console.log(error);
 	}
 };
 
@@ -172,4 +209,5 @@ module.exports = {
 	findByAuthorOrTitle,
 	findAllBooks,
 	allGenres,
+	postComment,
 };

@@ -26,6 +26,7 @@ import {
 	SIGN_OUT,
 	HIDE_BOOKS,
 	CHECK_TOKEN,
+	GET_USERS,
 	USER_GET_FAVORITES,
 } from './actionTypes';
 
@@ -204,6 +205,15 @@ export function userSignOut() {
 	return { type: SIGN_OUT };
 }
 
+export function getAllUsers() {
+	return async function (dispatch) {
+		var users = await axios.get(`/user/all`);
+		return dispatch({
+			type: GET_USERS,
+			payload: users.data,
+		});
+	};
+}
 export function userAddFavorite(userId, bookId) {
 	return async function () {
 		return await axios.put('/user/favorites', {

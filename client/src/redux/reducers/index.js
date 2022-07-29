@@ -20,6 +20,7 @@ import {
 	LOGIN,
 	SIGN_OUT,
 	CHECK_TOKEN,
+	GET_USERS,
 	USER_GET_FAVORITES,
 } from '../actions/actionTypes';
 
@@ -70,6 +71,7 @@ const InitialState = {
 	registeredUsers: [],
 	adminBooks: [],
 	userRole: null,
+	allUsers: [],
 	isSignedIn: isSignedInFromLocalStorage,
 };
 
@@ -340,6 +342,12 @@ const rootReducer = (state = InitialState, action) => {
 			return {
 				...state,
 				books: favoriteBooks,
+			};
+
+		case GET_USERS:
+			return {
+				...state,
+				allUsers: action.payload,
 			};
 
 		default:

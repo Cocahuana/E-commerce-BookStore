@@ -1,7 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { addToCart, getDetails, resetDetails } from '../../redux/actions';
+import {
+	addToCart,
+	getDetails,
+	resetDetails,
+	getAllUsers,
+} from '../../redux/actions';
 import { Link as BuenLink } from 'react-router-dom';
 import {
 	Box,
@@ -21,6 +26,7 @@ import {
 	AccordionButton,
 	AccordionPanel,
 	AccordionIcon,
+	Avatar,
 } from '@chakra-ui/react';
 import { TiShoppingCart } from 'react-icons/ti';
 import { Rating } from '../BookShelf/BookHolder/Book/Rating';
@@ -30,8 +36,7 @@ function BookDetail(props) {
 	const dispatch = useDispatch();
 	const { id } = props.match.params;
 
-	const { cart } = useSelector((state) => state);
-	const { summary } = useSelector((state) => state);
+	const { cart, summary, allUsers } = useSelector((state) => state);
 
 	const handleonclick = (id) => {
 		dispatch(addToCart(id));
@@ -45,6 +50,7 @@ function BookDetail(props) {
 	};
 
 	useEffect(() => {
+		if (!allUsers.length) dispatch(getAllUsers());
 		dispatch(getDetails(id));
 		localStorage.setItem('cart', JSON.stringify(cart));
 		localStorage.setItem('summary', JSON.stringify(summary));
@@ -54,6 +60,17 @@ function BookDetail(props) {
 	}, [dispatch, cart]);
 
 	let detail = useSelector((state) => state.details);
+
+	console.log(detail, allUsers);
+
+	let comments = detail?.Comments?.map((c) => {
+		return {
+			text: c.text,
+			user: allUsers.filter((u) => c.UserId === u.id),
+		};
+	});
+
+	console.log(comments);
 	return (
 		<Container align={'center'} bg='brand.pepe' minW={'100%'} minH={'90vh'}>
 			<Box maxW={'7xl'}>
@@ -117,6 +134,20 @@ function BookDetail(props) {
 											size='20px'
 											defaultValue={detail?.rating}
 										/>
+									</Text>
+								</Text>
+								<Text fontSize={'20px'} paddingBottom={'20px'}>
+									Genres:
+									<Text>
+										{detail?.Genres?.map((e) => e.name) +
+											''}
+									</Text>
+								</Text>
+								<Text fontSize={'20px'} paddingBottom={'20px'}>
+									Languages:
+									<Text>
+										{detail?.Languages?.map((e) => e.name) +
+											''}
 									</Text>
 								</Text>
 							</VStack>
@@ -228,6 +259,33 @@ function BookDetail(props) {
 						</Stack>
 					</Stack>
 				</SimpleGrid>
+			</Box>
+			<Box>
+				<Text>Comments:</Text>
+				<Stack>
+					{comments?.map((comment) => {
+						return (
+							<Flex
+								flexDir='row'
+								pl='20px'
+								alignItems='center'
+								border='1px'
+								borderColor='black'>
+								<Box>
+									<Avatar
+										size='md'
+										showBorder={true}
+										borderColor='brand.pepeoscuro'
+										name='avatar'
+										src={comment.user[0].profile_picture}
+									/>
+									<Text>{comment.user[0].username}</Text>
+								</Box>
+								<Text pl='20px'>{comment.text}</Text>
+							</Flex>
+						);
+					})}
+				</Stack>
 			</Box>
 		</Container>
 	);
