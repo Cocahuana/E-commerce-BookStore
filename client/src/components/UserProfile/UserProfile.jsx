@@ -3,6 +3,12 @@ import axios from 'axios';
 import { useState, useRef } from 'react';
 import SignOut from '../SignOut/Signout';
 import {
+	userGetFavorite,
+	userAddFavorite,
+	userDeleteFavorite,
+} from '../../redux/actions/index.js';
+import { useDispatch } from 'react-redux';
+import {
 	Box,
 	Stack,
 	HStack,
@@ -32,6 +38,7 @@ function UserProfile() {
 	const modal2 = useDisclosure();
 	const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
 	const profileImage = useRef(null);
+	const dispatch = useDispatch();
 
 	const openChooseImage = () => {
 		profileImage.current.click();
@@ -55,6 +62,21 @@ function UserProfile() {
 		}
 	};
 
+<<<<<<< HEAD
+=======
+	const handleFavorite = () => {
+		dispatch(userGetFavorite()); //userid
+	};
+
+	const addFavorite = () => {
+		dispatch(userAddFavorite()); //userid, bookid
+	};
+
+	const deleteFavorite = () => {
+		dispatch(userDeleteFavorite()); //userid, bookid
+	};
+  
+>>>>>>> ea54e3fe87e7bb8339f74eb32854b6c6ef072980
 	return (
 		<Stack
 			px={'5%'}
@@ -149,6 +171,7 @@ function UserProfile() {
 					h={{ lg: '60%', md: '60%', base: '150rem' }}
 					w={{ lg: '50%', md: '50%', base: '100%' }}>
 					<VStack align={'center'}>
+<<<<<<< HEAD
 						<Button w={'100%'} onClick={modal2.onOpen}>
 							Favourite list
 						</Button>
@@ -169,6 +192,10 @@ function UserProfile() {
 								</ModalBody>
 							</ModalContent>
 						</Modal>
+=======
+						{/* add onclick*/}
+						<Button w={'100%'}>Favourite list</Button>
+>>>>>>> ea54e3fe87e7bb8339f74eb32854b6c6ef072980
 						<Button w={'100%'}>Change your password</Button>
 						<br />
 						<SignOut />

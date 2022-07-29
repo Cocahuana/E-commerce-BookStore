@@ -25,30 +25,11 @@ import {
 	SIGN_UP,
 	SIGN_OUT,
 	HIDE_BOOKS,
-	CHECK_TOKEN,
+	CHECK_STATES,
+	GET_USERS,
+	USER_GET_FAVORITES,
+	POST_COMMENT,
 } from './actionTypes';
-
-// const axios = require('axios');
-
-// export const getAllBooks = () => {
-//     return async function (dispatch) {
-//         dispatch({
-//             type: LOADING
-//         })
-//         let books = await axios.get('/books')
-//         return dispatch({ type: GET_ALL_BOOKS, payload: books.data })
-//     }
-// }
-
-// let objetofalso = {
-//     id: 1000,
-//     title: "Aguante messi",
-//     authors: ["el mati"],
-//     description: "soy el matiii",
-//     rating: 5,
-//     image: "http://books.google.com/books/content?id=TV05BgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-//     preview: null
-// }
 
 export const getDetails = (id) => {
 	return async function (dispatch) {
@@ -114,6 +95,17 @@ export function resetDetails() {
 		type: RESET_DETAILS,
 	};
 }
+
+export function postComment(comment) {
+	return async function (dispatch) {
+		try {
+			await axios.post(`/books/comment`, comment);
+			return dispatch({ type: POST_COMMENT, payload: comment });
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
 //----------------------------------------------ADMIN-----------------------------------------
 
 export const hideBook = () => {
@@ -151,20 +143,35 @@ export function userLogin(user) {
 		} catch (error) {
 			// Te lanza un error cuando la autenticacion falló o no es correcta
 			// Permaneces en la pagina del sign in
-			Swal.fire({
-				icon: 'error',
-				title: 'Oops...',
-				text: 'Email or password are incorrect :,(',
-			});
+			const err = error;
+			if (err.response.status === 404) {
+				//Status es el tipo de error y data el send/json del error en el back
+				// console.log('status: ' + err.response.status);
+				// console.log('data: ' + err.response.data);
+				Swal.fire({
+					icon: 'error',
+					title: `${err.response.status}`,
+					text: `${err.response.data}`,
+				});
+			} else if (err.response.status === 400) {
+				//Status es el tipo de error y data el send/json del error en el back
+				// console.log('status: ' + err.response.status);
+				// console.log('data: ' + err.response.data);
+				Swal.fire({
+					icon: 'error',
+					title: `${err.response.status}`,
+					text: `${err.response.data}`,
+				});
+			}
 		}
 	};
 }
 
 // Aca checkeamos si el estado del token está o no actualizado
-export function checkToken() {
+export function checkStates() {
 	return async function (dispatch) {
 		return dispatch({
-			type: CHECK_TOKEN,
+			type: CHECK_STATES,
 		});
 	};
 }
@@ -186,6 +193,42 @@ export function userSignUp(user) {
 
 export function userSignOut() {
 	return { type: SIGN_OUT };
+}
+
+export function getAllUsers() {
+	return async function (dispatch) {
+		var users = await axios.get(`/user/all`);
+		return dispatch({
+			type: GET_USERS,
+			payload: users.data,
+		});
+	};
+}
+export function userAddFavorite(userId, bookId) {
+	return async function () {
+		return await axios.put('/user/favorites', {
+			idUser: userId,
+			idBook: bookId,
+		});
+	};
+}
+
+export function userDeleteFavorite(userId, bookId) {
+	return async function () {
+		return await axios.delete('/user/favorites', {
+			data: {
+				idUser: userId,
+				idBook: bookId,
+			},
+		});
+	};
+}
+
+export function userGetFavorite(userId) {
+	return async function (dispatch) {
+		let favorites = await axios.get(`/user/favorites/${userId}`);
+		return dispatch({ type: USER_GET_FAVORITES, payload: favorites.data });
+	};
 }
 
 //-------------------------------------------------FILTERS---------------------------------------------
