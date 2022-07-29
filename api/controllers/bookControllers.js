@@ -24,6 +24,12 @@ const getPopularBooks = async (req, res, next) => {
 const findAllBooks = async (req, res, next) => {
 	try {
 		var result = await Books.findAll({
+			where:{
+				stock: {
+					[Op.not]: 0,
+				}
+			}
+		},{
 			include: [
 				{
 					model: Genre,
@@ -46,18 +52,6 @@ const getBookById = async (req, res, next) => {
 		const { id } = req.params;
 		const book = await Books.findByPk(parseInt(id));
 		res.send(book);
-	} catch (error) {
-		next(error);
-	}
-};
-
-const deleteBookById = async (req, res, next) => {
-	const { id } = req.params;
-	try {
-		let book = await Books.findByPk(parseInt(id));
-
-		await book.destroy();
-		res.status(200).send('Libro eliminado!');
 	} catch (error) {
 		next(error);
 	}
@@ -93,6 +87,7 @@ const putBook = async (req, res, next) => {
 		previewLink,
 		flag,
 		currency,
+		stock,
 	} = req.body;
 	try {
 		let currentBook = await Books.findByPk(id);
@@ -102,15 +97,12 @@ const putBook = async (req, res, next) => {
 					title: title ? title : currentBook.title,
 					authors: authors ? authors : currentBook.authors,
 					price: price ? price : currentBook.price,
-					description: description
-						? description
-						: currentBook.description,
+					description: description ? description : currentBook.description,
 					image: image ? image : currentBook.image,
-					previewLink: previewLink
-						? previewLink
-						: currentBook.previewLink,
+					previewLink: previewLink ? previewLink : currentBook.previewLink,
 					flag: flag ? flag : currentBook.flag,
 					currency: currency ? currency : currentBook.currency,
+					stock: stock ? stock : currentBook.stock,
 				},
 				{
 					where: { id: id },
@@ -150,7 +142,6 @@ const findByAuthorOrTitle = async (req, res, next) => {
 					},
 				],
 			});
-			console.log(resp);
 			if (resp.length) {
 				res.json(resp);
 			} else {
@@ -176,7 +167,6 @@ const allGenres = async (req, res, next) => {
 module.exports = {
 	getPopularBooks,
 	getBookById,
-	deleteBookById,
 	postBook,
 	putBook,
 	findByAuthorOrTitle,

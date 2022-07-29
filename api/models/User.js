@@ -6,7 +6,7 @@ module.exports = (sequelize) => {
 	sequelize.define(
 		'User',
 		{
-			id:{
+			id: {
 				type: DataTypes.UUID,
 				defaultValue: DataTypes.UUIDV4,
 				primaryKey: true,
@@ -34,10 +34,15 @@ module.exports = (sequelize) => {
 				allowNull: true,
 			},
 
-			status:{
-				type: DataTypes.ENUM (["Admin", "User", "Banned"]),
-				defaultValue: "User",
-			}
+			status: {
+				type: DataTypes.ENUM(['Admin', 'User', 'Banned']),
+				defaultValue: 'User',
+			},
+
+			favorites: {
+				type: DataTypes.JSON,
+				defaultValue: [],
+			},
 		},
 		{ timestamps: false }
 	);

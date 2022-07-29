@@ -1,6 +1,8 @@
 // import actions types
 // import { GET_ALL_BOOKS } from './actionTypes'
-import { Slide } from '@chakra-ui/react';
+
+import Swal from 'sweetalert2';
+
 import axios from 'axios';
 import {
 	GET_DETAILS,
@@ -21,6 +23,9 @@ import {
 	RESET_FILTERS,
 	LOGIN,
 	SIGN_UP,
+	SIGN_OUT,
+	HIDE_BOOKS,
+	CHECK_TOKEN,
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -109,19 +114,57 @@ export function resetDetails() {
 		type: RESET_DETAILS,
 	};
 }
+//----------------------------------------------ADMIN-----------------------------------------
+
+export const hideBook = () => {
+	return async function (dispatch) {
+		try {
+			let result = await axios.put('/hide');
+			return dispatch({
+				type: HIDE_BOOKS,
+				payload: result.data,
+			});
+		} catch (error) {
+			alert(error);
+		}
+	};
+};
 
 //----------------------------------------------USERS-----------------------------------------
 
 export function userLogin(user) {
 	return async function (dispatch) {
-		var resp = await axios.post(`/user/login`, {
-			username: user.email,
-			password: user.password,
-		});
-		console.log(resp);
+		try {
+			let resp = await axios.post(`/user/login`, {
+				username: user.email,
+				password: user.password,
+			});
+			Swal.fire(
+				'Good job!',
+				'You have been signed in successfully!',
+				'success'
+			);
+			return dispatch({
+				type: LOGIN,
+				payload: resp.data,
+			});
+		} catch (error) {
+			// Te lanza un error cuando la autenticacion falló o no es correcta
+			// Permaneces en la pagina del sign in
+			Swal.fire({
+				icon: 'error',
+				title: 'Oops...',
+				text: 'Email or password are incorrect :,(',
+			});
+		}
+	};
+}
+
+// Aca checkeamos si el estado del token está o no actualizado
+export function checkToken() {
+	return async function (dispatch) {
 		return dispatch({
-			type: LOGIN,
-			payload: resp.data.token,
+			type: CHECK_TOKEN,
 		});
 	};
 }
@@ -133,12 +176,16 @@ export function userSignUp(user) {
 			email: user.email,
 			password: user.password,
 		});
-		console.log(result);
+
 		return dispatch({
 			type: SIGN_UP,
 			payload: result.data.username,
 		});
 	};
+}
+
+export function userSignOut() {
+	return { type: SIGN_OUT };
 }
 
 //-------------------------------------------------FILTERS---------------------------------------------
