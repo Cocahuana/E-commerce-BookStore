@@ -75,19 +75,25 @@ const getBookById = async (req, res, next) => {
 };
 
 const postBook = async (req, res, next) => {
-	let { title, authors, description, rating, image, preview } = req.body;
-	if (title.length === 0)
-		return res.status(400).json('Title should be longer');
+	let { title, authors, description, rating, image, preview, price, genre, language } = req.body;
+
+	if (title.length === 0 || genre.length === 0 || price.length === 0)
+		return res.status(400).json('Title, genre and price are required');
 	try {
-		await Books.create({
+		let newBooks = await Books.create({
 			title: title,
 			authors: authors?.join(','),
 			description: description,
 			rating: rating,
 			image: image,
 			preview: preview,
+			price: price
 		});
-		res.send('libro creado!');
+		let genero = await Genre.findOne({ where: {name: genre} })
+		await newBooks.addGenre(genero)
+		let lenguaje = await Language.findOne({ where: {name: language}})
+		await newBooks.addLanguage(lenguaje)
+		res.json({message: 'Book created correctly', data: newBooks});
 	} catch (error) {
 		next(error);
 	}
