@@ -28,29 +28,8 @@ import {
 	CHECK_TOKEN,
 	GET_USERS,
 	USER_GET_FAVORITES,
+	POST_COMMENT,
 } from './actionTypes';
-
-// const axios = require('axios');
-
-// export const getAllBooks = () => {
-//     return async function (dispatch) {
-//         dispatch({
-//             type: LOADING
-//         })
-//         let books = await axios.get('/books')
-//         return dispatch({ type: GET_ALL_BOOKS, payload: books.data })
-//     }
-// }
-
-// let objetofalso = {
-//     id: 1000,
-//     title: "Aguante messi",
-//     authors: ["el mati"],
-//     description: "soy el matiii",
-//     rating: 5,
-//     image: "http://books.google.com/books/content?id=TV05BgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-//     preview: null
-// }
 
 export const getDetails = (id) => {
 	return async function (dispatch) {
@@ -114,6 +93,17 @@ export function getBooksByTitleOrAuthor(titleOrAuthor) {
 export function resetDetails() {
 	return {
 		type: RESET_DETAILS,
+	};
+}
+
+export function postComment(comment) {
+	return async function (dispatch) {
+		try {
+			await axios.post(`/books/comment`, comment);
+			return dispatch({ type: POST_COMMENT, payload: comment });
+		} catch (error) {
+			console.log(error);
+		}
 	};
 }
 //----------------------------------------------ADMIN-----------------------------------------
