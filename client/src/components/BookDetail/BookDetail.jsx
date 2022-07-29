@@ -73,7 +73,7 @@ function BookDetail(props) {
 
 	useEffect(() => {
 		if (!allUsers.length) dispatch(getAllUsers());
-		if (!details.title) dispatch(getDetails(id));
+		dispatch(getDetails(id));
 		localStorage.setItem('cart', JSON.stringify(cart));
 		localStorage.setItem('summary', JSON.stringify(summary));
 		return () => {
