@@ -10,12 +10,6 @@ const {
 } = require('../controllers/bookControllers');
 
 const passport = require('passport');
-//AUTHENTICATION
-//passport.authenticate('jwt-auth', {session: false})
-
-//AUTHORIZATION
-//passport.authenticate('jwt-admin', {session: false})
-//passport.authenticate('jwt-banned', {session: false})
 
 const router = Router();
 
