@@ -12,6 +12,7 @@ import {
 	Button,
 	Heading,
 	Text,
+	useColorMode,
 	useColorModeValue,
 	Image,
 	Checkbox,
@@ -86,7 +87,7 @@ function SignUp() {
 		<Stack
 			minH={'100vh'}
 			direction={{ base: 'column', md: 'row' }}
-			bg={'lightgrey'}>
+			bg={useColorModeValue('gray.200', 'gray.500')}>
 			<Flex p={8} flex={1} align={'center'} justify={'center'}>
 				<Stack spacing={4} w={'full'} maxW={'md'}>
 					<Heading fontSize={'2xl'}>Sign up to your account</Heading>
@@ -94,10 +95,9 @@ function SignUp() {
 					<FormControl id='username' isInvalid={errors.username}>
 						<FormLabel>Username</FormLabel>
 						<Input
-							placeholder='username'
 							name='username'
 							onChange={(e) => handleOnChange(e)}
-							bg={'white'}
+							bg={useColorModeValue('whiteAlpha.800', 'gray.400')}
 						/>
 
 						{errors.username && errors.username ? (
@@ -112,10 +112,9 @@ function SignUp() {
 					<FormControl id='email' isInvalid={errors.email}>
 						<FormLabel>Email address</FormLabel>
 						<Input
-							placeholder='email'
-							name='email'
+							name='Email'
 							onChange={(e) => handleOnChange(e)}
-							bg={'white'}
+							bg={useColorModeValue('whiteAlpha.800', 'gray.400')}
 							type='email'
 						/>
 						{errors.email && errors.email ? (
@@ -131,10 +130,9 @@ function SignUp() {
 						<FormLabel>Password</FormLabel>
 						<InputGroup>
 							<Input
-								placeholder='password'
 								name='password'
 								onChange={(e) => handleOnChange(e)}
-								bg={'white'}
+								bg={useColorModeValue('whiteAlpha.800', 'gray.400')}
 								type={show ? 'text' : 'password'}
 							/>
 							<InputRightElement h={'full'}>
