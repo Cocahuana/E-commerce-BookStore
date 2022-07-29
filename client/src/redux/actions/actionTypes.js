@@ -8,6 +8,7 @@ export const GET_BOOKS = 'GET_BOOKS';
 export const GET_GENRES = 'GET_GENRES';
 export const GET_BOOKS_BY_TITLE_OR_AUTHOR = 'GET_BOOKS_BY_TITLE_OR_AUTHOR';
 export const RESET_DETAILS = 'RESET_DETAILS';
+export const GET_USERS = 'GET_USERS';
 
 // -------------FILTER/SORT-------------
 export const FILTER_GENRE = 'FILTER_GENRE';

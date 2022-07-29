@@ -103,6 +103,45 @@ const addFavorite = async (req, res) => {
 	}
 };
 
+const searchUserByUsername = async (req, res, next) => {
+	let { username } = req.params;
+	try {
+		username = `%${username}%`;
+		let userCheck = await User.findOne({
+			where: {
+				username: {
+					[Op.iLike]: username,
+				},
+			},
+		});
+		if (userCheck) res.json(userCheck);
+		else res.status(400).json({ message: 'User has not been found' });
+	} catch (e) {
+		next(e);
+	}
+};
+
+const searchUserById = async (req, res, next) => {
+	let { id } = req.params;
+	try {
+		let userCheck = await User.findByPk(id);
+		if (userCheck) res.json(userCheck);
+		else res.status(400).json({ message: 'User has not been found' });
+	} catch (e) {
+		next(e);
+	}
+};
+
+const getAllUsers = async (req, res, next) => {
+	try {
+		let users = await User.findAll();
+		if (users) res.json(users);
+		else res.status(400).json({ message: 'not users found' });
+	} catch (e) {
+		next(e);
+	}
+};
+
 const getFavorite = async (req, res) => {
 	let { idUser } = req.params;
 
@@ -159,4 +198,7 @@ module.exports = {
 	addFavorite,
 	getFavorite,
 	deleteFavorite,
+	searchUserByUsername,
+	searchUserById,
+	getAllUsers,
 };

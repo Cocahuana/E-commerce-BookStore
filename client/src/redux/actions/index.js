@@ -26,6 +26,7 @@ import {
 	SIGN_OUT,
 	HIDE_BOOKS,
 	CHECK_TOKEN,
+	GET_USERS,
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -186,6 +187,16 @@ export function userSignUp(user) {
 
 export function userSignOut() {
 	return { type: SIGN_OUT };
+}
+
+export function getAllUsers() {
+	return async function (dispatch) {
+		var users = await axios.get(`/user/all`);
+		return dispatch({
+			type: GET_USERS,
+			payload: users.data,
+		});
+	};
 }
 
 //-------------------------------------------------FILTERS---------------------------------------------
