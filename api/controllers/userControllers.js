@@ -34,7 +34,6 @@ const registerUser = async (req, res, next) => {
 
 const userLogin = async (req, res, next) => {
 	const { username, password } = req.body;
-	console.log(req.body);
 	try {
 		let hashedPassword = crypto
 			.createHash('md5')
@@ -46,11 +45,11 @@ const userLogin = async (req, res, next) => {
 			},
 		});
 
-		console.log(userCheck);
-		if (!userCheck)
-			return res.status(400).send('Email or password does not match!');
+		if (!userCheck) return res.status(400).send('User not found');
 		else if (userCheck.password !== hashedPassword)
-			return res.status(400).send('Email or password does not match!');
+			return res.status(400).send('Password does not match!');
+		else if (userCheck.username !== username)
+			return res.status(400).send('Username does not match!');
 		else {
 			const jwtToken = jwt.sign(
 				{
@@ -62,7 +61,10 @@ const userLogin = async (req, res, next) => {
 				MY_SECRET,
 				{ expiresIn: '12h' }
 			);
-			res.status(200).json({ token: jwtToken, status: userCheck.status });
+			res.status(200).json({
+				token: jwtToken,
+				status: userCheck.status,
+			});
 		}
 	} catch (e) {
 		next(e);
