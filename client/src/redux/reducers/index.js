@@ -366,6 +366,7 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 				userRole: null,
 			};
+			
 		case USER_GET_FAVORITES:
 			let favoriteBooks = [];
 			let booksIds = action.payload;
