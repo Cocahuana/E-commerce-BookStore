@@ -112,7 +112,7 @@ function SignUp() {
 					<FormControl id='email' isInvalid={errors.email}>
 						<FormLabel>Email address</FormLabel>
 						<Input
-							name='Email'
+							name='email'
 							onChange={(e) => handleOnChange(e)}
 							bg={useColorModeValue('whiteAlpha.800', 'gray.400')}
 							type='email'
@@ -132,7 +132,10 @@ function SignUp() {
 							<Input
 								name='password'
 								onChange={(e) => handleOnChange(e)}
-								bg={useColorModeValue('whiteAlpha.800', 'gray.400')}
+								bg={useColorModeValue(
+									'whiteAlpha.800',
+									'gray.400'
+								)}
 								type={show ? 'text' : 'password'}
 							/>
 							<InputRightElement h={'full'}>
