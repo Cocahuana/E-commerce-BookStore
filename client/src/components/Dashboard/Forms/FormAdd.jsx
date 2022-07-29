@@ -37,6 +37,14 @@ function FormAdd() {
 	const parse = (val) => val.replace(/^\$/, '');
 
 	const [value, setValue] = React.useState('1.53');
+	const [input, setInput] = React.useState({
+		title: '',
+		authors: '',
+		price: 0,
+		description: [].join(''),
+		rating: 0,
+		image: '',
+	});
 
 	return (
 		<Box
