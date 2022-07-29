@@ -48,6 +48,10 @@ let userIdFromLocalStorage = localStorage.getItem('userId');
 if (!userIdFromLocalStorage) {
 	userIdFromLocalStorage = false;
 }
+let userRoleFromLocalStorage = localStorage.getItem('userRole');
+if (!userRoleFromLocalStorage) {
+	userRoleFromLocalStorage = null;
+}
 
 // ----------------------------------------------
 
@@ -75,7 +79,7 @@ const InitialState = {
 	token: tokenFromLocalStorage,
 	registeredUsers: [],
 	adminBooks: [],
-	userRole: null,
+	userRole: userRoleFromLocalStorage,
 	userId: userIdFromLocalStorage,
 	allUsers: [],
 	isSignedIn: isSignedInFromLocalStorage,
