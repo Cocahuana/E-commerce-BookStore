@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@chakra-ui/react';
+import { Button, useColorModeValue } from '@chakra-ui/react';
 import { userSignOut } from '../../redux/actions';
 import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
@@ -19,7 +19,7 @@ function signout() {
 	};
 	return (
 		<Button
-			bg={'red.500'}
+			bg={useColorModeValue('red.500', 'red.400')}
 			w={'50%'}
 			onClick={handleClick}
 			display={{ base: 'none', md: 'inline-flex' }}

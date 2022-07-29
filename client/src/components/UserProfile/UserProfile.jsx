@@ -3,6 +3,12 @@ import axios from 'axios';
 import { useState, useRef } from 'react';
 import SignOut from '../SignOut/Signout';
 import {
+	userGetFavorite,
+	userAddFavorite,
+	userDeleteFavorite,
+} from '../../redux/actions/index.js';
+import { useDispatch } from 'react-redux';
+import {
 	Box,
 	Stack,
 	HStack,
@@ -21,6 +27,7 @@ import {
 	ModalBody,
 	ModalFooter,
 	useDisclosure,
+	useColorModeValue,
 } from '@chakra-ui/react';
 
 function UserProfile() {
@@ -28,6 +35,7 @@ function UserProfile() {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
 	const profileImage = useRef(null);
+	const dispatch = useDispatch();
 
 	const openChooseImage = () => {
 		profileImage.current.click();
@@ -51,10 +59,23 @@ function UserProfile() {
 		}
 	};
 
+	const handleFavorite = () => {
+		dispatch(userGetFavorite()); //userid
+	};
+
+	const addFavorite = () => {
+		dispatch(userAddFavorite()); //userid, bookid
+	};
+
+	const deleteFavorite = () => {
+		dispatch(userDeleteFavorite()); //userid, bookid
+	};
+  
 	return (
 		<Stack
 			px={'5%'}
 			pt={{ lg: '5%', md: '10%', sm: '15%', base: '25%' }}
+			bg={useColorModeValue('white', 'gray.500')}
 			h={'85vh'}>
 			<Box
 				rounded={'5px'}
@@ -144,6 +165,7 @@ function UserProfile() {
 					h={{ lg: '60%', md: '60%', base: '150rem' }}
 					w={{ lg: '50%', md: '50%', base: '100%' }}>
 					<VStack align={'center'}>
+						{/* add onclick*/}
 						<Button w={'100%'}>Favourite list</Button>
 						<Button w={'100%'}>Change your password</Button>
 						<br />

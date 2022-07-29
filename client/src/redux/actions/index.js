@@ -26,6 +26,7 @@ import {
 	SIGN_OUT,
 	HIDE_BOOKS,
 	CHECK_TOKEN,
+	USER_GET_FAVORITES,
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -201,6 +202,33 @@ export function userSignUp(user) {
 
 export function userSignOut() {
 	return { type: SIGN_OUT };
+}
+
+export function userAddFavorite(userId, bookId) {
+	return async function () {
+		return await axios.put('/user/favorites', {
+			idUser: userId,
+			idBook: bookId,
+		});
+	};
+}
+
+export function userDeleteFavorite(userId, bookId) {
+	return async function () {
+		return await axios.delete('/user/favorites', {
+			data: {
+				idUser: userId,
+				idBook: bookId,
+			},
+		});
+	};
+}
+
+export function userGetFavorite(userId) {
+	return async function (dispatch) {
+		let favorites = await axios.get(`/user/favorites/${userId}`);
+		return dispatch({ type: USER_GET_FAVORITES, payload: favorites.data });
+	};
 }
 
 //-------------------------------------------------FILTERS---------------------------------------------
