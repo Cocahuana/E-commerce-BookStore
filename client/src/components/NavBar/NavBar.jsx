@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
 	Box,
 	Flex,
@@ -29,9 +29,11 @@ import {
 import { Link as BuenLink } from 'react-router-dom';
 import Drawer from '../Cart/Drawer';
 import Signout from '../SignOut/Signout';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { checkStates } from '../../redux/actions';
 
 export default function NavBar() {
+	const dispatch = useDispatch();
 	const { isOpen, onToggle } = useDisclosure();
 	const { colorMode, toggleColorMode } = useColorMode();
 	const { userRole, isSignedIn } = useSelector((state) => state);
@@ -41,7 +43,182 @@ export default function NavBar() {
 	if it's true( which means you are logged in), it renders the signout button
 	*/
 
-	return userRole === null ? (
+	useEffect(() => {
+		dispatch(checkStates());
+	}, [dispatch, userRole]);
+
+	return userRole === 'Admin' ? (
+		<Box
+			position='fixed'
+			width='100%'
+			zIndex={3}
+			backdropFilter={'auto'}
+			backdropBlur='8px'>
+			<Flex
+				bg={useColorModeValue('whiteAlpha.800', 'gray.700')}
+				color={useColorModeValue('gray.600', 'white')}
+				py={{ base: 2 }}
+				px={{ base: 4 }}
+				borderBottom={1}
+				//borderStyle={'solid'}
+				//borderColor={useColorModeValue('gray.200', 'gray.900')}
+				align={'center'}
+				boxShadow={useColorModeValue(
+					'0 4px 6px rgba(160,174,192,0.6)',
+					'0 4px 6px rgba(9,17,28,0.9'
+				)}>
+				<Flex
+					flex={{ base: 1, md: 'auto' }}
+					ml={{ base: -2 }}
+					display={{ base: 'flex', md: 'none' }}>
+					<IconButton
+						onClick={onToggle}
+						icon={
+							isOpen ? (
+								<CloseIcon w={3} h={3} />
+							) : (
+								<HamburgerIcon w={5} h={5} />
+							)
+						}
+						variant={'ghost'}
+						aria-label={'Toggle Navigation'}
+					/>
+				</Flex>
+				<Flex
+					flex={{ base: 1 }}
+					justify={{ base: 'center', md: 'start' }}>
+					<BuenLink to='/'>
+						<Text
+							textAlign={useBreakpointValue({
+								base: 'center',
+								md: 'left',
+							})}
+							fontFamily={'heading'}
+							color={useColorModeValue('gray.800', 'white')}>
+							E-BookStore
+						</Text>
+					</BuenLink>
+
+					<Flex display={{ base: 'none', md: 'flex' }} ml={10}>
+						<DesktopNav />
+					</Flex>
+				</Flex>
+
+				<Stack
+					flex={{ base: 1, md: 0 }}
+					justify={'flex-end'}
+					direction={'row'}
+					spacing={6}>
+					<Center>
+						<Switch size={'lg'} onChange={toggleColorMode} />
+					</Center>
+
+					<Drawer />
+
+					<BuenLink to='/adminDashboard'>
+						<Button
+							as={'a'}
+							fontSize={'sm'}
+							fontWeight={400}
+							variant={'link'}>
+							Admin
+						</Button>
+					</BuenLink>
+					<Signout />
+				</Stack>
+			</Flex>
+
+			<Collapse in={isOpen} animateOpacity>
+				<MobileNav />
+			</Collapse>
+		</Box>
+	) : userRole === 'User' ? (
+		<Box
+			position='fixed'
+			width='100%'
+			zIndex={3}
+			backdropFilter={'auto'}
+			backdropBlur='8px'>
+			<Flex
+				bg={useColorModeValue('whiteAlpha.800', 'gray.700')}
+				color={useColorModeValue('gray.600', 'white')}
+				py={{ base: 2 }}
+				px={{ base: 4 }}
+				borderBottom={1}
+				//borderStyle={'solid'}
+				//borderColor={useColorModeValue('gray.200', 'gray.900')}
+				align={'center'}
+				boxShadow={useColorModeValue(
+					'0 4px 6px rgba(160,174,192,0.6)',
+					'0 4px 6px rgba(9,17,28,0.9'
+				)}>
+				<Flex
+					flex={{ base: 1, md: 'auto' }}
+					ml={{ base: -2 }}
+					display={{ base: 'flex', md: 'none' }}>
+					<IconButton
+						onClick={onToggle}
+						icon={
+							isOpen ? (
+								<CloseIcon w={3} h={3} />
+							) : (
+								<HamburgerIcon w={5} h={5} />
+							)
+						}
+						variant={'ghost'}
+						aria-label={'Toggle Navigation'}
+					/>
+				</Flex>
+				<Flex
+					flex={{ base: 1 }}
+					justify={{ base: 'center', md: 'start' }}>
+					<BuenLink to='/'>
+						<Text
+							textAlign={useBreakpointValue({
+								base: 'center',
+								md: 'left',
+							})}
+							fontFamily={'heading'}
+							color={useColorModeValue('gray.800', 'white')}>
+							E-BookStore
+						</Text>
+					</BuenLink>
+
+					<Flex display={{ base: 'none', md: 'flex' }} ml={10}>
+						<DesktopNav />
+					</Flex>
+				</Flex>
+
+				<Stack
+					flex={{ base: 1, md: 0 }}
+					justify={'flex-end'}
+					direction={'row'}
+					spacing={6}>
+					<Center>
+						<Switch size={'lg'} onChange={toggleColorMode} />
+					</Center>
+
+					<Drawer />
+
+					<BuenLink to='/profile'>
+						<Button
+							as={'a'}
+							fontSize={'sm'}
+							fontWeight={400}
+							variant={'link'}>
+							Profile
+						</Button>
+					</BuenLink>
+					<Signout />
+				</Stack>
+			</Flex>
+
+			<Collapse in={isOpen} animateOpacity>
+				<MobileNav />
+			</Collapse>
+		</Box>
+	) : (
+		//------------------///
 		<Box
 			position='fixed'
 			width='100%'
@@ -136,176 +313,6 @@ export default function NavBar() {
 							</Button>
 						</BuenLink>
 					</HStack>
-				</Stack>
-			</Flex>
-
-			<Collapse in={isOpen} animateOpacity>
-				<MobileNav />
-			</Collapse>
-		</Box>
-	) : userRole === 'User' ? (
-		<Box
-			position='fixed'
-			width='100%'
-			zIndex={3}
-			backdropFilter={'auto'}
-			backdropBlur='8px'>
-			<Flex
-				bg={useColorModeValue('whiteAlpha.800', 'gray.700')}
-				color={useColorModeValue('gray.600', 'white')}
-				py={{ base: 2 }}
-				px={{ base: 4 }}
-				borderBottom={1}
-				//borderStyle={'solid'}
-				//borderColor={useColorModeValue('gray.200', 'gray.900')}
-				align={'center'}
-				boxShadow={useColorModeValue(
-					'0 4px 6px rgba(160,174,192,0.6)',
-					'0 4px 6px rgba(9,17,28,0.9'
-				)}>
-				<Flex
-					flex={{ base: 1, md: 'auto' }}
-					ml={{ base: -2 }}
-					display={{ base: 'flex', md: 'none' }}>
-					<IconButton
-						onClick={onToggle}
-						icon={
-							isOpen ? (
-								<CloseIcon w={3} h={3} />
-							) : (
-								<HamburgerIcon w={5} h={5} />
-							)
-						}
-						variant={'ghost'}
-						aria-label={'Toggle Navigation'}
-					/>
-				</Flex>
-				<Flex
-					flex={{ base: 1 }}
-					justify={{ base: 'center', md: 'start' }}>
-					<BuenLink to='/'>
-						<Text
-							textAlign={useBreakpointValue({
-								base: 'center',
-								md: 'left',
-							})}
-							fontFamily={'heading'}
-							color={useColorModeValue('gray.800', 'white')}>
-							E-BookStore
-						</Text>
-					</BuenLink>
-
-					<Flex display={{ base: 'none', md: 'flex' }} ml={10}>
-						<DesktopNav />
-					</Flex>
-				</Flex>
-
-				<Stack
-					flex={{ base: 1, md: 0 }}
-					justify={'flex-end'}
-					direction={'row'}
-					spacing={6}>
-					<Center>
-						<Switch size={'lg'} onChange={toggleColorMode} />
-					</Center>
-
-					<Drawer />
-
-					<BuenLink to='/profile'>
-						<Button
-							as={'a'}
-							fontSize={'sm'}
-							fontWeight={400}
-							variant={'link'}>
-							Profile
-						</Button>
-					</BuenLink>
-					<Signout />
-				</Stack>
-			</Flex>
-
-			<Collapse in={isOpen} animateOpacity>
-				<MobileNav />
-			</Collapse>
-		</Box>
-	) : (
-		<Box
-			position='fixed'
-			width='100%'
-			zIndex={3}
-			backdropFilter={'auto'}
-			backdropBlur='8px'>
-			<Flex
-				bg={useColorModeValue('whiteAlpha.800', 'gray.700')}
-				color={useColorModeValue('gray.600', 'white')}
-				py={{ base: 2 }}
-				px={{ base: 4 }}
-				borderBottom={1}
-				//borderStyle={'solid'}
-				//borderColor={useColorModeValue('gray.200', 'gray.900')}
-				align={'center'}
-				boxShadow={useColorModeValue(
-					'0 4px 6px rgba(160,174,192,0.6)',
-					'0 4px 6px rgba(9,17,28,0.9'
-				)}>
-				<Flex
-					flex={{ base: 1, md: 'auto' }}
-					ml={{ base: -2 }}
-					display={{ base: 'flex', md: 'none' }}>
-					<IconButton
-						onClick={onToggle}
-						icon={
-							isOpen ? (
-								<CloseIcon w={3} h={3} />
-							) : (
-								<HamburgerIcon w={5} h={5} />
-							)
-						}
-						variant={'ghost'}
-						aria-label={'Toggle Navigation'}
-					/>
-				</Flex>
-				<Flex
-					flex={{ base: 1 }}
-					justify={{ base: 'center', md: 'start' }}>
-					<BuenLink to='/'>
-						<Text
-							textAlign={useBreakpointValue({
-								base: 'center',
-								md: 'left',
-							})}
-							fontFamily={'heading'}
-							color={useColorModeValue('gray.800', 'white')}>
-							E-BookStore
-						</Text>
-					</BuenLink>
-
-					<Flex display={{ base: 'none', md: 'flex' }} ml={10}>
-						<DesktopNav />
-					</Flex>
-				</Flex>
-
-				<Stack
-					flex={{ base: 1, md: 0 }}
-					justify={'flex-end'}
-					direction={'row'}
-					spacing={6}>
-					<Center>
-						<Switch size={'lg'} onChange={toggleColorMode} />
-					</Center>
-
-					<Drawer />
-
-					<BuenLink to='/adminDashboard'>
-						<Button
-							as={'a'}
-							fontSize={'sm'}
-							fontWeight={400}
-							variant={'link'}>
-							Admin
-						</Button>
-					</BuenLink>
-					<Signout />
 				</Stack>
 			</Flex>
 
