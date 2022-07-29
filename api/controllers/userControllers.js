@@ -62,7 +62,7 @@ const userLogin = async (req, res, next) => {
 				MY_SECRET,
 				{ expiresIn: '12h' }
 			);
-			res.json({ token: jwtToken });
+			res.status(200).json({ token: jwtToken, status: userCheck.status });
 		}
 	} catch (e) {
 		next(e);
