@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 import {
 	Flex,
 	Box,
@@ -16,10 +17,11 @@ import {
 	useColorModeValue,
 	Image,
 	Checkbox,
+	tokenToCSSVar,
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { useDispatch } from 'react-redux';
-import { userLogin } from '../../redux/actions/index';
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogin, checkToken } from '../../redux/actions/index';
 import { useHistory } from 'react-router-dom';
 import { Link as BuenLink } from 'react-router-dom';
 
@@ -27,23 +29,49 @@ function SignIn() {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const [show, setShow] = React.useState(false);
-	const handleClick = () => setShow(!show);
+	const { token } = useSelector((state) => state);
+	// const handleClick = () => setShow(!show);
 
-	const [user, setnewUser] = useState({
+	const [user, setLoginUser] = useState({
 		email: '',
 		password: '',
 	});
 
+	useEffect(() => {
+		// Checkea si el token esta o no vacio
+		dispatch(checkToken());
+		// Si llega el token (porque es correcto, sino llega vacio)
+		// entonces setea email y password y te manda a /books mientras
+		// te aparece un sweet alert sobre que el login fue un exito
+		if (token) {
+			setLoginUser({
+				email: '',
+				password: '',
+			});
+			history.push('/books');
+		}
+	}, [dispatch, token]);
+
 	const handleOnChange = (e) => {
-		setnewUser({
+		setLoginUser({
 			...user,
 			[e.target.name]: e.target.value,
 		});
 	};
 
-	const handleSignUp = (event) => {
-		dispatch(userLogin(user));
-		//history.push(`/books`);
+	const handleSignIn = (e) => {
+		e.preventDefault();
+
+		if (user.email === '' || user.password === '') {
+			Swal.fire({
+				icon: 'error',
+				title: 'Oops...',
+				text: 'Login inputs can not be empty, sorry!',
+			});
+		} else {
+			// Compueba si la autentication es correcta o no
+			dispatch(userLogin(user));
+		}
 	};
 
 	return (
@@ -60,6 +88,7 @@ function SignIn() {
 						<Input
 							bg={'white'}
 							name='email'
+							value={user.email}
 							onChange={(e) => handleOnChange(e)}
 						/>
 					</FormControl>
@@ -71,6 +100,7 @@ function SignIn() {
 								name='password'
 								onChange={(e) => handleOnChange(e)}
 								bg={'white'}
+								value={user.password}
 								type={show ? 'text' : 'password'}
 							/>
 							<InputRightElement h={'full'}>
@@ -100,7 +130,7 @@ function SignIn() {
 						<Button
 							colorScheme={'blue'}
 							variant={'solid'}
-							onClick={(event) => handleSignUp(event)}>
+							onClick={(event) => handleSignIn(event)}>
 							Sign in
 						</Button>
 					</Stack>

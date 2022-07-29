@@ -18,6 +18,8 @@ import {
 	RESET_FILTERS,
 	SIGN_UP,
 	LOGIN,
+	SIGN_OUT,
+	CHECK_TOKEN,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -29,6 +31,15 @@ if (!cartFromLocalStorage) {
 let summaryFromLocalStorage = JSON.parse(localStorage.getItem('summary'));
 if (!summaryFromLocalStorage) {
 	summaryFromLocalStorage = 0;
+}
+
+let tokenFromLocalStorage = localStorage.getItem('token');
+if (!tokenFromLocalStorage) {
+	tokenFromLocalStorage = '';
+}
+let isSignedInFromLocalStorage = localStorage.getItem('isSignedIn');
+if (!tokenFromLocalStorage) {
+	isSignedInFromLocalStorage = false;
 }
 
 // ----------------------------------------------
@@ -54,8 +65,11 @@ const InitialState = {
 	isBoxChecked: [],
 	cart: cartFromLocalStorage,
 	summary: summaryFromLocalStorage,
-	token: '',
+	token: tokenFromLocalStorage,
 	registeredUsers: [],
+	adminBooks: [],
+	userRol: null,
+	isSignedIn: isSignedInFromLocalStorage,
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -71,6 +85,7 @@ const rootReducer = (state = InitialState, action) => {
 				...state,
 				books: action.payload,
 				booksCopy: action.payload,
+				adminBooks: action.payload,
 				loading: false,
 			};
 		}
@@ -164,24 +179,19 @@ const rootReducer = (state = InitialState, action) => {
 		// Aplico los filtros del estado global (filters)
 		case APPLY_FILTERS: {
 			//------------------------------------------FILTERS----------------------------------------
-			console.log('reducer', state.books);
 			var filteredBooks = state.booksCopy.filter((book) => {
 				//variable donde se guardaran los libros que coincidan con todas las condiciones
 
 				//asumo que el libro debe incluirse y si no cumple algun filtro devuelvo false para q sea filtrado (no se incluya en el array)
 
 				//--------Filtro por oferta------------
-				if (state.filters.onsale && !book.flag === 'on-sale')
-					return false;
+				if (state.filters.onsale && !book.flag === 'on-sale') return false;
 
 				//--------Filtro por moneda------------
 				//if (state.filters.currency && state.filters.currency!==book.currency) return false
 
 				//--------Filtro por lenguaje------------
-				if (
-					state.filters.language &&
-					state.filters.language !== book.language
-				)
+				if (state.filters.language && state.filters.language !== book.language)
 					return false;
 
 				//--------Filtro por precio------------
@@ -281,15 +291,36 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 			};
 		case LOGIN:
+			// Signed in, passing token, user rol and setting the state "isSignedIn" with value true
+			localStorage.setItem('isSignedIn', true);
 			return {
 				...state,
-				token: action.payload,
+				token: action.payload.token,
+				userRol: action.payload.status,
+				isSignedIn: true,
+			};
+		// Aca checkeamos si el estado del token está o no actualizado
+		case CHECK_TOKEN:
+			return {
+				...state,
 			};
 		case SIGN_UP:
 			return {
 				...state,
 				registeredUsers: action.payload,
 				// tal vez lo podemos usar para mostrar los usuarios registrados en admin dashboard
+			};
+		case SIGN_OUT:
+			// We clear the whole localStorage and set isSignedIn false, and the token as an empty string
+			localStorage.setItem('cart', JSON.stringify([]));
+			localStorage.setItem('isSignedIn', false);
+			localStorage.removeItem('token');
+			return {
+				...state,
+				token: '',
+				isSignedIn: false,
+				cart: [],
+				summary: 0,
 			};
 
 		default:

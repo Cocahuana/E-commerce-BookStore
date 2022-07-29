@@ -19,6 +19,7 @@ import './components/theme/styleFont.css';
 //In order to use Vite, we need to use import.meta.env instead of dotenv.config() and process.env
 axios.defaults.baseURL =
 	import.meta.env.VITE_APP_API || 'http://localhost:3001';
+
 /* Deploy front End */
 
 ReactDOM.createRoot(document.getElementById('root')).render(
