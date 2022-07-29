@@ -23,6 +23,12 @@ export const RESET_FILTERS = 'RESET_FILTERS';
 // -------------LOADING-------------
 export const LOADING = 'LOADING';
 
+// -------------Utils-------------
+// Lo bueno de check states es que podes hacer un destructuring
+// en useEffect que escuche cambios en el estado que vos necesites,
+// no hay de que ;) -- Ezui
+export const CHECK_STATES = 'CHECK_STATES';
+
 // -------------CART-------------
 export const ADD_CART = 'ADD_CART';
 export const DEL_CART = 'DEL_CART';
@@ -36,5 +42,3 @@ export const USER_GET_FAVORITES = 'USER_GET_FAVORITES';
 
 //------------ADMIN---------------
 export const HIDE_BOOKS = 'HIDE_BOOKS';
-
-export const CHECK_TOKEN = 'CHECK_TOKEN';
