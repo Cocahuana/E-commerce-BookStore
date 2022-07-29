@@ -64,6 +64,7 @@ const userLogin = async (req, res, next) => {
 			res.status(200).json({
 				token: jwtToken,
 				status: userCheck.status,
+				id: userCheck.id,
 			});
 		}
 	} catch (e) {
@@ -120,24 +121,6 @@ const addFavorite = async (req, res) => {
 		res.send('Agregado a Favoritos');
 	} catch (error) {
 		res.status(400).json(error.message);
-	}
-};
-
-const searchUserByUsername = async (req, res, next) => {
-	let { username } = req.params;
-	try {
-		username = `%${username}%`;
-		let userCheck = await User.findOne({
-			where: {
-				username: {
-					[Op.iLike]: username,
-				},
-			},
-		});
-		if (userCheck) res.json(userCheck);
-		else res.status(400).json({ message: 'User has not been found' });
-	} catch (e) {
-		next(e);
 	}
 };
 
