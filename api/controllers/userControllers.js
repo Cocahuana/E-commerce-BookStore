@@ -65,6 +65,7 @@ const userLogin = async (req, res, next) => {
 			res.status(200).json({
 				token: jwtToken,
 				status: userCheck.status,
+				id: userCheck.id,
 			});
 		}
 	} catch (e) {
@@ -106,6 +107,17 @@ const addFavorite = async (req, res) => {
 	}
 };
 
+const searchUserById = async (req, res, next) => {
+	let { id } = req.params;
+	try {
+		let userCheck = await User.findByPk(id);
+		if (userCheck) res.json(userCheck);
+		else res.status(400).json({ message: 'User has not been found' });
+	} catch (e) {
+		next(e);
+	}
+};
+
 const searchUserByUsername = async (req, res, next) => {
 	let { username } = req.params;
 	try {
@@ -117,16 +129,6 @@ const searchUserByUsername = async (req, res, next) => {
 				},
 			},
 		});
-		if (userCheck) res.json(userCheck);
-		else res.status(400).json({ message: 'User has not been found' });
-	} catch (e) {
-		next(e);
-	}
-};
-const searchUserById = async (req, res, next) => {
-	let { id } = req.params;
-	try {
-		let userCheck = await User.findByPk(id);
 		if (userCheck) res.json(userCheck);
 		else res.status(400).json({ message: 'User has not been found' });
 	} catch (e) {

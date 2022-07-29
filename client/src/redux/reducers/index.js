@@ -22,6 +22,7 @@ import {
 	CHECK_TOKEN,
 	GET_USERS,
 	USER_GET_FAVORITES,
+	POST_COMMENT,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -40,8 +41,16 @@ if (!tokenFromLocalStorage) {
 	tokenFromLocalStorage = '';
 }
 let isSignedInFromLocalStorage = localStorage.getItem('isSignedIn');
-if (!tokenFromLocalStorage) {
+if (!isSignedInFromLocalStorage) {
 	isSignedInFromLocalStorage = false;
+}
+let userIdFromLocalStorage = localStorage.getItem('userId');
+if (!userIdFromLocalStorage) {
+	userIdFromLocalStorage = false;
+}
+let userRoleFromLocalStorage = localStorage.getItem('userRole');
+if (!userRoleFromLocalStorage) {
+	userRoleFromLocalStorage = null;
 }
 
 // ----------------------------------------------
@@ -70,7 +79,8 @@ const InitialState = {
 	token: tokenFromLocalStorage,
 	registeredUsers: [],
 	adminBooks: [],
-	userRole: null,
+	userRole: userRoleFromLocalStorage,
+	userId: userIdFromLocalStorage,
 	allUsers: [],
 	isSignedIn: isSignedInFromLocalStorage,
 };
@@ -111,6 +121,23 @@ const rootReducer = (state = InitialState, action) => {
 			return {
 				...state,
 				genres: action.payload,
+			};
+		}
+
+		case POST_COMMENT: {
+			return {
+				...state,
+				details: {
+					...state.details,
+					Comments: [
+						...state.details.Comments,
+						{
+							text: action.payload.comment,
+							BookId: action.payload.bookId,
+							UserId: action.payload.userId,
+						},
+					],
+				},
 			};
 		}
 		//---------------------------------------------FILTERS & SORTS------------------------------------------------
@@ -300,10 +327,12 @@ const rootReducer = (state = InitialState, action) => {
 		case LOGIN:
 			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
 			localStorage.setItem('isSignedIn', true);
+			localStorage.setItem('userId', action.payload.id);
 			return {
 				...state,
 				token: action.payload.token,
 				userRole: action.payload.status,
+				userId: action.payload.id,
 				isSignedIn: true,
 			};
 		// Aca checkeamos si el estado del token está o no actualizado
@@ -321,12 +350,14 @@ const rootReducer = (state = InitialState, action) => {
 			// We clear the whole localStorage and set isSignedIn false, and the token as an empty string
 			localStorage.setItem('cart', JSON.stringify([]));
 			localStorage.setItem('isSignedIn', false);
+			localStorage.setItem('userId', null);
 			localStorage.setItem('userRole', null);
 			localStorage.removeItem('token');
 			return {
 				...state,
 				token: '',
 				isSignedIn: false,
+				userId: null,
 				cart: [],
 				summary: 0,
 				userRole: null,

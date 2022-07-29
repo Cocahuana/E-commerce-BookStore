@@ -27,10 +27,7 @@ function App() {
 
 	useEffect(() => {
 		// setting variables in localStorage ----
-		if (userRole === null) {
-			localStorage.setItem('isSignedIn', false);
-		} else {
-			localStorage.setItem('isSignedIn', true);
+		if (userRole !== null) {
 			localStorage.setItem('userRole', userRole);
 		}
 	}, [userRole]);
