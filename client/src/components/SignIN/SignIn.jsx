@@ -24,6 +24,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userLogin, checkStates } from '../../redux/actions/index';
 import { useHistory } from 'react-router-dom';
 import { Link as BuenLink } from 'react-router-dom';
+import { GoogleButton } from 'react-google-button';
+import { UserAuth } from '../firebase/context.jsx';
 
 function SignIn() {
 	const history = useHistory();
@@ -71,6 +73,16 @@ function SignIn() {
 		} else {
 			// Compueba si la autentication es correcta o no
 			dispatch(userLogin(user));
+		}
+	};
+
+	const { googleSignIn } = UserAuth();
+
+	const handleGoogleSignIn = async () => {
+		try {
+			await googleSignIn();
+		} catch (error) {
+			console.log(error);
 		}
 	};
 
@@ -136,6 +148,12 @@ function SignIn() {
 							onClick={(event) => handleSignIn(event)}>
 							Sign in
 						</Button>
+						<GoogleButton
+							colorScheme={'blue'}
+							variant={'solid'}
+							onClick={handleGoogleSignIn}>
+							Sign in with Google
+						</GoogleButton>
 					</Stack>
 
 					<Stack pt={6}>
