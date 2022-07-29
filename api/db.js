@@ -96,6 +96,11 @@ Genre.belongsToMany(Books, { through: 'genre_books', timestamps: false });
 Books.belongsToMany(Language, { through: 'language_books', timestamps: false });
 Language.belongsToMany(Books, { through: 'language_books', timestamps: false });
 
+Books.hasMany(Comment, { timestamps: false });
+Comment.belongsTo(Books, { timestamps: false });
+User.hasMany(Comment, { timestamps: false });
+Comment.belongsTo(User, { timestamps: false });
+
 Books.belongsToMany(Favorite_List, {
 	through: 'favorite_books',
 	timestamps: false,

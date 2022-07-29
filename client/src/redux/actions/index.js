@@ -26,6 +26,8 @@ import {
 	SIGN_OUT,
 	HIDE_BOOKS,
 	CHECK_TOKEN,
+	GET_USERS,
+	USER_GET_FAVORITES,
 } from './actionTypes';
 
 // const axios = require('axios');
@@ -151,11 +153,26 @@ export function userLogin(user) {
 		} catch (error) {
 			// Te lanza un error cuando la autenticacion falló o no es correcta
 			// Permaneces en la pagina del sign in
-			Swal.fire({
-				icon: 'error',
-				title: 'Oops...',
-				text: 'Email or password are incorrect :,(',
-			});
+			const err = error;
+			if (err.response.status === 404) {
+				//Status es el tipo de error y data el send/json del error en el back
+				// console.log('status: ' + err.response.status);
+				// console.log('data: ' + err.response.data);
+				Swal.fire({
+					icon: 'error',
+					title: `${err.response.status}`,
+					text: `${err.response.data}`,
+				});
+			} else if (err.response.status === 400) {
+				//Status es el tipo de error y data el send/json del error en el back
+				// console.log('status: ' + err.response.status);
+				// console.log('data: ' + err.response.data);
+				Swal.fire({
+					icon: 'error',
+					title: `${err.response.status}`,
+					text: `${err.response.data}`,
+				});
+			}
 		}
 	};
 }
@@ -186,6 +203,42 @@ export function userSignUp(user) {
 
 export function userSignOut() {
 	return { type: SIGN_OUT };
+}
+
+export function getAllUsers() {
+	return async function (dispatch) {
+		var users = await axios.get(`/user/all`);
+		return dispatch({
+			type: GET_USERS,
+			payload: users.data,
+		});
+	};
+}
+export function userAddFavorite(userId, bookId) {
+	return async function () {
+		return await axios.put('/user/favorites', {
+			idUser: userId,
+			idBook: bookId,
+		});
+	};
+}
+
+export function userDeleteFavorite(userId, bookId) {
+	return async function () {
+		return await axios.delete('/user/favorites', {
+			data: {
+				idUser: userId,
+				idBook: bookId,
+			},
+		});
+	};
+}
+
+export function userGetFavorite(userId) {
+	return async function (dispatch) {
+		let favorites = await axios.get(`/user/favorites/${userId}`);
+		return dispatch({ type: USER_GET_FAVORITES, payload: favorites.data });
+	};
 }
 
 //-------------------------------------------------FILTERS---------------------------------------------
