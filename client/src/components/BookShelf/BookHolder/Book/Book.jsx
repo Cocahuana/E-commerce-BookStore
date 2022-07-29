@@ -85,7 +85,6 @@ export const Book = (props) => {
 					right='4'
 					aria-label={`Add ${title} to your favourites`}
 					id={id}
-					onClick={console.log(id)}
 				/>
 			</Box>
 			<Stack>

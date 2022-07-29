@@ -115,6 +115,7 @@ const rootReducer = (state = InitialState, action) => {
 				booksCopy: action.payload.data,
 				books: action.payload.data,
 				query: action.payload.query,
+				loading: false,
 			};
 		}
 		case GET_GENRES: {
