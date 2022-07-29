@@ -69,7 +69,7 @@ const InitialState = {
 	token: tokenFromLocalStorage,
 	registeredUsers: [],
 	adminBooks: [],
-	userRol: null,
+	userRole: null,
 	isSignedIn: isSignedInFromLocalStorage,
 };
 
@@ -296,12 +296,12 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 			};
 		case LOGIN:
-			// Signed in, passing token, user rol and setting the state "isSignedIn" with value true
+			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
 			localStorage.setItem('isSignedIn', true);
 			return {
 				...state,
 				token: action.payload.token,
-				userRol: action.payload.status,
+				userRole: action.payload.status,
 				isSignedIn: true,
 			};
 		// Aca checkeamos si el estado del token está o no actualizado
@@ -319,6 +319,7 @@ const rootReducer = (state = InitialState, action) => {
 			// We clear the whole localStorage and set isSignedIn false, and the token as an empty string
 			localStorage.setItem('cart', JSON.stringify([]));
 			localStorage.setItem('isSignedIn', false);
+			localStorage.setItem('userRole', null);
 			localStorage.removeItem('token');
 			return {
 				...state,
@@ -326,6 +327,7 @@ const rootReducer = (state = InitialState, action) => {
 				isSignedIn: false,
 				cart: [],
 				summary: 0,
+				userRole: null,
 			};
 		case USER_GET_FAVORITES:
 			let favoriteBooks = [];

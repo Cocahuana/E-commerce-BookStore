@@ -34,14 +34,23 @@ import { useSelector } from 'react-redux';
 export default function NavBar() {
 	const { isOpen, onToggle } = useDisclosure();
 	const { colorMode, toggleColorMode } = useColorMode();
-	const { isSignedIn } = useSelector((state) => state);
+	const { userRole } = useSelector((state) => state);
 
 	/*
 	Basically, it asks if isSignedIn is false, it renders the navBar with the SignIn - SignUp, 
 	if it's true( which means you are logged in), it renders the signout button
 	*/
+	useEffect(() => {
+		// setting variables in localStorage ----
+		if (userRole === null) {
+			localStorage.setItem('isSignedIn', false);
+		} else {
+			localStorage.setItem('isSignedIn', true);
+			localStorage.setItem('userRole', userRole);
+		}
+	}, [userRole]);
 
-	return isSignedIn === false ? (
+	return userRole === null ? (
 		<Box
 			position='fixed'
 			width='100%'
@@ -143,6 +152,91 @@ export default function NavBar() {
 				<MobileNav />
 			</Collapse>
 		</Box>
+	) : userRole === 'User' ? (
+		<Box
+			position='fixed'
+			width='100%'
+			zIndex={3}
+			backdropFilter={'auto'}
+			backdropBlur='8px'>
+			<Flex
+				bg={useColorModeValue('whiteAlpha.800', 'gray.700')}
+				color={useColorModeValue('gray.600', 'white')}
+				py={{ base: 2 }}
+				px={{ base: 4 }}
+				borderBottom={1}
+				//borderStyle={'solid'}
+				//borderColor={useColorModeValue('gray.200', 'gray.900')}
+				align={'center'}
+				boxShadow={useColorModeValue(
+					'0 4px 6px rgba(160,174,192,0.6)',
+					'0 4px 6px rgba(9,17,28,0.9'
+				)}>
+				<Flex
+					flex={{ base: 1, md: 'auto' }}
+					ml={{ base: -2 }}
+					display={{ base: 'flex', md: 'none' }}>
+					<IconButton
+						onClick={onToggle}
+						icon={
+							isOpen ? (
+								<CloseIcon w={3} h={3} />
+							) : (
+								<HamburgerIcon w={5} h={5} />
+							)
+						}
+						variant={'ghost'}
+						aria-label={'Toggle Navigation'}
+					/>
+				</Flex>
+				<Flex
+					flex={{ base: 1 }}
+					justify={{ base: 'center', md: 'start' }}>
+					<BuenLink to='/'>
+						<Text
+							textAlign={useBreakpointValue({
+								base: 'center',
+								md: 'left',
+							})}
+							fontFamily={'heading'}
+							color={useColorModeValue('gray.800', 'white')}>
+							E-BookStore
+						</Text>
+					</BuenLink>
+
+					<Flex display={{ base: 'none', md: 'flex' }} ml={10}>
+						<DesktopNav />
+					</Flex>
+				</Flex>
+
+				<Stack
+					flex={{ base: 1, md: 0 }}
+					justify={'flex-end'}
+					direction={'row'}
+					spacing={6}>
+					<Center>
+						<Switch size={'lg'} onChange={toggleColorMode} />
+					</Center>
+
+					<Drawer />
+
+					<BuenLink to='/profile'>
+						<Button
+							as={'a'}
+							fontSize={'sm'}
+							fontWeight={400}
+							variant={'link'}>
+							Profile
+						</Button>
+					</BuenLink>
+					<Signout />
+				</Stack>
+			</Flex>
+
+			<Collapse in={isOpen} animateOpacity>
+				<MobileNav />
+			</Collapse>
+		</Box>
 	) : (
 		<Box
 			position='fixed'
@@ -211,6 +305,15 @@ export default function NavBar() {
 
 					<Drawer />
 
+					<BuenLink to='/adminDashboard'>
+						<Button
+							as={'a'}
+							fontSize={'sm'}
+							fontWeight={400}
+							variant={'link'}>
+							Admin
+						</Button>
+					</BuenLink>
 					<Signout />
 				</Stack>
 			</Flex>
@@ -404,10 +507,6 @@ const NAV_ITEMS = [
 	{
 		label: 'Books',
 		href: '/books',
-	},
-	{
-		label: 'Admin',
-		href: '/adminDashboard',
 	},
 	{
 		label: 'About Us',
