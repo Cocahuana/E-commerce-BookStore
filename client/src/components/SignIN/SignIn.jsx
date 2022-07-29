@@ -24,6 +24,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userLogin, checkToken } from '../../redux/actions/index';
 import { useHistory } from 'react-router-dom';
 import { Link as BuenLink } from 'react-router-dom';
+import { GoogleButton } from 'react-google-button';
+import { UserAuth } from '../firebase/context.jsx';
 
 function SignIn() {
 	const history = useHistory();
@@ -74,6 +76,16 @@ function SignIn() {
 		}
 	};
 
+	const { googleSignIn } = UserAuth();
+
+	const handleGoogleSignIn = async () => {
+		try {
+			await googleSignIn();
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<Stack
 			minH={'100vh'}
@@ -99,7 +111,10 @@ function SignIn() {
 							<Input
 								name='password'
 								onChange={(e) => handleOnChange(e)}
-								bg={useColorModeValue('whiteAlpha.800', 'gray.400')}
+								bg={useColorModeValue(
+									'whiteAlpha.800',
+									'gray.400'
+								)}
 								value={user.password}
 								type={show ? 'text' : 'password'}
 							/>
@@ -133,6 +148,12 @@ function SignIn() {
 							onClick={(event) => handleSignIn(event)}>
 							Sign in
 						</Button>
+						<GoogleButton
+							colorScheme={'blue'}
+							variant={'solid'}
+							onClick={handleGoogleSignIn}>
+							Sign in with Google
+						</GoogleButton>
 					</Stack>
 
 					<Stack pt={6}>
