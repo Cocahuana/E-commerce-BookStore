@@ -39,6 +39,7 @@ import {
 	POST_COMMENT,
 	CREATE_BOOK,
 	USER_DEL_FAVORITES,
+	UPDATE_USER,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -207,6 +208,16 @@ export function addGoogleUser(currentUser) {
 		return dispatch({
 			type: LOGIN_GOOGLE,
 			payload: currentUser, //lo q me interesa es la info de current user (obj de firebase)
+		});
+	};
+}
+
+export function updateUser(propsToUpdate) {
+	return async function (dispatch) {
+		var updatedUser = await axios.put(`/user/update`, propsToUpdate);
+		return dispatch({
+			type: UPDATE_USER,
+			payload: updatedUser.data,
 		});
 	};
 }

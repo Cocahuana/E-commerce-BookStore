@@ -26,6 +26,7 @@ import {
 	CREATE_BOOK,
 	LOGIN_GOOGLE,
 	USER_DEL_FAVORITES,
+	UPDATE_USER,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -84,6 +85,9 @@ const InitialState = {
 	adminBooks: [],
 	userRole: userRoleFromLocalStorage,
 	userId: userIdFromLocalStorage,
+	userName: '',
+	userEmail: '',
+	userProfilePicture: '',
 	allUsers: [],
 	isSignedIn: isSignedInFromLocalStorage,
 	allFavourites: [],
@@ -343,7 +347,19 @@ const rootReducer = (state = InitialState, action) => {
 				token: action.payload.token,
 				userRole: action.payload.status,
 				userId: action.payload.id,
+				userName: action.payload.username,
+				userEmail: action.payload.email,
+				userProfilePicture: action.payload.profile_picture,
 				isSignedIn: true,
+			};
+
+		case UPDATE_USER:
+			return {
+				...state,
+				userId: action.payload.id,
+				userName: action.payload.username,
+				userEmail: action.payload.email,
+				userProfilePicture: action.payload.profile_picture,
 			};
 		// Aca checkeamos si el estado del token está o no actualizado
 		case LOGIN_GOOGLE:
