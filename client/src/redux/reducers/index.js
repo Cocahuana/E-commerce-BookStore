@@ -383,7 +383,6 @@ const rootReducer = (state = InitialState, action) => {
 		case USER_GET_FAVORITES:
 			let favoriteBooks = [];
 			let booksIds = action.payload;
-			console.log(booksIds);
 			favoriteBooks = state.booksCopy.filter((e) =>
 				booksIds.includes(e.id)
 			);

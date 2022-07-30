@@ -29,6 +29,7 @@ import {
 	Alert,
 	AlertIcon,
 } from '@chakra-ui/react';
+import Swal from 'sweetalert2';
 
 export function favourites() {
 	const dispatch = useDispatch();
@@ -56,14 +57,24 @@ export function favourites() {
 		dispatch(userDeleteFavorite(userId, id)); //userid, bookid
 		dispatch(userDelFavorite(id));
 		// ESTO NO SE VE PORQUE CHAKRA ES UNA PIJA. AGUANTE SWEETALERT.
-		<Alert status='success'>
-			<AlertIcon />
-			Favorite book deleted succesfully!
-		</Alert>;
+		Swal.fire({
+			position: 'top-end',
+			icon: 'success',
+			title: 'Favorite book deleted succesfully!',
+			showConfirmButton: false,
+			timer: 1500,
+		});
 	};
 
 	const handleAddToCart = (id) => {
 		dispatch(addToCart(id));
+		Swal.fire({
+			position: 'top-end',
+			icon: 'success',
+			title: 'Added to the Favorite List successfully!',
+			showConfirmButton: false,
+			timer: 1000,
+		});
 	};
 
 	return (
