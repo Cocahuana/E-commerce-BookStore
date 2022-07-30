@@ -21,18 +21,13 @@ import {
 function SearchBar({ setCurrentPage }) {
 	const dispatch = useDispatch();
 	const { query } = useSelector((state) => state);
-	const [title, setTitle] = useState(query);
 
 	function handleInputChange(e) {
 		e.preventDefault();
-		setTitle(e.target.value);
-	}
-
-	useEffect(() => {
-		dispatch(getBooksByTitleOrAuthor(title));
+		dispatch(getBooksByTitleOrAuthor(e.target.value));
 		dispatch(resetFilters());
 		setCurrentPage(1);
-	}, [title, dispatch]);
+	}
 
 	// function handleSubmit(e) {
 	// 	e.preventDefault();
@@ -86,7 +81,7 @@ function SearchBar({ setCurrentPage }) {
 										size='lg'
 										type='text'
 										placeholder='Find your book, author here...'
-										value={title}
+										value={query}
 										onChange={(e) => handleInputChange(e)}
 									/>
 								</Box>
@@ -104,7 +99,7 @@ function SearchBar({ setCurrentPage }) {
 										color='brand.900'
 										type='text'
 										placeholder='Find your book, author, here...'
-										value={title}
+										value={query}
 										onChange={(e) => handleInputChange(e)}
 									/>
 									<InputRightElement w='auto' bg='blue.500' roundedRight={4}>

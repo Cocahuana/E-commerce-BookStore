@@ -1,12 +1,12 @@
 import React from 'react';
-import { Button, useColorModeValue } from '@chakra-ui/react';
+import { Button, useColorModeValue, Stack } from '@chakra-ui/react';
 import { userSignOut } from '../../redux/actions';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import Swal from 'sweetalert2';
 
-function signout() {
+function signout(props) {
 	//SIGN OUT BUTTON, DISPATCHS THE ACTION THAT CLEARS LOCALSTORAGE AND SETS ISSIGNEDIN STATE IN FALSE
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -23,21 +23,23 @@ function signout() {
 		//localStorage.clear();
 	};
 	return (
-		<Button
-			bg={useColorModeValue('red.500', 'red.400')}
-			w={'50%'}
-			onClick={(e) => handleClick(e)}
-			display={{ base: 'none', md: 'inline-flex' }}
-			fontSize={'sm'}
-			fontWeight={600}
-			color={'black'}
-			_hover={{
-				fontSize: 'md',
-				bg: 'lightgray',
-			}}>
-			{' '}
-			Sign out
-		</Button>
+		<Stack align={"center"} w={props.wid} >
+			<Button
+				bg={useColorModeValue('red.500', 'red.400')}
+				w={props.wid}
+				onClick={(e) => handleClick(e)}
+				display={{ base: 'none', md: 'inline-flex' }}
+				fontSize={'sm'}
+				fontWeight={600}
+				color={'black'}
+				_hover={{
+					fontSize: 'md',
+					bg: 'lightgray',
+				}}>
+				{' '}
+				Sign out
+			</Button>
+		</Stack>
 	);
 }
 

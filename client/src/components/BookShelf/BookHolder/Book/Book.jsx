@@ -16,6 +16,7 @@ import {
 import * as React from 'react';
 import { Rating } from './Rating';
 import { FavouriteButton } from './FavouriteButton';
+import { userAddFavorite } from '../../../../redux/actions/index';
 import { PriceTag } from './PriceTag';
 import { Link as BuenLink } from 'react-router-dom';
 import { FaCommentDots } from 'react-icons/fa';
@@ -27,6 +28,12 @@ export const Book = (props) => {
 	const { product, rootProps } = props;
 
 	const dispatch = useDispatch();
+
+	const { userId } = useSelector((state) => state);
+
+	const addFavorite = (id) => {
+		dispatch(userAddFavorite(userId, id)); //userid, bookid
+	};
 
 	const handleAddToCart = () => {
 		dispatch(addToCart(id));
@@ -85,7 +92,7 @@ export const Book = (props) => {
 					right='4'
 					aria-label={`Add ${title} to your favourites`}
 					id={id}
-					onClick={console.log(id)}
+					onClick={() => addFavorite(id)}
 				/>
 			</Box>
 			<Stack>

@@ -22,6 +22,7 @@ const getPopularBooks = async (req, res, next) => {
 };
 
 const findAllBooks = async (req, res, next) => {
+	//ruta maldita no la usamos mas en el front porq no trae los generos. porq? No hay porq
 	try {
 		var result = await Books.findAll(
 			{
@@ -179,6 +180,9 @@ const findByAuthorOrTitle = async (req, res, next) => {
 						{ title: { [Op.iLike]: input } },
 						{ authors: { [Op.iLike]: input } },
 					],
+					stock: {
+						[Op.not]: 0,
+					},
 				},
 				include: [
 					{
