@@ -5,31 +5,39 @@ import Swal from 'sweetalert2';
 
 import axios from 'axios';
 import {
+	//---------
 	GET_DETAILS,
 	GET_BOOKS,
 	GET_GENRES,
+	GET_BOOKS_BY_TITLE_OR_AUTHOR,
+	RESET_DETAILS,
+	HIDE_BOOKS,
+	//----------
 	FILTER_GENRE,
 	FILTER_PRICE,
 	FILTER_LANGUAGE,
 	FILTER_ONSALE,
 	APPLY_FILTERS,
 	SORT_ORDER,
-	GET_BOOKS_BY_TITLE_OR_AUTHOR,
-	RESET_DETAILS,
+	RESET_FILTERS,
+	//------------
 	LOADING,
+	//-------------
 	ADD_CART,
 	DEL_CART,
 	DEL_ALL_CART,
-	RESET_FILTERS,
+	//-------------
 	LOGIN,
 	SIGN_UP,
 	SIGN_OUT,
-	HIDE_BOOKS,
+	LOGIN_GOOGLE,
+	//-------------
 	CHECK_STATES,
+	//-------------
 	GET_USERS,
 	USER_GET_FAVORITES,
 	POST_COMMENT,
-	LOGIN_GOOGLE
+	USER_DEL_FAVORITES,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -168,31 +176,28 @@ export function userLogin(user) {
 	};
 }
 
-export function addGoogleUser (currentUser) {
-
+export function addGoogleUser(currentUser) {
 	//con esta action me creo un usuario en la db y me loggea al mismo tiempo (soy crack lo se)
 
-	return async function(dispatch) {
-		var addToDb = await axios.post(`/user/register`, { 
+	return async function (dispatch) {
+		var addToDb = await axios.post(`/user/register`, {
 			username: currentUser.displayName,
 			email: currentUser.email,
-			password: currentUser.uid, 
-		})
-		
-		
-		let login = await axios.post(`/user/login`, { 
+			password: currentUser.uid,
+		});
+
+		let login = await axios.post(`/user/login`, {
 			username: currentUser.displayName,
 			password: currentUser.uid, //le puse como pw uid porq es unico segun cada usuario de google. (fuck cibersecurity)
 			//pero como coincide el email con el uid puse ese valor como pw. podemos ver de usar otro maybe
 			//igual en la db la pw aparece hasheada
 		});
-		
+
 		return dispatch({
 			type: LOGIN_GOOGLE,
-			payload: currentUser //lo q me interesa es la info de current user (obj de firebase)
+			payload: currentUser, //lo q me interesa es la info de current user (obj de firebase)
 		});
-	} 
-
+	};
 }
 
 // Aca checkeamos si el estado del token está o no actualizado
@@ -253,11 +258,14 @@ export function userDeleteFavorite(userId, bookId) {
 }
 
 export function userGetFavorite(userId) {
-	console.log(userId)
 	return async function (dispatch) {
 		let favorites = await axios.get(`/user/favorites/${userId}`);
 		return dispatch({ type: USER_GET_FAVORITES, payload: favorites.data });
 	};
+}
+
+export function userDelFavorite(payload) {
+	return { type: USER_DEL_FAVORITES, payload };
 }
 
 //-------------------------------------------------FILTERS---------------------------------------------
