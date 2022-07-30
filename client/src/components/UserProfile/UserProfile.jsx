@@ -78,7 +78,7 @@ function UserProfile() {
 						<FavouriteList />  		
 						<Button w={'100%'}>Change your password</Button>
 						<br />
-						<SignOut wid="100%"/>
+						<SignOut wid="60%"/>
 					</VStack>
 				</Stack>
 			</Stack>

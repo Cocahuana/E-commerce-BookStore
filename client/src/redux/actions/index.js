@@ -29,6 +29,7 @@ import {
 	GET_USERS,
 	USER_GET_FAVORITES,
 	POST_COMMENT,
+	LOGIN_GOOGLE
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -167,6 +168,33 @@ export function userLogin(user) {
 	};
 }
 
+export function addGoogleUser (currentUser) {
+
+	//con esta action me creo un usuario en la db y me loggea al mismo tiempo (soy crack lo se)
+
+	return async function(dispatch) {
+		var addToDb = await axios.post(`/user/register`, { 
+			username: currentUser.displayName,
+			email: currentUser.email,
+			password: currentUser.uid, 
+		})
+		
+		
+		let login = await axios.post(`/user/login`, { 
+			username: currentUser.displayName,
+			password: currentUser.uid, //le puse como pw uid porq es unico segun cada usuario de google. (fuck cibersecurity)
+			//pero como coincide el email con el uid puse ese valor como pw. podemos ver de usar otro maybe
+			//igual en la db la pw aparece hasheada
+		});
+		
+		return dispatch({
+			type: LOGIN_GOOGLE,
+			payload: currentUser //lo q me interesa es la info de current user (obj de firebase)
+		});
+	} 
+
+}
+
 // Aca checkeamos si el estado del token está o no actualizado
 export function checkStates() {
 	return async function (dispatch) {
@@ -225,6 +253,7 @@ export function userDeleteFavorite(userId, bookId) {
 }
 
 export function userGetFavorite(userId) {
+	console.log(userId)
 	return async function (dispatch) {
 		let favorites = await axios.get(`/user/favorites/${userId}`);
 		return dispatch({ type: USER_GET_FAVORITES, payload: favorites.data });
