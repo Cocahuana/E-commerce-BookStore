@@ -96,7 +96,8 @@ const addFavorite = async (req, res) => {
 				favorites: newArray,
 			});
 
-			res.send('Added id');
+			return res.send('Added id');
+
 		} else {
 			throw new Error('Invalid user');
 		}
