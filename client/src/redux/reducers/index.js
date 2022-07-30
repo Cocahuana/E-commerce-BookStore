@@ -23,6 +23,7 @@ import {
 	GET_USERS,
 	USER_GET_FAVORITES,
 	POST_COMMENT,
+	CREATE_BOOK,
 	LOGIN_GOOGLE,
 	USER_DEL_FAVORITES,
 } from '../actions/actionTypes';
@@ -220,17 +221,13 @@ const rootReducer = (state = InitialState, action) => {
 				//asumo que el libro debe incluirse y si no cumple algun filtro devuelvo false para q sea filtrado (no se incluya en el array)
 
 				//--------Filtro por oferta------------
-				if (state.filters.onsale && !book.flag === 'on-sale')
-					return false;
+				if (state.filters.onsale && !book.flag === 'on-sale') return false;
 
 				//--------Filtro por moneda------------
 				//if (state.filters.currency && state.filters.currency!==book.currency) return false
 
 				//--------Filtro por lenguaje------------
-				if (
-					state.filters.language &&
-					state.filters.language !== book.language
-				)
+				if (state.filters.language && state.filters.language !== book.language)
 					return false;
 
 				//--------Filtro por precio------------
@@ -295,6 +292,8 @@ const rootReducer = (state = InitialState, action) => {
 				books: filteredBooks,
 			};
 		}
+		//--------------------------------------------El ADMIN CAPO--------------------------------------------------
+
 		//-----------------------------------------------------------------------------------------------------
 
 		case RESET_DETAILS: {
@@ -383,10 +382,8 @@ const rootReducer = (state = InitialState, action) => {
 		case USER_GET_FAVORITES:
 			let favoriteBooks = [];
 			let booksIds = action.payload;
-			console.log(booksIds);
-			favoriteBooks = state.booksCopy.filter((e) =>
-				booksIds.includes(e.id)
-			);
+
+			favoriteBooks = state.booksCopy.filter((e) => booksIds.includes(e.id));
 			return {
 				...state,
 				allFavourites: favoriteBooks,

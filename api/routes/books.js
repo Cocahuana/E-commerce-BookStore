@@ -19,7 +19,7 @@ router.get('/book/:id', getBookById);
 
 router.post(
 	'/',
-	passport.authenticate('jwt-admin', { session: false }),
+	// passport.authenticate('jwt-admin', { session: false }),
 	postBook
 );
 

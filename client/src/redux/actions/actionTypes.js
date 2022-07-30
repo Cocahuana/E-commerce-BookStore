@@ -44,3 +44,4 @@ export const LOGIN_GOOGLE = 'LOGIN_GOOGLE';
 
 //------------ADMIN---------------
 export const HIDE_BOOKS = 'HIDE_BOOKS';
+export const CREATE_BOOK = 'CREATE_BOOK';
