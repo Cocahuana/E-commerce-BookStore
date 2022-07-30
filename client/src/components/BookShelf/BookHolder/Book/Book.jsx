@@ -53,7 +53,7 @@ export const Book = (props) => {
 		price,
 		salePrice,
 		rating,
-		ratingCount,
+		Comments,
 		id,
 		currency,
 	} = product;
@@ -132,7 +132,7 @@ export const Book = (props) => {
 							fontSize='sm'
 							paddingLeft='16px'
 							color={useColorModeValue('gray.600', 'gray.400')}>
-							{ratingCount}
+							{Comments?.length}
 						</Text>
 						<Icon as={FaCommentDots} color='blue.500' />
 					</HStack>
