@@ -42,18 +42,13 @@ function SearchBar({ setCurrentPage }) {
 	// }
 
 	return (
-		<Box pb={8} bg='blackAlpha.200'>
+		<Box pb={8} bg={useColorModeValue('whiteAlpha.100', 'gray.500')}>
 			<Stack
-				pos='relative'
-				bg='whiteAlpha.800'
+				bg={useColorModeValue('white', 'gray.300')}
 				height='120px'
-				w='100%'></Stack>
-			<Box
-				maxW='7xl'
-				p={4}
-				isolation='isolate'
-				mt='-6rem'
-				marginInline='auto'>
+				w='100%'
+			></Stack>
+			<Box maxW='7xl' p={4} isolation='isolate' mt='-6rem' marginInline='auto'>
 				<Box
 					boxShadow={useColorModeValue(
 						'0 4px 6px rgba(160, 174, 192, 0.6)',
@@ -62,36 +57,35 @@ function SearchBar({ setCurrentPage }) {
 					bg={useColorModeValue('white', 'gray.800')}
 					p={{ base: 4, sm: 8 }}
 					overflow='hidden'
-					rounded='2xl'>
+					rounded='2xl'
+				>
 					<Stack
 						pos='relative'
 						zIndex={1}
 						direction='column'
 						spacing={5}
-						textAlign='center'>
-						<chakra.h1
-							fontSize='xl'
-							lineHeight={1.2}
-							fontWeight='bold'>
+						textAlign='center'
+					>
+						<chakra.h1 fontSize='xl' lineHeight={1.2} fontWeight='bold'>
 							Explore All Books
 						</chakra.h1>
 
 						<Stack
 							direction={{ base: 'column', md: 'row' }}
 							spacing={3}
-							justify='center'>
+							justify='center'
+						>
 							<chakra.form w='full' mb={6}>
 								<Box
 									display={{
 										base: 'block',
 										lg: 'none',
-									}}>
+									}}
+								>
 									<Input
 										size='lg'
-										color='brand.900'
 										type='text'
 										placeholder='Find your book, author here...'
-										bg='white'
 										value={title}
 										onChange={(e) => handleInputChange(e)}
 									/>
@@ -103,20 +97,17 @@ function SearchBar({ setCurrentPage }) {
 									display={{
 										base: 'none',
 										lg: 'flex',
-									}}>
+									}}
+								>
 									<Input
 										size='lg'
 										color='brand.900'
 										type='text'
 										placeholder='Find your book, author, here...'
-										bg='white'
 										value={title}
 										onChange={(e) => handleInputChange(e)}
 									/>
-									<InputRightElement
-										w='auto'
-										bg='blue.500'
-										roundedRight={4}>
+									<InputRightElement w='auto' bg='blue.500' roundedRight={4}>
 										<Button
 											// onClick={handleSubmit}
 											color='white'
@@ -125,7 +116,8 @@ function SearchBar({ setCurrentPage }) {
 											size='lg'
 											type='submit'
 											roundedLeft={0}
-											leftIcon={<Search2Icon />}>
+											leftIcon={<Search2Icon />}
+										>
 											Search
 										</Button>
 									</InputRightElement>

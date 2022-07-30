@@ -75,7 +75,17 @@ const getBookById = async (req, res, next) => {
 };
 
 const postBook = async (req, res, next) => {
-	let { title, authors, description, rating, image, preview, price, genre, language } = req.body;
+	let {
+		title,
+		authors,
+		description,
+		rating,
+		image,
+		preview,
+		price,
+		genre,
+		language,
+	} = req.body;
 
 	if (title.length === 0 || genre.length === 0 || price.length === 0)
 		return res.status(400).json('Title, genre and price are required');
@@ -87,13 +97,13 @@ const postBook = async (req, res, next) => {
 			rating: rating,
 			image: image,
 			preview: preview,
-			price: price
+			price: price,
 		});
-		let genero = await Genre.findOne({ where: {name: genre} })
-		await newBooks.addGenre(genero)
-		let lenguaje = await Language.findOne({ where: {name: language}})
-		await newBooks.addLanguage(lenguaje)
-		res.json({message: 'Book created correctly', data: newBooks});
+		let genero = await Genre.findAll({ where: { name: genre } });
+		await newBooks.addGenre(genero);
+		let lenguaje = await Language.findOne({ where: { name: language } });
+		await newBooks.addLanguage(lenguaje);
+		res.json({ message: 'Book created correctly', data: newBooks });
 	} catch (error) {
 		next(error);
 	}
@@ -120,13 +130,9 @@ const putBook = async (req, res, next) => {
 					title: title ? title : currentBook.title,
 					authors: authors ? authors : currentBook.authors,
 					price: price ? price : currentBook.price,
-					description: description
-						? description
-						: currentBook.description,
+					description: description ? description : currentBook.description,
 					image: image ? image : currentBook.image,
-					previewLink: previewLink
-						? previewLink
-						: currentBook.previewLink,
+					previewLink: previewLink ? previewLink : currentBook.previewLink,
 					flag: flag ? flag : currentBook.flag,
 					currency: currency ? currency : currentBook.currency,
 					stock: stock ? stock : currentBook.stock,
@@ -135,9 +141,9 @@ const putBook = async (req, res, next) => {
 					where: { id: id },
 				}
 			);
-			res.status(200).send(
-				`${title ? title : currentBook.title} has been updated`
-			);
+			res
+				.status(200)
+				.send(`${title ? title : currentBook.title} has been updated`);
 		} else {
 			res.status(400).send(`Book with id ${id} not found`);
 		}

@@ -42,3 +42,4 @@ export const USER_GET_FAVORITES = 'USER_GET_FAVORITES';
 
 //------------ADMIN---------------
 export const HIDE_BOOKS = 'HIDE_BOOKS';
+export const CREATE_BOOK = 'CREATE_BOOK';
