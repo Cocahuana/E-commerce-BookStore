@@ -37,9 +37,9 @@ import {
 	GET_USERS,
 	USER_GET_FAVORITES,
 	POST_COMMENT,
-	UPLOAD_IMAGE,
 	CREATE_BOOK,
 	USER_DEL_FAVORITES,
+	UPDATE_USER,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -212,6 +212,16 @@ export function addGoogleUser(currentUser) {
 	};
 }
 
+export function updateUser(propsToUpdate) {
+	return async function (dispatch) {
+		var updatedUser = await axios.put(`/user/update`, propsToUpdate);
+		return dispatch({
+			type: UPDATE_USER,
+			payload: updatedUser.data,
+		});
+	};
+}
+
 // Aca checkeamos si el estado del token está o no actualizado
 export function checkStates() {
 	return async function (dispatch) {
@@ -276,12 +286,6 @@ export function userGetFavorite(userId) {
 	};
 }
 
-export function saveimage(image) {
-	return async function (dispatch) {
-		let response = await axios.post('/image', image);
-		return dispatch({ type: UPLOAD_IMAGE, payload: response.data });
-	};
-}
 export function userDelFavorite(payload) {
 	return { type: USER_DEL_FAVORITES, payload };
 }

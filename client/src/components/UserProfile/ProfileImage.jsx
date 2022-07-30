@@ -17,9 +17,12 @@ import {
 	ModalFooter,
 	useDisclosure,
 } from '@chakra-ui/react';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUser } from '../../redux/actions';
 
 export function avatar(props) {
-	const [image, setImage] = useState('');
+	const { userProfilePicture, userId } = useSelector((state) => state);
+	const dispatch = useDispatch();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
 	const profileImage = useRef(null);
@@ -39,14 +42,19 @@ export function avatar(props) {
 					'https://api.cloudinary.com/v1_1/lucho/image/upload',
 					data
 				)
-				.then((res) => setImage(res.data.secure_url))
+				.then((res) =>
+					dispatch(
+						updateUser({
+							id: userId,
+							profile_picture: res.data.secure_url,
+						})
+					)
+				)
 				.catch((err) => console.log(err));
 		} else {
 			onOpen();
 		}
 	};
-
-	console.log(image, "imagen")
 
 	return (
 		<Stack>
@@ -55,7 +63,7 @@ export function avatar(props) {
 				size={props.tamaño}
 				cursor='pointer'
 				onClick={openChooseImage}
-				src={image}>
+				src={userProfilePicture}>
 				<AvatarBadge bg='brand.blue' boxSize='1em'>
 					<svg width='0.4em' fill='currentColor' viewBox='0 0 20 20'>
 						<path

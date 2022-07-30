@@ -8,7 +8,7 @@ const crypto = require('crypto');
 
 const registerUser = async (req, res, next) => {
 	const { email, password, username, status } = req.body;
-	console.log(req.body)
+	console.log(req.body);
 	try {
 		const alreadyExists = await User.findAll({ where: { email: email } });
 
@@ -34,6 +34,30 @@ const registerUser = async (req, res, next) => {
 		res.send('User created succesfully!');
 	} catch (err) {
 		next(err);
+	}
+};
+
+const updateUser = async (req, res, next) => {
+	//con esto cambias username, email, contraseña, status, id, favorites y profile pics
+	try {
+		console.log(req.body);
+		const user = await User.findByPk(req.body.id);
+
+		if (req.body.password) {
+			let hashedPassword = crypto
+				.createHash('md5')
+				.update(password)
+				.digest('hex');
+			req.body.password = hashedPassword;
+		}
+
+		await user.update(req.body);
+
+		const updated = await User.findByPk(req.body.id);
+
+		res.send(updated);
+	} catch (err) {
+		console.log(err);
 	}
 };
 
@@ -70,6 +94,10 @@ const userLogin = async (req, res, next) => {
 				token: jwtToken,
 				status: userCheck.status,
 				id: userCheck.id,
+				email: userCheck.email,
+				username: userCheck.username,
+				profile_picture: userCheck.profile_picture,
+				favorites: userCheck.favorites,
 			});
 		}
 	} catch (e) {
@@ -202,12 +230,12 @@ const deleteFavorite = async (req, res) => {
 
 const profilePicture = async (id, body) => {
 	try {
-		await User.update(body,{
+		await User.update(body, {
 			where: {
-				id: id
-			}
-		})
-		return {message: "Actualizado"}
+				id: id,
+			},
+		});
+		return { message: 'Actualizado' };
 
 		// let { image, userId } = req.body;
 		// let user = await User.findByPk(userId);
@@ -219,8 +247,6 @@ const profilePicture = async (id, body) => {
 		// 	});
 
 		// 	res.status(200).send(response);
-		
-
 	} catch (error) {
 		// res.status(400).json(error.message);
 	}
@@ -236,4 +262,5 @@ module.exports = {
 	searchUserById,
 	getAllUsers,
 	profilePicture,
+	updateUser,
 };
