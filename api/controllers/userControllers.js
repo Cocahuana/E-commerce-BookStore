@@ -97,7 +97,6 @@ const addFavorite = async (req, res) => {
 			});
 
 			return res.send('Added id');
-
 		} else {
 			throw new Error('Invalid user');
 		}
@@ -197,6 +196,32 @@ const deleteFavorite = async (req, res) => {
 	}
 };
 
+const profilePicture = async (id, body) => {
+	try {
+		await User.update(body,{
+			where: {
+				id: id
+			}
+		})
+		return {message: "Actualizado"}
+
+		// let { image, userId } = req.body;
+		// let user = await User.findByPk(userId);
+		// if(user) {
+		// 	let response = await User.update({
+		// 		where: {
+		// 		profile_picture: User.image
+		// 	}
+		// 	});
+
+		// 	res.status(200).send(response);
+		
+
+	} catch (error) {
+		// res.status(400).json(error.message);
+	}
+};
+
 module.exports = {
 	registerUser,
 	userLogin,
@@ -206,4 +231,5 @@ module.exports = {
 	searchUserByUsername,
 	searchUserById,
 	getAllUsers,
+	profilePicture,
 };

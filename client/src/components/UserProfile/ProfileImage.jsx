@@ -46,6 +46,8 @@ export function avatar(props) {
 		}
 	};
 
+	console.log(image, "imagen")
+
 	return (
 		<Stack>
 			<Avatar

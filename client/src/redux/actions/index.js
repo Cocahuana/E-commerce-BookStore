@@ -29,6 +29,7 @@ import {
 	GET_USERS,
 	USER_GET_FAVORITES,
 	POST_COMMENT,
+	UPLOAD_IMAGE,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -230,6 +231,13 @@ export function userGetFavorite(userId) {
 		let favorites = await axios.get(`/user/favorites/${userId}`);
 		return dispatch({ type: USER_GET_FAVORITES, payload: favorites.data });
 	};
+}
+
+export function saveimage(image) {
+	return async function(dispatch) {
+		let response = await axios.post("/image", image)
+		return dispatch({type: UPLOAD_IMAGE, payload: response.data})
+	}
 }
 
 //-------------------------------------------------FILTERS---------------------------------------------
