@@ -180,55 +180,59 @@ function Carousel({ books }) {
 					</Flex>
 				</Box>
 				<SimpleGrid columns={{ base: 1, sm: 2, md: 5 }} spacing={5}>
-					{books?.slice(0, 5)?.map((b, i) => (
-						<Box
-							bg='white'
-							_dark={{
-								bg: 'gray.800',
-							}}
-							shadow='lg'
-							boxShadow='md'
-							rounded='md'
-							key={i}
-							borderWidth={1}>
-							<Image
-								w='full'
-								h={'56'}
-								fit='cover'
-								src={b.image}
-								alt='avatar'
-							/>
+					{books
+						?.slice(books.length - 6, books.length - 1) // ULTIMOS LIBROS AGREGADOS
+						?.map((b, i) => (
+							<BuenLink to={`/book/${b.id}`}>
+								<Box
+									bg='white'
+									_dark={{
+										bg: 'gray.800',
+									}}
+									shadow='lg'
+									boxShadow='md'
+									rounded='md'
+									key={i}
+									borderWidth={1}>
+									<Image
+										w='full'
+										h={'56'}
+										fit='cover'
+										src={b.image}
+										alt='avatar'
+									/>
 
-							<Box py={5} textAlign='center'>
-								<chakra.h1
-									fontSize='md'
-									fontWeight='semibold'
-									color='gray.700'
-									_dark={{
-										color: 'gray.200',
-									}}>
-									{b.title}
-								</chakra.h1>
-								<chakra.span
-									fontSize='sm'
-									color='gray.700'
-									_dark={{
-										color: 'gray.200',
-									}}>
-									{b.authors}
-								</chakra.span>
-								<chakra.h2
-									fontSize='md'
-									fontWeight='semibold'
-									color='gray.700'
-									_dark={{
-										color: 'gray.200',
-									}}>
-									$ {b.price}
-								</chakra.h2>
-							</Box>
-						</Box>
-					))}
+									<Box py={5} textAlign='center'>
+										<chakra.h1
+											fontSize='md'
+											fontWeight='semibold'
+											color='gray.700'
+											_dark={{
+												color: 'gray.200',
+											}}>
+											{b.title}
+										</chakra.h1>
+										<chakra.span
+											fontSize='sm'
+											color='gray.700'
+											_dark={{
+												color: 'gray.200',
+											}}>
+											{b.authors}
+										</chakra.span>
+										<chakra.h2
+											fontSize='md'
+											fontWeight='semibold'
+											color='gray.700'
+											_dark={{
+												color: 'gray.200',
+											}}>
+											$ {b.price}
+										</chakra.h2>
+									</Box>
+								</Box>
+							</BuenLink>
+						))}
 				</SimpleGrid>
 			</Stack>
 			<Stack pt={2} minH={800} justifyContent='center'>
