@@ -19,6 +19,12 @@ import {
 	useColorMode,
 	Center,
 	HStack,
+	Menu,
+	MenuButton,
+	Avatar,
+	MenuList,
+	MenuItem,
+	MenuDivider,
 } from '@chakra-ui/react';
 import {
 	HamburgerIcon,
@@ -29,6 +35,8 @@ import {
 import { Link as BuenLink } from 'react-router-dom';
 import Drawer from '../Cart/Drawer';
 import Signout from '../SignOut/Signout';
+import ProfileImage from '../UserProfile/ProfileImage';
+import FavouriteList from "../UserProfile/FavouriteList"
 import { useSelector, useDispatch } from 'react-redux';
 import { checkStates } from '../../redux/actions';
 
@@ -200,16 +208,37 @@ export default function NavBar() {
 
 					<Drawer />
 
-					<BuenLink to='/profile'>
-						<Button
-							as={'a'}
-							fontSize={'sm'}
-							fontWeight={400}
-							variant={'link'}>
-							Profile
-						</Button>
-					</BuenLink>
-					<Signout />
+					<Menu>
+						<MenuButton
+							as={Button}
+							rounded={'full'}
+							variant={'link'}
+							cursor={'pointer'}
+							minW={0}>
+														
+								<ProfileImage tamaño="sm" />
+		
+						</MenuButton>
+						<MenuList>
+							<MenuItem _hover={{bg: "none", cursor: "default"}}>								
+							<FavouriteList wi="full" />
+							</MenuItem>
+							<MenuItem>
+								<BuenLink to='/profile'>
+									<Button
+										as={'a'}
+										fontSize={'md'}
+										w={'250px'}>
+										Profile
+									</Button>
+								</BuenLink>
+							</MenuItem>
+							<MenuDivider />
+							<MenuItem _hover={{bg: "none", cursor: "default"}} >
+								<Signout wid="100%"/>
+							</MenuItem>
+						</MenuList>
+					</Menu>
 				</Stack>
 			</Flex>
 
