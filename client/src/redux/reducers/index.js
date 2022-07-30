@@ -23,6 +23,7 @@ import {
 	GET_USERS,
 	USER_GET_FAVORITES,
 	POST_COMMENT,
+	LOGIN_GOOGLE
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -340,6 +341,16 @@ const rootReducer = (state = InitialState, action) => {
 				isSignedIn: true,
 			};
 		// Aca checkeamos si el estado del token está o no actualizado
+		case LOGIN_GOOGLE:
+			console.log(action.payload) //action.payload es el objeto q me da firebase con datos
+
+			return{
+				...state,
+				token: action.payload.accessToken,
+				userRole: 'User', //ehmmmm lo puse porlas 
+				userId: action.payload.uid, //no se de donde mas sacar el id, supongo q es necesario para el localStorage
+				isSignedIn: true 
+			}
 		case CHECK_STATES:
 			return {
 				...state,

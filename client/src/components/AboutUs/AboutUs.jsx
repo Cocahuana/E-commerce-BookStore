@@ -41,7 +41,7 @@ const testimonials = [
 	},
 	{
 		name: 'Trini',
-		position: 'developer',
+		position: 'suffering developer',
 		company: 'BookStore',
 		image: 'https://media-exp1.licdn.com/dms/image/C4D03AQEcb0vchcf9lw/profile-displayphoto-shrink_200_200/0/1654380893259?e=1663804800&v=beta&t=jeR_ICRGp6ZpObUz1D6044w77Jg2o8FFhwVBNPo_g7Y',
 		content: `Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
