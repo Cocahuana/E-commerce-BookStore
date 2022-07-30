@@ -8,6 +8,12 @@ import {
 	InputGroup,
 	InputRightElement,
 	Button,
+	Flex,
+	FormControl,
+	FormLabel,
+	FormHelperText,
+	Image,
+	VisuallyHidden,
 } from '@chakra-ui/react';
 import React from 'react';
 import { useEffect } from 'react';
@@ -17,16 +23,23 @@ import {
 	getBooksByTitleOrAuthor,
 	resetFilters,
 } from '../../../redux/actions/index';
+import {
+	AutoComplete,
+	AutoCompleteInput,
+	AutoCompleteItem,
+	AutoCompleteList,
+} from '@choc-ui/chakra-autocomplete';
 
 function SearchBar({ setCurrentPage }) {
 	const dispatch = useDispatch();
-	const { query } = useSelector((state) => state);
+	const { query, books } = useSelector((state) => state);
 
 	function handleInputChange(e) {
 		e.preventDefault();
 		dispatch(getBooksByTitleOrAuthor(e.target.value));
 		dispatch(resetFilters());
 		setCurrentPage(1);
+		console.log('hola', e.target.value);
 	}
 
 	// function handleSubmit(e) {
@@ -41,9 +54,13 @@ function SearchBar({ setCurrentPage }) {
 			<Stack
 				bg={useColorModeValue('white', 'gray.300')}
 				height='120px'
-				w='100%'
-			></Stack>
-			<Box maxW='7xl' p={4} isolation='isolate' mt='-6rem' marginInline='auto'>
+				w='100%'></Stack>
+			<Box
+				maxW='7xl'
+				p={4}
+				isolation='isolate'
+				mt='-6rem'
+				marginInline='auto'>
 				<Box
 					boxShadow={useColorModeValue(
 						'0 4px 6px rgba(160, 174, 192, 0.6)',
@@ -52,31 +69,30 @@ function SearchBar({ setCurrentPage }) {
 					bg={useColorModeValue('white', 'gray.800')}
 					p={{ base: 4, sm: 8 }}
 					overflow='hidden'
-					rounded='2xl'
-				>
+					rounded='2xl'>
 					<Stack
 						pos='relative'
 						zIndex={1}
 						direction='column'
 						spacing={5}
-						textAlign='center'
-					>
-						<chakra.h1 fontSize='xl' lineHeight={1.2} fontWeight='bold'>
+						textAlign='center'>
+						<chakra.h1
+							fontSize='xl'
+							lineHeight={1.2}
+							fontWeight='bold'>
 							Explore All Books
 						</chakra.h1>
 
 						<Stack
 							direction={{ base: 'column', md: 'row' }}
 							spacing={3}
-							justify='center'
-						>
+							justify='center'>
 							<chakra.form w='full' mb={6}>
 								<Box
 									display={{
 										base: 'block',
 										lg: 'none',
-									}}
-								>
+									}}>
 									<Input
 										size='lg'
 										type='text'
@@ -92,17 +108,83 @@ function SearchBar({ setCurrentPage }) {
 									display={{
 										base: 'none',
 										lg: 'flex',
-									}}
-								>
-									<Input
+									}}>
+									{/* <Input
 										size='lg'
 										color='brand.900'
 										type='text'
 										placeholder='Find your book, author, here...'
 										value={query}
 										onChange={(e) => handleInputChange(e)}
-									/>
-									<InputRightElement w='auto' bg='blue.500' roundedRight={4}>
+									/> */}
+									<Flex
+										pb='48'
+										justify='center'
+										align='center'
+										w='full'>
+										<FormControl w='100%' zIndex={5}>
+											<AutoComplete openOnFocus>
+												<AutoCompleteInput
+													variant='filled'
+													size={'lg'}
+													placeholder='Find your book, author, here...'
+													onChange={(e) =>
+														handleInputChange(e)
+													}
+													onClick={(e) =>
+														handleInputChange(e)
+													}
+												/>
+												<AutoCompleteList>
+													{books.map((b, id) => (
+														<AutoCompleteItem
+															key={`option-${id}`}
+															value={b.title}
+															textTransform='capitalize'>
+															<Button
+																w='100%'
+																h='100%'
+																value={b.title}
+																onClick={(e) =>
+																	handleInputChange(
+																		e
+																	)
+																}>
+																<Image
+																	rounded={
+																		'md'
+																	}
+																	alt={
+																		'book image'
+																	}
+																	src={
+																		b?.image
+																	}
+																	fit={
+																		'container'
+																	}
+																	align={
+																		'center'
+																	}
+																	w={{
+																		base: '50px',
+																		sm: '50px',
+																		lg: '50px',
+																	}}
+																	h={{
+																		base: '50px',
+																		sm: '50px',
+																		lg: '50px',
+																	}}
+																/>
+																{b.title}
+															</Button>
+														</AutoCompleteItem>
+													))}
+												</AutoCompleteList>
+											</AutoComplete>
+										</FormControl>
+
 										<Button
 											// onClick={handleSubmit}
 											color='white'
@@ -111,11 +193,10 @@ function SearchBar({ setCurrentPage }) {
 											size='lg'
 											type='submit'
 											roundedLeft={0}
-											leftIcon={<Search2Icon />}
-										>
-											Search
+											leftIcon={<Search2Icon />}>
+											Empty Search
 										</Button>
-									</InputRightElement>
+									</Flex>
 								</InputGroup>
 							</chakra.form>
 						</Stack>
