@@ -34,9 +34,8 @@ import {
 } from '@chakra-ui/react';
 import { TiShoppingCart } from 'react-icons/ti';
 import { Rating } from '../BookShelf/BookHolder/Book/Rating';
+import { PriceTag } from '../BookShelf/BookHolder/Book/PriceTag';
 import Swal from 'sweetalert2';
-
-//console.log(borrame porfis)
 
 function BookDetail(props) {
 	const dispatch = useDispatch();
@@ -92,59 +91,74 @@ function BookDetail(props) {
 
 	console.log(comments);
 	return (
-		<Container align={'center'} bg='brand.pepe' minW={'100%'} minH={'90vh'}>
-			<Box maxW={'7xl'}>
+		<Container
+			align={'center'}
+			bg={useColorModeValue('whiteAlpha.600', 'gray.800')}
+			color={useColorModeValue('gray.700', 'whiteAlpha.600')}
+			minW={'100%'}
+			minH={'90vh'}
+			paddingTop={'10vh'}>
+			<Box maxW={'6xl'} textAlign='left'>
 				<SimpleGrid
 					columns={{ base: 1, lg: 2 }}
-					spacing={{ base: 8, md: 10 }}
-					py={{ base: 18, md: 23, lg: 24 }}>
-					<Flex paddingTop={{ sm: '45px', base: '45px' }}>
-						<Image
-							rounded={'md'}
-							alt={'book image'}
-							src={details?.image}
-							fit={'container'}
-							align={'center'}
+					rows={{ base: 3, lg: 3 }}
+					//spacing={{ base: 8, md: 10 }}
+				>
+					<Flex>
+						<Flex
 							w={'100%'}
-							h={{ base: '100%', sm: '400px', lg: '680px' }}
-						/>
+							h={{ base: '100%', sm: '100%', lg: '100%' }}
+							align={'center'}
+							justify={'center'}
+							borderRight='1px'
+							borderColor={useColorModeValue(
+								'gray.700',
+								'whiteAlpha.600'
+							)}>
+							<Image
+								rounded={'md'}
+								alt={'book image'}
+								src={details?.image}
+								fit={'container'}
+								align={'center'}
+								w={{ base: '75%', sm: '75%', lg: '90%' }}
+								h={{ base: '90%', sm: '90%', lg: '90%' }}
+							/>
+						</Flex>
 					</Flex>
-					<Stack
-						justify={'space-between'}
-						spacing={{ base: 6, md: 10 }}>
+					<Stack p={{ base: 10, sm: 10, md: 10, lg: 10 }}>
 						<Box as={'header'}>
 							<Text
-								lineHeight={1.1}
-								fontWeight={300}
+								fontWeight={'bold'}
 								fontSize={{
-									base: '2xl',
-									sm: '4xl',
-									lg: '5xl',
+									base: '1xl',
+									sm: '2xl',
+									lg: '3xl',
 								}}>
 								{details?.title}
 							</Text>
 						</Box>
-
-						<Stack
-							spacing={{ base: 4, sm: 6 }}
-							direction={'column'}
-							divider={
-								<StackDivider
-									borderColor={useColorModeValue(
-										'gray.200',
-										'gray.600'
-									)}
+						<Stack>
+							<Text
+								w='100%'
+								fontSize={{
+									base: '24px',
+									sm: '24px',
+									lg: '36px',
+								}}>
+								<PriceTag
+									w='100%'
+									price={details.price}
+									salePrice={details.salePrice}
+									currency={details.currency}
 								/>
-							}>
-							<VStack
-								fontWeight={'300'}
-								justify={'space-evenly'}
-								align={'center'}
-								flexDir={'row'}
-								spacing={{ base: 2, sm: 4 }}>
+							</Text>
+						</Stack>
+
+						<Stack spacing={{ base: 4, sm: 6 }}>
+							<VStack fontWeight={'300'} flexDir={'column'}>
 								<Text fontSize={'20px'}>
-									Author:
-									<Text>{details?.authors}</Text>
+									<Text>{details?.authors}(author)</Text>
 								</Text>
 
 								<Text fontSize={'20px'} paddingBottom={'20px'}>
@@ -174,86 +188,10 @@ function BookDetail(props) {
 							</VStack>
 						</Stack>
 
-						<Stack flexDir={'row'}>
-							<Text
-								mt={2}
-								py={'3'}
-								w='45%'
-								fontSize={{
-									base: '1xl',
-									sm: '1xl',
-									lg: '2xl',
-								}}>
-								Price:{' '}
-								{details?.price
-									? '$' +
-									  details?.currency +
-									  ' ' +
-									  details?.price
-									: 'No existe el precio'}
-							</Text>
-
-							<Button
-								onClick={() => handleonclick(details.id)}
-								rounded={'100px'}
-								w={'50%'}
-								mt={8}
-								size={'lg'}
-								py={'7'}
-								bg={useColorModeValue('blue.500', 'blue.200')}
-								color={useColorModeValue('white', 'gray.900')}
-								leftIcon={<TiShoppingCart />}
-								textTransform={'uppercase'}
-								_hover={{
-									transform: 'translateY(2px)',
-									boxShadow: 'lg',
-								}}>
-								Add to cart
-							</Button>
-						</Stack>
-
 						<Stack
 							direction='column'
 							alignItems='center'
 							justifyContent={'center'}>
-							<Accordion
-								minW={'100%'}
-								allowMultiple
-								padding={'15px'}>
-								<AccordionItem rounded={'10px'}>
-									<h2>
-										<AccordionButton
-											rounded={'10px'}
-											bg={useColorModeValue(
-												'blue.500',
-												'blue.200'
-											)}>
-											<Box
-												color={useColorModeValue(
-													'white',
-													'gray.900'
-												)}
-												flex='1'
-												textAlign='left'>
-												Description
-											</Box>
-											<AccordionIcon />
-										</AccordionButton>
-									</h2>
-									<AccordionPanel
-										textAlign={'justify'}
-										rounded={'10px'}
-										bg={'gray.300'}
-										pb={4}>
-										<div
-											dangerouslySetInnerHTML={{
-												__html: details?.description,
-											}}
-										/>
-									</AccordionPanel>
-								</AccordionItem>
-							</Accordion>
-
 							<BuenLink to={'/books'}>
 								<Button
 									align={'center'}
@@ -278,6 +216,76 @@ function BookDetail(props) {
 								</Button>
 							</BuenLink>
 						</Stack>
+						<Stack>
+							<Box>
+								<Button
+									onClick={() => handleonclick(details.id)}
+									w={'100%'}
+									size={'lg'}
+									bg={useColorModeValue(
+										'blue.500',
+										'blue.200'
+									)}
+									color={useColorModeValue(
+										'white',
+										'gray.900'
+									)}
+									leftIcon={<TiShoppingCart />}
+									textTransform={'uppercase'}
+									transition={'1s'}
+									_hover={{
+										bg: useColorModeValue(
+											'blue.200',
+											'blue.500'
+										),
+										color: useColorModeValue(
+											'gray.900',
+											'white'
+										),
+									}}>
+									Add to cart
+								</Button>
+							</Box>
+						</Stack>
+					</Stack>
+					<Stack
+						direction='column'
+						alignItems='center'
+						justifyContent={'center'}>
+						<Accordion minW={'100%'} allowMultiple padding={'15px'}>
+							<AccordionItem rounded={'10px'}>
+								<h2>
+									<AccordionButton
+										rounded={'10px'}
+										bg={useColorModeValue(
+											'blue.500',
+											'blue.200'
+										)}>
+										<Box
+											color={useColorModeValue(
+												'white',
+												'gray.900'
+											)}
+											flex='1'
+											textAlign='left'>
+											Description
+										</Box>
+										<AccordionIcon />
+									</AccordionButton>
+								</h2>
+								<AccordionPanel
+									textAlign={'justify'}
+									rounded={'10px'}
+									bg={'gray.300'}
+									pb={4}>
+									<div
+										dangerouslySetInnerHTML={{
+											__html: details?.description,
+										}}
+									/>
+								</AccordionPanel>
+							</AccordionItem>
+						</Accordion>
 					</Stack>
 				</SimpleGrid>
 			</Box>
