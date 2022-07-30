@@ -22,7 +22,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	getBooksByTitleOrAuthor,
-	getBooks,
+	resetFilters,
 } from '../../redux/actions/index.js';
 
 function LandingPage() {
@@ -42,7 +42,8 @@ function LandingPage() {
 	const { books } = useSelector((state) => state);
 
 	useEffect(() => {
-		if (!books.length) dispatch(getBooks());
+		dispatch(getBooksByTitleOrAuthor(''));
+		dispatch(resetFilters());
 	}, [dispatch]);
 
 	return (

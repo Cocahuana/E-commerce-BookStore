@@ -45,7 +45,7 @@ module.exports = (sequelize) => {
 			},
 			stock: {
 				type: DataTypes.INTEGER,
-				defaultValue: 100,
+				defaultValue: 50,
 			}
 		},
 		{ timestamps: false }
