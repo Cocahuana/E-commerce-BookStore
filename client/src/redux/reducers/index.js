@@ -23,6 +23,9 @@ import {
 	GET_USERS,
 	USER_GET_FAVORITES,
 	POST_COMMENT,
+	CREATE_BOOK,
+	LOGIN_GOOGLE,
+	USER_DEL_FAVORITES,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -83,7 +86,7 @@ const InitialState = {
 	userId: userIdFromLocalStorage,
 	allUsers: [],
 	isSignedIn: isSignedInFromLocalStorage,
-	allFavourites: []
+	allFavourites: [],
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -116,6 +119,8 @@ const rootReducer = (state = InitialState, action) => {
 				booksCopy: action.payload.data,
 				books: action.payload.data,
 				query: action.payload.query,
+				loading: false,
+				adminBooks: action.payload,
 			};
 		}
 		case GET_GENRES: {
@@ -291,6 +296,8 @@ const rootReducer = (state = InitialState, action) => {
 				books: filteredBooks,
 			};
 		}
+		//--------------------------------------------El ADMIN CAPO--------------------------------------------------
+
 		//-----------------------------------------------------------------------------------------------------
 
 		case RESET_DETAILS: {
@@ -339,6 +346,16 @@ const rootReducer = (state = InitialState, action) => {
 				isSignedIn: true,
 			};
 		// Aca checkeamos si el estado del token está o no actualizado
+		case LOGIN_GOOGLE:
+			console.log(action.payload); //action.payload es el objeto q me da firebase con datos
+
+			return {
+				...state,
+				token: action.payload.accessToken,
+				userRole: 'User', //ehmmmm lo puse porlas
+				userId: action.payload.uid, //no se de donde mas sacar el id, supongo q es necesario para el localStorage
+				isSignedIn: true,
+			};
 		case CHECK_STATES:
 			return {
 				...state,
@@ -365,20 +382,24 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 				userRole: null,
 			};
-			
+
 		case USER_GET_FAVORITES:
 			let favoriteBooks = [];
 			let booksIds = action.payload;
-			console.log(booksIds)
 			favoriteBooks = state.booksCopy.filter((e) =>
 				booksIds.includes(e.id)
 			);
-			console.log(favoriteBooks, "fav")
 			return {
 				...state,
 				allFavourites: favoriteBooks,
 			};
-
+		case USER_DEL_FAVORITES:
+			return {
+				...state,
+				allFavourites: state.allFavourites.filter(
+					(p) => p.id !== action.payload
+				),
+			};
 		case GET_USERS:
 			return {
 				...state,

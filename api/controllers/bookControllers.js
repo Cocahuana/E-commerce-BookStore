@@ -22,6 +22,7 @@ const getPopularBooks = async (req, res, next) => {
 };
 
 const findAllBooks = async (req, res, next) => {
+	//ruta maldita no la usamos mas en el front porq no trae los generos. porq? No hay porq
 	try {
 		var result = await Books.findAll(
 			{
@@ -75,19 +76,35 @@ const getBookById = async (req, res, next) => {
 };
 
 const postBook = async (req, res, next) => {
-	let { title, authors, description, rating, image, preview } = req.body;
-	if (title.length === 0)
-		return res.status(400).json('Title should be longer');
+	let {
+		title,
+		authors,
+		description,
+		rating,
+		image,
+		preview,
+		price,
+		genre,
+		language,
+	} = req.body;
+
+	if (title.length === 0 || genre.length === 0 || price.length === 0)
+		return res.status(400).json('Title, genre and price are required');
 	try {
-		await Books.create({
+		let newBooks = await Books.create({
 			title: title,
 			authors: authors?.join(','),
 			description: description,
 			rating: rating,
 			image: image,
 			preview: preview,
+			price: price,
 		});
-		res.send('libro creado!');
+		let genero = await Genre.findAll({ where: { name: genre } });
+		await newBooks.addGenre(genero);
+		let lenguaje = await Language.findOne({ where: { name: language } });
+		await newBooks.addLanguage(lenguaje);
+		res.json({ message: 'Book created correctly', data: newBooks });
 	} catch (error) {
 		next(error);
 	}
@@ -167,6 +184,9 @@ const findByAuthorOrTitle = async (req, res, next) => {
 						{ title: { [Op.iLike]: input } },
 						{ authors: { [Op.iLike]: input } },
 					],
+					stock: {
+						[Op.not]: 0,
+					},
 				},
 				include: [
 					{
@@ -176,6 +196,9 @@ const findByAuthorOrTitle = async (req, res, next) => {
 					{
 						model: Language,
 						through: { attributes: [] },
+					},
+					{
+						model: Comment,
 					},
 				],
 			});

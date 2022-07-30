@@ -15,11 +15,11 @@ import Filter from './Filters/Filter';
 import { Paging } from './Paging/Paging';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getBooks } from '../../redux/actions';
+import { getBooksByTitleOrAuthor } from '../../redux/actions';
 
 const BookShelf = () => {
 	const dispatch = useDispatch();
-	const { books } = useSelector((state) => state);
+	const { books, query } = useSelector((state) => state);
 	const [CurrentPage, setCurrentPage] = useState(1);
 	const BooksPerPage = 12;
 	const indexOfLastBook = CurrentPage * BooksPerPage;
@@ -35,7 +35,7 @@ const BookShelf = () => {
 	const { token, userRole } = useSelector((state) => state);
 
 	useEffect(() => {
-		if (!books.length) dispatch(getBooks());
+		if (!books.length) dispatch(getBooksByTitleOrAuthor(query));
 		// setting variables in localStorage ----
 		localStorage.setItem('cart', JSON.stringify(cart));
 		localStorage.setItem('summary', JSON.stringify(summary));
