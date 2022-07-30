@@ -161,7 +161,7 @@ function Carousel({ books }) {
 							fontWeight='semibold'
 							color='brand.600'
 							lineHeight='shorter'>
-							Nuevos lanzamientos
+							Recent releases
 						</chakra.h1>
 						<BuenLink to='/books'>
 							<chakra.h1
