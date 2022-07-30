@@ -37,6 +37,7 @@ import {
 	GET_USERS,
 	USER_GET_FAVORITES,
 	POST_COMMENT,
+	CREATE_BOOK,
 	USER_DEL_FAVORITES,
 } from './actionTypes';
 
@@ -130,6 +131,16 @@ export const hideBook = () => {
 		}
 	};
 };
+export function createBook(payload) {
+	return async function (dispatch) {
+		var json = await axios.post('/books', payload);
+		console.log(json.data);
+		return dispatch({
+			type: CREATE_BOOK,
+			payload: json.data,
+		});
+	};
+}
 
 //----------------------------------------------USERS-----------------------------------------
 

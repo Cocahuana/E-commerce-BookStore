@@ -23,6 +23,7 @@ import {
 	GET_USERS,
 	USER_GET_FAVORITES,
 	POST_COMMENT,
+	CREATE_BOOK,
 	LOGIN_GOOGLE,
 	USER_DEL_FAVORITES,
 } from '../actions/actionTypes';
@@ -295,6 +296,8 @@ const rootReducer = (state = InitialState, action) => {
 				books: filteredBooks,
 			};
 		}
+		//--------------------------------------------El ADMIN CAPO--------------------------------------------------
+
 		//-----------------------------------------------------------------------------------------------------
 
 		case RESET_DETAILS: {

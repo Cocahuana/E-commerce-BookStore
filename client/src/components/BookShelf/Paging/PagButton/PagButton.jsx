@@ -1,5 +1,5 @@
 import React from 'react';
-import { chakra, Flex, Icon } from '@chakra-ui/react';
+import { chakra, Flex, Icon, useColorModeValue } from '@chakra-ui/react';
 export const PagButton = (props) => {
 	const activeStyle = {
 		bg: 'gray.500',
@@ -19,7 +19,7 @@ export const PagButton = (props) => {
 			_dark={{
 				bg: 'gray.700',
 			}}
-			color='gray.700'
+			color={useColorModeValue('gray.700', 'gray.500')}
 			opacity={props.disabled && 0.6}
 			_hover={!props.disabled && activeStyle}
 			cursor={props.disabled && 'not-allowed'}
