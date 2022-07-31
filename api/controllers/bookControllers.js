@@ -100,7 +100,7 @@ const postBook = async (req, res, next) => {
 			preview: preview,
 			price: price,
 		});
-		let genero = await Genre.findOne({ where: { name: genre } });
+		let genero = await Genre.findAll({ where: { name: genre } });
 		await newBooks.addGenre(genero);
 		let lenguaje = await Language.findOne({ where: { name: language } });
 		await newBooks.addLanguage(lenguaje);
@@ -196,6 +196,9 @@ const findByAuthorOrTitle = async (req, res, next) => {
 					{
 						model: Language,
 						through: { attributes: [] },
+					},
+					{
+						model: Comment,
 					},
 				],
 			});

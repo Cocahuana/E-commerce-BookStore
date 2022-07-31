@@ -8,6 +8,12 @@ import {
 	InputGroup,
 	InputRightElement,
 	Button,
+	Flex,
+	FormControl,
+	FormLabel,
+	FormHelperText,
+	Image,
+	VisuallyHidden,
 } from '@chakra-ui/react';
 import React from 'react';
 import { useEffect } from 'react';
@@ -17,16 +23,23 @@ import {
 	getBooksByTitleOrAuthor,
 	resetFilters,
 } from '../../../redux/actions/index';
+import {
+	AutoComplete,
+	AutoCompleteInput,
+	AutoCompleteItem,
+	AutoCompleteList,
+} from '@choc-ui/chakra-autocomplete';
 
 function SearchBar({ setCurrentPage }) {
 	const dispatch = useDispatch();
-	const { query } = useSelector((state) => state);
+	const { query, books } = useSelector((state) => state);
 
 	function handleInputChange(e) {
 		e.preventDefault();
 		dispatch(getBooksByTitleOrAuthor(e.target.value));
 		dispatch(resetFilters());
 		setCurrentPage(1);
+		console.log('hola', e.target.value);
 	}
 
 	// function handleSubmit(e) {
@@ -37,10 +50,9 @@ function SearchBar({ setCurrentPage }) {
 	// }
 
 	return (
-		<Box pb={8} bg='blackAlpha.200'>
+		<Box pb={8} bg={useColorModeValue('whiteAlpha.100', 'gray.500')}>
 			<Stack
-				pos='relative'
-				bg='whiteAlpha.800'
+				bg={useColorModeValue('white', 'gray.300')}
 				height='120px'
 				w='100%'></Stack>
 			<Box
@@ -83,10 +95,8 @@ function SearchBar({ setCurrentPage }) {
 									}}>
 									<Input
 										size='lg'
-										color='brand.900'
 										type='text'
 										placeholder='Find your book, author here...'
-										bg='white'
 										value={query}
 										onChange={(e) => handleInputChange(e)}
 									/>
@@ -99,19 +109,82 @@ function SearchBar({ setCurrentPage }) {
 										base: 'none',
 										lg: 'flex',
 									}}>
-									<Input
+									{/* <Input
 										size='lg'
 										color='brand.900'
 										type='text'
 										placeholder='Find your book, author, here...'
-										bg='white'
 										value={query}
 										onChange={(e) => handleInputChange(e)}
-									/>
-									<InputRightElement
-										w='auto'
-										bg='blue.500'
-										roundedRight={4}>
+									/> */}
+									<Flex
+										pb='48'
+										justify='center'
+										align='center'
+										w='full'>
+										<FormControl w='100%' zIndex={5}>
+											<AutoComplete openOnFocus>
+												<AutoCompleteInput
+													variant='filled'
+													size={'lg'}
+													placeholder='Find your book, author, here...'
+													onChange={(e) =>
+														handleInputChange(e)
+													}
+													onClick={(e) =>
+														handleInputChange(e)
+													}
+												/>
+												<AutoCompleteList>
+													{books.map((b, id) => (
+														<AutoCompleteItem
+															key={`option-${id}`}
+															value={b.title}
+															textTransform='capitalize'>
+															<Button
+																w='100%'
+																h='100%'
+																value={b.title}
+																onClick={(e) =>
+																	handleInputChange(
+																		e
+																	)
+																}>
+																<Image
+																	rounded={
+																		'md'
+																	}
+																	alt={
+																		'book image'
+																	}
+																	src={
+																		b?.image
+																	}
+																	fit={
+																		'container'
+																	}
+																	align={
+																		'center'
+																	}
+																	w={{
+																		base: '50px',
+																		sm: '50px',
+																		lg: '50px',
+																	}}
+																	h={{
+																		base: '50px',
+																		sm: '50px',
+																		lg: '50px',
+																	}}
+																/>
+																{b.title}
+															</Button>
+														</AutoCompleteItem>
+													))}
+												</AutoCompleteList>
+											</AutoComplete>
+										</FormControl>
+
 										<Button
 											// onClick={handleSubmit}
 											color='white'
@@ -121,9 +194,9 @@ function SearchBar({ setCurrentPage }) {
 											type='submit'
 											roundedLeft={0}
 											leftIcon={<Search2Icon />}>
-											Search
+											Empty Search
 										</Button>
-									</InputRightElement>
+									</Flex>
 								</InputGroup>
 							</chakra.form>
 						</Stack>
