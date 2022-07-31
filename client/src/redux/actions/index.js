@@ -195,7 +195,6 @@ export function addGoogleUser(currentUser) {
 			username: currentUser.displayName,
 			email: currentUser.email,
 			password: currentUser.uid,
-			userId: currentUser.uid
 		});
 
 		let login = await axios.post(`/user/login`, {
@@ -204,7 +203,7 @@ export function addGoogleUser(currentUser) {
 			//pero como coincide el email con el uid puse ese valor como pw. podemos ver de usar otro maybe
 			//igual en la db la pw aparece hasheada
 		});
-		console.log(currentUser)
+		console.log('Soy login');
 
 		return dispatch({
 			type: LOGIN_GOOGLE,

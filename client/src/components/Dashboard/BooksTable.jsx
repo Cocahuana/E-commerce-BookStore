@@ -41,7 +41,9 @@ function BooksTable({ books }) {
 		setTimeout(() => {
 			setScroll(
 				scroll.concat(
-					Array.from(books.slice(scroll.length, scroll.length + 20))
+					Array.from(
+						books.data.slice(scroll.length, scroll.length + 20)
+					)
 				)
 			);
 		}, 2000);

@@ -180,15 +180,17 @@ export const Book = (props) => {
 				</HStack>
 			</Stack>
 			<Stack align='center'>
-				<Button colorScheme='blue' onClick={handleAddToCart}>
+				<Button colorScheme='blue' onClick={handleAddToCart} w='100%'>
 					Add to cart
 				</Button>
-				<Link
-					textDecoration='underline'
-					fontWeight='medium'
-					color={useColorModeValue('gray.600', 'gray.400')}>
-					Quick shop
-				</Link>
+				<BuenLink to='/pasarelaDePagos'>
+					<Link
+						textDecoration='underline'
+						fontWeight='medium'
+						color={useColorModeValue('gray.600', 'gray.400')}>
+						Quick shop
+					</Link>
+				</BuenLink>
 			</Stack>
 		</Stack>
 	);
