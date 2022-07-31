@@ -364,12 +364,12 @@ const rootReducer = (state = InitialState, action) => {
 		// Aca checkeamos si el estado del token está o no actualizado
 		case LOGIN_GOOGLE:
 			//action.payload es el objeto q me da firebase con datos
-
+			localStorage.setItem('userId', action.payload.uid);
+			localStorage.setItem('isSignedIn', true);
 			return {
 				...state,
 				token: action.payload.accessToken,
-				userRole: 'User', //ehmmmm lo puse porlas
-				userId: action.payload.uid, //no se de donde mas sacar el id, supongo q es necesario para el localStorage
+				userRole: 'User', 
 				isSignedIn: true,
 			};
 		case CHECK_STATES:
