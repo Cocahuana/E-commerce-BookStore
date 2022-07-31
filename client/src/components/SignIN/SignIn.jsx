@@ -96,7 +96,7 @@ function SignIn() {
 					<Heading fontSize={'2xl'}>Sign in to your account</Heading>
 
 					<FormControl id='username'>
-						<FormLabel>Username or email</FormLabel>
+						<FormLabel>Username</FormLabel>
 						<Input
 							bg={useColorModeValue('whiteAlpha.800', 'gray.400')}
 							name='email'
