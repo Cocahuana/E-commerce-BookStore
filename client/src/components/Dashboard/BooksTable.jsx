@@ -51,7 +51,6 @@ function BooksTable({ books }) {
 	// 	e.preventDefault();
 	// 	setTitleBook(e.target.value);
 	// }
-	// console.log(titleBook);
 
 	// useEffect(() => {
 	// 	dispatch(getBooksByTitleOrAuthor(titleBook));

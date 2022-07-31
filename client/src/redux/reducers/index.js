@@ -363,7 +363,7 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		// Aca checkeamos si el estado del token está o no actualizado
 		case LOGIN_GOOGLE:
-			console.log(action.payload); //action.payload es el objeto q me da firebase con datos
+			//action.payload es el objeto q me da firebase con datos
 
 			return {
 				...state,

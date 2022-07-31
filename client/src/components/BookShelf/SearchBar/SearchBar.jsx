@@ -39,7 +39,6 @@ function SearchBar({ setCurrentPage }) {
 		dispatch(getBooksByTitleOrAuthor(e.target.value));
 		dispatch(resetFilters());
 		setCurrentPage(1);
-		console.log('hola', e.target.value);
 	}
 
 	// function handleSubmit(e) {
