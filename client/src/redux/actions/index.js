@@ -39,6 +39,7 @@ import {
 	POST_COMMENT,
 	CREATE_BOOK,
 	USER_DEL_FAVORITES,
+	UPDATE_USER,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -134,7 +135,6 @@ export const hideBook = () => {
 export function createBook(payload) {
 	return async function (dispatch) {
 		var json = await axios.post('/books', payload);
-		console.log(json.data);
 		return dispatch({
 			type: CREATE_BOOK,
 			payload: json.data,
@@ -203,10 +203,21 @@ export function addGoogleUser(currentUser) {
 			//pero como coincide el email con el uid puse ese valor como pw. podemos ver de usar otro maybe
 			//igual en la db la pw aparece hasheada
 		});
+		console.log('Soy login');
 
 		return dispatch({
 			type: LOGIN_GOOGLE,
 			payload: currentUser, //lo q me interesa es la info de current user (obj de firebase)
+		});
+	};
+}
+
+export function updateUser(propsToUpdate) {
+	return async function (dispatch) {
+		var updatedUser = await axios.put(`/user/update`, propsToUpdate);
+		return dispatch({
+			type: UPDATE_USER,
+			payload: updatedUser.data,
 		});
 	};
 }

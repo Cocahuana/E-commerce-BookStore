@@ -34,7 +34,6 @@ var server = http.createServer(app);
 conn.sync({ force: false }).then(() => {
 	app.listen(process.env.PORT || 3001, async () => {
 		console.log('%s listening at 3001'); // eslint-disable-line no-console
-		console.log('Puerto: ' + process.env.PORT);
 		// function cambiarDeLugar(){
 
 		let infoCheck = await Books.findAll();
@@ -68,7 +67,9 @@ conn.sync({ force: false }).then(() => {
 					},
 				});
 
-				arrayPromises.push(genresToAssociate.addBooks(booksToAssociate));
+				arrayPromises.push(
+					genresToAssociate.addBooks(booksToAssociate)
+				);
 			}
 
 			let languageNames = languages.map((language) => {
@@ -94,7 +95,9 @@ conn.sync({ force: false }).then(() => {
 					},
 				});
 
-				arrayPromises.push(languagesToAssociate.addBooks(booksToAssociate));
+				arrayPromises.push(
+					languagesToAssociate.addBooks(booksToAssociate)
+				);
 			}
 			await Promise.all(arrayPromises);
 		}

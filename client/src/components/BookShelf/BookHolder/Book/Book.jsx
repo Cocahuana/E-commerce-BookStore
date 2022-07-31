@@ -12,16 +12,26 @@ import {
 	useBreakpointValue,
 	useColorModeValue,
 	Center,
+	Alert,
+	AlertIcon,
+	AlertTitle,
+	AlertDescription,
 } from '@chakra-ui/react';
 import * as React from 'react';
+import { useEffect } from 'react';
 import { Rating } from './Rating';
 import { FavouriteButton } from './FavouriteButton';
-import { userAddFavorite } from '../../../../redux/actions/index';
+import {
+	userAddFavorite,
+	userGetFavorite,
+	addToCart,
+	userDeleteFavorite,
+	userDelFavorite,
+} from '../../../../redux/actions/index';
 import { PriceTag } from './PriceTag';
 import { Link as BuenLink } from 'react-router-dom';
 import { FaCommentDots } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCart } from '../../../../redux/actions/index';
 import Swal from 'sweetalert2';
 
 export const Book = (props) => {
@@ -29,10 +39,38 @@ export const Book = (props) => {
 
 	const dispatch = useDispatch();
 
-	const { userId } = useSelector((state) => state);
+	const { userId, allFavourites } = useSelector((state) => state);
+
+	const [isFav, setIsFav] = React.useState(false);
 
 	const addFavorite = (id) => {
-		dispatch(userAddFavorite(userId, id)); //userid, bookid
+		dispatch(userAddFavorite(userId, id));
+
+		if (isFav === false) {
+			setIsFav(true);
+			Swal.fire({
+				position: 'center',
+				icon: 'success',
+				title: 'Added to the Favorite List successfully!',
+				showConfirmButton: false,
+				timer: 1000,
+			});
+		} else {
+			setIsFav(false);
+			deleteFavorite(id);
+			Swal.fire({
+				position: 'center',
+				icon: 'success',
+				title: 'Removed to the Favorite List successfully!',
+				showConfirmButton: false,
+				timer: 1000,
+			});
+		}
+	};
+
+	const deleteFavorite = (id) => {
+		dispatch(userDeleteFavorite(userId, id)); //userid, bookid
+		dispatch(userDelFavorite(id));
 	};
 
 	const handleAddToCart = () => {
@@ -53,7 +91,7 @@ export const Book = (props) => {
 		price,
 		salePrice,
 		rating,
-		ratingCount,
+		Comments,
 		id,
 		currency,
 	} = product;
@@ -93,6 +131,9 @@ export const Book = (props) => {
 					aria-label={`Add ${title} to your favourites`}
 					id={id}
 					onClick={() => addFavorite(id)}
+					userId={userId}
+					allFavourites={allFavourites}
+					isFav={isFav}
 				/>
 			</Box>
 			<Stack>
@@ -132,22 +173,24 @@ export const Book = (props) => {
 							fontSize='sm'
 							paddingLeft='16px'
 							color={useColorModeValue('gray.600', 'gray.400')}>
-							{ratingCount}
+							{Comments?.length}
 						</Text>
 						<Icon as={FaCommentDots} color='blue.500' />
 					</HStack>
 				</HStack>
 			</Stack>
 			<Stack align='center'>
-				<Button colorScheme='blue' onClick={handleAddToCart}>
+				<Button colorScheme='blue' onClick={handleAddToCart} w='100%'>
 					Add to cart
 				</Button>
-				<Link
-					textDecoration='underline'
-					fontWeight='medium'
-					color={useColorModeValue('gray.600', 'gray.400')}>
-					Quick shop
-				</Link>
+				<BuenLink to='/pasarelaDePagos'>
+					<Link
+						textDecoration='underline'
+						fontWeight='medium'
+						color={useColorModeValue('gray.600', 'gray.400')}>
+						Quick shop
+					</Link>
+				</BuenLink>
 			</Stack>
 		</Stack>
 	);

@@ -205,7 +205,6 @@ function FormAdd(props) {
 			});
 		}
 
-		console.log(input, 'Creado :D');
 		// dispatch(createBook(input));
 	}
 
