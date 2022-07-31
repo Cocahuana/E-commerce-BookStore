@@ -93,28 +93,33 @@ function BookDetail(props) {
 	return (
 		<Container
 			align={'center'}
-			bg={useColorModeValue('whiteAlpha.600', 'gray.800')}
+			bg={useColorModeValue('gray.200', 'gray.900')}
 			color={useColorModeValue('gray.700', 'whiteAlpha.600')}
 			minW={'100%'}
 			minH={'90vh'}
 			paddingTop={'10vh'}>
-			<Box maxW={'6xl'} textAlign='left'>
+			<Box
+				maxW={'6xl'}
+				textAlign='left'
+				border='1px'
+				borderColor={useColorModeValue('gray.200', 'gray.900')}>
 				<SimpleGrid
 					columns={{ base: 1, lg: 2 }}
 					rows={{ base: 3, lg: 3 }}
+					bg={useColorModeValue('whiteAlpha.600', 'gray.700')}
 					//spacing={{ base: 8, md: 10 }}
 				>
 					<Flex>
 						<Flex
 							w={'100%'}
-							h={{ base: '100%', sm: '100%', lg: '100%' }}
+							//Si le sacas maxHeight && los pixeles, la card se ajusta al dropdown del description
+							maxHeight={{
+								base: '500px',
+								sm: '400px',
+								lg: '700px',
+							}}
 							align={'center'}
-							justify={'center'}
-							borderRight='1px'
-							borderColor={useColorModeValue(
-								'gray.700',
-								'whiteAlpha.600'
-							)}>
+							justify={'center'}>
 							<Image
 								rounded={'md'}
 								alt={'book image'}
@@ -126,7 +131,12 @@ function BookDetail(props) {
 							/>
 						</Flex>
 					</Flex>
-					<Stack p={{ base: 10, sm: 10, md: 10, lg: 10 }}>
+					<Stack
+						p={{ base: 10, sm: 10, md: 10, lg: 10 }}
+						border='1px'
+						borderColor={useColorModeValue('gray.200', 'gray.900')}
+						m='24px'
+						rounded='10px'>
 						<Box as={'header'}>
 							<Text
 								fontWeight={'bold'}
@@ -156,65 +166,93 @@ function BookDetail(props) {
 						</Stack>
 
 						<Stack spacing={{ base: 4, sm: 6 }}>
-							<VStack fontWeight={'300'} flexDir={'column'}>
-								<Text fontSize={'20px'}>
-									<Text>{details?.authors}(author)</Text>
-								</Text>
+							<Text fontSize={'20px'}>
+								<Text>{details?.authors}(author)</Text>
+							</Text>
 
-								<Text fontSize={'20px'} paddingBottom={'20px'}>
-									Rating:
-									<Text paddingTop={'9px'}>
-										<Rating
-											size='20px'
-											defaultValue={details?.rating}
-										/>
-									</Text>
+							<Text fontSize={'20px'}>
+								<Text paddingTop={'9px'}>
+									<Rating
+										size='20px'
+										defaultValue={details?.rating}
+									/>
 								</Text>
-								<Text fontSize={'20px'} paddingBottom={'20px'}>
-									Genres:
+							</Text>
+							<Text fontSize={'20px'}>
+								<Box>
 									<Text>
 										{details?.Genres?.map((e) => e.name) +
 											''}
 									</Text>
+								</Box>
+							</Text>
+							<Text fontSize={'20px'}>
+								<Text>
+									{details?.Languages?.map((e) => e.name) +
+										''}
 								</Text>
-								<Text fontSize={'20px'} paddingBottom={'20px'}>
-									Languages:
-									<Text>
-										{details?.Languages?.map(
-											(e) => e.name
-										) + ''}
-									</Text>
-								</Text>
-							</VStack>
+							</Text>
 						</Stack>
-
 						<Stack
 							direction='column'
 							alignItems='center'
 							justifyContent={'center'}>
-							<BuenLink to={'/books'}>
-								<Button
-									align={'center'}
-									justify={'center'}
-									fontWeight={'10px'}
-									color={useColorModeValue(
-										'white',
-										'gray.900'
-									)}
-									rounded={'100px'}
-									size={'md'}
-									bg={useColorModeValue(
-										'blue.500',
-										'blue.200'
-									)}
-									textTransform={'uppercase'}
-									_hover={{
-										transform: 'translateY(2px)',
-										boxShadow: 'lg',
-									}}>
-									Home
-								</Button>
-							</BuenLink>
+							<Accordion
+								minW={'100%'}
+								allowMultiple
+								padding={'15px'}>
+								<AccordionItem rounded={'10px'}>
+									<h2>
+										<AccordionButton
+											rounded={'10px'}
+											bg={useColorModeValue(
+												'blue.500',
+												'blue.200'
+											)}
+											transition='1s'
+											textTransform={'uppercase'}
+											_hover={{
+												bg: useColorModeValue(
+													'rgba(65, 137, 230, 0.50)',
+													'rgba(65, 137, 230, 0.35)'
+												),
+												color: useColorModeValue(
+													'#3483fa',
+													'white'
+												),
+											}}>
+											<Box
+												color={useColorModeValue(
+													'gray.900',
+													'gray.900'
+												)}
+												flex='1'
+												textAlign='left'>
+												Description
+											</Box>
+											<AccordionIcon />
+										</AccordionButton>
+									</h2>
+									<AccordionPanel
+										color={useColorModeValue(
+											'gray.900',
+											'gray.400'
+										)}
+										textAlign={'justify'}
+										rounded={'10px'}
+										bg={useColorModeValue(
+											'white',
+											'gray.900'
+										)}
+										pb={4}>
+										<div
+											dangerouslySetInnerHTML={{
+												__html: details?.description,
+											}}
+										/>
+									</AccordionPanel>
+								</AccordionItem>
+							</Accordion>
 						</Stack>
 						<Stack>
 							<Box>
@@ -246,46 +284,41 @@ function BookDetail(props) {
 									Add to cart
 								</Button>
 							</Box>
-						</Stack>
-					</Stack>
-					<Stack
-						direction='column'
-						alignItems='center'
-						justifyContent={'center'}>
-						<Accordion minW={'100%'} allowMultiple padding={'15px'}>
-							<AccordionItem rounded={'10px'}>
-								<h2>
-									<AccordionButton
-										rounded={'10px'}
+							<Box
+								direction='row'
+								alignItems='center'
+								justifyContent={'center'}>
+								<BuenLink to={'/books'} w={'100%'}>
+									<Button
+										align={'center'}
+										justify={'center'}
+										size={'lg'}
+										w={'100%'}
+										transition={'1s'}
+										color={useColorModeValue(
+											'#3483fa',
+											'gray.900'
+										)}
 										bg={useColorModeValue(
-											'blue.500',
+											'rgba(65, 137, 230, 0.35)',
 											'blue.200'
-										)}>
-										<Box
-											color={useColorModeValue(
-												'white',
-												'gray.900'
-											)}
-											flex='1'
-											textAlign='left'>
-											Description
-										</Box>
-										<AccordionIcon />
-									</AccordionButton>
-								</h2>
-								<AccordionPanel
-									textAlign={'justify'}
-									rounded={'10px'}
-									bg={'gray.300'}
-									pb={4}>
-									<div
-										dangerouslySetInnerHTML={{
-											__html: details?.description,
-										}}
-									/>
-								</AccordionPanel>
-							</AccordionItem>
-						</Accordion>
+										)}
+										textTransform={'uppercase'}
+										_hover={{
+											bg: useColorModeValue(
+												'rgba(65, 137, 230, 0.50)',
+												'rgba(65, 137, 230, 0.35)'
+											),
+											color: useColorModeValue(
+												'#3483fa',
+												'white'
+											),
+										}}>
+										Home
+									</Button>
+								</BuenLink>
+							</Box>
+						</Stack>
 					</Stack>
 				</SimpleGrid>
 			</Box>

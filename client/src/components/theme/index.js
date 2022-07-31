@@ -15,7 +15,6 @@ const theme = extendTheme({
 			pepeoscuro: '#3d5a80',
 			//pepeclaro is a white color
 			pepeclaro: '#e0fbfc',
-			greyBorder: 'gray.200',
 		},
 	},
 });
