@@ -8,7 +8,6 @@ const crypto = require('crypto');
 
 const registerUser = async (req, res, next) => {
 	const { email, password, username, status } = req.body;
-	console.log(req.body);
 	try {
 		const alreadyExists = await User.findAll({ where: { email: email } });
 
@@ -40,7 +39,6 @@ const registerUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
 	//con esto cambias username, email, contraseña, status, id, favorites y profile pics
 	try {
-		console.log(req.body);
 		const user = await User.findByPk(req.body.id);
 
 		if (req.body.password) {

@@ -51,7 +51,6 @@ function BookDetail(props) {
 	};
 
 	const handlePost = () => {
-		console.log('hola', textarea, userId, id);
 		dispatch(
 			postComment({
 				comment: textarea,
@@ -89,7 +88,6 @@ function BookDetail(props) {
 		};
 	});
 
-	console.log(comments);
 	return (
 		<Container
 			align={'center'}

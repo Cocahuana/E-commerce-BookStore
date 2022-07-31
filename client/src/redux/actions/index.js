@@ -135,7 +135,6 @@ export const hideBook = () => {
 export function createBook(payload) {
 	return async function (dispatch) {
 		var json = await axios.post('/books', payload);
-		console.log(json.data);
 		return dispatch({
 			type: CREATE_BOOK,
 			payload: json.data,
