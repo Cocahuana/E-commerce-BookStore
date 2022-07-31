@@ -22,7 +22,14 @@ export const Paging = ({
 						if (CurrentPage != 1) setCurrentPage(CurrentPage - 1);
 					}}
 				>
-					<Icon as={IoIosArrowBack} color='gray.700' boxSize={4} />
+					<Icon
+						as={IoIosArrowBack}
+						color='gray.700'
+						boxSize={4}
+						_dark={{
+							color: 'gray.200',
+						}}
+					/>
 				</PagButton>
 				{pageNumbers &&
 					pageNumbers.map((e) =>

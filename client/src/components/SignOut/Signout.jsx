@@ -23,7 +23,7 @@ function signout(props) {
 		//localStorage.clear();
 	};
 	return (
-		<Stack w={props.wid} >
+		<Stack align={"center"} w={props.wid} >
 			<Button
 				bg={useColorModeValue('red.500', 'red.400')}
 				w={props.wid}

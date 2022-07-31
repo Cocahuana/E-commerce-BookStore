@@ -1,42 +1,181 @@
 import {
 	Box,
 	GridItem,
-	Heading,
 	SimpleGrid,
 	Text,
 	chakra,
 	Stack,
 	FormLabel,
 	FormControl,
-	InputGroup,
-	InputLeftAddon,
 	Input,
 	Textarea,
 	FormHelperText,
 	Flex,
-	Avatar,
 	Icon,
 	VisuallyHidden,
 	Button,
 	Divider,
 	Select,
 	Container,
-	NumberInput,
-	NumberInputField,
-	NumberInputStepper,
-	NumberIncrementStepper,
-	NumberDecrementStepper,
+	Radio,
+	useToast,
+	RadioGroup,
+	FormErrorMessage,
 } from '@chakra-ui/react';
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { CloseIcon } from '@chakra-ui/icons';
+import { createBook } from '../../../redux/actions';
+
+function validate(input) {
+	let errors = {};
+
+	if (!input.title) {
+		errors.title = 'Name is required';
+	} else if (input.authors.length === 0) {
+		errors.authors = 'Se requiere un author';
+	} else if (input.genre.length === 0) {
+		errors.genre = 'Se requiere genero';
+	} else if (!input.rating) {
+		errors.rating = 'Se requiere un rating';
+	} else if (input.rating > 5 || input.rating <= 0) {
+		errors.ratingN = 'Se requiere un valor entre 0 y 5';
+	} else if (!input.price) {
+		errors.price = 'Se requiere Precio';
+	} else if (input.price < 100) {
+		errors.priceM = 'Precio mayor a 100';
+	} else if (!input.description) {
+		errors.description = 'Se requiere una descripcion';
+	}
+	return errors;
+}
 
 function FormAdd() {
 	const { genres } = useSelector((state) => state);
+	const dispatch = useDispatch();
 
-	const format = (val) => `$` + val;
-	const parse = (val) => val.replace(/^\$/, '');
+	const toast = useToast();
 
-	const [value, setValue] = React.useState('1.53');
+	const [errors, setErrors] = useState({});
+	const [input, setInput] = useState({
+		title: '',
+		authors: [],
+		description: '',
+		price: 100,
+		rating: 0,
+		genre: [],
+		image: '',
+		language: 'ENGLISH',
+	});
+
+	function handleChange(e) {
+		setInput({
+			...input,
+			[e.target.name]: e.target.value,
+		});
+		setErrors(
+			validate({
+				...input,
+				[e.target.name]: e.target.value,
+			})
+		);
+	}
+	function handdleSelectLanguage(e) {
+		setInput({
+			...input,
+			language: e.target.value,
+		});
+		setErrors(
+			validate({
+				...input,
+				[e.target.name]: e.target.value,
+			})
+		);
+	}
+	function handdleDescrip(e) {
+		setInput({
+			...input,
+			authors: [e.target.value],
+		});
+		setErrors(
+			validate({
+				...input,
+				[e.target.name]: e.target.value,
+			})
+		);
+	}
+
+	function handdleSelectGenre(e) {
+		if (!input.genre.includes(e.target.value)) {
+			if (input.genre.length < 2) {
+				setInput({
+					...input,
+					genre: [...input.genre, e.target.value],
+				});
+				setErrors(
+					validate({
+						...input,
+						[e.target.name]: e.target.value,
+					})
+				);
+			} else {
+				toast({
+					title: 'No se puede agregar mas de 2 generos',
+					status: 'warning',
+					isClosable: 'true',
+					duration: '2000',
+				});
+			}
+		} else {
+			toast({
+				title: 'No se puede agregar el mismo genero',
+				status: 'warning',
+				isClosable: 'true',
+				duration: '2000',
+			});
+		}
+	}
+
+	const handleDeleteGenre = (e) => {
+		setInput({
+			...input,
+			genre: input.genre.filter((gen) => gen !== e),
+		});
+	};
+
+	async function handleSubmit(e) {
+		e.preventDefault();
+
+		if (Object.values(errors).length > 0) {
+			toast({
+				title: 'Error',
+				description: 'Complete los campos',
+				status: 'error',
+				duration: '2000',
+				isClosable: 'true',
+			});
+		} else if (!/^[A-Z][a-z_-]{3,19}$/.test(input.title)) {
+			toast({
+				title: 'Title',
+				description:
+					' tiene que tener la primera letra en mayus y ser una cadena',
+				status: 'warning',
+				isClosable: 'true',
+				duration: '2000',
+			});
+		} else if (!/^[A-Z][a-z_-]{3,19}$/.test(input.authors[0])) {
+			toast({
+				title: 'Author',
+				description:
+					' tiene que tener la primera letra en mayus y ser una cadena',
+				status: 'warning',
+				isClosable: 'true',
+				duration: '2000',
+			});
+		}
+
+		// dispatch(createBook(input));
+	}
 
 	return (
 		<Box
@@ -45,17 +184,16 @@ function FormAdd() {
 				bg: '#111',
 			}}
 			pt={'20'}
-		>
+			pb={'10'}>
 			<Container maxW={'container.lg'}>
 				<Box>
 					<chakra.form
-						method='POST'
 						shadow='base'
 						rounded={[null, 'md']}
+						onSubmit={(e) => handleSubmit(e)}
 						overflow={{
 							sm: 'hidden',
-						}}
-					>
+						}}>
 						<Stack
 							px={4}
 							py={5}
@@ -64,35 +202,51 @@ function FormAdd() {
 							_dark={{
 								bg: '#141517',
 							}}
-							spacing={6}
-						>
+							spacing={6}>
 							<SimpleGrid columns={6} spacing={6}>
-								<FormControl as={GridItem} colSpan={[6, 3]}>
+								<FormControl
+									isRequired
+									as={GridItem}
+									colSpan={[6, 3]}
+									isInvalid={errors.title}>
 									<FormLabel
 										fontSize='sm'
 										fontWeight='md'
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
-										}}
-									>
+										}}>
 										Name Of The Book
 									</FormLabel>
+
 									<Input
 										type='text'
-										name='first_name'
-										id='first_name'
-										autoComplete='given-name'
+										name='title'
+										value={input.title}
+										onChange={handleChange}
 										mt={1}
-										focusBorderColor='brand.400'
 										shadow='sm'
 										size='sm'
 										w='full'
 										rounded='md'
 									/>
+									{!errors.title ? (
+										<FormHelperText>
+											Enter the email you'd like to
+											receive the newsletter on.
+										</FormHelperText>
+									) : (
+										<FormErrorMessage>
+											Name is required.
+										</FormErrorMessage>
+									)}
 								</FormControl>
 
-								<FormControl as={GridItem} colSpan={[6, 3]}>
+								<FormControl
+									isRequired
+									as={GridItem}
+									colSpan={[6, 3]}
+									isInvalid={errors.authors}>
 									<FormLabel
 										htmlFor='last_name'
 										fontSize='sm'
@@ -100,15 +254,14 @@ function FormAdd() {
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
-										}}
-									>
+										}}>
 										Author
 									</FormLabel>
 									<Input
 										type='text'
-										name='last_name'
-										id='last_name'
-										autoComplete='family-name'
+										value={input.authors}
+										onChange={handdleDescrip}
+										name='authors'
 										mt={1}
 										focusBorderColor='brand.400'
 										shadow='sm'
@@ -116,34 +269,19 @@ function FormAdd() {
 										w='full'
 										rounded='md'
 									/>
+									{!errors.authors ? (
+										<FormHelperText>
+											Lorem ipsum dolor sit amet
+											consectetur, adipisicing eli.
+										</FormHelperText>
+									) : (
+										<FormErrorMessage>
+											Author is required.
+										</FormErrorMessage>
+									)}
 								</FormControl>
 
 								<FormControl as={GridItem} colSpan={3}>
-									<FormLabel
-										htmlFor='street_address'
-										fontSize='sm'
-										fontWeight='md'
-										color='gray.700'
-										_dark={{
-											color: 'gray.50',
-										}}
-									>
-										xd
-									</FormLabel>
-									<Input
-										type='text'
-										name='street_address'
-										id='street_address'
-										autoComplete='street-address'
-										mt={1}
-										focusBorderColor='brand.400'
-										shadow='sm'
-										size='sm'
-										w='full'
-										rounded='md'
-									/>
-								</FormControl>
-								<FormControl as={GridItem} colSpan={[6, 3]}>
 									<FormLabel
 										htmlFor='country'
 										fontSize='sm'
@@ -151,127 +289,175 @@ function FormAdd() {
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
+										}}>
+										Language
+									</FormLabel>
+									<RadioGroup
+										fontSize='sm'
+										color='gray.700'
+										_dark={{
+											color: 'gray.50',
 										}}
-									>
+										mt={4}
+										defaultValue={'ENGLISH'}>
+										<Stack spacing={4}>
+											<Radio
+												value={'ESPAÑOL'}
+												onChange={
+													handdleSelectLanguage
+												}>
+												Español
+											</Radio>
+											<Radio
+												value={'ENGLISH'}
+												onChange={
+													handdleSelectLanguage
+												}>
+												English
+											</Radio>
+										</Stack>
+									</RadioGroup>
+								</FormControl>
+								<FormControl
+									isRequired
+									as={GridItem}
+									colSpan={[6, 3]}
+									isInvalid={errors.genre}>
+									<FormLabel
+										fontSize='sm'
+										fontWeight='md'
+										color='gray.700'
+										_dark={{
+											color: 'gray.50',
+										}}>
 										Genres/Category
 									</FormLabel>
 									<Select
-										id='country'
-										name='country'
-										autoComplete='country'
+										name='genre'
 										placeholder='Select option'
 										mt={1}
-										focusBorderColor='brand.400'
 										shadow='sm'
 										size='sm'
 										w='full'
 										rounded='md'
-									>
+										onChange={handdleSelectGenre}>
 										{genres.map((g, i) => (
-											<option key={i}>{g.name}</option>
+											<option key={i} value={g.name}>
+												{g.name}
+											</option>
 										))}
 									</Select>
+									{!errors.genre ? (
+										<FormHelperText>
+											Al menos 1 genero
+										</FormHelperText>
+									) : (
+										<FormErrorMessage>
+											Genre is required.
+										</FormErrorMessage>
+									)}
 								</FormControl>
 
-								<FormControl as={GridItem}>
+								<FormControl
+									isRequired
+									as={GridItem}
+									colSpan={[6, 1]}
+									isInvalid={errors.rating || errors.ratingN}>
 									<FormLabel
-										htmlFor='city'
 										fontSize='sm'
 										fontWeight='md'
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
-										}}
-									>
+										}}>
 										Rating
 									</FormLabel>
-									<NumberInput
-										defaultValue={1}
-										precision={1}
-										max={5}
-										step={0.5}
-										min={0}
-										clampValueOnBlur={false}
-									>
-										<NumberInputField />
-										<NumberInputStepper>
-											<NumberIncrementStepper />
-											<NumberDecrementStepper />
-										</NumberInputStepper>
-									</NumberInput>
+									<Input
+										type='number'
+										value={input.rating}
+										onChange={handleChange}
+										name='rating'
+										mt={1}
+										shadow='sm'
+										size='sm'
+										w='full'
+										rounded='md'
+									/>
+
+									{errors.rating ? (
+										<FormErrorMessage>
+											Rating is required.
+										</FormErrorMessage>
+									) : (
+										<FormErrorMessage></FormErrorMessage>
+									)}
+									{errors.ratingN ? (
+										<FormErrorMessage>
+											Rating between 0 and 5.
+										</FormErrorMessage>
+									) : (
+										<FormErrorMessage></FormErrorMessage>
+									)}
 								</FormControl>
-								<FormControl as={GridItem}>
+								<FormControl
+									isRequired
+									as={GridItem}
+									colSpan={[6, 2]}
+									isInvalid={errors.price || errors.priceM}>
 									<FormLabel
-										htmlFor='city'
 										fontSize='sm'
 										fontWeight='md'
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
-										}}
-									>
+										}}>
 										Price
 									</FormLabel>
-									<NumberInput
-										onChange={(valueString) => setValue(parse(valueString))}
-										value={format(value)}
-										max={500}
-									>
-										<NumberInputField />
-										<NumberInputStepper>
-											<NumberIncrementStepper />
-											<NumberDecrementStepper />
-										</NumberInputStepper>
-									</NumberInput>
+									<Input
+										type={'number'}
+										onChange={handleChange}
+										value={input.price}
+										name='price'
+										mt={1}
+										shadow='sm'
+										size='sm'
+										w='full'
+										rounded='md'
+									/>
+									{errors.price ? (
+										<FormErrorMessage>
+											Price is required.
+										</FormErrorMessage>
+									) : (
+										<FormHelperText></FormHelperText>
+									)}
+									{errors.priceM ? (
+										<FormErrorMessage>
+											Price min $100.
+										</FormErrorMessage>
+									) : (
+										<FormErrorMessage></FormErrorMessage>
+									)}
 								</FormControl>
+								<Stack
+									as={GridItem}
+									direction='row'
+									colSpan={[6, 3]}
+									align='center'
+									justify={'center'}>
+									{input.genre.map((l, i) => (
+										<Button
+											onClick={() => handleDeleteGenre(l)}
+											key={i}
+											rightIcon={<CloseIcon w={3} />}
+											size={'md'}>
+											{l}
+										</Button>
+									))}
+								</Stack>
 							</SimpleGrid>
 						</Stack>
-						<Box
-							px={{
-								base: 4,
-								sm: 6,
-							}}
-							py={3}
-							bg='gray.50'
-							_dark={{
-								bg: '#121212',
-							}}
-							textAlign='right'
-						>
-							<Button
-								type='submit'
-								colorScheme='brand'
-								_focus={{
-									shadow: '',
-								}}
-								fontWeight='md'
-							>
-								Save
-							</Button>
-						</Box>
-					</chakra.form>
-				</Box>
 
-				<Divider
-					my='5'
-					borderColor='gray.300'
-					_dark={{
-						borderColor: 'whiteAlpha.300',
-					}}
-					visibility={{
-						base: 'hidden',
-						sm: 'visible',
-					}}
-				/>
-				<Box>
-					<chakra.form
-						method='POST'
-						shadow='base'
-						rounded={[null, 'md']}
-						overflow={{
-							sm: 'hidden',
-						}}
-					>
 						<Stack
 							px={4}
 							py={5}
@@ -282,93 +468,60 @@ function FormAdd() {
 							spacing={6}
 							p={{
 								sm: 6,
-							}}
-						>
+							}}>
 							<div>
-								<FormControl id='email' mt={1}>
+								<FormControl
+									id='email'
+									mt={1}
+									isInvalid={errors.description}>
 									<FormLabel
 										fontSize='sm'
 										fontWeight='md'
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
-										}}
-									>
+										}}>
 										Description
 									</FormLabel>
 									<Textarea
 										placeholder='This book is amazing ...'
 										mt={1}
 										rows={3}
+										name='description'
+										value={input.description}
+										onChange={handleChange}
 										shadow='sm'
 										focusBorderColor='brand.400'
 										fontSize={{
 											sm: 'sm',
 										}}
 									/>
-									<FormHelperText>
-										Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-										Iusto minima consectetur eligendi neque dicta debitis velit
-										ipsa, labore pariatur quasi, architecto fuga cupid
-									</FormHelperText>
+									{errors.description ? (
+										<FormErrorMessage>
+											Description is required.
+										</FormErrorMessage>
+									) : (
+										<FormHelperText>
+											Lorem ipsum dolor, sit amet
+											consectetur adipisicing elit. Iusto
+											minima consectetur eligendi neque
+											dicta debitis velit ipsa, labore
+											pariatur quasi, architecto fuga
+											cupid
+										</FormHelperText>
+									)}
 								</FormControl>
 							</div>
 
-							<FormControl>
+							<FormControl isRequired>
 								<FormLabel
 									fontSize='sm'
 									fontWeight='md'
 									color='gray.700'
 									_dark={{
 										color: 'gray.50',
-									}}
-								>
-									Photo
-								</FormLabel>
-								<Flex alignItems='center' mt={1}>
-									<Avatar
-										boxSize={12}
-										bg='gray.100'
-										_dark={{
-											bg: 'gray.800',
-										}}
-										icon={
-											<Icon
-												boxSize={9}
-												mt={3}
-												rounded='full'
-												color='gray.300'
-												_dark={{
-													color: 'gray.700',
-												}}
-											/>
-										}
-									/>
-									<Button
-										type='button'
-										ml={5}
-										variant='outline'
-										size='sm'
-										fontWeight='medium'
-										_focus={{
-											shadow: 'none',
-										}}
-									>
-										Change
-									</Button>
-								</Flex>
-							</FormControl>
-
-							<FormControl>
-								<FormLabel
-									fontSize='sm'
-									fontWeight='md'
-									color='gray.700'
-									_dark={{
-										color: 'gray.50',
-									}}
-								>
-									Cover photo
+									}}>
+									Image Book
 								</FormLabel>
 								<Flex
 									mt={1}
@@ -381,8 +534,7 @@ function FormAdd() {
 										color: 'gray.500',
 									}}
 									borderStyle='dashed'
-									rounded='md'
-								>
+									rounded='md'>
 									<Stack spacing={1} textAlign='center'>
 										<Icon
 											mx='auto'
@@ -394,8 +546,7 @@ function FormAdd() {
 											stroke='currentColor'
 											fill='none'
 											viewBox='0 0 48 48'
-											aria-hidden='true'
-										>
+											aria-hidden='true'>
 											<path
 												d='M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02'
 												strokeWidth='2'
@@ -409,8 +560,7 @@ function FormAdd() {
 											_dark={{
 												color: 'gray.400',
 											}}
-											alignItems='baseline'
-										>
+											alignItems='baseline'>
 											<chakra.label
 												htmlFor='file-upload'
 												cursor='pointer'
@@ -426,8 +576,7 @@ function FormAdd() {
 													_dark: {
 														color: 'brand.300',
 													},
-												}}
-											>
+												}}>
 												<span>Upload a file</span>
 												<VisuallyHidden>
 													<input
@@ -444,14 +593,14 @@ function FormAdd() {
 											color='gray.500'
 											_dark={{
 												color: 'gray.50',
-											}}
-										>
+											}}>
 											PNG, JPG, GIF up to 10MB
 										</Text>
 									</Stack>
 								</Flex>
 							</FormControl>
 						</Stack>
+
 						<Box
 							px={{
 								base: 4,
@@ -463,28 +612,19 @@ function FormAdd() {
 								bg: '#121212',
 							}}
 							textAlign='right'
-						>
+							pb='16'>
 							<Button
 								type='submit'
 								colorScheme='blue'
 								_focus={{
 									shadow: '',
 								}}
-								fontWeight='md'
-							>
-								Save
+								fontWeight='md'>
+								Create Book
 							</Button>
 						</Box>
 					</chakra.form>
 				</Box>
-				<Divider
-					my='5'
-					borderColor='gray.300'
-					visibility={{
-						base: 'hidden',
-						sm: 'visible',
-					}}
-				/>
 			</Container>
 		</Box>
 	);

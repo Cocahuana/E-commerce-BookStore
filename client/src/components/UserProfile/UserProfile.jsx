@@ -2,8 +2,8 @@ import React from 'react';
 import axios from 'axios';
 // import { useState, useRef } from 'react';
 import SignOut from '../SignOut/Signout';
-import ProfileImage from "./ProfileImage"
-import FavouriteList from "./FavouriteList"
+import ProfileImage from './ProfileImage';
+import FavouriteList from './FavouriteList';
 import {
 	Box,
 	Stack,
@@ -25,8 +25,10 @@ import {
 	useDisclosure,
 	useColorModeValue,
 } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 
 function UserProfile() {
+	const { userName, userEmail } = useSelector((state) => state);
 
 	return (
 		<Stack
@@ -59,14 +61,14 @@ function UserProfile() {
 					spacing={4}
 					py={5}
 					borderBottomWidth={1}
-					borderColor='brand.light'>					
-						<ProfileImage tamaño="2xl"/>				
+					borderColor='brand.light'>
+					<ProfileImage tamaño='2xl' />
 					<VStack align={'left'} spacing={1}>
 						<Heading as='h3' fontSize='xl' color='brand.dark'>
-							User Name
+							{userName}
 						</Heading>
 						<Text color='brand.gray' fontSize='sm'>
-							Email
+							{userEmail}
 						</Text>
 					</VStack>
 				</VStack>
@@ -74,11 +76,11 @@ function UserProfile() {
 					px={'5%'}
 					h={{ lg: '60%', md: '60%', base: '150rem' }}
 					w={{ lg: '50%', md: '50%', base: '100%' }}>
-					<VStack >	
-						<FavouriteList />  		
+					<VStack>
+						<FavouriteList />
 						<Button w={'100%'}>Change your password</Button>
 						<br />
-						<SignOut wid="100%"/>
+						<SignOut wid='60%' />
 					</VStack>
 				</Stack>
 			</Stack>
