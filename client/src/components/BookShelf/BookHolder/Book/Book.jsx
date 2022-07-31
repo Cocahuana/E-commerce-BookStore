@@ -43,6 +43,14 @@ export const Book = (props) => {
 
 	const [isFav, setIsFav] = React.useState(false);
 
+	useEffect(() => {
+		allFavourites.map((e) => {
+			if (e.id === product.id) {
+				setIsFav(true);
+			}
+		});
+	});
+
 	const addFavorite = (id) => {
 		dispatch(userAddFavorite(userId, id));
 
