@@ -112,7 +112,6 @@ const postBook = async (req, res, next) => {
 
 const putBook = async (req, res, next) => {
 	let {
-		id,
 		title,
 		authors,
 		price,
@@ -123,6 +122,7 @@ const putBook = async (req, res, next) => {
 		currency,
 		stock,
 	} = req.body;
+	let { id } = req.params;
 	try {
 		let currentBook = await Books.findByPk(id);
 		if (currentBook) {

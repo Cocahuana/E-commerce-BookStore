@@ -22,10 +22,11 @@ import {
 	RadioGroup,
 	FormErrorMessage,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CloseIcon } from '@chakra-ui/icons';
-import { createBook } from '../../../redux/actions';
+import { checkStates, createBook, getDetails } from '../../../redux/actions';
+import { Link as BuenLink } from 'react-router-dom';
 
 function validate(input) {
 	let errors = {};
@@ -50,23 +51,51 @@ function validate(input) {
 	return errors;
 }
 
-function FormAdd() {
+function FormAdd(props) {
 	const { genres } = useSelector((state) => state);
+	const { details } = useSelector((state) => state);
+
 	const dispatch = useDispatch();
 
 	const toast = useToast();
 
 	const [errors, setErrors] = useState({});
-	const [input, setInput] = useState({
-		title: '',
-		authors: [],
-		description: '',
-		price: 100,
-		rating: 0,
-		genre: [],
-		image: '',
-		language: 'ENGLISH',
-	});
+
+	const { id } = props.match.params;
+
+	console.log(id);
+	useEffect(() => {
+		if (id) {
+			dispatch(getDetails(id));
+		}
+	}, [dispatch, id]);
+
+	const [input, setInput] = useState(
+		// id
+		// 	? {
+		// 			title: details?.title,
+		// 			authors: [],
+		// 			description: '',
+		// 			price: 100,
+		// 			rating: 0,
+		// 			genre: [],
+		// 			image: '',
+		// 			language: 'ENGLISH',
+		// 	  }
+		{
+			title: '',
+			authors: [],
+			description: '',
+			price: 100,
+			rating: 0,
+			genre: [],
+			image: '',
+			language: 'ENGLISH',
+		}
+	);
+
+	console.log(details.title);
+	console.log(input);
 
 	function handleChange(e) {
 		setInput({
@@ -143,8 +172,7 @@ function FormAdd() {
 		});
 	};
 
-	console.log(errors, 'xd');
-	console.log(input);
+	console.log(details);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -181,7 +209,34 @@ function FormAdd() {
 		// dispatch(createBook(input));
 	}
 
-	return (
+	return id ? (
+		<div>
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			hola {input.title}{' '}
+			<BuenLink to={`/adminDashboard`}>
+				<Button>volver admin </Button>
+			</BuenLink>{' '}
+		</div>
+	) : (
 		<Box
 			bg='#edf3f8'
 			_dark={{
@@ -440,7 +495,7 @@ function FormAdd() {
 									align='center'
 									justify={'center'}
 								>
-									{input.genre.map((l, i) => (
+									{input.genre?.map((l, i) => (
 										<Button
 											onClick={() => handleDeleteGenre(l)}
 											key={i}
