@@ -138,11 +138,12 @@ function SearchBar({ setCurrentPage }) {
 													{books.map((b, id) => (
 														<AutoCompleteItem
 															key={`option-${id}`}
-															value={b.title}
-															textTransform='capitalize'>
+															value={b.title}>
 															<Button
 																w='100%'
 																h='100%'
+																align={'center'}
+																justifyContent='flex-start'
 																value={b.title}
 																onClick={(e) =>
 																	handleInputChange(
@@ -165,6 +166,7 @@ function SearchBar({ setCurrentPage }) {
 																	align={
 																		'center'
 																	}
+																	justifyContent='flex-start'
 																	w={{
 																		base: '50px',
 																		sm: '50px',
@@ -175,6 +177,7 @@ function SearchBar({ setCurrentPage }) {
 																		sm: '50px',
 																		lg: '50px',
 																	}}
+																	mr='10px'
 																/>
 																{b.title}
 															</Button>
