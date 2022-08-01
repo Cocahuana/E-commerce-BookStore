@@ -197,7 +197,7 @@ function Carousel({ books }) {
 									<Image
 										w='full'
 										h={'56'}
-										fit='cover'
+										fit='contain'
 										src={b.image}
 										alt='avatar'
 									/>

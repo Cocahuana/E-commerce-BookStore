@@ -119,8 +119,8 @@ export default function NavBar() {
 					direction={'row'}
 					spacing={6}>
 					<Center>
-					<Button 
-							size={"md"}
+						<Button
+							size={'md'}
 							aria-label='Toggle Color Mode'
 							onClick={toggleColorMode}
 							_focus={{ boxShadow: 'none' }}
@@ -216,8 +216,8 @@ export default function NavBar() {
 					direction={'row'}
 					spacing={6}>
 					<Center>
-					<Button 
-							size={"md"}
+						<Button
+							size={'md'}
 							aria-label='Toggle Color Mode'
 							onClick={toggleColorMode}
 							_focus={{ boxShadow: 'none' }}
@@ -242,12 +242,11 @@ export default function NavBar() {
 							minW={0}>
 							<ProfileImage tamaño='sm' />
 						</MenuButton>
-						<MenuList>
-							<MenuItem
-								_hover={{ bg: 'none', cursor: 'default' }}>
-								<FavouriteList wi='full' />
+						<MenuList bg='white'>
+							<MenuItem _hover={{ bg: 'white' }}>
+								<FavouriteList />
 							</MenuItem>
-							<MenuItem>
+							<MenuItem _hover={{ bg: 'white' }}>
 								<BuenLink to='/profile'>
 									<Button
 										as={'a'}
