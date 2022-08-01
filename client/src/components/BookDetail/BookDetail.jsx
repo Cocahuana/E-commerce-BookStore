@@ -426,7 +426,7 @@ function BookDetail(props) {
 							rounded={'5px'}
 							mb={'5px'}
 							bg={useColorModeValue('gray.300', 'gray.900')}
-							placeholder='Great Book! Love it.'>
+							placeholder='Write your review here...'>
 							<EditablePreview
 								w={'100%'}
 								p={'5px'}
