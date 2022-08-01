@@ -18,16 +18,17 @@ import React, { useEffect } from 'react';
 import BooksTable from './BooksTable';
 import { useSelector, useDispatch } from 'react-redux';
 import UserTable from './UserTable';
-import { getBooksByTitleOrAuthor } from '../../redux/actions';
+import { getAllUsers, getBooksByTitleOrAuthor } from '../../redux/actions';
 
 function Dashboard() {
-	const { adminBooks, loading } = useSelector((state) => state);
+	const { adminBooks, loading, allUsers } = useSelector((state) => state);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(getBooksByTitleOrAuthor(''));
+		dispatch(getAllUsers());
 	}, [dispatch]);
-
+	console.log(allUsers);
 	return (
 		<Box>
 			{loading ? (
