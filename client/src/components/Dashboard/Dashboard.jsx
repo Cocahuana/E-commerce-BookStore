@@ -18,7 +18,11 @@ import React, { useEffect } from 'react';
 import BooksTable from './BooksTable';
 import { useSelector, useDispatch } from 'react-redux';
 import UserTable from './UserTable';
-import { getAllUsers, getBooksByTitleOrAuthor } from '../../redux/actions';
+import {
+	getAllUsers,
+	getBooksByTitleOrAuthor,
+	getGenres,
+} from '../../redux/actions';
 
 function Dashboard() {
 	const { adminBooks, loading, allUsers } = useSelector((state) => state);
@@ -27,8 +31,9 @@ function Dashboard() {
 	useEffect(() => {
 		dispatch(getBooksByTitleOrAuthor(''));
 		dispatch(getAllUsers());
+		dispatch(getGenres());
 	}, [dispatch]);
-	console.log(allUsers);
+
 	return (
 		<Box>
 			{loading ? (
@@ -54,7 +59,7 @@ function Dashboard() {
 									<BooksTable books={adminBooks} />
 								</TabPanel>
 								<TabPanel p={0}>
-									<UserTable />
+									<UserTable user={allUsers} />
 								</TabPanel>
 							</TabPanels>
 						</Tabs>
