@@ -17,72 +17,56 @@ const testimonials = [
 		position: 'developer',
 		company: 'BookStore',
 		image: 'https://media-exp1.licdn.com/dms/image/C4E03AQG1T43fQUxrXg/profile-displayphoto-shrink_200_200/0/1620223234059?e=1663804800&v=beta&t=XLAAn-oViBmX17S-k6tsiMCu1G0VQw1AEW6AMcf3Tn8',
-		content: `Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
-		rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
-		risus at semper`,
+		content: `This should have worked, I don't understand. This works, I don't understand`,
 	},
 	{
 		name: 'Ale',
 		position: 'CEO',
 		company: 'BookStore',
 		image: 'https://media-exp1.licdn.com/dms/image/C5603AQEpi5VxOr05rw/profile-displayphoto-shrink_200_200/0/1632938782612?e=1663804800&v=beta&t=LEz42gvrQXgiDn8A5QuF5sP6LG4F4ZeqoWATjN5nG-w',
-		content: `Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
-		rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
-		risus at semper`,
+		content: `Invest on Chakra UI. Chakra UI is a simple, modular and accessible component library that gives you the building blocks you need to build your React applications.`,
 	},
 	{
 		name: 'Lucho',
 		position: 'developer',
 		company: 'BookStore',
 		image: 'https://media-exp1.licdn.com/dms/image/C5603AQGu6VKsTDyi4Q/profile-displayphoto-shrink_200_200/0/1614379338899?e=1663804800&v=beta&t=yVuO9DQMrYdymoEH95aGdV9Cb_EEH1-7eHJ4BTWGZVU',
-		content: `Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
-		rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
-		risus at semper`,
+		content: `Bugs? I don't know what kind of feature that is.`,
 	},
 	{
 		name: 'Trini',
 		position: 'suffering developer',
 		company: 'BookStore',
 		image: 'https://media-exp1.licdn.com/dms/image/C4D03AQEcb0vchcf9lw/profile-displayphoto-shrink_200_200/0/1654380893259?e=1663804800&v=beta&t=jeR_ICRGp6ZpObUz1D6044w77Jg2o8FFhwVBNPo_g7Y',
-		content: `Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
-		rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
-		risus at semper`,
+		content: `Debugging an app is like a box of chocolates. You never know what you're gonna get`,
 	},
 	{
 		name: 'Rodri',
 		position: 'GOD developer',
 		company: 'BookStore',
 		image: 'https://media-exp1.licdn.com/dms/image/C4D03AQH_lUshhI_MWA/profile-displayphoto-shrink_200_200/0/1652545023557?e=1664409600&v=beta&t=_T1Jw5caShcd1NIUOFmNlvlLbaZptwydjNrj-Zw1S0w',
-		content: `Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
-		rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
-		risus at semper`,
+		content: `Cooking hotfixes on production is my happy meal`,
 	},
 	{
-		name: 'Eze',
-		position: 'Dj developer',
+		name: 'Ezequiel Domínguez',
+		position: 'DJ developer',
 		company: 'BookStore',
 		image: 'https://media-exp1.licdn.com/dms/image/C4D03AQEfHUP7juANMA/profile-displayphoto-shrink_200_200/0/1642718526971?e=1664409600&v=beta&t=s_aT2CJVubXY2l7XNdWMZ0C3KWgWq2Pw4a3FbIUlMVk',
-		content: `Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
-		rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
-		risus at semper`,
+		content: `What can you expect from a project without your colleagues listening to good music?`,
 	},
 	{
-		name: 'Gabi',
+		name: 'Gabriel',
 		position: '.json developer',
 		company: 'BookStore',
 		image: 'https://media-exp1.licdn.com/dms/image/D4D35AQEjfcHMzjYW4g/profile-framedphoto-shrink_200_200/0/1652637831839?e=1659571200&v=beta&t=zbljChkan5pcBECPpP60OoB4pWFEZ2Rv1kjs20tlo24',
-		content: `Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
-		rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
-		risus at semper`,
+		content: `I'm the dude who data is afraid of, Gabriel is the first name it comes to your mind when it comes to saving data, my JSONs are the best of all corners of my desk.`,
 	},
 	{
-		name: 'Ivo',
+		name: 'Ivan Chueco',
 		position: 'Backend Developer',
 		company: 'BookStore',
 		image: 'https://ca.slack-edge.com/TPRS7H4PN-U031M29E25C-01724309db4f-512',
-		content: `Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
-		rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
-		risus at semper`,
+		content: `"Run as fast as you can but you won't go far" said Ivan's middlewares to the hacker`,
 	},
 ];
 
@@ -100,7 +84,7 @@ function AboutUs() {
 				shadow='xl'
 				bg='white'
 				_dark={{
-					bg: 'gray.900',
+					bg: 'gray.800',
 				}}
 				px={8}
 				py={20}
@@ -233,13 +217,21 @@ function AboutUs() {
 						mb={4}>
 						{testimonials.map((obj, index) => (
 							<Stack
+								border='1px'
+								borderColor={useColorModeValue(
+									'gray.200',
+									'gray.900'
+								)}
 								key={index}
 								direction={{ base: 'column', sm: 'row' }}
 								spacing={2}
 								mb={5}
 								justify='center'>
 								<Stack
-									maxW='345px'
+									w='345px'
+									h='175px'
+									justifyContent={'center'}
+									align={'center'}
 									boxShadow='lg'
 									rounded='md'
 									p={6}
@@ -273,6 +265,7 @@ function AboutUs() {
 									</chakra.p>
 								</Stack>
 								<Stack
+									minW={'175px'}
 									direction='column'
 									spacing={2}
 									p={2}

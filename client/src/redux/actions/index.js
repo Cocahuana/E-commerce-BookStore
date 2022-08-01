@@ -191,23 +191,48 @@ export function addGoogleUser(currentUser) {
 	//con esta action me creo un usuario en la db y me loggea al mismo tiempo (soy crack lo se)
 
 	return async function (dispatch) {
-		var addToDb = await axios.post(`/user/register`, {
-			username: currentUser.displayName,
-			email: currentUser.email,
-			password: currentUser.uid,
-		});
+		try {
+			var addToDb = await axios.post(`/user/register`, {
+				username: currentUser.displayName,
+				email: currentUser.email,
+				password: currentUser.uid,
+			});
+			console.log('Soy Register: ' + Object.keys(currentUser));
 
-		let login = await axios.post(`/user/login`, {
-			username: currentUser.displayName,
-			password: currentUser.uid, //le puse como pw uid porq es unico segun cada usuario de google. (fuck cibersecurity)
-			//pero como coincide el email con el uid puse ese valor como pw. podemos ver de usar otro maybe
-			//igual en la db la pw aparece hasheada
-		});
+			let login = await axios.post(`/user/login`, {
+				username: currentUser.displayName,
+				password: currentUser.uid, //le puse como pw uid porq es unico segun cada usuario de google. (fuck cibersecurity)
+				//pero como coincide el email con el uid puse ese valor como pw. podemos ver de usar otro maybe
+				//igual en la db la pw aparece hasheada
+			});
+			console.log('Soy login: ' + Object.keys(currentUser));
 
-		return dispatch({
-			type: LOGIN_GOOGLE,
-			payload: currentUser, //lo q me interesa es la info de current user (obj de firebase)
-		});
+			return dispatch({
+				type: LOGIN,
+				payload: login.data, //lo q me interesa es la info de current user (obj de firebase)
+			});
+		} catch (error) {
+			const err = error;
+			if (err.response.status === 404) {
+				//Status es el tipo de error y data el send/json del error en el back
+				// console.log('status: ' + err.response.status);
+				// console.log('data: ' + err.response.data);
+				Swal.fire({
+					icon: 'error',
+					title: `${err.response.status}`,
+					text: `${err.response.data}`,
+				});
+			} else if (err.response.status === 400) {
+				//Status es el tipo de error y data el send/json del error en el back
+				// console.log('status: ' + err.response.status);
+				// console.log('data: ' + err.response.data);
+				Swal.fire({
+					icon: 'error',
+					title: `${err.response.status}`,
+					text: `${err.response.data}`,
+				});
+			}
+		}
 	};
 }
 

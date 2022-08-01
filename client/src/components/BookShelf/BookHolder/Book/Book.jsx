@@ -27,6 +27,7 @@ import {
 	addToCart,
 	userDeleteFavorite,
 	userDelFavorite,
+	checkStates,
 } from '../../../../redux/actions/index';
 import { PriceTag } from './PriceTag';
 import { Link as BuenLink } from 'react-router-dom';
@@ -42,6 +43,16 @@ export const Book = (props) => {
 	const { userId, allFavourites } = useSelector((state) => state);
 
 	const [isFav, setIsFav] = React.useState(false);
+
+	useEffect(() => {
+		allFavourites.map((e) => {
+			if (e.id === product.id) {
+				setIsFav(true);
+			} else {
+				setIsFav(false);
+			}
+		});
+	});
 
 	const addFavorite = (id) => {
 		dispatch(userAddFavorite(userId, id));
@@ -180,15 +191,17 @@ export const Book = (props) => {
 				</HStack>
 			</Stack>
 			<Stack align='center'>
-				<Button colorScheme='blue' onClick={handleAddToCart}>
+				<Button colorScheme='blue' onClick={handleAddToCart} w='100%'>
 					Add to cart
 				</Button>
-				<Link
-					textDecoration='underline'
-					fontWeight='medium'
-					color={useColorModeValue('gray.600', 'gray.400')}>
-					Quick shop
-				</Link>
+				<BuenLink to='/pasarelaDePagos'>
+					<Link
+						textDecoration='underline'
+						fontWeight='medium'
+						color={useColorModeValue('gray.600', 'gray.400')}>
+						Quick shop
+					</Link>
+				</BuenLink>
 			</Stack>
 		</Stack>
 	);

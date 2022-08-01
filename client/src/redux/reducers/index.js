@@ -35,6 +35,11 @@ if (!cartFromLocalStorage) {
 	cartFromLocalStorage = [];
 }
 
+let favoritesFromLocalStorage = JSON.parse(localStorage.getItem('favorites'));
+if (!favoritesFromLocalStorage) {
+	favoritesFromLocalStorage = [];
+}
+
 let summaryFromLocalStorage = JSON.parse(localStorage.getItem('summary'));
 if (!summaryFromLocalStorage) {
 	summaryFromLocalStorage = 0;
@@ -55,6 +60,20 @@ if (!userIdFromLocalStorage) {
 let userRoleFromLocalStorage = localStorage.getItem('userRole');
 if (!userRoleFromLocalStorage) {
 	userRoleFromLocalStorage = null;
+}
+let userProfileImageFromLocalStorage = localStorage.getItem('userProfileImage');
+if (!userProfileImageFromLocalStorage) {
+	userProfileImageFromLocalStorage = '';
+}
+
+let userNameFromLocalStorage = localStorage.getItem('userName');
+if (!userNameFromLocalStorage) {
+	userNameFromLocalStorage = '';
+}
+
+let userEmailFromLocalStorage = localStorage.getItem('userEmail');
+if (!userEmailFromLocalStorage) {
+	userEmailFromLocalStorage = '';
 }
 
 // ----------------------------------------------
@@ -85,12 +104,12 @@ const InitialState = {
 	adminBooks: [],
 	userRole: userRoleFromLocalStorage,
 	userId: userIdFromLocalStorage,
-	userName: '',
-	userEmail: '',
-	userProfilePicture: '',
+	userName: userNameFromLocalStorage,
+	userEmail: userEmailFromLocalStorage,
+	userProfilePicture: userProfileImageFromLocalStorage,
 	allUsers: [],
 	isSignedIn: isSignedInFromLocalStorage,
-	allFavourites: [],
+	allFavourites: favoritesFromLocalStorage,
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -340,6 +359,12 @@ const rootReducer = (state = InitialState, action) => {
 			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
 			localStorage.setItem('userId', action.payload.id);
 			localStorage.setItem('isSignedIn', true);
+			localStorage.setItem('userName', action.payload.username);
+			localStorage.setItem('userEmail', action.payload.email);
+			localStorage.setItem(
+				'userProfileImage',
+				action.payload.profile_picture
+			);
 			// localStorage.setItem('token', token);
 			// localStorage.setItem('userRole', userRole);
 			return {
@@ -354,23 +379,16 @@ const rootReducer = (state = InitialState, action) => {
 			};
 
 		case UPDATE_USER:
+			localStorage.setItem(
+				'userProfileImage',
+				action.payload.profile_picture
+			);
 			return {
 				...state,
 				userId: action.payload.id,
 				userName: action.payload.username,
 				userEmail: action.payload.email,
 				userProfilePicture: action.payload.profile_picture,
-			};
-		// Aca checkeamos si el estado del token está o no actualizado
-		case LOGIN_GOOGLE:
-			//action.payload es el objeto q me da firebase con datos
-
-			return {
-				...state,
-				token: action.payload.accessToken,
-				userRole: 'User', //ehmmmm lo puse porlas
-				userId: action.payload.uid, //no se de donde mas sacar el id, supongo q es necesario para el localStorage
-				isSignedIn: true,
 			};
 		case CHECK_STATES:
 			return {
@@ -405,11 +423,14 @@ const rootReducer = (state = InitialState, action) => {
 			favoriteBooks = state.booksCopy.filter((e) =>
 				booksIds.includes(e.id)
 			);
+
+			// localStorage.setItem('favorites', favoriteBooks);
 			return {
 				...state,
 				allFavourites: favoriteBooks,
 			};
 		case USER_DEL_FAVORITES:
+			// localStorage.removeItem('favorites');
 			return {
 				...state,
 				allFavourites: state.allFavourites.filter(
