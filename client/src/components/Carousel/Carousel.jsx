@@ -19,7 +19,7 @@ import { useHistory } from 'react-router-dom';
 
 function Carousel({ books }) {
 	const dispatch = useDispatch();
-	const { genres } = useSelector((state) => state);
+	const { genres, loading } = useSelector((state) => state);
 	const history = useHistory();
 
 	const handleSelect = (e) => {
@@ -30,26 +30,6 @@ function Carousel({ books }) {
 	useEffect(() => {
 		dispatch(getGenres());
 	}, [dispatch]);
-	const slides = [
-		{
-			img: 'https://books.google.com/books/content/images/frontcover/aVPNxmllbAUC?fife=w240-h480',
-		},
-		{
-			img: 'https://books.google.com/books/content/images/frontcover/zl13g5uRM4EC?fife=w240-h480',
-		},
-		{
-			img: 'https://books.google.com/books/content/images/frontcover/aVPNxmllbAUC?fife=w240-h480',
-		},
-		{
-			img: 'https://books.google.com/books/content/images/frontcover/l1zUsIJCBf8C?fife=w240-h480',
-		},
-		{
-			img: 'https://books.google.com/books/content/images/frontcover/wrOQLV6xB-wC?fife=w240-h480',
-		},
-		{
-			img: 'https://books.google.com/books/publisher/content/images/frontcover/GTwBCwAAQBAJ?fife=w240-h480',
-		},
-	];
 
 	const responsive = {
 		0: { items: 1 },
@@ -57,44 +37,7 @@ function Carousel({ books }) {
 		1024: { items: 4 },
 	};
 
-	const items = [
-		<Box className='item' data-value='1'>
-			<Image
-				objectFit='cover'
-				src='https://books.google.com/books/content/images/frontcover/l1zUsIJCBf8C?fife=w240-h480'
-			/>
-		</Box>,
-		<Box className='item' data-value='2'>
-			<Image
-				objectFit='cover'
-				src='https://books.google.com/books/content/images/frontcover/TcHzLfehDDUC?fife=w240-h480'
-			/>
-		</Box>,
-		<Box className='item' data-value='3'>
-			<Image
-				objectFit='cover'
-				src='https://books.google.com/books/content/images/frontcover/zl13g5uRM4EC?fife=w240-h480'
-			/>
-		</Box>,
-		<Box className='item' data-value='4'>
-			<Image
-				objectFit='cover'
-				src='https://books.google.com/books/content/images/frontcover/aVPNxmllbAUC?fife=w240-h480'
-			/>
-		</Box>,
-		<Box className='item' data-value='5'>
-			<Image
-				objectFit='cover'
-				src='https://books.google.com/books/content/images/frontcover/wrOQLV6xB-wC?fife=w240-h480'
-			/>
-		</Box>,
-		<Box className='item' data-value='6'>
-			<Image
-				objectFit='cover'
-				src='https://books.google.com/books/publisher/content/images/frontcover/GTwBCwAAQBAJ?fife=w240-h480'
-			/>
-		</Box>,
-	];
+	let booksToSort = books;
 
 	return (
 		<Container maxW='7xl' p={{ base: 5, md: 8 }}>
@@ -266,17 +209,44 @@ function Carousel({ books }) {
 					</Flex>
 				</Box>
 				<Box>
-					<AliceCarousel
-						mouseTracking
-						items={items}
-						autoPlay
-						autoPlayInterval={1000}
-						responsive={responsive}
-						disableDotsControls
-						disableButtonsControls
-						controlsStrategy='alternate'
-						infinite
-					/>
+					{loading ? (
+						<h1>Hola</h1>
+					) : (
+						((booksToSort = booksToSort
+							.sort(function (a, b) {
+								if (a.rating < b.rating) {
+									return 1;
+								}
+								if (a.rating > b.rating) {
+									return -1;
+								}
+								return 0;
+							})
+							.slice(0, 6)
+							.map((e) => (
+								<BuenLink to={`/book/${e.id}`}>
+									<Box className='item'>
+										<Image
+											objectFit='cover'
+											src={e.image}
+										/>
+									</Box>
+								</BuenLink>
+							))),
+						(
+							<AliceCarousel
+								mouseTracking
+								items={booksToSort}
+								autoPlay
+								autoPlayInterval={1000}
+								responsive={responsive}
+								disableDotsControls
+								disableButtonsControls
+								controlsStrategy='alternate'
+								infinite
+							/>
+						))
+					)}
 				</Box>
 			</Stack>
 		</Container>
