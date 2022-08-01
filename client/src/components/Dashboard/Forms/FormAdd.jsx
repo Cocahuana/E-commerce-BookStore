@@ -63,7 +63,6 @@ function FormAdd(props) {
 
 	const { id } = props.match.params;
 
-	console.log(id);
 	useEffect(() => {
 		if (id) {
 			dispatch(getDetails(id));
@@ -71,30 +70,29 @@ function FormAdd(props) {
 	}, [dispatch, id]);
 
 	const [input, setInput] = useState(
-		// id
-		// 	? {
-		// 			title: details?.title,
-		// 			authors: [],
-		// 			description: '',
-		// 			price: 100,
-		// 			rating: 0,
-		// 			genre: [],
-		// 			image: '',
-		// 			language: 'ENGLISH',
-		// 	  }
-		{
-			title: '',
-			authors: [],
-			description: '',
-			price: 100,
-			rating: 0,
-			genre: [],
-			image: '',
-			language: 'ENGLISH',
-		}
+		id
+			? {
+					title: details?.title,
+					authors: [],
+					description: '',
+					price: 100,
+					rating: 0,
+					genre: [],
+					image: '',
+					language: 'ENGLISH',
+			  }
+			: {
+					title: '',
+					authors: [],
+					description: '',
+					price: 100,
+					rating: 0,
+					genre: [],
+					image: '',
+					language: 'ENGLISH',
+			  }
 	);
 
-	console.log(details.title);
 	console.log(input);
 
 	function handleChange(e) {
@@ -172,8 +170,6 @@ function FormAdd(props) {
 		});
 	};
 
-	console.log(details);
-
 	async function handleSubmit(e) {
 		e.preventDefault();
 
@@ -203,39 +199,35 @@ function FormAdd(props) {
 				isClosable: 'true',
 				duration: '2000',
 			});
+		} else if (
+			!/(http(s?):)([/|.|\w|\s|-])*.(?:jpg|gif|png)/.test(input.image)
+		) {
+			toast({
+				title: 'Image',
+				description: 'Formato incorrecto',
+				status: 'warning',
+				isClosable: 'true',
+				duration: '2000',
+			});
 		}
 
-		// dispatch(createBook(input));
+		dispatch(createBook(input));
+
+		console.log(':D');
+		setInput({
+			title: '',
+			authors: [],
+			description: '',
+			price: 100,
+			rating: 0,
+			genre: [],
+			image: '',
+			language: 'ENGLISH',
+		});
+		setErrors({});
 	}
 
-	return id ? (
-		<div>
-			<br />
-			<br />
-			<br />
-			<br />
-			<br />
-			<br />
-			<br />
-			<br />
-			<br />
-			<br />
-			<br />
-			<br />
-			<br />
-			<br />
-			<br />
-			<br />
-			<br />
-			<br />
-			<br />
-			<br />
-			hola {input.title}{' '}
-			<BuenLink to={`/adminDashboard`}>
-				<Button>volver admin </Button>
-			</BuenLink>{' '}
-		</div>
-	) : (
+	return (
 		<Box
 			bg='#edf3f8'
 			_dark={{
@@ -246,6 +238,9 @@ function FormAdd(props) {
 		>
 			<Container maxW={'container.lg'}>
 				<Box>
+					<BuenLink to={`/adminDashboard`}>
+						<Button>volver admin </Button>
+					</BuenLink>{' '}
 					<chakra.form
 						shadow='base'
 						rounded={[null, 'md']}
@@ -584,7 +579,13 @@ function FormAdd(props) {
 									rounded='md'
 								>
 									<Stack spacing={1} textAlign='center'>
-										<Icon
+										<Input
+											name='image'
+											value={input.image}
+											onChange={handleChange}
+											type={'url'}
+										></Input>
+										{/* <Icon
 											mx='auto'
 											boxSize={12}
 											color='gray.400'
@@ -647,7 +648,7 @@ function FormAdd(props) {
 											}}
 										>
 											PNG, JPG, GIF up to 10MB
-										</Text>
+										</Text> */}
 									</Stack>
 								</Flex>
 							</FormControl>

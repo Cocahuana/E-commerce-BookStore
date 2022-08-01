@@ -34,16 +34,14 @@ function BooksTable({ books }) {
 	const textColor = useColorModeValue('gray.700', 'white');
 	const dispatch = useDispatch();
 
-	const [scroll, setScroll] = useState(Array.from(books.data.slice(0, 20)));
+	const [scroll, setScroll] = useState(Array.from(books.data?.slice(0, 20)));
 	const [titleBook, setTitleBook] = useState();
 
 	const fetchMoreData = () => {
 		setTimeout(() => {
 			setScroll(
 				scroll.concat(
-					Array.from(
-						books.data.slice(scroll.length, scroll.length + 20)
-					)
+					Array.from(books.data.slice(scroll.length, scroll.length + 20))
 				)
 			);
 		}, 2000);
