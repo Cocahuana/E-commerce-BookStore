@@ -28,7 +28,7 @@ function signout(props) {
 				bg={useColorModeValue('red.500', 'red.400')}
 				w={props.wid}
 				onClick={(e) => handleClick(e)}
-				display={{ base: 'none', md: 'inline-flex' }}
+				display={{md: 'inline-flex' }}
 				fontSize={'sm'}
 				fontWeight={600}
 				color={'black'}

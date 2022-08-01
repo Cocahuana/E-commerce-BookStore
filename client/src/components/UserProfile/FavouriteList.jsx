@@ -7,6 +7,7 @@ import {
 	addToCart,
 } from '../../redux/actions/index.js';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link as BuenLink } from 'react-router-dom';
 import { TiShoppingCart } from 'react-icons/ti';
 import {
 	Stack,
@@ -79,9 +80,7 @@ export function favourites(props) {
 
 	return (
 		<Stack w={'full'}>
-			<Button width="full" 
-			onClick={() => handleFavorite()}
-			>
+			<Button width='full' onClick={() => handleFavorite()}>
 				Favourite list
 			</Button>
 			<Modal
@@ -91,7 +90,7 @@ export function favourites(props) {
 				isOpen={isOpen}
 				onClose={onClose}>
 				{overlay}
-				
+
 				<ModalContent bg={'gray.300'}>
 					<ModalHeader
 						rounded={'5px'}
@@ -146,11 +145,13 @@ export function favourites(props) {
 									) : (
 										<TabPanels>
 											<TabPanel>
-												<HStack aling={'center'}
-														justify={
-															'space-between'
-														}>
-													<Text w='70%'>You don´t have favorite books yet</Text>
+												<HStack
+													aling={'center'}
+													justify={'space-between'}>
+													<Text w='70%'>
+														You don´t have favorite
+														books yet
+													</Text>
 												</HStack>
 											</TabPanel>
 										</TabPanels>

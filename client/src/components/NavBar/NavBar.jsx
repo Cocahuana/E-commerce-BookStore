@@ -243,13 +243,13 @@ export default function NavBar() {
 							minW={0}>
 							<ProfileImage tamaño='sm' />
 						</MenuButton>
-						<MenuList bg='white'>
-							<MenuItem _hover={{ bg: 'white' }}>
+						<MenuList bg={useColorModeValue('white', "rgba(26, 32, 44, 1)")}>
+							<MenuItem _hover={{ bg: useColorModeValue('white',"none")}}>
 								<FavouriteList />
 							</MenuItem>
-							<MenuItem _hover={{ bg: 'white' }}>
+							<MenuItem _hover={{ bg: useColorModeValue('white',"none")}}>
 								<BuenLink to='/profile'>
-									<Button
+									<Button										
 										as={'a'}
 										fontSize={'md'}
 										w={'250px'}>
