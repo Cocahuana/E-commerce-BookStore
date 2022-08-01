@@ -5,30 +5,41 @@ import Swal from 'sweetalert2';
 
 import axios from 'axios';
 import {
+	//---------
 	GET_DETAILS,
 	GET_BOOKS,
 	GET_GENRES,
+	GET_BOOKS_BY_TITLE_OR_AUTHOR,
+	RESET_DETAILS,
+	HIDE_BOOKS,
+	//----------
 	FILTER_GENRE,
 	FILTER_PRICE,
 	FILTER_LANGUAGE,
 	FILTER_ONSALE,
 	APPLY_FILTERS,
 	SORT_ORDER,
-	GET_BOOKS_BY_TITLE_OR_AUTHOR,
-	RESET_DETAILS,
+	RESET_FILTERS,
+	//------------
 	LOADING,
+	//-------------
 	ADD_CART,
 	DEL_CART,
 	DEL_ALL_CART,
-	RESET_FILTERS,
+	//-------------
 	LOGIN,
 	SIGN_UP,
 	SIGN_OUT,
-	HIDE_BOOKS,
+	LOGIN_GOOGLE,
+	//-------------
 	CHECK_STATES,
+	//-------------
 	GET_USERS,
 	USER_GET_FAVORITES,
 	POST_COMMENT,
+	CREATE_BOOK,
+	USER_DEL_FAVORITES,
+	UPDATE_USER,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -121,6 +132,15 @@ export const hideBook = () => {
 		}
 	};
 };
+export function createBook(payload) {
+	return async function (dispatch) {
+		var json = await axios.post('/books', payload);
+		return dispatch({
+			type: CREATE_BOOK,
+			payload: json.data,
+		});
+	};
+}
 
 //----------------------------------------------USERS-----------------------------------------
 
@@ -164,6 +184,65 @@ export function userLogin(user) {
 				});
 			}
 		}
+	};
+}
+
+export function addGoogleUser(currentUser) {
+	//con esta action me creo un usuario en la db y me loggea al mismo tiempo (soy crack lo se)
+
+	return async function (dispatch) {
+		try {
+			var addToDb = await axios.post(`/user/register`, {
+				username: currentUser.displayName,
+				email: currentUser.email,
+				password: currentUser.uid,
+			});
+			console.log('Soy Register: ' + Object.keys(currentUser));
+
+			let login = await axios.post(`/user/login`, {
+				username: currentUser.displayName,
+				password: currentUser.uid, //le puse como pw uid porq es unico segun cada usuario de google. (fuck cibersecurity)
+				//pero como coincide el email con el uid puse ese valor como pw. podemos ver de usar otro maybe
+				//igual en la db la pw aparece hasheada
+			});
+			console.log('Soy login: ' + Object.keys(currentUser));
+
+			return dispatch({
+				type: LOGIN,
+				payload: login.data, //lo q me interesa es la info de current user (obj de firebase)
+			});
+		} catch (error) {
+			const err = error;
+			if (err.response.status === 404) {
+				//Status es el tipo de error y data el send/json del error en el back
+				// console.log('status: ' + err.response.status);
+				// console.log('data: ' + err.response.data);
+				Swal.fire({
+					icon: 'error',
+					title: `${err.response.status}`,
+					text: `${err.response.data}`,
+				});
+			} else if (err.response.status === 400) {
+				//Status es el tipo de error y data el send/json del error en el back
+				// console.log('status: ' + err.response.status);
+				// console.log('data: ' + err.response.data);
+				Swal.fire({
+					icon: 'error',
+					title: `${err.response.status}`,
+					text: `${err.response.data}`,
+				});
+			}
+		}
+	};
+}
+
+export function updateUser(propsToUpdate) {
+	return async function (dispatch) {
+		var updatedUser = await axios.put(`/user/update`, propsToUpdate);
+		return dispatch({
+			type: UPDATE_USER,
+			payload: updatedUser.data,
+		});
 	};
 }
 
@@ -229,6 +308,10 @@ export function userGetFavorite(userId) {
 		let favorites = await axios.get(`/user/favorites/${userId}`);
 		return dispatch({ type: USER_GET_FAVORITES, payload: favorites.data });
 	};
+}
+
+export function userDelFavorite(payload) {
+	return { type: USER_DEL_FAVORITES, payload };
 }
 
 //-------------------------------------------------FILTERS---------------------------------------------

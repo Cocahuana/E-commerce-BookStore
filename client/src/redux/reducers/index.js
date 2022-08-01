@@ -23,12 +23,21 @@ import {
 	GET_USERS,
 	USER_GET_FAVORITES,
 	POST_COMMENT,
+	CREATE_BOOK,
+	LOGIN_GOOGLE,
+	USER_DEL_FAVORITES,
+	UPDATE_USER,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
 let cartFromLocalStorage = JSON.parse(localStorage.getItem('cart'));
 if (!cartFromLocalStorage) {
 	cartFromLocalStorage = [];
+}
+
+let favoritesFromLocalStorage = JSON.parse(localStorage.getItem('favorites'));
+if (!favoritesFromLocalStorage) {
+	favoritesFromLocalStorage = [];
 }
 
 let summaryFromLocalStorage = JSON.parse(localStorage.getItem('summary'));
@@ -51,6 +60,20 @@ if (!userIdFromLocalStorage) {
 let userRoleFromLocalStorage = localStorage.getItem('userRole');
 if (!userRoleFromLocalStorage) {
 	userRoleFromLocalStorage = null;
+}
+let userProfileImageFromLocalStorage = localStorage.getItem('userProfileImage');
+if (!userProfileImageFromLocalStorage) {
+	userProfileImageFromLocalStorage = '';
+}
+
+let userNameFromLocalStorage = localStorage.getItem('userName');
+if (!userNameFromLocalStorage) {
+	userNameFromLocalStorage = '';
+}
+
+let userEmailFromLocalStorage = localStorage.getItem('userEmail');
+if (!userEmailFromLocalStorage) {
+	userEmailFromLocalStorage = '';
 }
 
 // ----------------------------------------------
@@ -81,8 +104,12 @@ const InitialState = {
 	adminBooks: [],
 	userRole: userRoleFromLocalStorage,
 	userId: userIdFromLocalStorage,
+	userName: userNameFromLocalStorage,
+	userEmail: userEmailFromLocalStorage,
+	userProfilePicture: userProfileImageFromLocalStorage,
 	allUsers: [],
 	isSignedIn: isSignedInFromLocalStorage,
+	allFavourites: favoritesFromLocalStorage,
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -292,6 +319,8 @@ const rootReducer = (state = InitialState, action) => {
 				books: filteredBooks,
 			};
 		}
+		//--------------------------------------------El ADMIN CAPO--------------------------------------------------
+
 		//-----------------------------------------------------------------------------------------------------
 
 		case RESET_DETAILS: {
@@ -330,6 +359,12 @@ const rootReducer = (state = InitialState, action) => {
 			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
 			localStorage.setItem('userId', action.payload.id);
 			localStorage.setItem('isSignedIn', true);
+			localStorage.setItem('userName', action.payload.username);
+			localStorage.setItem('userEmail', action.payload.email);
+			localStorage.setItem(
+				'userProfileImage',
+				action.payload.profile_picture
+			);
 			// localStorage.setItem('token', token);
 			// localStorage.setItem('userRole', userRole);
 			return {
@@ -337,9 +372,24 @@ const rootReducer = (state = InitialState, action) => {
 				token: action.payload.token,
 				userRole: action.payload.status,
 				userId: action.payload.id,
+				userName: action.payload.username,
+				userEmail: action.payload.email,
+				userProfilePicture: action.payload.profile_picture,
 				isSignedIn: true,
 			};
-		// Aca checkeamos si el estado del token está o no actualizado
+
+		case UPDATE_USER:
+			localStorage.setItem(
+				'userProfileImage',
+				action.payload.profile_picture
+			);
+			return {
+				...state,
+				userId: action.payload.id,
+				userName: action.payload.username,
+				userEmail: action.payload.email,
+				userProfilePicture: action.payload.profile_picture,
+			};
 		case CHECK_STATES:
 			return {
 				...state,
@@ -366,20 +416,27 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 				userRole: null,
 			};
-			
+
 		case USER_GET_FAVORITES:
 			let favoriteBooks = [];
 			let booksIds = action.payload;
-
 			favoriteBooks = state.booksCopy.filter((e) =>
 				booksIds.includes(e.id)
 			);
 
+			// localStorage.setItem('favorites', favoriteBooks);
 			return {
 				...state,
-				books: favoriteBooks,
+				allFavourites: favoriteBooks,
 			};
-
+		case USER_DEL_FAVORITES:
+			// localStorage.removeItem('favorites');
+			return {
+				...state,
+				allFavourites: state.allFavourites.filter(
+					(p) => p.id !== action.payload
+				),
+			};
 		case GET_USERS:
 			return {
 				...state,

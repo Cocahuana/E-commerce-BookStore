@@ -21,7 +21,7 @@ const SummaryPurchase = () => {
 		<div>
 			{summary > 0 ? (
 				<div>
-					<PriceTag price={summaryFormatted} />
+					<PriceTag price={summaryFormatted} currency={'USD'} />
 				</div>
 			) : (
 				<div></div>

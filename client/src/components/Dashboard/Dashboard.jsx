@@ -11,34 +11,58 @@ import {
 	Tabs,
 	Text,
 	useColorModeValue,
+	Center,
+	Spinner,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import BooksTable from './BooksTable';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import UserTable from './UserTable';
+import { getBooksByTitleOrAuthor } from '../../redux/actions';
 
 function Dashboard() {
-	const { adminBooks } = useSelector((state) => state);
+	const { adminBooks, loading } = useSelector((state) => state);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(getBooksByTitleOrAuthor(''));
+	});
 
 	return (
-		<Flex direction='column' pt={{ base: '120px', md: '75px', sm: '20px' }}>
-			<Container maxW={'container.xl'}>
-				<Tabs variant='enclosed'>
-					<TabList>
-						<Tab>Books</Tab>
-						<Tab>Users</Tab>
-					</TabList>
-					<TabPanels>
-						<TabPanel p={0}>
-							<BooksTable books={adminBooks} />
-						</TabPanel>
-						<TabPanel p={0}>
-							<UserTable />
-						</TabPanel>
-					</TabPanels>
-				</Tabs>
-			</Container>
-		</Flex>
+		<Box>
+			{loading ? (
+				<Center>
+					<Spinner
+						thickness='4px'
+						speed='0.65s'
+						emptyColor='gray.200'
+						color='blue.500'
+						size='xl'
+					/>
+				</Center>
+			) : (
+				<Flex
+					direction='column'
+					pt={{ base: '120px', md: '75px', sm: '20px' }}>
+					<Container maxW={'container.xl'}>
+						<Tabs variant='enclosed'>
+							<TabList>
+								<Tab>Books</Tab>
+								<Tab>Users</Tab>
+							</TabList>
+							<TabPanels>
+								<TabPanel p={0}>
+									<BooksTable books={adminBooks} />
+								</TabPanel>
+								<TabPanel p={0}>
+									<UserTable />
+								</TabPanel>
+							</TabPanels>
+						</Tabs>
+					</Container>
+				</Flex>
+			)}
+		</Box>
 	);
 }
 

@@ -19,7 +19,7 @@ import { useHistory } from 'react-router-dom';
 
 function Carousel({ books }) {
 	const dispatch = useDispatch();
-	const { genres } = useSelector((state) => state);
+	const { genres, loading } = useSelector((state) => state);
 	const history = useHistory();
 
 	const handleSelect = (e) => {
@@ -30,26 +30,6 @@ function Carousel({ books }) {
 	useEffect(() => {
 		dispatch(getGenres());
 	}, [dispatch]);
-	const slides = [
-		{
-			img: 'https://books.google.com/books/content/images/frontcover/aVPNxmllbAUC?fife=w240-h480',
-		},
-		{
-			img: 'https://books.google.com/books/content/images/frontcover/zl13g5uRM4EC?fife=w240-h480',
-		},
-		{
-			img: 'https://books.google.com/books/content/images/frontcover/aVPNxmllbAUC?fife=w240-h480',
-		},
-		{
-			img: 'https://books.google.com/books/content/images/frontcover/l1zUsIJCBf8C?fife=w240-h480',
-		},
-		{
-			img: 'https://books.google.com/books/content/images/frontcover/wrOQLV6xB-wC?fife=w240-h480',
-		},
-		{
-			img: 'https://books.google.com/books/publisher/content/images/frontcover/GTwBCwAAQBAJ?fife=w240-h480',
-		},
-	];
 
 	const responsive = {
 		0: { items: 1 },
@@ -57,44 +37,7 @@ function Carousel({ books }) {
 		1024: { items: 4 },
 	};
 
-	const items = [
-		<Box className='item' data-value='1'>
-			<Image
-				objectFit='cover'
-				src='https://books.google.com/books/content/images/frontcover/l1zUsIJCBf8C?fife=w240-h480'
-			/>
-		</Box>,
-		<Box className='item' data-value='2'>
-			<Image
-				objectFit='cover'
-				src='https://books.google.com/books/content/images/frontcover/TcHzLfehDDUC?fife=w240-h480'
-			/>
-		</Box>,
-		<Box className='item' data-value='3'>
-			<Image
-				objectFit='cover'
-				src='https://books.google.com/books/content/images/frontcover/zl13g5uRM4EC?fife=w240-h480'
-			/>
-		</Box>,
-		<Box className='item' data-value='4'>
-			<Image
-				objectFit='cover'
-				src='https://books.google.com/books/content/images/frontcover/aVPNxmllbAUC?fife=w240-h480'
-			/>
-		</Box>,
-		<Box className='item' data-value='5'>
-			<Image
-				objectFit='cover'
-				src='https://books.google.com/books/content/images/frontcover/wrOQLV6xB-wC?fife=w240-h480'
-			/>
-		</Box>,
-		<Box className='item' data-value='6'>
-			<Image
-				objectFit='cover'
-				src='https://books.google.com/books/publisher/content/images/frontcover/GTwBCwAAQBAJ?fife=w240-h480'
-			/>
-		</Box>,
-	];
+	let booksToSort = books;
 
 	return (
 		<Container maxW='7xl' p={{ base: 5, md: 8 }}>
@@ -161,7 +104,7 @@ function Carousel({ books }) {
 							fontWeight='semibold'
 							color='brand.600'
 							lineHeight='shorter'>
-							Nuevos lanzamientos
+							Recent releases
 						</chakra.h1>
 						<BuenLink to='/books'>
 							<chakra.h1
@@ -180,55 +123,59 @@ function Carousel({ books }) {
 					</Flex>
 				</Box>
 				<SimpleGrid columns={{ base: 1, sm: 2, md: 5 }} spacing={5}>
-					{books?.slice(0, 5)?.map((b, i) => (
-						<Box
-							bg='white'
-							_dark={{
-								bg: 'gray.800',
-							}}
-							shadow='lg'
-							boxShadow='md'
-							rounded='md'
-							key={i}
-							borderWidth={1}>
-							<Image
-								w='full'
-								h={'56'}
-								fit='cover'
-								src={b.image}
-								alt='avatar'
-							/>
+					{books
+						?.slice(books.length - 6, books.length - 1) // ULTIMOS LIBROS AGREGADOS
+						?.map((b, i) => (
+							<BuenLink to={`/book/${b.id}`}>
+								<Box
+									bg='white'
+									_dark={{
+										bg: 'gray.800',
+									}}
+									shadow='lg'
+									boxShadow='md'
+									rounded='md'
+									key={i}
+									borderWidth={1}>
+									<Image
+										w='full'
+										h={'56'}
+										fit='contain'
+										src={b.image}
+										alt='avatar'
+									/>
 
-							<Box py={5} textAlign='center'>
-								<chakra.h1
-									fontSize='md'
-									fontWeight='semibold'
-									color='gray.700'
-									_dark={{
-										color: 'gray.200',
-									}}>
-									{b.title}
-								</chakra.h1>
-								<chakra.span
-									fontSize='sm'
-									color='gray.700'
-									_dark={{
-										color: 'gray.200',
-									}}>
-									{b.authors}
-								</chakra.span>
-								<chakra.h2
-									fontSize='md'
-									fontWeight='semibold'
-									color='gray.700'
-									_dark={{
-										color: 'gray.200',
-									}}>
-									$ {b.price}
-								</chakra.h2>
-							</Box>
-						</Box>
-					))}
+									<Box py={5} textAlign='center'>
+										<chakra.h1
+											fontSize='md'
+											fontWeight='semibold'
+											color='gray.700'
+											_dark={{
+												color: 'gray.200',
+											}}>
+											{b.title}
+										</chakra.h1>
+										<chakra.span
+											fontSize='sm'
+											color='gray.700'
+											_dark={{
+												color: 'gray.200',
+											}}>
+											{b.authors}
+										</chakra.span>
+										<chakra.h2
+											fontSize='md'
+											fontWeight='semibold'
+											color='gray.700'
+											_dark={{
+												color: 'gray.200',
+											}}>
+											$ {b.price}
+										</chakra.h2>
+									</Box>
+								</Box>
+							</BuenLink>
+						))}
 				</SimpleGrid>
 			</Stack>
 			<Stack pt={2} minH={800} justifyContent='center'>
@@ -262,17 +209,45 @@ function Carousel({ books }) {
 					</Flex>
 				</Box>
 				<Box>
-					<AliceCarousel
-						mouseTracking
-						items={items}
-						autoPlay
-						autoPlayInterval={1000}
-						responsive={responsive}
-						disableDotsControls
-						disableButtonsControls
-						controlsStrategy='alternate'
-						infinite
-					/>
+					{loading ? (
+						<h1>Hola</h1>
+					) : (
+						((booksToSort = booksToSort
+							.sort(function (a, b) {
+								if (a.rating < b.rating) {
+									return 1;
+								}
+								if (a.rating > b.rating) {
+									return -1;
+								}
+								return 0;
+							})
+							.slice(0, 6)
+							.map((e) => (
+								<BuenLink to={`/book/${e.id}`}>
+									<Box className='item'>
+										<Image
+											h="31rem"
+											objectFit='cover'										
+											src={e.image}
+										/>
+									</Box>
+								</BuenLink>
+							))),
+						(
+							<AliceCarousel
+								mouseTracking
+								items={booksToSort}
+								autoPlay
+								autoPlayInterval={1000}
+								responsive={responsive}
+								disableDotsControls
+								disableButtonsControls
+								controlsStrategy='alternate'
+								infinite
+							/>
+						))
+					)}
 				</Box>
 			</Stack>
 		</Container>

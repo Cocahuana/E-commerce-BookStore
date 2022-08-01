@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { BsSun, BsMoonStarsFill } from 'react-icons/bs';
 import {
 	Box,
 	Flex,
@@ -36,7 +37,7 @@ import { Link as BuenLink } from 'react-router-dom';
 import Drawer from '../Cart/Drawer';
 import Signout from '../SignOut/Signout';
 import ProfileImage from '../UserProfile/ProfileImage';
-import FavouriteList from "../UserProfile/FavouriteList"
+import FavouriteList from '../UserProfile/FavouriteList';
 import { useSelector, useDispatch } from 'react-redux';
 import { checkStates } from '../../redux/actions';
 
@@ -118,7 +119,19 @@ export default function NavBar() {
 					direction={'row'}
 					spacing={6}>
 					<Center>
-						<Switch size={'lg'} onChange={toggleColorMode} />
+						<Button
+							size={'md'}
+							aria-label='Toggle Color Mode'
+							onClick={toggleColorMode}
+							_focus={{ boxShadow: 'none' }}
+							w='fit-content'>
+							{colorMode === 'light' ? (
+								<BsMoonStarsFill title='Toggle to dark mode' />
+							) : (
+								<BsSun title='Toggle to light mode' />
+							)}
+						</Button>
+						{/* <Switch size={'lg'} onChange={toggleColorMode} /> */}
 					</Center>
 
 					<Drawer />
@@ -203,7 +216,19 @@ export default function NavBar() {
 					direction={'row'}
 					spacing={6}>
 					<Center>
-						<Switch size={'lg'} onChange={toggleColorMode} />
+						<Button
+							size={'md'}
+							aria-label='Toggle Color Mode'
+							onClick={toggleColorMode}
+							_focus={{ boxShadow: 'none' }}
+							w='fit-content'>
+							{colorMode === 'light' ? (
+								<BsMoonStarsFill title='Toggle to dark mode' />
+							) : (
+								<BsSun title='Toggle to light mode' />
+							)}
+						</Button>
+						{/* <Switch size={'lg'} onChange={toggleColorMode} /> */}
 					</Center>
 
 					<Drawer />
@@ -215,15 +240,13 @@ export default function NavBar() {
 							variant={'link'}
 							cursor={'pointer'}
 							minW={0}>
-														
-								<ProfileImage tamaño="sm" />
-		
+							<ProfileImage tamaño='sm' />
 						</MenuButton>
-						<MenuList>
-							<MenuItem _hover={{bg: "none", cursor: "default"}}>								
-							<FavouriteList wi="full" />
+						<MenuList bg='white'>
+							<MenuItem _hover={{ bg: 'white' }}>
+								<FavouriteList />
 							</MenuItem>
-							<MenuItem>
+							<MenuItem _hover={{ bg: 'white' }}>
 								<BuenLink to='/profile'>
 									<Button
 										as={'a'}
@@ -234,8 +257,9 @@ export default function NavBar() {
 								</BuenLink>
 							</MenuItem>
 							<MenuDivider />
-							<MenuItem _hover={{bg: "none", cursor: "default"}} >
-								<Signout wid="100%"/>
+							<MenuItem
+								_hover={{ bg: 'none', cursor: 'default' }}>
+								<Signout wid='100%' />
 							</MenuItem>
 						</MenuList>
 					</Menu>
@@ -310,7 +334,18 @@ export default function NavBar() {
 					direction={'row'}
 					spacing={6}>
 					<Center>
-						<Switch size={'lg'} onChange={toggleColorMode} />
+						<Button
+							aria-label='Toggle Color Mode'
+							onClick={toggleColorMode}
+							_focus={{ boxShadow: 'none' }}
+							w='fit-content'>
+							{colorMode === 'light' ? (
+								<BsMoonStarsFill title='Toggle to dark mode' />
+							) : (
+								<BsSun title='Toggle to light mode' />
+							)}
+						</Button>
+						{/* <Switch size={'lg'} onChange={toggleColorMode} /> */}
 					</Center>
 
 					<Drawer />

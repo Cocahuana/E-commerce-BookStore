@@ -15,7 +15,7 @@ import Filter from './Filters/Filter';
 import { Paging } from './Paging/Paging';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getBooksByTitleOrAuthor } from '../../redux/actions';
+import { getBooksByTitleOrAuthor, userGetFavorite } from '../../redux/actions';
 
 const BookShelf = () => {
 	const dispatch = useDispatch();
@@ -27,6 +27,7 @@ const BookShelf = () => {
 
 	const { cart } = useSelector((state) => state);
 	const { summary } = useSelector((state) => state);
+	const { userId } = useSelector((state) => state);
 
 	let slicedBooks = books.slice(indexOfFirstBook, indexOfLastBook);
 
@@ -36,6 +37,7 @@ const BookShelf = () => {
 
 	useEffect(() => {
 		if (!books.length) dispatch(getBooksByTitleOrAuthor(query));
+		dispatch(userGetFavorite(userId));
 		// setting variables in localStorage ----
 		localStorage.setItem('cart', JSON.stringify(cart));
 		localStorage.setItem('summary', JSON.stringify(summary));
