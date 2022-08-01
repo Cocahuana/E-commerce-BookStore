@@ -48,6 +48,8 @@ export const Book = (props) => {
 		allFavourites.map((e) => {
 			if (e.id === product.id) {
 				setIsFav(true);
+			} else {
+				setIsFav(false);
 			}
 		});
 	});
