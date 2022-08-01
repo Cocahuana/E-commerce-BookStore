@@ -18,7 +18,7 @@ import React, { useEffect } from 'react';
 import BooksTable from './BooksTable';
 import { useSelector, useDispatch } from 'react-redux';
 import UserTable from './UserTable';
-import { getBooksByTitleOrAuthor } from '../../redux/actions';
+import { getBooksByTitleOrAuthor, getGenres } from '../../redux/actions';
 
 function Dashboard() {
 	const { adminBooks, loading } = useSelector((state) => state);
@@ -26,6 +26,7 @@ function Dashboard() {
 
 	useEffect(() => {
 		dispatch(getBooksByTitleOrAuthor(''));
+		dispatch(getGenres());
 	}, [dispatch]);
 
 	return (
@@ -41,7 +42,9 @@ function Dashboard() {
 					/>
 				</Center>
 			) : (
-				<Flex direction='column' pt={{ base: '120px', md: '75px', sm: '20px' }}>
+				<Flex
+					direction='column'
+					pt={{ base: '120px', md: '75px', sm: '20px' }}>
 					<Container maxW={'container.xl'}>
 						<Tabs variant='enclosed'>
 							<TabList>
