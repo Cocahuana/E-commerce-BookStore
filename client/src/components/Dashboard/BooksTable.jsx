@@ -36,20 +36,17 @@ function BooksTable({ books }) {
 	const [titleBook, setTitleBook] = useState();
 	const { adminBooks } = useSelector((state) => state);
 	const [scroll, setScroll] = useState(
-		Array.from(adminBooks?.data.slice(0, 20))
+		Array.from(adminBooks?.data?.slice(0, 20))
 	);
-	useEffect(() => {
-		dispatch(getBooksByTitleOrAuthor(''));
-	});
 
 	const fetchMoreData = () => {
 		setTimeout(() => {
 			setScroll(
 				scroll.concat(
-					Array.from(adminBooks?.data.slice(scroll.length, scroll.length + 20))
+					Array.from(adminBooks?.data?.slice(scroll.length, scroll.length + 20))
 				)
 			);
-		}, 2000);
+		}, 1300);
 	};
 
 	return (
