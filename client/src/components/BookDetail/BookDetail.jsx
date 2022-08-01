@@ -236,7 +236,7 @@ function BookDetail(props) {
 											}}>
 											<Box
 												color={useColorModeValue(
-													'gray.900',
+													'white',
 													'gray.900'
 												)}
 												flex='1'
@@ -385,6 +385,10 @@ function BookDetail(props) {
 									</HStack>
 									<Text
 										px={'5px'}
+										color={useColorModeValue(
+											'white',
+											'gray.900'
+										)}
 										bg={useColorModeValue(
 											'blue.500',
 											'blue.200'
