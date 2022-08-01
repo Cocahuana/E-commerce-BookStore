@@ -227,7 +227,8 @@ function Carousel({ books }) {
 								<BuenLink to={`/book/${e.id}`}>
 									<Box className='item'>
 										<Image
-											objectFit='cover'
+											h="31rem"
+											objectFit='cover'										
 											src={e.image}
 										/>
 									</Box>
