@@ -23,7 +23,7 @@ import {
 import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 import { Search2Icon, SmallAddIcon } from '@chakra-ui/icons';
 
-function UserTable() {
+function UserTable({ user }) {
 	const textColor = useColorModeValue('gray.700', 'white');
 
 	return (
@@ -48,91 +48,103 @@ function UserTable() {
 				<Thead>
 					<Tr my='.8rem' pl='0px' color='gray.400'>
 						<Th color='gray.400'>User</Th>
-						<Th color='gray.400'>Price</Th>
-						<Th color='gray.400'>Books</Th>
-						<Th color='gray.400'>Rating</Th>
-						<Th color='gray.400'>Edit</Th>
-						<Th color='gray.400'>Delete</Th>
+						<Th color='gray.400'>Email</Th>
+						<Th color='gray.400'>Status</Th>
+						<Th color='gray.400'>Upgrade to Admin</Th>
 					</Tr>
 				</Thead>
 
 				<Tbody>
-					<Tr>
-						<Td minWidth={{ sm: '250px' }} pl='0px'>
-							<Flex
-								align='center'
-								py='.8rem'
-								minWidth='100%'
-								flexWrap='nowrap'
-								pl={'4'}
-							>
-								<Image w='40px' borderRadius='10px' me='18px' />
+					{user.map((u, i) => (
+						<Tr key={i}>
+							<Td minWidth={{ sm: '250px' }} pl='0px'>
+								<Flex
+									align='center'
+									py='.8rem'
+									minWidth='100%'
+									flexWrap='nowrap'
+									pl={'4'}
+								>
+									<Image
+										w='40px'
+										borderRadius='10px'
+										me='18px'
+										src={u.profile_picture}
+									/>
+									<Flex direction='column'>
+										<Text
+											fontSize='md'
+											color={textColor}
+											fontWeight='bold'
+											minWidth='10px'
+										>
+											{u.username}
+										</Text>
+										<Text
+											fontSize='sm'
+											color='gray.400'
+											fontWeight='normal'
+										></Text>
+									</Flex>
+								</Flex>
+							</Td>
+
+							<Td>
 								<Flex direction='column'>
+									<Text fontSize='md' color={textColor} fontWeight='bold'>
+										{u.email}
+									</Text>
+									<Text
+										fontSize='sm'
+										color='gray.400'
+										fontWeight='normal'
+									></Text>
+								</Flex>
+							</Td>
+
+							<Td>
+								<Text
+									fontSize='md'
+									color={textColor}
+									fontWeight='bold'
+									pb='.5rem'
+								>
+									{u.status}
+								</Text>
+							</Td>
+							<Td>
+								<Button p='0px' bg='transparent' variant='no-hover'>
+									<Icon color='blue.300' as={FaPencilAlt} me='4px' />
 									<Text
 										fontSize='md'
-										color={textColor}
+										color='gray.400'
 										fontWeight='bold'
-										minWidth='10px'
+										cursor='pointer'
 									>
-										adsda
+										Change
 									</Text>
-									<Text fontSize='sm' color='gray.400' fontWeight='normal'>
-										authors
+								</Button>
+							</Td>
+							<Td>
+								<Button p='0px' bg='transparent' variant='no-hover'>
+									<Text
+										fontSize='md'
+										color='gray.400'
+										fontWeight='bold'
+										cursor='pointer'
+									>
+										<Icon color='red.500' as={FaTrashAlt} me='4px' />
+										Ban User
 									</Text>
-								</Flex>
-							</Flex>
-						</Td>
-
-						<Td>
-							<Flex direction='column'>
-								<Text fontSize='md' color={textColor} fontWeight='bold'>
-									xdd
-								</Text>
-								<Text fontSize='sm' color='gray.400' fontWeight='normal'>
-									...
-								</Text>
-							</Flex>
-						</Td>
-						<Td></Td>
-						<Td>
-							<Text
-								fontSize='md'
-								color={textColor}
-								fontWeight='bold'
-								pb='.5rem'
-							>
-								rating
-							</Text>
-						</Td>
-						<Td>
-							<Button p='0px' bg='transparent' variant='no-hover'>
-								<Icon color='blue.300' as={FaPencilAlt} me='4px' />
-								<Text
-									fontSize='md'
-									color='gray.400'
-									fontWeight='bold'
-									cursor='pointer'
-								>
-									Edit
-								</Text>
-							</Button>
-						</Td>
-						<Td>
-							<Button p='0px' bg='transparent' variant='no-hover'>
-								<Text
-									fontSize='md'
-									color='gray.400'
-									fontWeight='bold'
-									cursor='pointer'
-								>
-									<Icon color='red.500' as={FaTrashAlt} me='4px' />
-									Delete
-								</Text>
-							</Button>
-						</Td>
-					</Tr>
+								</Button>
+							</Td>
+						</Tr>
+					))}
 				</Tbody>
 			</Table>
+			<br />
+			<br />
+			<br />
 		</Box>
 	);
 }

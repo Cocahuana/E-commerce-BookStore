@@ -18,6 +18,7 @@ import ScrollToTop from './components/ScrollToTop';
 import Dashboard from './components/Dashboard/Dashboard';
 import FormAdd from './components/Dashboard/Forms/FormAdd';
 import { AuthContextProvider } from './components/firebase/context';
+import FormPut from './components/Dashboard/Forms/FormPut';
 
 /*
  NO SACAR EL SWITCH, AMIGUENSE CON REACT ROUTER DOM V5 :D
@@ -47,16 +48,21 @@ function App() {
 					<Route path='/us' component={AboutUs} />
 					<Route
 						path='/adminDashboard'
-						component={
-							userRole === 'Admin' ? Dashboard : Unauthorized
-						}
+						component={userRole === 'Admin' ? Dashboard : Unauthorized}
 					/>
-					<Route path='/addBook' component={FormAdd} />
+					<Route
+						path='/addBook'
+						component={userRole === 'Admin' ? FormAdd : Unauthorized}
+					/>
+
+					<Route
+						path='/putBook/:id'
+						component={userRole === 'Admin' ? FormAdd : Unauthorized}
+					/>
+
 					<Route
 						path='/profile'
-						component={
-							userRole === 'User' ? userprofile : Unauthorized
-						}
+						component={userRole === 'User' ? userprofile : Unauthorized}
 					/>
 					<Route path='*' component={Page404} />
 				</Switch>
