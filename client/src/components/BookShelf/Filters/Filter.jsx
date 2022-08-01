@@ -57,11 +57,31 @@ function Filter({ setCurrentPage }) {
 		setSliderValue(pricesArr);
 	};
 
+	function areEqual(array1, array2) {
+		if (array1.length === array2.length) {
+			return array1.every((element) => {
+				if (array2.includes(element)) {
+					return true;
+				}
+
+				return false;
+			});
+		}
+
+		return false;
+	}
+
 	useEffect(() => {
-		dispatch(getGenres());
-		dispatch(saveFilterGenre(isChecked));
-		dispatch(saveFilterPrice(sliderValue));
-		dispatch(saveOrder(orderBy));
+		if (!genres.length) dispatch(getGenres());
+
+		if (!areEqual(filters.genres, isChecked))
+			dispatch(saveFilterGenre(isChecked));
+
+		if (!areEqual(filters.price, sliderValue))
+			dispatch(saveFilterPrice(sliderValue));
+
+		if (filters.order !== orderBy) dispatch(saveOrder(orderBy));
+
 		dispatch(applyFilters());
 		setCurrentPage(1);
 	}, [dispatch, isChecked, sliderValue, orderBy, booksCopy]);

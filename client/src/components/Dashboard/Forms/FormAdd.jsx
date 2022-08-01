@@ -25,8 +25,12 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CloseIcon } from '@chakra-ui/icons';
-import { checkStates, createBook, getDetails } from '../../../redux/actions';
-import { Link as BuenLink } from 'react-router-dom';
+import {
+	createBook,
+	getBooksByTitleOrAuthor,
+	getDetails,
+} from '../../../redux/actions';
+import { Link as BuenLink, useHistory } from 'react-router-dom';
 
 function validate(input) {
 	let errors = {};
@@ -43,8 +47,8 @@ function validate(input) {
 		errors.ratingN = 'Se requiere un valor entre 0 y 5';
 	} else if (!input.price) {
 		errors.price = 'Se requiere Precio';
-	} else if (input.price < 100) {
-		errors.priceM = 'Precio mayor a 100';
+	} else if (input.price < 1) {
+		errors.priceM = 'Precio mayor a 1';
 	} else if (!input.description) {
 		errors.description = 'Se requiere una descripcion';
 	}
@@ -56,7 +60,7 @@ function FormAdd(props) {
 	const { details } = useSelector((state) => state);
 
 	const dispatch = useDispatch();
-
+	const history = useHistory();
 	const toast = useToast();
 
 	const [errors, setErrors] = useState({});
@@ -75,7 +79,7 @@ function FormAdd(props) {
 					title: details?.title,
 					authors: [],
 					description: '',
-					price: 100,
+					price: 1,
 					rating: 0,
 					genre: [],
 					image: '',
@@ -85,7 +89,7 @@ function FormAdd(props) {
 					title: '',
 					authors: [],
 					description: '',
-					price: 100,
+					price: 1,
 					rating: 0,
 					genre: [],
 					image: '',
@@ -211,7 +215,10 @@ function FormAdd(props) {
 			});
 		}
 
-		dispatch(createBook(input));
+		//dispatch(createBook(input));
+		dispatch(getBooksByTitleOrAuthor(''));
+		console.log('holis');
+		history.push('/adminDashboard');
 		toast({
 			title: 'Book created succesfully',
 			status: 'success',
