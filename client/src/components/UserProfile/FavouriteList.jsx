@@ -80,7 +80,7 @@ export function favourites(props) {
 
 	return (
 		<Stack w={'full'}>
-			<Button width='full' onClick={() => handleFavorite()}>
+			<Button onClick={() => handleFavorite()}>
 				Favourite list
 			</Button>
 			<Modal
