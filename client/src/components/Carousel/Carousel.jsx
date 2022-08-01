@@ -153,7 +153,7 @@ function Carousel({ books }) {
 											_dark={{
 												color: 'gray.200',
 											}}>
-											{b.title}
+											<Text noOfLines={1}>{b.title}</Text>
 										</chakra.h1>
 										<chakra.span
 											fontSize='sm'
@@ -227,8 +227,8 @@ function Carousel({ books }) {
 								<BuenLink to={`/book/${e.id}`}>
 									<Box className='item'>
 										<Image
-											h="31rem"
-											objectFit='cover'										
+											h='31rem'
+											objectFit='cover'
 											src={e.image}
 										/>
 									</Box>
