@@ -33,7 +33,6 @@ function signout(props) {
 				fontWeight={600}
 				color={'black'}
 				_hover={{
-					fontSize: 'md',
 					bg: 'lightgray',
 				}}>
 				{' '}
