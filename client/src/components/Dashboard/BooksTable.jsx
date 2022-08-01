@@ -27,22 +27,30 @@ import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 import { Search2Icon, SmallAddIcon } from '@chakra-ui/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { getBooksByTitleOrAuthor } from '../../redux/actions';
-import { useDispatch } from 'react-redux';
 import { Link as BuenLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 function BooksTable({ books }) {
 	const textColor = useColorModeValue('gray.700', 'white');
 	const dispatch = useDispatch();
-
-	const [scroll, setScroll] = useState(Array.from(books.data.slice(0, 20)));
 	const [titleBook, setTitleBook] = useState();
+	const { adminBooks } = useSelector((state) => state);
+	const [scroll, setScroll] = useState(
+		Array.from(adminBooks?.data.slice(0, 20))
+	);
+	useEffect(() => {
+		dispatch(getBooksByTitleOrAuthor(''));
+	});
 
 	const fetchMoreData = () => {
 		setTimeout(() => {
 			setScroll(
 				scroll.concat(
 					Array.from(
-						books.data.slice(scroll.length, scroll.length + 20)
+						adminBooks?.data.slice(
+							scroll.length,
+							scroll.length + 20
+						)
 					)
 				)
 			);

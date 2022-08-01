@@ -56,6 +56,10 @@ let userRoleFromLocalStorage = localStorage.getItem('userRole');
 if (!userRoleFromLocalStorage) {
 	userRoleFromLocalStorage = null;
 }
+let userProfileImageFromLocalStorage = localStorage.getItem('userProfileImage');
+if (!userProfileImageFromLocalStorage) {
+	userProfileImageFromLocalStorage = '';
+}
 
 // ----------------------------------------------
 
@@ -87,7 +91,7 @@ const InitialState = {
 	userId: userIdFromLocalStorage,
 	userName: '',
 	userEmail: '',
-	userProfilePicture: '',
+	userProfilePicture: userProfileImageFromLocalStorage,
 	allUsers: [],
 	isSignedIn: isSignedInFromLocalStorage,
 	allFavourites: [],
@@ -354,6 +358,10 @@ const rootReducer = (state = InitialState, action) => {
 			};
 
 		case UPDATE_USER:
+			localStorage.setItem(
+				'userProfileImage',
+				action.payload.profile_picture
+			);
 			return {
 				...state,
 				userId: action.payload.id,
@@ -369,7 +377,7 @@ const rootReducer = (state = InitialState, action) => {
 			return {
 				...state,
 				token: action.payload.accessToken,
-				userRole: 'User', 
+				userRole: 'User',
 				isSignedIn: true,
 			};
 		case CHECK_STATES:
