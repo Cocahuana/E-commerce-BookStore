@@ -426,7 +426,7 @@ function BookDetail(props) {
 						<Editable
 							rounded={'5px'}
 							mb={'5px'}
-							bg={useColorModeValue('gray.300', 'gray.100')}
+							bg={useColorModeValue('gray.300', 'gray.900')}
 							placeholder='Write your review here...'>
 							<EditablePreview
 								w={'100%'}
