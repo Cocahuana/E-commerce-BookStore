@@ -290,7 +290,7 @@ function FormAdd(props) {
 									/>
 									{!errors.title ? (
 										<FormHelperText>
-											Enter the email you'd like to receive the newsletter on.
+											Title Book. first letter with upper case
 										</FormHelperText>
 									) : (
 										<FormErrorMessage>Name is required.</FormErrorMessage>
@@ -328,7 +328,7 @@ function FormAdd(props) {
 									/>
 									{!errors.authors ? (
 										<FormHelperText>
-											Lorem ipsum dolor sit amet consectetur, adipisicing eli.
+											Author Book first letter with upper case
 										</FormHelperText>
 									) : (
 										<FormErrorMessage>Author is required.</FormErrorMessage>
@@ -545,11 +545,7 @@ function FormAdd(props) {
 											Description is required.
 										</FormErrorMessage>
 									) : (
-										<FormHelperText>
-											Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-											Iusto minima consectetur eligendi neque dicta debitis
-											velit ipsa, labore pariatur quasi, architecto fuga cupid
-										</FormHelperText>
+										<FormHelperText>Descripcion ...</FormHelperText>
 									)}
 								</FormControl>
 							</div>
