@@ -24,8 +24,8 @@ router.post(
 );
 
 router.put(
-	'/',
-	passport.authenticate('jwt-admin', { session: false }),
+	'/:id',
+	//passport.authenticate('jwt-admin', { session: false }),
 	putBook
 );
 
