@@ -27,6 +27,7 @@ import {
 	addToCart,
 	userDeleteFavorite,
 	userDelFavorite,
+	checkStates,
 } from '../../../../redux/actions/index';
 import { PriceTag } from './PriceTag';
 import { Link as BuenLink } from 'react-router-dom';
@@ -42,6 +43,16 @@ export const Book = (props) => {
 	const { userId, allFavourites } = useSelector((state) => state);
 
 	const [isFav, setIsFav] = React.useState(false);
+
+	useEffect(() => {
+		allFavourites.map((e) => {
+			if (e.id === product.id) {
+				setIsFav(true);
+			} else {
+				setIsFav(false);
+			}
+		});
+	});
 
 	const addFavorite = (id) => {
 		dispatch(userAddFavorite(userId, id));

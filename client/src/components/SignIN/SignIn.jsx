@@ -82,7 +82,26 @@ function SignIn() {
 		try {
 			await googleSignIn();
 		} catch (error) {
-			console.log(error);
+			const err = error;
+			if (err.response.status === 404) {
+				//Status es el tipo de error y data el send/json del error en el back
+				// console.log('status: ' + err.response.status);
+				// console.log('data: ' + err.response.data);
+				Swal.fire({
+					icon: 'error',
+					title: `${err.response.status}`,
+					text: `${err.response.data}`,
+				});
+			} else if (err.response.status === 400) {
+				//Status es el tipo de error y data el send/json del error en el back
+				// console.log('status: ' + err.response.status);
+				// console.log('data: ' + err.response.data);
+				Swal.fire({
+					icon: 'error',
+					title: `${err.response.status}`,
+					text: `${err.response.data}`,
+				});
+			}
 		}
 	};
 
@@ -96,7 +115,7 @@ function SignIn() {
 					<Heading fontSize={'2xl'}>Sign in to your account</Heading>
 
 					<FormControl id='username'>
-						<FormLabel>Username or email</FormLabel>
+						<FormLabel>Username</FormLabel>
 						<Input
 							bg={useColorModeValue('whiteAlpha.800', 'gray.400')}
 							name='email'
