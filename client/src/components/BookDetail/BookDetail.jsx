@@ -364,7 +364,7 @@ function BookDetail(props) {
 										rounded={'5px'}
 										bg={useColorModeValue(
 											'rgba(65, 137, 230, 0.35)',
-											'blue.200'
+											'gray.700'
 										)}
 										p={'10px'}
 										justifyContent={'space-between'}>
@@ -391,13 +391,14 @@ function BookDetail(props) {
 										)}
 										bg={useColorModeValue(
 											'blue.500',
-											'blue.200'
+											'whiteAlpha.400'
 										)}>
 										{comment.user[0]?.username}
 									</Text>
 								</Box>
 								<Box w='80%' minH='100%'>
 									<Text
+										color={useColorModeValue("black", "white")}
 										p={'5px'}
 										rounded={'10px'}
 										justify={'center'}
@@ -405,7 +406,7 @@ function BookDetail(props) {
 										h='11.5vh'
 										bg={useColorModeValue(
 											'rgba(10, 110, 240, 0.10)',
-											'blue.200'
+											'gray.600'
 										)}>
 										{comment.text}
 									</Text>
@@ -420,12 +421,12 @@ function BookDetail(props) {
 						align={'center'}
 						bg={useColorModeValue(
 							'rgba(65, 137, 230, 0.35)',
-							'blue.200'
+							'gray.600'
 						)}>
 						<Editable
 							rounded={'5px'}
 							mb={'5px'}
-							bg={useColorModeValue('gray.300', 'gray.900')}
+							bg={useColorModeValue('gray.300', 'gray.100')}
 							placeholder='Write your review here...'>
 							<EditablePreview
 								w={'100%'}
