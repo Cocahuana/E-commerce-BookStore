@@ -139,9 +139,10 @@ export default function NavBar() {
 					<BuenLink to='/adminDashboard'>
 						<Button
 							as={'a'}
-							fontSize={'sm'}
-							fontWeight={400}
-							variant={'link'}>
+							bg={useColorModeValue('gray.100')}
+							p={'10px'}
+							fontSize={'md'}
+							fontWeight={600}>
 							Admin
 						</Button>
 					</BuenLink>
@@ -242,11 +243,24 @@ export default function NavBar() {
 							minW={0}>
 							<ProfileImage tamaño='sm' />
 						</MenuButton>
-						<MenuList bg='white'>
-							<MenuItem _hover={{ bg: 'white' }}>
+						<MenuList
+							bg={useColorModeValue(
+								'white',
+								'gray.700'
+							)}>
+							<MenuItem
+								_hover={{
+									bg: useColorModeValue('white', 'none'),
+									cursor: 'default'
+								}}
+								>
 								<FavouriteList />
 							</MenuItem>
-							<MenuItem _hover={{ bg: 'white' }}>
+							<MenuItem
+								_hover={{
+									bg: useColorModeValue('white', 'none'),
+									cursor: 'default'
+								}}>
 								<BuenLink to='/profile'>
 									<Button
 										as={'a'}
