@@ -31,6 +31,7 @@ import {
 	Editable,
 	EditablePreview,
 	EditableTextarea,
+	ChakraProvider,
 } from '@chakra-ui/react';
 import { TiShoppingCart } from 'react-icons/ti';
 import { Rating } from '../BookShelf/BookHolder/Book/Rating';
@@ -320,19 +321,33 @@ function BookDetail(props) {
 					</Stack>
 				</SimpleGrid>
 			</Box>
-			<Box>
-				<Text>Comments:</Text>
-				<Stack>
+			<Box
+				maxW={'6xl'}
+				p={{ base: 10, sm: 10, md: 10, lg: 10 }}
+				bg={useColorModeValue('whiteAlpha.600', 'gray.700')}
+				textAlign='left'
+				border='1px'
+				borderColor={useColorModeValue('gray.200', 'gray.900')}>
+				<Heading
+					w='100%'
+					h={{ base: '100px', lg: '100px' }}
+					size='lg'
+					fontSize='40px'>
+					Comment section
+				</Heading>
+				<Stack bg='green'>
 					{comments?.map((comment) => {
 						return (
-							<Flex
-								flexDir='row'
-								pl='20px'
-								alignItems='center'
+							<Box
+								flexDirection={'column'}
+								p='10px'
+								w='100%'
+								minH='4%'
+								bg='blue'
 								border='1px'
 								key={comment.user[0]?.username}
 								borderColor='black'>
-								<Box>
+								<Box bg='pink' maxW='20%' h='100%'>
 									<Avatar
 										size='md'
 										showBorder={true}
@@ -340,13 +355,23 @@ function BookDetail(props) {
 										name='avatar'
 										src={comment.user[0]?.profile_picture}
 									/>
-									<Text>{comment.user[0]?.username}</Text>
+									<Rating
+										size='20px'
+										defaultValue={details?.rating}
+									/>
+									<Text bg='violet'>
+										{comment.user[0]?.username}
+									</Text>
 								</Box>
-								<Text pl='20px'>{comment.text}</Text>
-							</Flex>
+								<VStack bg='red' maxW='80%' h='100%'>
+									<Text w='100%' h='100%' bg='white'>
+										{comment.text}
+									</Text>
+								</VStack>
+							</Box>
 						);
 					})}
-					<Box>
+					<Box bg='orange'>
 						<Editable defaultValue='Great Book! Love it.'>
 							<EditablePreview />
 							<EditableTextarea onChange={handleOnChange} />
@@ -354,6 +379,7 @@ function BookDetail(props) {
 						<Button onClick={handlePost}>Post Comment</Button>
 					</Box>
 				</Stack>
+				;
 			</Box>
 		</Container>
 	);
