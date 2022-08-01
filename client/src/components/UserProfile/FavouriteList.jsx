@@ -31,7 +31,7 @@ import {
 } from '@chakra-ui/react';
 import Swal from 'sweetalert2';
 
-export function favourites() {
+export function favourites(props) {
 	const dispatch = useDispatch();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -79,7 +79,9 @@ export function favourites() {
 
 	return (
 		<Stack w={'full'}>
-			<Button w='full' onClick={() => handleFavorite()}>
+			<Button width="full" 
+			onClick={() => handleFavorite()}
+			>
 				Favourite list
 			</Button>
 			<Modal
@@ -89,6 +91,7 @@ export function favourites() {
 				isOpen={isOpen}
 				onClose={onClose}>
 				{overlay}
+				
 				<ModalContent bg={'gray.300'}>
 					<ModalHeader
 						rounded={'5px'}
@@ -100,45 +103,63 @@ export function favourites() {
 						<Flex>
 							<Container maxW={'100%'}>
 								<Tabs>
-									{allFavourites.map((e) => (
+									{allFavourites.length ? (
+										allFavourites.map((e) => (
+											<TabPanels>
+												<TabPanel>
+													<HStack
+														aling={'center'}
+														justify={
+															'space-between'
+														}>
+														<Img
+															maxW={'10%'}
+															boxSize={'15%'}
+															src={e.image}
+														/>
+														<Text w={'50%'}>
+															{e.title}
+														</Text>
+														<Button
+															size={'sm'}
+															onClick={() =>
+																handleAddToCart(
+																	e.id
+																)
+															}>
+															<TiShoppingCart />
+														</Button>
+														<Button
+															size={'sm'}
+															onClick={() =>
+																deleteFavorite(
+																	e.id
+																)
+															}>
+															{' '}
+															X{' '}
+														</Button>
+													</HStack>
+												</TabPanel>
+											</TabPanels>
+										))
+									) : (
 										<TabPanels>
 											<TabPanel>
-												<HStack
-													aling={'center'}
-													justify={'space-between'}>
-													<Img
-														maxW={'10%'}
-														boxSize={'15%'}
-														src={e.image}
-													/>
-													<Text w={'50%'}>
-														{e.title}
-													</Text>
-													<Button
-														size={'sm'}
-														onClick={() =>
-															handleAddToCart(
-																e.id
-															)
+												<HStack aling={'center'}
+														justify={
+															'space-between'
 														}>
-														<TiShoppingCart />
-													</Button>
-													<Button
-														size={'sm'}
-														onClick={() =>
-															deleteFavorite(e.id)
-														}>
-														{' '}
-														X{' '}
-													</Button>
+													<Text w='70%'>You don´t have favorite books yet</Text>
 												</HStack>
 											</TabPanel>
 										</TabPanels>
-									))}
+									)}
 								</Tabs>
 							</Container>
 						</Flex>
 					</ModalBody>
+					{/* <ModalBody> <h1>You don´t have favorite books</h1> </ModalBody> */}
 				</ModalContent>
 			</Modal>
 		</Stack>
