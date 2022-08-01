@@ -1,4 +1,4 @@
-import { useContext, createContext, useEffect, useState } from 'react';
+import { useContext, createContext, useEffect, useState, useId } from 'react';
 import {
 	GoogleAuthProvider,
 	signInWithPopup,
@@ -19,15 +19,24 @@ export const AuthContextProvider = ({ children }) => {
 
 	const googleSignIn = () => {
 		const provider = new GoogleAuthProvider();
+		console.log(user, 'user of context');
+		// si no tengo id entonces hace el pop up
 		signInWithPopup(auth, provider);
-		if (user) {
-			dispatch(addGoogleUser(user));
-		}
+		console.log(user);
 	};
+	if (user !== null && Object.keys(user).length !== 0) {
+		console.log(user, 'del if');
+		dispatch(addGoogleUser(user));
+	}
+	console.log('renderizado');
+	//cuando hago el log out se me tiene q vaciar el local state de user.
 
 	const logOut = () => {
 		signOut(auth);
+		console.log(auth, 'auth');
 	};
+
+	//cada vez q user sea distinto de null despachar accion
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {

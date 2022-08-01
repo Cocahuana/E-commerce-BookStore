@@ -250,6 +250,61 @@ const profilePicture = async (id, body) => {
 	}
 };
 
+const googleSignIn = async (req, res, next) => {
+	const { username, email } = req.body; 
+	try{
+	const alreadyExists = await User.findOne({ where: { email: email } });
+	if(alreadyExists) {
+		const jwtToken = jwt.sign(
+			{
+				//token creation
+				id: alreadyExists.id,
+				email: alreadyExists.email,
+				status: 'User',
+			},
+			MY_SECRET,
+			{ expiresIn: '12h' }
+		);
+
+		res.status(200).json({
+			token: jwtToken,
+			status: 'User',
+			id: alreadyExists.id,
+			email: alreadyExists.email,
+			username: alreadyExists.username,
+			profile_picture: alreadyExists.profile_picture,
+			favorites: alreadyExists.favorites,
+		})
+	}
+	if(!alreadyExists){
+		const create = await User.create({email: email, username: username})
+		const jwtToken = jwt.sign(
+			{
+				//token creation
+				id: create.id,
+				email: create.email,
+				status: create.status,
+			},
+			MY_SECRET,
+			{ expiresIn: '12h' }
+		);
+		res.status(200).json({
+			token: jwtToken,
+			status: create.status,
+			id: create.id,
+			email: create.email,
+			username: create.username,
+			profile_picture: create.profile_picture,
+			favorites: create.favorites,
+		})
+	}
+	} catch(e){
+		console.log(e)
+		next(e)
+	}
+}
+
+
 module.exports = {
 	registerUser,
 	userLogin,
@@ -261,4 +316,5 @@ module.exports = {
 	getAllUsers,
 	profilePicture,
 	updateUser,
+	googleSignIn
 };

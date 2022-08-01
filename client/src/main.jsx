@@ -9,6 +9,7 @@ import { ChakraProvider, ColorModeProvider } from '@chakra-ui/react';
 import './index.css';
 import theme from './components/theme/index';
 import './components/theme/styleFont.css';
+import { AuthContextProvider } from './components/firebase/context';
 
 /* Deploy front Start */
 // require('dotenv').config();
@@ -25,13 +26,15 @@ axios.defaults.baseURL =
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
 		<Provider store={store}>
-			<ChakraProvider theme={theme}>
-				<ColorModeProvider>
-					<BrowserRouter>
-						<App />
-					</BrowserRouter>
-				</ColorModeProvider>
-			</ChakraProvider>
+			<AuthContextProvider>
+				<ChakraProvider theme={theme}>
+					<ColorModeProvider>
+						<BrowserRouter>
+							<App />
+						</BrowserRouter>
+					</ColorModeProvider>
+				</ChakraProvider>
+			</AuthContextProvider>
 		</Provider>
 	</React.StrictMode>
 );

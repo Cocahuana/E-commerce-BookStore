@@ -82,7 +82,8 @@ function SignIn() {
 		try {
 			await googleSignIn();
 		} catch (error) {
-			const err = error;
+			console.log(error);
+			/*const err = error;
 			if (err.response.status === 404) {
 				//Status es el tipo de error y data el send/json del error en el back
 				// console.log('status: ' + err.response.status);
@@ -102,6 +103,7 @@ function SignIn() {
 					text: `${err.response.data}`,
 				});
 			}
+		}*/
 		}
 	};
 

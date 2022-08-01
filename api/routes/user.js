@@ -11,6 +11,7 @@ const {
 	getAllUsers,
 	profilePicture,
 	updateUser,
+	googleSignIn,
 } = require('../controllers/userControllers');
 
 const router = Router();
@@ -42,5 +43,8 @@ router.put('/image/:id', async (req, res) => {
 });
 
 router.put('/update', updateUser);
+
+
+router.post('/google', googleSignIn)
 
 module.exports = router;
