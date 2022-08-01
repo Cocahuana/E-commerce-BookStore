@@ -82,7 +82,26 @@ function SignIn() {
 		try {
 			await googleSignIn();
 		} catch (error) {
-			console.log(error);
+			const err = error;
+			if (err.response.status === 404) {
+				//Status es el tipo de error y data el send/json del error en el back
+				// console.log('status: ' + err.response.status);
+				// console.log('data: ' + err.response.data);
+				Swal.fire({
+					icon: 'error',
+					title: `${err.response.status}`,
+					text: `${err.response.data}`,
+				});
+			} else if (err.response.status === 400) {
+				//Status es el tipo de error y data el send/json del error en el back
+				// console.log('status: ' + err.response.status);
+				// console.log('data: ' + err.response.data);
+				Swal.fire({
+					icon: 'error',
+					title: `${err.response.status}`,
+					text: `${err.response.data}`,
+				});
+			}
 		}
 	};
 

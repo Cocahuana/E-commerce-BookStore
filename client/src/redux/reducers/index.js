@@ -35,6 +35,11 @@ if (!cartFromLocalStorage) {
 	cartFromLocalStorage = [];
 }
 
+let favoritesFromLocalStorage = JSON.parse(localStorage.getItem('favorites'));
+if (!favoritesFromLocalStorage) {
+	favoritesFromLocalStorage = [];
+}
+
 let summaryFromLocalStorage = JSON.parse(localStorage.getItem('summary'));
 if (!summaryFromLocalStorage) {
 	summaryFromLocalStorage = 0;
@@ -59,6 +64,16 @@ if (!userRoleFromLocalStorage) {
 let userProfileImageFromLocalStorage = localStorage.getItem('userProfileImage');
 if (!userProfileImageFromLocalStorage) {
 	userProfileImageFromLocalStorage = '';
+}
+
+let userNameFromLocalStorage = localStorage.getItem('userName');
+if (!userNameFromLocalStorage) {
+	userNameFromLocalStorage = '';
+}
+
+let userEmailFromLocalStorage = localStorage.getItem('userEmail');
+if (!userEmailFromLocalStorage) {
+	userEmailFromLocalStorage = '';
 }
 
 // ----------------------------------------------
@@ -89,12 +104,12 @@ const InitialState = {
 	adminBooks: [],
 	userRole: userRoleFromLocalStorage,
 	userId: userIdFromLocalStorage,
-	userName: '',
-	userEmail: '',
+	userName: userNameFromLocalStorage,
+	userEmail: userEmailFromLocalStorage,
 	userProfilePicture: userProfileImageFromLocalStorage,
 	allUsers: [],
 	isSignedIn: isSignedInFromLocalStorage,
-	allFavourites: [],
+	allFavourites: favoritesFromLocalStorage,
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -344,6 +359,12 @@ const rootReducer = (state = InitialState, action) => {
 			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
 			localStorage.setItem('userId', action.payload.id);
 			localStorage.setItem('isSignedIn', true);
+			localStorage.setItem('userName', action.payload.username);
+			localStorage.setItem('userEmail', action.payload.email);
+			localStorage.setItem(
+				'userProfileImage',
+				action.payload.profile_picture
+			);
 			// localStorage.setItem('token', token);
 			// localStorage.setItem('userRole', userRole);
 			return {
@@ -368,17 +389,6 @@ const rootReducer = (state = InitialState, action) => {
 				userName: action.payload.username,
 				userEmail: action.payload.email,
 				userProfilePicture: action.payload.profile_picture,
-			};
-		// Aca checkeamos si el estado del token está o no actualizado
-		case LOGIN_GOOGLE:
-			//action.payload es el objeto q me da firebase con datos
-			localStorage.setItem('userId', action.payload.uid);
-			localStorage.setItem('isSignedIn', true);
-			return {
-				...state,
-				token: action.payload.accessToken,
-				userRole: 'User',
-				isSignedIn: true,
 			};
 		case CHECK_STATES:
 			return {
@@ -413,11 +423,14 @@ const rootReducer = (state = InitialState, action) => {
 			favoriteBooks = state.booksCopy.filter((e) =>
 				booksIds.includes(e.id)
 			);
+
+			// localStorage.setItem('favorites', favoriteBooks);
 			return {
 				...state,
 				allFavourites: favoriteBooks,
 			};
 		case USER_DEL_FAVORITES:
+			// localStorage.removeItem('favorites');
 			return {
 				...state,
 				allFavourites: state.allFavourites.filter(
