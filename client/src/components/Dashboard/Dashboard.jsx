@@ -18,14 +18,19 @@ import React, { useEffect } from 'react';
 import BooksTable from './BooksTable';
 import { useSelector, useDispatch } from 'react-redux';
 import UserTable from './UserTable';
-import { getBooksByTitleOrAuthor, getGenres } from '../../redux/actions';
+import {
+	getAllUsers,
+	getBooksByTitleOrAuthor,
+	getGenres,
+} from '../../redux/actions';
 
 function Dashboard() {
-	const { adminBooks, loading } = useSelector((state) => state);
+	const { adminBooks, loading, allUsers } = useSelector((state) => state);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(getBooksByTitleOrAuthor(''));
+		dispatch(getAllUsers());
 		dispatch(getGenres());
 	}, [dispatch]);
 
@@ -42,9 +47,7 @@ function Dashboard() {
 					/>
 				</Center>
 			) : (
-				<Flex
-					direction='column'
-					pt={{ base: '120px', md: '75px', sm: '20px' }}>
+				<Flex direction='column' pt={{ base: '120px', md: '75px', sm: '20px' }}>
 					<Container maxW={'container.xl'}>
 						<Tabs variant='enclosed'>
 							<TabList>
@@ -56,7 +59,7 @@ function Dashboard() {
 									<BooksTable books={adminBooks} />
 								</TabPanel>
 								<TabPanel p={0}>
-									<UserTable />
+									<UserTable user={allUsers} />
 								</TabPanel>
 							</TabPanels>
 						</Tabs>
