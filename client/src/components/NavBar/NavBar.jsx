@@ -139,9 +139,10 @@ export default function NavBar() {
 					<BuenLink to='/adminDashboard'>
 						<Button
 							as={'a'}
-							fontSize={'sm'}
-							fontWeight={400}
-							variant={'link'}>
+							bg={useColorModeValue('gray.100')}
+							p={'10px'}
+							fontSize={'md'}						
+							fontWeight={600}>
 							Admin
 						</Button>
 					</BuenLink>
