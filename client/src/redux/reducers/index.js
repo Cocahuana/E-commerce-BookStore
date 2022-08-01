@@ -357,6 +357,8 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		case LOGIN:
 			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
+			console.log(action.payload)
+			
 			localStorage.setItem('userId', action.payload.id);
 			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('userName', action.payload.username);
@@ -377,6 +379,26 @@ const rootReducer = (state = InitialState, action) => {
 				userProfilePicture: action.payload.profile_picture,
 				isSignedIn: true,
 			};
+		case LOGIN_GOOGLE: 
+			console.log(action.payload, 'action.payload')
+			localStorage.setItem('userId', action.payload.id);
+			localStorage.setItem('isSignedIn', true);
+			localStorage.setItem('userName', action.payload.username);
+			localStorage.setItem('userEmail', action.payload.email);
+			localStorage.setItem(
+				'userProfileImage',
+				action.payload.profile_picture
+			);
+			return {
+				...state,
+				token: action.payload.token,
+				userRole: action.payload.status,
+				userId: action.payload.id,
+				userName: action.payload.username,
+				userEmail: action.payload.email,
+				userProfilePicture: action.payload.profile_picture,
+				isSignedIn: true,
+			}
 
 		case UPDATE_USER:
 			localStorage.setItem(
@@ -406,6 +428,7 @@ const rootReducer = (state = InitialState, action) => {
 			localStorage.setItem('isSignedIn', false);
 			localStorage.setItem('userId', null);
 			localStorage.setItem('userRole', null);
+			localStorage.setItem('userEmail', null);
 			localStorage.removeItem('token');
 			return {
 				...state,
@@ -415,6 +438,7 @@ const rootReducer = (state = InitialState, action) => {
 				cart: [],
 				summary: 0,
 				userRole: null,
+				userEmail: null
 			};
 
 		case USER_GET_FAVORITES:

@@ -192,28 +192,32 @@ export function addGoogleUser(currentUser) {
 
 	return async function (dispatch) {
 		try {
-			var addToDb = await axios.post(`/user/register`, {
+			console.log('Soy Register: ' + JSON.stringify(currentUser));
+
+			if( currentUser !== null && currentUser.hasOwnProperty('email')){
+
+			var addToDb = await axios.post(`/user/google`, {
 				username: currentUser.displayName,
 				email: currentUser.email,
-				password: currentUser.uid,
+				//password: currentUser.uid,
 			});
-			console.log('Soy Register: ' + Object.keys(currentUser));
+			
 
-			let login = await axios.post(`/user/login`, {
+			/*let login = await axios.post(`/user/login`, {
 				username: currentUser.displayName,
-				password: currentUser.uid, //le puse como pw uid porq es unico segun cada usuario de google. (fuck cibersecurity)
+				//password: currentUser.uid, //le puse como pw uid porq es unico segun cada usuario de google. (fuck cibersecurity)
 				//pero como coincide el email con el uid puse ese valor como pw. podemos ver de usar otro maybe
 				//igual en la db la pw aparece hasheada
 			});
-			console.log('Soy login: ' + Object.keys(currentUser));
-
+			console.log('Soy login: ' + Object.keys(currentUser));*/
 			return dispatch({
-				type: LOGIN,
-				payload: login.data, //lo q me interesa es la info de current user (obj de firebase)
+				type: LOGIN_GOOGLE,
+				payload: addToDb.data, //lo q me interesa es la info de current user (obj de firebase)
 			});
+			}
 		} catch (error) {
-			const err = error;
-			if (err.response.status === 404) {
+			console.log(error)
+			 /*(err.response.status === 404) {
 				//Status es el tipo de error y data el send/json del error en el back
 				// console.log('status: ' + err.response.status);
 				// console.log('data: ' + err.response.data);
@@ -231,7 +235,7 @@ export function addGoogleUser(currentUser) {
 					title: `${err.response.status}`,
 					text: `${err.response.data}`,
 				});
-			}
+			}*/
 		}
 	};
 }

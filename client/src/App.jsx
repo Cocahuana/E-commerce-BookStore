@@ -35,40 +35,38 @@ function App() {
 	}, [userRole]);
 
 	return (
-		<AuthContextProvider>
-			<React.Fragment>
-				<ScrollToTop />
-				<Nav />
-				<Switch>
-					<Route exact path='/' component={landing} />
-					<Route path='/books' component={BookShelf} />
-					<Route path='/book/:id' component={details} />
-					<Route path='/register' component={register} />
-					<Route path='/login' component={login} />
-					<Route path='/us' component={AboutUs} />
-					<Route
-						path='/adminDashboard'
-						component={userRole === 'Admin' ? Dashboard : Unauthorized}
-					/>
-					<Route
-						path='/addBook'
-						component={userRole === 'Admin' ? FormAdd : Unauthorized}
-					/>
+		<React.Fragment>
+			<ScrollToTop />
+			<Nav />
+			<Switch>
+				<Route exact path='/' component={landing} />
+				<Route path='/books' component={BookShelf} />
+				<Route path='/book/:id' component={details} />
+				<Route path='/register' component={register} />
+				<Route path='/login' component={login} />
+				<Route path='/us' component={AboutUs} />
+				<Route
+					path='/adminDashboard'
+					component={userRole === 'Admin' ? Dashboard : Unauthorized}
+				/>
+				<Route
+					path='/addBook'
+					component={userRole === 'Admin' ? FormAdd : Unauthorized}
+				/>
 
-					<Route
-						path='/putBook/:id'
-						component={userRole === 'Admin' ? FormAdd : Unauthorized}
-					/>
+				<Route
+					path='/putBook/:id'
+					component={userRole === 'Admin' ? FormAdd : Unauthorized}
+				/>
 
-					<Route
-						path='/profile'
-						component={userRole === 'User' ? userprofile : Unauthorized}
-					/>
-					<Route path='*' component={Page404} />
-				</Switch>
-				<Footer />
-			</React.Fragment>
-		</AuthContextProvider>
+				<Route
+					path='/profile'
+					component={userRole === 'User' ? userprofile : Unauthorized}
+				/>
+				<Route path='*' component={Page404} />
+			</Switch>
+			<Footer />
+		</React.Fragment>
 	);
 }
 
