@@ -27,7 +27,6 @@ import {
 	addToCart,
 	userDeleteFavorite,
 	userDelFavorite,
-	checkStates,
 } from '../../../../redux/actions/index';
 import { PriceTag } from './PriceTag';
 import { Link as BuenLink } from 'react-router-dom';
