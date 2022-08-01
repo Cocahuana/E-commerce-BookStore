@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import ProfileImage from '../UserProfile/ProfileImage';
 import {
 	addToCart,
 	getDetails,
@@ -32,6 +33,7 @@ import {
 	EditablePreview,
 	EditableTextarea,
 	ChakraProvider,
+	HStack,
 } from '@chakra-ui/react';
 import { TiShoppingCart } from 'react-icons/ti';
 import { Rating } from '../BookShelf/BookHolder/Book/Rating';
@@ -45,6 +47,7 @@ function BookDetail(props) {
 	const { cart, summary, allUsers, userId, details } = useSelector(
 		(state) => state
 	);
+	// const [comments, setComments] = UseState([])
 	const [textarea, setTextArea] = useState('');
 
 	const handleOnChange = (e) => {
@@ -88,6 +91,17 @@ function BookDetail(props) {
 			user: allUsers.filter((u) => c.UserId === u.id),
 		};
 	});
+
+	// useEffect(() => {
+	// 	setComments(
+	// 		details?.Comments?.map((c) => {
+	// 			return {
+	// 				text: c.text,
+	// 				user: allUsers.filter((u) => c.UserId === u.id),
+	// 			};
+	// 		})
+	// 	);
+	// }, [details]);
 
 	return (
 		<Container
@@ -335,51 +349,99 @@ function BookDetail(props) {
 					fontSize='40px'>
 					Comment section
 				</Heading>
-				<Stack bg='green'>
+				<Stack>
 					{comments?.map((comment) => {
 						return (
-							<Box
-								flexDirection={'column'}
+							<HStack
+								flexDirection={'row'}
+								rounded={'10px'}
 								p='10px'
 								w='100%'
 								minH='4%'
-								bg='blue'
-								border='1px'
-								key={comment.user[0]?.username}
-								borderColor='black'>
-								<Box bg='pink' maxW='20%' h='100%'>
-									<Avatar
-										size='md'
-										showBorder={true}
-										borderColor='brand.pepeoscuro'
-										name='avatar'
-										src={comment.user[0]?.profile_picture}
-									/>
-									<Rating
-										size='20px'
-										defaultValue={details?.rating}
-									/>
-									<Text bg='violet'>
+								key={comment.user[0]?.username}>
+								<Box rounded={'5px'} w='20%' h='100%'>
+									<HStack
+										rounded={'5px'}
+										bg={useColorModeValue(
+											'rgba(65, 137, 230, 0.35)',
+											'blue.200'
+										)}
+										p={'10px'}
+										justifyContent={'space-between'}>
+										<Avatar
+											size={'lg'}
+											showBorder={true}
+											borderColor='brand.pepeoscuro'
+											name='avatar'
+											src={
+												comment.user[0]?.profile_picture
+											}
+										/>
+
+										<Rating
+											size='sm'
+											defaultValue={details?.rating}
+										/>
+									</HStack>
+									<Text
+										px={'5px'}
+										bg={useColorModeValue(
+											'blue.500',
+											'blue.200'
+										)}>
 										{comment.user[0]?.username}
 									</Text>
 								</Box>
-								<VStack bg='red' maxW='80%' h='100%'>
-									<Text w='100%' h='100%' bg='white'>
+								<Box w='80%' minH='100%'>
+									<Text
+										p={'5px'}
+										rounded={'10px'}
+										justify={'center'}
+										w='100%'
+										h='11.5vh'
+										bg={useColorModeValue(
+											'rgba(10, 110, 240, 0.10)',
+											'blue.200'
+										)}>
 										{comment.text}
 									</Text>
-								</VStack>
-							</Box>
+								</Box>
+							</HStack>
 						);
 					})}
-					<Box bg='orange'>
-						<Editable defaultValue='Great Book! Love it.'>
-							<EditablePreview />
-							<EditableTextarea onChange={handleOnChange} />
+					<Box
+						p={'5px'}
+						rounded={'5px'}
+						border={'solid 1px grey'}
+						align={'center'}
+						bg={useColorModeValue(
+							'rgba(65, 137, 230, 0.35)',
+							'blue.200'
+						)}>
+						<Editable
+							rounded={'5px'}
+							mb={'5px'}
+							bg={useColorModeValue('gray.300', 'gray.900')}
+							placeholder='Great Book! Love it.'>
+							<EditablePreview
+								w={'100%'}
+								p={'5px'}
+								bg={useColorModeValue('gray.300', 'gray.900')}
+							/>
+							<EditableTextarea
+								w={'100%'}
+								p={'5px'}
+								bg={useColorModeValue('gray.300', 'gray.900')}
+								onChange={handleOnChange}
+							/>
 						</Editable>
-						<Button onClick={handlePost}>Post Comment</Button>
+						<Button
+							onClick={handlePost}
+							border={'1px solid lightgray'}>
+							Post Comment
+						</Button>
 					</Box>
 				</Stack>
-				;
 			</Box>
 		</Container>
 	);
