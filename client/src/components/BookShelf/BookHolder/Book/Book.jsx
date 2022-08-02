@@ -54,17 +54,9 @@ export const Book = (props) => {
 	});
 
 	const addFavorite = (id) => {
-		dispatch(userAddFavorite(userId, id));
-
 		if (isFav === false) {
+			dispatch(userAddFavorite(userId, id));
 			setIsFav(true);
-			Swal.fire({
-				position: 'center',
-				icon: 'success',
-				title: 'Added to the Favorite List successfully!',
-				showConfirmButton: false,
-				timer: 1000,
-			});
 		} else {
 			setIsFav(false);
 			deleteFavorite(id);
