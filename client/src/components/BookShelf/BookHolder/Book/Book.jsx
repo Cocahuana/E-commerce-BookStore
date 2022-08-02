@@ -40,7 +40,9 @@ export const Book = (props) => {
 
 	const dispatch = useDispatch();
 
-	const { userId, allFavourites } = useSelector((state) => state);
+	const { userId, allFavourites, cart, books } = useSelector(
+		(state) => state
+	);
 
 	const [isFav, setIsFav] = React.useState(false);
 	// console.log('isFav', isFav, product.title);
@@ -64,7 +66,7 @@ export const Book = (props) => {
 				setIsFav(false);
 			}
 		});
-	});
+	}, []);
 
 	const handleFavorite = (e, id) => {
 		if (isFav === false) {
@@ -88,13 +90,19 @@ export const Book = (props) => {
 
 	const handleAddToCart = () => {
 		dispatch(addToCart(id));
-		Swal.fire({
-			position: 'top-end',
-			icon: 'success',
-			title: 'Added to the cart successfully',
-			showConfirmButton: false,
-			timer: 1500,
+		let flag = true;
+		cart.map((e) => {
+			if (e.id === id) flag = false;
 		});
+		if (flag) {
+			Swal.fire({
+				position: 'top-end',
+				icon: 'success',
+				title: 'Added to the cart successfully',
+				showConfirmButton: false,
+				timer: 900,
+			});
+		}
 	};
 
 	return (
