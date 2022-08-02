@@ -40,14 +40,13 @@ export function favourites(props) {
 
 	const { userId, allFavourites } = useSelector((state) => state);
 
-	const Overlay = () => (
-		<ModalOverlay bg='blackAlpha.300' backdropFilter='blur(10px)' />
-	);
+	// const Overlay = () => (
+	// 	<ModalOverlay bg='blackAlpha.300' backdropFilter='blur(10px)' />
+	// );
 
-	const [overlay, setOverlay] = React.useState(<Overlay />);
+	// const [overlay, setOverlay] = React.useState(<Overlay />);
 
 	const buenOnClose = () => {
-		dispatch(getBooksByTitleOrAuthor(''));
 		onClose();
 	};
 
@@ -57,7 +56,7 @@ export function favourites(props) {
 
 	const handleFavorite = () => {
 		onOpen();
-		setOverlay(<Overlay />);
+		// setOverlay(<Overlay />);
 		dispatch(userGetFavorite(userId)); //userid
 	};
 
@@ -93,7 +92,7 @@ export function favourites(props) {
 				size={'xl'}
 				isOpen={isOpen}
 				onClose={buenOnClose}>
-				{overlay}
+				{/* {overlay} */}
 
 				<ModalContent bg={'gray.300'}>
 					<ModalHeader

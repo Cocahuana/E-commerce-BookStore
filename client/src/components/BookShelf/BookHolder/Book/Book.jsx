@@ -42,43 +42,43 @@ export const Book = (props) => {
 
 	const { userId, allFavourites } = useSelector((state) => state);
 
-	const [isFav, setIsFav] = React.useState(false);
+	const [isFav, setIsFav] = React.useState(true);
+	// console.log('isFav', isFav, product.title);
+	const {
+		title,
+		authors,
+		image,
+		price,
+		salePrice,
+		rating,
+		Comments,
+		id,
+		currency,
+	} = product;
 
 	useEffect(() => {
 		allFavourites.map((e) => {
-			if (e.id === product.id) {
+			if (e.id === id) {
 				setIsFav(true);
 			} else {
 				setIsFav(false);
 			}
 		});
-		return () => {
-			allFavourites.map((e) => {
-				if (e.id === product.id) {
-					setIsFav(true);
-				} else {
-					setIsFav(false);
-				}
-			});
-		};
 	});
 
-	const addFavorite = (id) => {
+	const handleFavorite = (id) => {
 		if (isFav === false) {
-			dispatch(userAddFavState(id));
-			dispatch(userAddFavorite(userId, id));
 			setIsFav(true);
-		} else {
+			addFavorite(id);
+		} else if (isFav === true) {
 			setIsFav(false);
 			deleteFavorite(id);
-			Swal.fire({
-				position: 'center',
-				icon: 'success',
-				title: 'Removed to the Favorite List successfully!',
-				showConfirmButton: false,
-				timer: 1000,
-			});
 		}
+	};
+
+	const addFavorite = (id) => {
+		dispatch(userAddFavState(id));
+		dispatch(userAddFavorite(userId, id));
 	};
 
 	const deleteFavorite = (id) => {
@@ -97,17 +97,6 @@ export const Book = (props) => {
 		});
 	};
 
-	const {
-		title,
-		authors,
-		image,
-		price,
-		salePrice,
-		rating,
-		Comments,
-		id,
-		currency,
-	} = product;
 	return (
 		<Stack
 			maxW={'20vh'}
@@ -143,7 +132,7 @@ export const Book = (props) => {
 					right='4'
 					aria-label={`Add ${title} to your favourites`}
 					id={id}
-					onClick={() => addFavorite(id)}
+					onClick={() => handleFavorite(id)}
 					userId={userId}
 					allFavourites={allFavourites}
 					isFav={isFav}
