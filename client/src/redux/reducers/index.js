@@ -244,7 +244,7 @@ const rootReducer = (state = InitialState, action) => {
 				//asumo que el libro debe incluirse y si no cumple algun filtro devuelvo false para q sea filtrado (no se incluya en el array)
 
 				//--------Filtro por oferta------------
-				if (state.filters.onsale && !book.flag === 'on-sale')
+				if (state.filters.onsale && book.flag !== 'on-sale')
 					return false;
 
 				//--------Filtro por moneda------------
@@ -253,7 +253,7 @@ const rootReducer = (state = InitialState, action) => {
 				//--------Filtro por lenguaje------------
 				if (
 					state.filters.language &&
-					state.filters.language !== book.language
+					state.filters.language !== book.Languages[0].name
 				)
 					return false;
 
@@ -357,8 +357,8 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		case LOGIN:
 			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
-			console.log(action.payload)
-			
+			console.log(action.payload);
+
 			localStorage.setItem('userId', action.payload.id);
 			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('userName', action.payload.username);
@@ -379,8 +379,8 @@ const rootReducer = (state = InitialState, action) => {
 				userProfilePicture: action.payload.profile_picture,
 				isSignedIn: true,
 			};
-		case LOGIN_GOOGLE: 
-			console.log(action.payload, 'action.payload')
+		case LOGIN_GOOGLE:
+			console.log(action.payload, 'action.payload');
 			localStorage.setItem('userId', action.payload.id);
 			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('userName', action.payload.username);
@@ -398,7 +398,7 @@ const rootReducer = (state = InitialState, action) => {
 				userEmail: action.payload.email,
 				userProfilePicture: action.payload.profile_picture,
 				isSignedIn: true,
-			}
+			};
 
 		case UPDATE_USER:
 			localStorage.setItem(
@@ -438,7 +438,7 @@ const rootReducer = (state = InitialState, action) => {
 				cart: [],
 				summary: 0,
 				userRole: null,
-				userEmail: null
+				userEmail: null,
 			};
 
 		case USER_GET_FAVORITES:
