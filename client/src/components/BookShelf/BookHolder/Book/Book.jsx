@@ -36,14 +36,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 
 export const Book = (props) => {
-	const { product, rootProps } = props;
+	const { product, rootProps, isFav, setFavs } = props;
+
 
 	const dispatch = useDispatch();
 
 	const { userId, allFavourites } = useSelector((state) => state);
 
-	const [isFav, setIsFav] = React.useState(false);
-	// console.log('isFav', isFav, product.title);
 	const {
 		title,
 		authors,
@@ -56,22 +55,22 @@ export const Book = (props) => {
 		currency,
 	} = product;
 
-	useEffect(() => {
-		allFavourites.map((e) => {
-			if (e.id === id) {
-				setIsFav(true);
-			} else {
-				setIsFav(false);
-			}
-		});
-	});
-
 	const handleFavorite = (e, id) => {
-		if (isFav === false) {
-			setIsFav(true);
+		if (!isFav) {
+			setFavs((favs) => {
+				return {
+					...favs,
+					[id]: true
+				}
+			})
 			addFavorite(id);
 		} else {
-			setIsFav(false);
+			setFavs((favs) => {
+				return {
+					...favs,
+					[id]: false
+				}
+			})
 			deleteFavorite(id);
 		}
 	};
