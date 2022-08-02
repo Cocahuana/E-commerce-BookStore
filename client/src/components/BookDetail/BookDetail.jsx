@@ -8,6 +8,7 @@ import {
 	resetDetails,
 	getAllUsers,
 	postComment,
+	userAddFavorite,
 } from '../../redux/actions';
 import { Link as BuenLink } from 'react-router-dom';
 import {
@@ -35,7 +36,7 @@ import {
 	ChakraProvider,
 	HStack,
 } from '@chakra-ui/react';
-import { TiShoppingCart } from 'react-icons/ti';
+import { TiShoppingCart, TiHeartOutline } from 'react-icons/ti';
 import { Rating } from '../BookShelf/BookHolder/Book/Rating';
 import { PriceTag } from '../BookShelf/BookHolder/Book/PriceTag';
 import Swal from 'sweetalert2';
@@ -51,15 +52,26 @@ function BookDetail(props) {
 	);
 	// const [comments, setComments] = UseState([])
 
-	const handleonclick = (id) => {
+	const handleOnClick = (id) => {
 		dispatch(addToCart(id));
-		Swal.fire({
-			position: 'top-end',
-			icon: 'success',
-			title: 'Added to the cart successfully',
-			showConfirmButton: false,
-			timer: 1500,
+		let flag = true;
+		cart.map((e) => {
+			if (e.id === id) flag = false;
 		});
+		if (flag) {
+			Swal.fire({
+				position: 'top-end',
+				icon: 'success',
+				title: 'Added to the cart successfully',
+				showConfirmButton: false,
+				timer: 800,
+			});
+		}
+	};
+
+	const handleOnFavourite = (id) => {
+		console.log(userId, id);
+		dispatch(userAddFavorite(userId, id));
 	};
 
 	useEffect(() => {
@@ -280,7 +292,7 @@ function BookDetail(props) {
 						<Stack>
 							<Box>
 								<Button
-									onClick={() => handleonclick(details.id)}
+									onClick={() => handleOnClick(details.id)}
 									w={'100%'}
 									size={'lg'}
 									bg={useColorModeValue(
@@ -305,6 +317,37 @@ function BookDetail(props) {
 										),
 									}}>
 									Add to cart
+								</Button>
+							</Box>
+							<Box>
+								<Button
+									onClick={() =>
+										handleOnFavourite(details.id)
+									}
+									w={'100%'}
+									size={'lg'}
+									bg={useColorModeValue(
+										'blue.500',
+										'blue.200'
+									)}
+									color={useColorModeValue(
+										'white',
+										'gray.900'
+									)}
+									leftIcon={<TiHeartOutline />}
+									textTransform={'uppercase'}
+									transition={'1s'}
+									_hover={{
+										bg: useColorModeValue(
+											'blue.200',
+											'blue.500'
+										),
+										color: useColorModeValue(
+											'gray.900',
+											'white'
+										),
+									}}>
+									Add to favourites
 								</Button>
 							</Box>
 							<Box
