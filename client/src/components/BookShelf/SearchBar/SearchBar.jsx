@@ -126,13 +126,17 @@ function SearchBar({ setCurrentPage }) {
 												<AutoCompleteInput
 													variant='filled'
 													size={'lg'}
-													placeholder='Find your book, author, here...'
+													placeholder={
+														query
+															? query
+															: 'Find your book, author, here...'
+													}
 													onChange={(e) =>
 														handleInputChange(e)
 													}
-													onClick={(e) =>
-														handleInputChange(e)
-													}
+													// onClick={(e) =>
+													// 	handleInputChange(e)
+													// }
 												/>
 												<AutoCompleteList>
 													{books.map((b, id) => (
