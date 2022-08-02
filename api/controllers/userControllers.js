@@ -257,6 +257,7 @@ const googleSignIn = async (req, res, next) => {
 		if (alreadyExists) {
 			const jwtToken = jwt.sign(
 				{
+					//token creation
 					id: alreadyExists.id,
 					email: alreadyExists.email,
 					status: 'User',

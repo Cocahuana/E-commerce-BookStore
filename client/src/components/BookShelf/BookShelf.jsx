@@ -19,15 +19,13 @@ import { getBooksByTitleOrAuthor, userGetFavorite } from '../../redux/actions';
 
 const BookShelf = () => {
 	const dispatch = useDispatch();
-	const { books, query } = useSelector((state) => state);
+	const { cart, allFavourites, summary, userId, books, query } = useSelector(
+		(state) => state
+	);
 	const [CurrentPage, setCurrentPage] = useState(1);
 	const BooksPerPage = 12;
 	const indexOfLastBook = CurrentPage * BooksPerPage;
 	const indexOfFirstBook = indexOfLastBook - BooksPerPage;
-
-	const { cart } = useSelector((state) => state);
-	const { summary } = useSelector((state) => state);
-	const { userId } = useSelector((state) => state);
 
 	let slicedBooks = books.slice(indexOfFirstBook, indexOfLastBook);
 
@@ -41,6 +39,7 @@ const BookShelf = () => {
 		// setting variables in localStorage ----
 		localStorage.setItem('cart', JSON.stringify(cart));
 		localStorage.setItem('summary', JSON.stringify(summary));
+		// localStorage.setItem('favorites', JSON.stringify(allFavourites));
 		if (token.length === 0) {
 			localStorage.setItem('isSignedIn', false);
 		} else {
