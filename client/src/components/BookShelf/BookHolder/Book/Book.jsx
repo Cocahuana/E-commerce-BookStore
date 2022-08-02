@@ -42,7 +42,7 @@ export const Book = (props) => {
 
 	const { userId, allFavourites } = useSelector((state) => state);
 
-	const [isFav, setIsFav] = React.useState('');
+	const [isFav, setIsFav] = React.useState(false);
 	// console.log('isFav', isFav, product.title);
 	const {
 		title,
@@ -57,7 +57,6 @@ export const Book = (props) => {
 	} = product;
 
 	useEffect(() => {
-		console.log(allFavourites);
 		allFavourites.map((e) => {
 			if (e.id === id) {
 				setIsFav(true);
@@ -65,10 +64,9 @@ export const Book = (props) => {
 				setIsFav(false);
 			}
 		});
-	}, [allFavourites]);
+	});
 
 	const handleFavorite = (e, id) => {
-		e.preventDefault();
 		if (isFav === false) {
 			setIsFav(true);
 			addFavorite(id);
