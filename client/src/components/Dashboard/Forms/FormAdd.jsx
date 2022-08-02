@@ -71,6 +71,9 @@ function FormAdd(props) {
 
 	useEffect(() => {
 		if (id) {
+			console.log('pepe');
+			console.log(props.match.params);
+
 			dispatch(getDetails(id));
 		}
 	}, [dispatch, id]);
