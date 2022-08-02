@@ -133,9 +133,13 @@ const putBook = async (req, res, next) => {
 					title: title ? title : currentBook.title,
 					authors: authors ? authors : currentBook.authors,
 					price: price ? price : currentBook.price,
-					description: description ? description : currentBook.description,
+					description: description
+						? description
+						: currentBook.description,
 					image: image ? image : currentBook.image,
-					previewLink: previewLink ? previewLink : currentBook.previewLink,
+					previewLink: previewLink
+						? previewLink
+						: currentBook.previewLink,
 					flag: flag ? flag : currentBook.flag,
 					currency: currency ? currency : currentBook.currency,
 					stock: stock ? stock : currentBook.stock,
@@ -144,9 +148,9 @@ const putBook = async (req, res, next) => {
 					where: { id: id },
 				}
 			);
-			res
-				.status(200)
-				.send(`${title ? title : currentBook.title} has been updated`);
+			res.status(200).send(
+				`${title ? title : currentBook.title} has been updated`
+			);
 		} else {
 			res.status(400).send(`Book with id ${id} not found`);
 		}
@@ -157,11 +161,12 @@ const putBook = async (req, res, next) => {
 
 const postComment = async (req, res, next) => {
 	try {
-		const { comment, userId, bookId } = req.body;
+		const { comment, rating, userId, bookId } = req.body;
 		const user = await User.findByPk(userId); //descomentar cuando haya users
 		const book = await Books.findByPk(parseInt(bookId));
 		const newComment = await Comment.create({
 			text: comment,
+			rating: rating,
 		});
 		await book.addComment(newComment);
 		await user.addComment(newComment); //descomentar cuando haya users
