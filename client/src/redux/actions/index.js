@@ -40,6 +40,7 @@ import {
 	CREATE_BOOK,
 	USER_DEL_FAVORITES,
 	UPDATE_USER,
+	USER_ADD_FAVSTATE,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -194,30 +195,28 @@ export function addGoogleUser(currentUser) {
 		try {
 			console.log('Soy Register: ' + JSON.stringify(currentUser));
 
-			if( currentUser !== null && currentUser.hasOwnProperty('email')){
+			if (currentUser !== null && currentUser.hasOwnProperty('email')) {
+				var addToDb = await axios.post(`/user/google`, {
+					username: currentUser.displayName,
+					email: currentUser.email,
+					//password: currentUser.uid,
+				});
 
-			var addToDb = await axios.post(`/user/google`, {
-				username: currentUser.displayName,
-				email: currentUser.email,
-				//password: currentUser.uid,
-			});
-			
-
-			/*let login = await axios.post(`/user/login`, {
+				/*let login = await axios.post(`/user/login`, {
 				username: currentUser.displayName,
 				//password: currentUser.uid, //le puse como pw uid porq es unico segun cada usuario de google. (fuck cibersecurity)
 				//pero como coincide el email con el uid puse ese valor como pw. podemos ver de usar otro maybe
 				//igual en la db la pw aparece hasheada
 			});
 			console.log('Soy login: ' + Object.keys(currentUser));*/
-			return dispatch({
-				type: LOGIN_GOOGLE,
-				payload: addToDb.data, //lo q me interesa es la info de current user (obj de firebase)
-			});
+				return dispatch({
+					type: LOGIN_GOOGLE,
+					payload: addToDb.data, //lo q me interesa es la info de current user (obj de firebase)
+				});
 			}
 		} catch (error) {
-			console.log(error)
-			 /*(err.response.status === 404) {
+			console.log(error);
+			/*(err.response.status === 404) {
 				//Status es el tipo de error y data el send/json del error en el back
 				// console.log('status: ' + err.response.status);
 				// console.log('data: ' + err.response.data);
@@ -312,6 +311,9 @@ export function userGetFavorite(userId) {
 		let favorites = await axios.get(`/user/favorites/${userId}`);
 		return dispatch({ type: USER_GET_FAVORITES, payload: favorites.data });
 	};
+}
+export function userAddFavState(payload) {
+	return { type: USER_ADD_FAVSTATE, payload };
 }
 
 export function userDelFavorite(payload) {
