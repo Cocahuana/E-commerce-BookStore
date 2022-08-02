@@ -163,6 +163,7 @@ const rootReducer = (state = InitialState, action) => {
 						...state.details.Comments,
 						{
 							text: action.payload.comment,
+							rating: action.payload.rating,
 							BookId: action.payload.bookId,
 							UserId: action.payload.userId,
 						},
