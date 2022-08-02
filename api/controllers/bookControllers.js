@@ -123,23 +123,21 @@ const putBook = async (req, res, next) => {
 		flag,
 		currency,
 		stock,
+		languages,
+		genres,
 	} = req.body;
 	let { id } = req.params;
 	try {
 		let currentBook = await Books.findByPk(id);
 		if (currentBook) {
-			await Books.update(
+			let updatedBook = await Books.update(
 				{
 					title: title ? title : currentBook.title,
 					authors: authors ? authors : currentBook.authors,
 					price: price ? price : currentBook.price,
-					description: description
-						? description
-						: currentBook.description,
+					description: description ? description : currentBook.description,
 					image: image ? image : currentBook.image,
-					previewLink: previewLink
-						? previewLink
-						: currentBook.previewLink,
+					previewLink: previewLink ? previewLink : currentBook.previewLink,
 					flag: flag ? flag : currentBook.flag,
 					currency: currency ? currency : currentBook.currency,
 					stock: stock ? stock : currentBook.stock,
@@ -148,13 +146,37 @@ const putBook = async (req, res, next) => {
 					where: { id: id },
 				}
 			);
-			res.status(200).send(
-				`${title ? title : currentBook.title} has been updated`
-			);
+		currentBook = await Books.findByPk(id);
+			
+			let languagesArray
+			let genresArray
+			if(languages){
+				languagesArray = await Language.findAll({
+					where:{
+						name:{
+							[Op.in]: languages
+						}
+					}
+				})
+				await currentBook.setLanguages(languagesArray) 
+			}
+			if(genres){
+				genresArray = await Genre.findAll({
+					where:{
+						name:{
+							[Op.in]: genres
+						}
+					}
+				})
+
+				await currentBook.setGenres(genresArray)
+			}
+			res.status(200).send(`${title ? title : currentBook.title} has been updated`);
 		} else {
 			res.status(400).send(`Book with id ${id} not found`);
 		}
 	} catch (e) {
+		console.error(e)
 		res.status(404).send(e);
 	}
 };
