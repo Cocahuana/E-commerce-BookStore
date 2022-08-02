@@ -27,7 +27,7 @@ import {
 	addToCart,
 	userDeleteFavorite,
 	userDelFavorite,
-	checkStates,
+	userAddFavState,
 } from '../../../../redux/actions/index';
 import { PriceTag } from './PriceTag';
 import { Link as BuenLink } from 'react-router-dom';
@@ -43,10 +43,22 @@ export const Book = (props) => {
 	const { userId, allFavourites } = useSelector((state) => state);
 
 	const [isFav, setIsFav] = React.useState(false);
+	// console.log('isFav', isFav, product.title);
+	const {
+		title,
+		authors,
+		image,
+		price,
+		salePrice,
+		rating,
+		Comments,
+		id,
+		currency,
+	} = product;
 
 	useEffect(() => {
 		allFavourites.map((e) => {
-			if (e.id === product.id) {
+			if (e.id === id) {
 				setIsFav(true);
 			} else {
 				setIsFav(false);
@@ -54,29 +66,19 @@ export const Book = (props) => {
 		});
 	});
 
-	const addFavorite = (id) => {
-		dispatch(userAddFavorite(userId, id));
-
+	const handleFavorite = (e, id) => {
 		if (isFav === false) {
 			setIsFav(true);
-			Swal.fire({
-				position: 'center',
-				icon: 'success',
-				title: 'Added to the Favorite List successfully!',
-				showConfirmButton: false,
-				timer: 1000,
-			});
+			addFavorite(id);
 		} else {
 			setIsFav(false);
 			deleteFavorite(id);
-			Swal.fire({
-				position: 'center',
-				icon: 'success',
-				title: 'Removed to the Favorite List successfully!',
-				showConfirmButton: false,
-				timer: 1000,
-			});
 		}
+	};
+
+	const addFavorite = (id) => {
+		dispatch(userAddFavState(id));
+		dispatch(userAddFavorite(userId, id));
 	};
 
 	const deleteFavorite = (id) => {
@@ -95,17 +97,6 @@ export const Book = (props) => {
 		});
 	};
 
-	const {
-		title,
-		authors,
-		image,
-		price,
-		salePrice,
-		rating,
-		Comments,
-		id,
-		currency,
-	} = product;
 	return (
 		<Stack
 			maxW={'20vh'}
@@ -141,7 +132,7 @@ export const Book = (props) => {
 					right='4'
 					aria-label={`Add ${title} to your favourites`}
 					id={id}
-					onClick={() => addFavorite(id)}
+					onClick={(e) => handleFavorite(e, id)}
 					userId={userId}
 					allFavourites={allFavourites}
 					isFav={isFav}

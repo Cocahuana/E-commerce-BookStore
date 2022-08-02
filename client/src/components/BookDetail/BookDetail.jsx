@@ -178,7 +178,7 @@ function BookDetail(props) {
 
 						<Stack spacing={{ base: 4, sm: 6 }}>
 							<Text fontSize={'20px'}>
-								<Text>{details?.authors}(author)</Text>
+								<Text>{details?.authors}</Text>
 							</Text>
 
 							<Text fontSize={'20px'}>
@@ -199,8 +199,12 @@ function BookDetail(props) {
 							</Text>
 							<Text fontSize={'20px'}>
 								<Text>
-									{details?.Languages?.map((e) => e.name) +
-										''}
+									{'Language: '}
+									{details?.Languages?.map(
+										(e) =>
+											e.name.charAt(0) +
+											e.name.slice(1).toLowerCase()
+									) + ''}
 								</Text>
 							</Text>
 						</Stack>
@@ -264,6 +268,14 @@ function BookDetail(props) {
 									</AccordionPanel>
 								</AccordionItem>
 							</Accordion>
+						</Stack>
+						<Stack>
+							<Text fontSize={'20px'}>
+								<Text>Stock Available:</Text>
+							</Text>
+							<Text>
+								<Text>{details.stock} units</Text>
+							</Text>
 						</Stack>
 						<Stack>
 							<Box>
