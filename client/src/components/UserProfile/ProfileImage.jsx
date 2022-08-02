@@ -18,11 +18,7 @@ import {
 	useDisclosure,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
-<<<<<<< HEAD
-import { getAllUsers, updateUser } from '../../redux/actions';
-=======
 import { updateUser, getAllUsers } from '../../redux/actions';
->>>>>>> c6b396b79c56df46aed0b597db972548a7294163
 
 export function avatar(props) {
 	const { userProfilePicture, userId } = useSelector((state) => state);
@@ -54,11 +50,7 @@ export function avatar(props) {
 						})
 					)
 				)
-<<<<<<< HEAD
-				.then((res) => dispatch(getAllUsers()))
-=======
 				.then(() => dispatch(getAllUsers()))
->>>>>>> c6b396b79c56df46aed0b597db972548a7294163
 				.catch((err) => console.log(err));
 		} else {
 			onOpen();
