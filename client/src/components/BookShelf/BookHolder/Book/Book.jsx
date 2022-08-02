@@ -27,6 +27,7 @@ import {
 	addToCart,
 	userDeleteFavorite,
 	userDelFavorite,
+	userAddFavState,
 } from '../../../../redux/actions/index';
 import { PriceTag } from './PriceTag';
 import { Link as BuenLink } from 'react-router-dom';
@@ -35,64 +36,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 
 export const Book = (props) => {
-	const { product, rootProps } = props;
+	const { product, rootProps, isFav, setFavs } = props;
+
 
 	const dispatch = useDispatch();
 
-	const { userId, allFavourites } = useSelector((state) => state);
-
-	const [isFav, setIsFav] = React.useState(false);
-
-	useEffect(() => {
-		allFavourites.map((e) => {
-			if (e.id === product.id) {
-				setIsFav(true);
-			} else {
-				setIsFav(false);
-			}
-		});
-	});
-
-	const addFavorite = (id) => {
-		dispatch(userAddFavorite(userId, id));
-
-		if (isFav === false) {
-			setIsFav(true);
-			Swal.fire({
-				position: 'center',
-				icon: 'success',
-				title: 'Added to the Favorite List successfully!',
-				showConfirmButton: false,
-				timer: 1000,
-			});
-		} else {
-			setIsFav(false);
-			deleteFavorite(id);
-			Swal.fire({
-				position: 'center',
-				icon: 'success',
-				title: 'Removed to the Favorite List successfully!',
-				showConfirmButton: false,
-				timer: 1000,
-			});
-		}
-	};
-
-	const deleteFavorite = (id) => {
-		dispatch(userDeleteFavorite(userId, id)); //userid, bookid
-		dispatch(userDelFavorite(id));
-	};
-
-	const handleAddToCart = () => {
-		dispatch(addToCart(id));
-		Swal.fire({
-			position: 'top-end',
-			icon: 'success',
-			title: 'Added to the cart successfully',
-			showConfirmButton: false,
-			timer: 1500,
-		});
-	};
+	const { userId, allFavourites, cart, books } = useSelector(
+		(state) => state
+	);
 
 	const {
 		title,
@@ -105,6 +56,54 @@ export const Book = (props) => {
 		id,
 		currency,
 	} = product;
+
+	const handleFavorite = (e, id) => {
+		if (!isFav) {
+			setFavs((favs) => {
+				return {
+					...favs,
+					[id]: true
+				}
+			})
+			addFavorite(id);
+		} else {
+			setFavs((favs) => {
+				return {
+					...favs,
+					[id]: false
+				}
+			})
+			deleteFavorite(id);
+		}
+	};
+
+	const addFavorite = (id) => {
+		dispatch(userAddFavState(id));
+		dispatch(userAddFavorite(userId, id));
+	};
+
+	const deleteFavorite = (id) => {
+		dispatch(userDeleteFavorite(userId, id)); //userid, bookid
+		dispatch(userDelFavorite(id));
+	};
+
+	const handleAddToCart = () => {
+		dispatch(addToCart(id));
+		let flag = true;
+		cart.map((e) => {
+			if (e.id === id) flag = false;
+		});
+		if (flag) {
+			Swal.fire({
+				position: 'top-end',
+				icon: 'success',
+				title: 'Added to the cart successfully',
+				showConfirmButton: false,
+				timer: 900,
+			});
+		}
+	};
+
 	return (
 		<Stack
 			maxW={'20vh'}
@@ -140,7 +139,7 @@ export const Book = (props) => {
 					right='4'
 					aria-label={`Add ${title} to your favourites`}
 					id={id}
-					onClick={() => addFavorite(id)}
+					onClick={(e) => handleFavorite(e, id)}
 					userId={userId}
 					allFavourites={allFavourites}
 					isFav={isFav}

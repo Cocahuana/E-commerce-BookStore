@@ -32,7 +32,7 @@ router.get('/favorites/:idUser', getFavorite);
 
 router.delete('/favorites', deleteFavorite);
 
-//Eze y lucho: rodi e ivo avisen si lo ven. Rodri: Lo vi...no me gusto.Salu2
+//Eze y lucho: rodi e ivo avisen si lo ven. Rodri: Lo vi...no me gusto.Salu2. Ivo: mientras funcione, pa lante
 router.put('/image/:id', async (req, res) => {
 	try {
 		await profilePicture(req.params, req.body);

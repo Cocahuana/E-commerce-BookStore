@@ -30,7 +30,7 @@ const registerUser = async (req, res, next) => {
 		let cartToAssociate = await Cart.create();
 		await cartToAssociate.setUser(newUser);
 
-		res.send('User created succesfully!');
+		res.json({message: "User created succesfully!", id: newUser.id});
 	} catch (err) {
 		next(err);
 	}
@@ -38,24 +38,32 @@ const registerUser = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {
 	//con esto cambias username, email, contraseña, status, id, favorites y profile pics
+	let {id, username, email, password, status, favorites, profilePic} = req.body;
 	try {
-		const user = await User.findByPk(req.body.id);
-
 		if (req.body.password) {
 			let hashedPassword = crypto
 				.createHash('md5')
 				.update(password)
 				.digest('hex');
-			req.body.password = hashedPassword;
+			password = hashedPassword;
 		}
+		const userCheck = await User.findByPk(id);
 
-		await user.update(req.body);
-
-		const updated = await User.findByPk(req.body.id);
-
-		res.send(updated);
+		const updatedUser = await User.update({
+			username: username ? username : userCheck.username,
+			email: email ? email : userCheck.email,
+			password: password ? password : userCheck.password,
+			status: status ? status : userCheck.status,
+			favorites: favorites ? favorites : userCheck.favorites,
+			profile_picture: profilePic ? profilePic : userCheck.profile_picture,
+		},{
+			where:{
+				id: id,
+			}
+		});
+		res.json(`User ${username ? username : userCheck.username} has been updated!`)
 	} catch (err) {
-		console.log(err);
+		next(err);
 	}
 };
 
@@ -130,8 +138,6 @@ const addFavorite = async (req, res) => {
 		} else {
 			throw new Error('Invalid user');
 		}
-
-		res.send('Agregado a Favoritos');
 	} catch (error) {
 		res.status(400).json(error.message);
 	}
@@ -168,7 +174,9 @@ const searchUserByUsername = async (req, res, next) => {
 
 const getAllUsers = async (req, res, next) => {
 	try {
-		let users = await User.findAll();
+		let users = await User.findAll({ 
+			attributes: {exclude: ['password']},
+		});
 		if (users) res.json(users);
 		else res.status(400).json({ message: 'not users found' });
 	} catch (e) {
@@ -251,59 +259,61 @@ const profilePicture = async (id, body) => {
 };
 
 const googleSignIn = async (req, res, next) => {
-	const { username, email } = req.body; 
-	try{
-	const alreadyExists = await User.findOne({ where: { email: email } });
-	if(alreadyExists) {
-		const jwtToken = jwt.sign(
-			{
-				//token creation
+	const { username, email } = req.body;
+	try {
+		const alreadyExists = await User.findOne({ where: { email: email } });
+		if (alreadyExists) {
+			const jwtToken = jwt.sign(
+				{
+					//token creation
+					id: alreadyExists.id,
+					email: alreadyExists.email,
+					status: 'User',
+				},
+				MY_SECRET,
+				{ expiresIn: '12h' }
+			);
+
+			res.status(200).json({
+				token: jwtToken,
+				status: 'User',
 				id: alreadyExists.id,
 				email: alreadyExists.email,
-				status: 'User',
-			},
-			MY_SECRET,
-			{ expiresIn: '12h' }
-		);
-
-		res.status(200).json({
-			token: jwtToken,
-			status: 'User',
-			id: alreadyExists.id,
-			email: alreadyExists.email,
-			username: alreadyExists.username,
-			profile_picture: alreadyExists.profile_picture,
-			favorites: alreadyExists.favorites,
-		})
-	}
-	if(!alreadyExists){
-		const create = await User.create({email: email, username: username})
-		const jwtToken = jwt.sign(
-			{
-				//token creation
+				username: alreadyExists.username,
+				profile_picture: alreadyExists.profile_picture,
+				favorites: alreadyExists.favorites,
+			});
+		}
+		if (!alreadyExists) {
+			const create = await User.create({
+				email: email,
+				username: username,
+			});
+			const jwtToken = jwt.sign(
+				{
+					//token creation
+					id: create.id,
+					email: create.email,
+					status: create.status,
+				},
+				MY_SECRET,
+				{ expiresIn: '12h' }
+			);
+			res.status(200).json({
+				token: jwtToken,
+				status: create.status,
 				id: create.id,
 				email: create.email,
-				status: create.status,
-			},
-			MY_SECRET,
-			{ expiresIn: '12h' }
-		);
-		res.status(200).json({
-			token: jwtToken,
-			status: create.status,
-			id: create.id,
-			email: create.email,
-			username: create.username,
-			profile_picture: create.profile_picture,
-			favorites: create.favorites,
-		})
+				username: create.username,
+				profile_picture: create.profile_picture,
+				favorites: create.favorites,
+			});
+		}
+	} catch (e) {
+		console.log(e);
+		next(e);
 	}
-	} catch(e){
-		console.log(e)
-		next(e)
-	}
-}
-
+};
 
 module.exports = {
 	registerUser,
@@ -316,5 +326,5 @@ module.exports = {
 	getAllUsers,
 	profilePicture,
 	updateUser,
-	googleSignIn
+	googleSignIn,
 };

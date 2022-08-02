@@ -5,6 +5,8 @@ import {
 	userDeleteFavorite,
 	userDelFavorite,
 	addToCart,
+	checkStates,
+	getBooksByTitleOrAuthor,
 } from '../../redux/actions/index.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as BuenLink } from 'react-router-dom';
@@ -29,6 +31,7 @@ import {
 	ModalOverlay,
 	Alert,
 	AlertIcon,
+	useColorModeValue,
 } from '@chakra-ui/react';
 import Swal from 'sweetalert2';
 
@@ -39,10 +42,14 @@ export function favourites(props) {
 	const { userId, allFavourites } = useSelector((state) => state);
 
 	const Overlay = () => (
-		<ModalOverlay bg='blackAlpha.300' backdropFilter='blur(10px)' />
+		<ModalOverlay bg={useColorModeValue('blackAlpha.900', 'blackAlpha.900')} backdropFilter='blur(1px)' />
 	);
 
 	const [overlay, setOverlay] = React.useState(<Overlay />);
+
+	const buenOnClose = () => {
+		onClose();
+	};
 
 	useEffect(() => {
 		dispatch(userGetFavorite(userId));
@@ -57,7 +64,6 @@ export function favourites(props) {
 	const deleteFavorite = (id) => {
 		dispatch(userDeleteFavorite(userId, id)); //userid, bookid
 		dispatch(userDelFavorite(id));
-		// ESTO NO SE VE PORQUE CHAKRA ES UNA PIJA. AGUANTE SWEETALERT.
 		Swal.fire({
 			position: 'top-end',
 			icon: 'success',
@@ -80,15 +86,13 @@ export function favourites(props) {
 
 	return (
 		<Stack w={'full'}>
-			<Button onClick={() => handleFavorite()}>
-				Favourite list
-			</Button>
+			<Button onClick={() => handleFavorite()}>Favourite list</Button>
 			<Modal
 				rounded={'10px'}
 				isCentered
 				size={'xl'}
 				isOpen={isOpen}
-				onClose={onClose}>
+				onClose={buenOnClose}>
 				{overlay}
 
 				<ModalContent bg={'gray.300'}>
