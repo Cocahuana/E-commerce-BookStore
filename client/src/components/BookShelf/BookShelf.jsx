@@ -51,25 +51,27 @@ const BookShelf = () => {
 	}, [dispatch, cart, token]);
 
 	return (
-		<Box>
+		<Box minW={'xs'}>
 			<Box pt={'16'} bg={'gray.100'}>
 				<SearchBar setCurrentPage={setCurrentPage} />
 			</Box>
-			<Container maxW={'container.xl'} py={'5'}>
+			<Container maxW={'max'} py={'5'}>
 				<Flex
 					flexDirection={{
 						base: 'column',
 						sm: 'column',
 						md: 'column',
 						xl: 'row',
-					}}>
-					<Box minW={'xs'}>
+					}}
+				>
+					<Box minW={'sm'}>
 						<Filter setCurrentPage={setCurrentPage} />
 					</Box>
 					<Box>
 						<Box
 							display={{ base: 'none', md: 'block', lg: 'block' }}
-							pt={{ md: '4', lg: '0' }}>
+							pt={{ md: '4', lg: '0' }}
+						>
 							<Paging
 								BooksPerPage={BooksPerPage}
 								TotalBooksLength={books.length}
@@ -79,8 +81,6 @@ const BookShelf = () => {
 						</Box>
 
 						<Box
-							maxW='7xl'
-							mx='auto'
 							px={{
 								base: '4',
 								md: '8',
@@ -90,7 +90,8 @@ const BookShelf = () => {
 								base: '6',
 								md: '8',
 								lg: '12',
-							}}>
+							}}
+						>
 							<BookHolder>
 								{loading ? (
 									<Center>
@@ -105,9 +106,7 @@ const BookShelf = () => {
 								) : slicedBooks.length === 0 ? (
 									<h2>No books found!</h2>
 								) : (
-									slicedBooks.map((b) => (
-										<Book key={b.id} product={b} />
-									))
+									slicedBooks.map((b) => <Book key={b.id} product={b} />)
 								)}
 							</BookHolder>
 						</Box>

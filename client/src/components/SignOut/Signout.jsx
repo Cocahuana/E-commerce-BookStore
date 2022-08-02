@@ -26,7 +26,7 @@ function signout(props) {
 		<Stack align={'center'} w={props.wid}>
 			<Button
 				// bg={useColorModeValue('red.500', 'red.400')}
-				colorScheme={'red'}
+				colorScheme={'twitter'}
 				w={props.wid}
 				onClick={(e) => handleClick(e)}
 				display={{ md: 'inline-flex' }}
