@@ -146,6 +146,7 @@ function LandingPage() {
 								<Input
 									size='lg'
 									type='email'
+									color='black'
 									placeholder='Find your book here...'
 									bg={'white'}
 									_placeholder={{ color: 'gray.700' }}

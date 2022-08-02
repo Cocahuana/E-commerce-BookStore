@@ -260,6 +260,7 @@ export default function NavBar() {
 						</MenuButton>
 						<MenuList bg={useColorModeValue('white', 'gray.700')}>
 							<MenuItem
+								_focus={{ boxShadow: 'none' }}
 								_hover={{
 									bg: useColorModeValue('white', 'none'),
 									cursor: 'default',
