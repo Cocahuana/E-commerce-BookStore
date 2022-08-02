@@ -47,7 +47,7 @@ function validate(input) {
 		errors.ratingN = 'Se requiere un valor entre 0 y 5';
 	} else if (!input.price) {
 		errors.price = 'Se requiere Precio';
-	} else if (input.price < 1) {
+	} else if (input.price < 1 || input.price > 60) {
 		errors.priceM = 'Precio mayor a 1';
 	} else if (!input.description) {
 		errors.description = 'Se requiere una descripcion';
@@ -57,7 +57,6 @@ function validate(input) {
 
 function FormAdd(props) {
 	const { genres } = useSelector((state) => state);
-	const { details } = useSelector((state) => state);
 
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -71,40 +70,40 @@ function FormAdd(props) {
 
 	useEffect(() => {
 		if (id) {
-			console.log('pepe');
-			console.log(props.match.params);
-
 			dispatch(getDetails(id));
 		}
 	}, [dispatch, id]);
 
-	const [input, setInput] = useState(
-		id
-			? {
-					title: details?.title,
-					currency: 'USD',
-					authors: [],
-					description: '',
-					price: 1,
-					rating: 0,
-					genre: [],
-					image: '',
-					language: 'ENGLISH',
-			  }
-			: {
-					title: '',
-					currency: 'USD',
-					authors: [],
-					description: '',
-					price: 1,
-					rating: 0,
-					genre: [],
-					image: '',
-					language: 'ENGLISH',
-			  }
-	);
+	const { details } = useSelector((state) => state);
 
-	console.log(input);
+	const [input, setInput] = useState({
+		title: '',
+		currency: 'USD',
+		authors: [],
+		description: '',
+		price: 1,
+		rating: 0,
+		genre: [],
+		image: '',
+		language: 'ENGLISH',
+	});
+
+	id &&
+		details.title &&
+		details.title !== input.title &&
+		setInput({
+			title: details.title,
+			currency: details.currency,
+			authors: details.authors,
+			description: details.description,
+			price: details.price,
+			rating: details.rating,
+			genre: details.Genres.map((g) => g.name),
+			image: details.image,
+			language: details.Languages[0].name,
+		});
+
+	console.log(details);
 
 	function handleChange(e) {
 		setInput({
@@ -145,7 +144,7 @@ function FormAdd(props) {
 
 	function handdleSelectGenre(e) {
 		if (!input.genre.includes(e.target.value)) {
-			if (input.genre.length < 2) {
+			if (input.genre.length < 3) {
 				setInput({
 					...input,
 					genre: [...input.genre, e.target.value],
@@ -158,7 +157,7 @@ function FormAdd(props) {
 				);
 			} else {
 				toast({
-					title: 'No se puede agregar mas de 2 generos',
+					title: 'No se puede agregar mas de 3 generos',
 					status: 'warning',
 					isClosable: 'true',
 					duration: '2000',
@@ -180,7 +179,7 @@ function FormAdd(props) {
 			genre: input.genre.filter((gen) => gen !== e),
 		});
 	};
-	console.log(errors);
+
 	async function handleSubmit(e) {
 		e.preventDefault();
 
@@ -229,7 +228,9 @@ function FormAdd(props) {
 				language: 'ENGLISH',
 			});
 			dispatch(createBook(input));
-			console.log('creado');
+
+			dispatch(getBooksByTitleOrAuthor(''));
+
 			history.push('/adminDashboard');
 		}
 	}
@@ -358,7 +359,7 @@ function FormAdd(props) {
 											color: 'gray.50',
 										}}
 										mt={4}
-										defaultValue={'ENGLISH'}
+										value={input.language}
 									>
 										<Stack spacing={4}>
 											<Radio value={'ESPAÑOL'} onChange={handdleSelectLanguage}>
@@ -478,10 +479,12 @@ function FormAdd(props) {
 									{errors.price ? (
 										<FormErrorMessage>Price is required.</FormErrorMessage>
 									) : (
-										<FormHelperText></FormHelperText>
+										<FormHelperText>US$</FormHelperText>
 									)}
 									{errors.priceM ? (
-										<FormErrorMessage>Price min $1.</FormErrorMessage>
+										<FormErrorMessage>
+											Price min $1 and max $60.
+										</FormErrorMessage>
 									) : (
 										<FormErrorMessage></FormErrorMessage>
 									)}
@@ -584,7 +587,7 @@ function FormAdd(props) {
 											value={input.image}
 											onChange={handleChange}
 											type={'url'}
-										></Input>
+										/>
 										{/* <Icon
 											mx='auto'
 											boxSize={12}

@@ -36,7 +36,10 @@ const CartDrawer = () => {
 				onClick={() => handleClick()}
 				key={'sm'}
 				m={4}
-				leftIcon={<TiShoppingCart />}>
+				leftIcon={
+					<TiShoppingCart color={useColorModeValue('#64c2e4', '#64c2e4')} />
+				}
+			>
 				Cart
 			</Button>
 
@@ -55,12 +58,10 @@ const CartDrawer = () => {
 								_hover={{
 									transform: 'translateY(2px)',
 									boxShadow: 'lg',
-									bg: useColorModeValue(
-										'gray.400',
-										'gray.600'
-									),
+									bg: useColorModeValue('gray.400', 'gray.600'),
 								}}
-								onClick={() => handleDeleteCart()}>
+								onClick={() => handleDeleteCart()}
+							>
 								Empty Cart
 							</Button>
 						</Box>

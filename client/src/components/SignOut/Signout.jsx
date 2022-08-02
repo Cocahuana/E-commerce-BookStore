@@ -17,11 +17,7 @@ function signout(props) {
 		e.preventDefault();
 		dispatch(userSignOut());
 		logOut();
-		Swal.fire(
-			'Sign Out',
-			'You have been signed out successfully!',
-			'success'
-		);
+		Swal.fire('Sign Out', 'You have been signed out successfully!', 'success');
 
 		history.push('/');
 		//localStorage.clear();
@@ -29,16 +25,18 @@ function signout(props) {
 	return (
 		<Stack align={'center'} w={props.wid}>
 			<Button
-				bg={useColorModeValue('red.500', 'red.400')}
+				// bg={useColorModeValue('red.500', 'red.400')}
+				colorScheme={'red'}
 				w={props.wid}
 				onClick={(e) => handleClick(e)}
-				display={{md: 'inline-flex' }}
+				display={{ md: 'inline-flex' }}
 				fontSize={'sm'}
 				fontWeight={600}
-				color={'black'}
-				_hover={{
-					bg: 'lightgray',
-				}}>
+				color={useColorModeValue('gray.700', 'white')}
+				// _hover={{
+				// 	bg: 'gray.200',
+				// }}
+			>
 				{' '}
 				Sign out
 			</Button>
