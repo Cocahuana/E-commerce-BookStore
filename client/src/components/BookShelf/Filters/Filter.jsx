@@ -24,6 +24,8 @@ import {
 	saveOrder,
 	saveFilterGenre,
 	saveFilterPrice,
+	saveFilterLanguage,
+	saveFilterOnSale,
 } from '../../../redux/actions/index';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -31,9 +33,10 @@ function Filter({ setCurrentPage }) {
 	const dispatch = useDispatch();
 	const { genres, filters, booksCopy } = useSelector((state) => state);
 	const [sliderValue, setSliderValue] = useState(filters.price);
+	const [onsale, setOnSale] = useState(filters.onsale);
+	const [language, setLanguage] = useState(filters.language);
 	const [isChecked, setIsChecked] = useState(filters.genres);
 	const [orderBy, setOrderBy] = useState(filters.order);
-
 	const handleCheckChange = (e) => {
 		e.preventDefault();
 		if (e.target.checked) {
@@ -46,6 +49,22 @@ function Filter({ setCurrentPage }) {
 				//remuevoe el genero del estado local si se desmarca
 				isChecked.filter((checkBox) => checkBox !== e.target.value)
 			);
+		}
+	};
+	const handleOnSale = (e) => {
+		e.preventDefault();
+		if (e.target.checked) {
+			setOnSale(true);
+		} else {
+			setOnSale(false);
+		}
+	};
+	const handleLanguage = (e) => {
+		e.preventDefault();
+		if (e.target.checked) {
+			setLanguage(e.target.value);
+		} else {
+			setLanguage('');
 		}
 	};
 	const handleOrderBy = (e) => {
@@ -80,11 +99,24 @@ function Filter({ setCurrentPage }) {
 		if (!areEqual(filters.price, sliderValue))
 			dispatch(saveFilterPrice(sliderValue));
 
+		if (filters.language !== language)
+			dispatch(saveFilterLanguage(language));
+
+		if (filters.onsale !== onsale) dispatch(saveFilterOnSale(onsale));
+
 		if (filters.order !== orderBy) dispatch(saveOrder(orderBy));
 
 		dispatch(applyFilters());
 		setCurrentPage(1);
-	}, [dispatch, isChecked, sliderValue, orderBy, booksCopy]);
+	}, [
+		dispatch,
+		isChecked,
+		sliderValue,
+		orderBy,
+		language,
+		onsale,
+		booksCopy,
+	]);
 
 	return (
 		<Stack
@@ -110,12 +142,37 @@ function Filter({ setCurrentPage }) {
 					Filters
 				</Text>
 			</Flex>
-			<Flex justify='space-between' alignItems='center'>
-				<Stack
-					spacing={5}
-					direction='column'
-					alignItems='center'
-					pl='2'>
+
+			<Center>
+				<Flex h='40' justify='space-between' alignItems='center'>
+					<Stack spacing={0} direction='column' alignItems='center'>
+						<Flex>Sort By: </Flex>
+						<Flex direction='column' p={2}>
+							<Select
+								onChange={handleOrderBy}
+								variant='filled'
+								defaultValue={'Default'}>
+								<option value='Default' disabled>
+									rating
+								</option>
+								<option value='highest'>
+									Rating High to Low
+								</option>
+								<option value='lowest'>
+									Rating Low to High
+								</option>
+							</Select>
+						</Flex>
+					</Stack>
+				</Flex>
+			</Center>
+
+			<Flex
+				justify='space-between'
+				alignItems='center'
+				flexDirection={'column'}>
+				Genres:
+				<Stack spacing={5} direction='column'>
 					<Flex direction='column'>
 						<Stack spacing={4}>
 							{genres.map((p, g) => (
@@ -133,11 +190,50 @@ function Filter({ setCurrentPage }) {
 			</Flex>
 
 			<Flex
+				justify='space-between'
+				alignItems='center'
+				flexDirection={'column'}>
+				Languages:
+				<Stack spacing={5} direction='column'>
+					<Flex direction='column'>
+						<Stack spacing={4}>
+							<Checkbox
+								onChange={(e) => handleLanguage(e)}
+								value={'ENGLISH'}
+								isChecked={language === 'ENGLISH'}>
+								English
+							</Checkbox>
+							<Checkbox
+								onChange={(e) => handleLanguage(e)}
+								value={'ESPAÑOL'}
+								isChecked={language === 'ESPAÑOL'}>
+								Spanish
+							</Checkbox>
+						</Stack>
+					</Flex>
+				</Stack>
+			</Flex>
+
+			<Center>
+				<Flex alignItems='center' direction='column'>
+					Tags:
+					<Stack spacing={0} direction='column' alignItems='center'>
+						<Checkbox
+							onChange={(e) => handleOnSale(e)}
+							value='onsale'
+							isChecked={onsale}>
+							On Sale Only
+						</Checkbox>
+					</Stack>
+				</Flex>
+			</Center>
+
+			<Flex
 				justifyContent='center'
 				alignItems='center'
 				direction='column'
 				h='32'>
-				Price
+				Price:
 				<RangeSlider
 					w='70%'
 					step={1}
@@ -174,30 +270,6 @@ function Filter({ setCurrentPage }) {
 					<RangeSliderThumb index={1} />
 				</RangeSlider>
 			</Flex>
-
-			<Center>
-				<Flex h='40' justify='space-between' alignItems='center'>
-					<Stack spacing={0} direction='column' alignItems='center'>
-						<Flex>Rating</Flex>
-						<Flex direction='column' p={2}>
-							<Select
-								onChange={handleOrderBy}
-								variant='filled'
-								defaultValue={'Default'}>
-								<option value='Default' disabled>
-									rating
-								</option>
-								<option value='highest'>
-									Rating High to Low
-								</option>
-								<option value='lowest'>
-									Rating Low to High
-								</option>
-							</Select>
-						</Flex>
-					</Stack>
-				</Flex>
-			</Center>
 		</Stack>
 	);
 }
