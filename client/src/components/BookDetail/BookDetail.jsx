@@ -39,6 +39,8 @@ import { TiShoppingCart } from 'react-icons/ti';
 import { Rating } from '../BookShelf/BookHolder/Book/Rating';
 import { PriceTag } from '../BookShelf/BookHolder/Book/PriceTag';
 import Swal from 'sweetalert2';
+import Reviews from './Reviews';
+import CommentPoster from './CommentPoster';
 
 function BookDetail(props) {
 	const dispatch = useDispatch();
@@ -48,21 +50,6 @@ function BookDetail(props) {
 		(state) => state
 	);
 	// const [comments, setComments] = UseState([])
-	const [textarea, setTextArea] = useState('');
-
-	const handleOnChange = (e) => {
-		setTextArea(e.target.value);
-	};
-
-	const handlePost = () => {
-		dispatch(
-			postComment({
-				comment: textarea,
-				userId: userId,
-				bookId: id,
-			})
-		);
-	};
 
 	const handleonclick = (id) => {
 		dispatch(addToCart(id));
@@ -85,10 +72,21 @@ function BookDetail(props) {
 		};
 	}, [dispatch, cart]);
 
-	let comments = details?.Comments?.map((c) => {
+	// let comments = details?.Comments?.map((c) => {
+	// 	return {
+	// 		text: c.text,
+	// 		user: allUsers.filter((u) => c.UserId === u.id),
+	// 	};
+	// });
+
+	let reviewData = details?.Comments?.map((r) => {
+		let reviewer = allUsers.filter((u) => r.UserId === u.id);
 		return {
-			text: c.text,
-			user: allUsers.filter((u) => c.UserId === u.id),
+			avatarSrc: reviewer[0]?.profile_picture,
+			review: r.text,
+			stars: r.rating || 5,
+			userName: reviewer[0]?.username,
+			dateTime: r.date,
 		};
 	});
 
@@ -335,7 +333,9 @@ function BookDetail(props) {
 					</Stack>
 				</SimpleGrid>
 			</Box>
-			<Box
+			<Reviews reviewData={reviewData} />
+			<CommentPoster id={id} />
+			{/* <Box
 				maxW={'6xl'}
 				p={{ base: 10, sm: 10, md: 10, lg: 10 }}
 				bg={useColorModeValue('whiteAlpha.600', 'gray.700')}
@@ -398,7 +398,10 @@ function BookDetail(props) {
 								</Box>
 								<Box w='80%' minH='100%'>
 									<Text
-										color={useColorModeValue("black", "white")}
+										color={useColorModeValue(
+											'black',
+											'white'
+										)}
 										p={'5px'}
 										rounded={'10px'}
 										justify={'center'}
@@ -447,7 +450,7 @@ function BookDetail(props) {
 						</Button>
 					</Box>
 				</Stack>
-			</Box>
+			</Box> */}
 		</Container>
 	);
 }
