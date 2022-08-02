@@ -5,6 +5,8 @@ import {
 	userDeleteFavorite,
 	userDelFavorite,
 	addToCart,
+	checkStates,
+	getBooksByTitleOrAuthor,
 } from '../../redux/actions/index.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as BuenLink } from 'react-router-dom';
@@ -44,6 +46,11 @@ export function favourites(props) {
 
 	const [overlay, setOverlay] = React.useState(<Overlay />);
 
+	const buenOnClose = () => {
+		dispatch(getBooksByTitleOrAuthor(''));
+		onClose();
+	};
+
 	useEffect(() => {
 		dispatch(userGetFavorite(userId));
 	}, [dispatch]);
@@ -57,7 +64,6 @@ export function favourites(props) {
 	const deleteFavorite = (id) => {
 		dispatch(userDeleteFavorite(userId, id)); //userid, bookid
 		dispatch(userDelFavorite(id));
-		// ESTO NO SE VE PORQUE CHAKRA ES UNA PIJA. AGUANTE SWEETALERT.
 		Swal.fire({
 			position: 'top-end',
 			icon: 'success',
@@ -80,15 +86,13 @@ export function favourites(props) {
 
 	return (
 		<Stack w={'full'}>
-			<Button onClick={() => handleFavorite()}>
-				Favourite list
-			</Button>
+			<Button onClick={() => handleFavorite()}>Favourite list</Button>
 			<Modal
 				rounded={'10px'}
 				isCentered
 				size={'xl'}
 				isOpen={isOpen}
-				onClose={onClose}>
+				onClose={buenOnClose}>
 				{overlay}
 
 				<ModalContent bg={'gray.300'}>

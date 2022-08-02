@@ -35,7 +35,7 @@ export const FavouriteButton = (props) => {
 					icon={
 						<Icon
 							as={FiHeart}
-							fill='red'
+							fill='red.400'
 							transition='all 0.15s ease'
 						/>
 					}

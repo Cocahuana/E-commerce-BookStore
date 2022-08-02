@@ -27,6 +27,7 @@ import {
 	LOGIN_GOOGLE,
 	USER_DEL_FAVORITES,
 	UPDATE_USER,
+	USER_ADD_FAVSTATE,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -452,6 +453,12 @@ const rootReducer = (state = InitialState, action) => {
 			return {
 				...state,
 				allFavourites: favoriteBooks,
+			};
+		case USER_ADD_FAVSTATE:
+			let favBook = state.booksCopy.find((p) => p.id === action.payload);
+			return {
+				...state,
+				allFavourites: [...state.allFavourites, { ...favBook }],
 			};
 		case USER_DEL_FAVORITES:
 			// localStorage.removeItem('favorites');

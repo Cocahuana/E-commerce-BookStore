@@ -27,6 +27,7 @@ import {
 	addToCart,
 	userDeleteFavorite,
 	userDelFavorite,
+	userAddFavState,
 } from '../../../../redux/actions/index';
 import { PriceTag } from './PriceTag';
 import { Link as BuenLink } from 'react-router-dom';
@@ -51,10 +52,20 @@ export const Book = (props) => {
 				setIsFav(false);
 			}
 		});
+		return () => {
+			allFavourites.map((e) => {
+				if (e.id === product.id) {
+					setIsFav(true);
+				} else {
+					setIsFav(false);
+				}
+			});
+		};
 	});
 
 	const addFavorite = (id) => {
 		if (isFav === false) {
+			dispatch(userAddFavState(id));
 			dispatch(userAddFavorite(userId, id));
 			setIsFav(true);
 		} else {
