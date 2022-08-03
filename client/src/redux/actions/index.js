@@ -28,6 +28,7 @@ import {
 	DEL_ALL_CART,
 	GET_CART,
 	REMOVE_BOOK_CART_DB,
+	CLEAR_CART,
 	//-------------
 	LOGIN,
 	SIGN_UP,
@@ -353,11 +354,12 @@ export function saveOrder(payload) {
 export function addToCart(id, idUser) {
 	return async function (dispatch) {
 		try {
-
+			
 			const adding = axios.post(`/cart/`, {
 				userId: idUser,//me llega de estado del componente
 				bookId: id //me llega de params
 			})
+			
 			dispatch({
 				type: ADD_CART,
 				payload: id,
@@ -410,6 +412,13 @@ export function removeOneBookFromCart(bookId, userId) {
 			payload: deleteBooks
 		})
 	}
-	
+}
 
+export function clearCart(userId) {
+	return async function (dispatch){
+		let clearAll = await axios.put(`/cart/clear?userId=${userId}`)
+	return dispatch({
+		type: CLEAR_CART
+		})
+	}
 }
