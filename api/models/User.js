@@ -46,7 +46,7 @@ module.exports = (sequelize) => {
 			},
 
 			subscribed: {
-				type: DataTypes.ENUM(['Subscribed', 'Unsubscribed', 'Dismiss']),
+				type: DataTypes.ENUM(['Subscribed', 'Unsubscribed']),
 				defaultValue: 'Unsubscribed',
 			},
 		},
