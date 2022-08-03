@@ -220,68 +220,7 @@ function BookDetail(props) {
 								</Text>
 							</Text>
 						</Stack>
-						<Stack
-							direction='column'
-							alignItems='center'
-							justifyContent={'center'}>
-							<Accordion
-								minW={'100%'}
-								allowMultiple
-								padding={'15px'}>
-								<AccordionItem rounded={'10px'}>
-									<h2>
-										<AccordionButton
-											rounded={'10px'}
-											bg={useColorModeValue(
-												'blue.500',
-												'blue.200'
-											)}
-											transition='1s'
-											textTransform={'uppercase'}
-											_hover={{
-												bg: useColorModeValue(
-													'rgba(65, 137, 230, 0.50)',
-													'rgba(65, 137, 230, 0.35)'
-												),
-												color: useColorModeValue(
-													'#3483fa',
-													'white'
-												),
-											}}>
-											<Box
-												color={useColorModeValue(
-													'white',
-													'gray.900'
-												)}
-												flex='1'
-												textAlign='left'>
-												Description
-											</Box>
-											<AccordionIcon />
-										</AccordionButton>
-									</h2>
-									<AccordionPanel
-										color={useColorModeValue(
-											'gray.900',
-											'gray.400'
-										)}
-										textAlign={'justify'}
-										rounded={'10px'}
-										bg={useColorModeValue(
-											'white',
-											'gray.900'
-										)}
-										pb={4}>
-										<div
-											dangerouslySetInnerHTML={{
-												__html: details?.description,
-											}}
-										/>
-									</AccordionPanel>
-								</AccordionItem>
-							</Accordion>
-						</Stack>
-						<Stack>
+						<Stack py={"30px"} justify={"center"} align={"center"}>
 							<Text fontSize={'20px'}>
 								<Text>Stock Available:</Text>
 							</Text>
@@ -387,6 +326,34 @@ function BookDetail(props) {
 						</Stack>
 					</Stack>
 				</SimpleGrid>
+				<Stack
+					p={"20px"}
+					bg={useColorModeValue('whiteAlpha.600', 'gray.700')}
+					direction='column'
+					alignItems='center'
+					justifyContent={'center'}>
+					<Box
+						p={"5px"}
+						rounded={"5px"}
+						w={"100%"}
+						bg={useColorModeValue(
+							'blue.500',
+							'blue.200'
+						)}
+						color={useColorModeValue('white', 'gray.900')}
+						flex='1'
+						textAlign='center'>
+						Description
+					</Box>				
+					<Text
+						textAlign='justify'
+						p={"10px"}
+						justifyContent={"center"}
+						dangerouslySetInnerHTML={{
+							__html: details?.description,
+						}}
+					/>
+				</Stack>
 			</Box>
 			<Reviews reviewData={reviewData} />
 			<CommentPoster id={id} />
