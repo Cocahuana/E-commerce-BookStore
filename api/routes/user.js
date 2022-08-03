@@ -1,5 +1,6 @@
 const express = require('express');
 const { Router } = require('express');
+const { reset } = require('nodemon');
 const {
 	registerUser,
 	userLogin,
@@ -12,6 +13,8 @@ const {
 	profilePicture,
 	updateUser,
 	googleSignIn,
+	resetPassword,
+	changeSubscription,
 } = require('../controllers/userControllers');
 
 const router = Router();
@@ -44,7 +47,10 @@ router.put('/image/:id', async (req, res) => {
 
 router.put('/update', updateUser);
 
+router.post('/google', googleSignIn);
 
-router.post('/google', googleSignIn)
+router.put('/password', resetPassword);
+
+router.put('/subscription', changeSubscription);
 
 module.exports = router;
