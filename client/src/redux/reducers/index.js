@@ -28,6 +28,8 @@ import {
 	USER_DEL_FAVORITES,
 	UPDATE_USER,
 	USER_ADD_FAVSTATE,
+	GET_CART,
+	REMOVE_BOOK_CART_DB,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -357,6 +359,22 @@ const rootReducer = (state = InitialState, action) => {
 				cart: [],
 				summary: 0,
 			};
+		case GET_CART: {
+			var arrayBooks = action.payload.Books
+			
+			return {
+				...state,
+				cart: arrayBooks,
+
+			}
+		};
+		case REMOVE_BOOK_CART_DB: {
+			return {
+				...state,
+			}
+		}
+		
+		
 		case LOGIN:
 			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
 			console.log(action.payload);
