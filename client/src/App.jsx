@@ -19,6 +19,8 @@ import Dashboard from './components/Dashboard/Dashboard';
 import FormAdd from './components/Dashboard/Forms/FormAdd';
 import { AuthContextProvider } from './components/firebase/context';
 import FormPut from './components/Dashboard/Forms/FormPut';
+import Pay from './components/Payment/Pay';
+import Success from './components/Payment/Success';
 
 /*
  NO SACAR EL SWITCH, AMIGUENSE CON REACT ROUTER DOM V5 :D
@@ -45,6 +47,8 @@ function App() {
 				<Route path='/register' component={register} />
 				<Route path='/login' component={login} />
 				<Route path='/us' component={AboutUs} />
+				<Route path='/pay' component={Pay} />
+				<Route path='/success' component={Success} />
 				<Route
 					path='/adminDashboard'
 					component={userRole === 'Admin' ? Dashboard : Unauthorized}
