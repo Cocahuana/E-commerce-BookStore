@@ -13,20 +13,23 @@ import {
 	useColorModeValue,
 } from '@chakra-ui/react';
 import Cart from './Cart';
-import { useDispatch } from 'react-redux';
-import { delAllCart } from '../../redux/actions/index';
+import { useDispatch, useSelector } from 'react-redux';
+import { delAllCart, getCart, clearCart } from '../../redux/actions/index';
 import { TiShoppingCart } from 'react-icons/ti';
 import SummaryPurchase from './SummaryPurchase';
 
 const CartDrawer = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const dispatch = useDispatch();
+	const { userId } = useSelector((state) => state);
 
 	const handleClick = (newSize) => {
+		dispatch(getCart(userId));
 		onOpen();
 	};
 
 	const handleDeleteCart = () => {
+		dispatch(clearCart(userId));
 		dispatch(delAllCart());
 	};
 

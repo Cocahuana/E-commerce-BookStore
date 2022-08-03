@@ -8,6 +8,7 @@ import {
 	resetDetails,
 	getAllUsers,
 	postComment,
+	userAddFavorite,
 } from '../../redux/actions';
 import { Link as BuenLink } from 'react-router-dom';
 import {
@@ -35,7 +36,7 @@ import {
 	ChakraProvider,
 	HStack,
 } from '@chakra-ui/react';
-import { TiShoppingCart } from 'react-icons/ti';
+import { TiShoppingCart, TiHeartOutline } from 'react-icons/ti';
 import { Rating } from '../BookShelf/BookHolder/Book/Rating';
 import { PriceTag } from '../BookShelf/BookHolder/Book/PriceTag';
 import Swal from 'sweetalert2';
@@ -51,15 +52,26 @@ function BookDetail(props) {
 	);
 	// const [comments, setComments] = UseState([])
 
-	const handleonclick = (id) => {
-		dispatch(addToCart(id));
-		Swal.fire({
-			position: 'top-end',
-			icon: 'success',
-			title: 'Added to the cart successfully',
-			showConfirmButton: false,
-			timer: 1500,
+	const handleOnClick = (id) => {
+		dispatch(addToCart(id, userId));
+		let flag = true;
+		cart.map((e) => {
+			if (e.id === id) flag = false;
 		});
+		if (flag) {
+			Swal.fire({
+				position: 'top-end',
+				icon: 'success',
+				title: 'Added to the cart successfully',
+				showConfirmButton: false,
+				timer: 800,
+			});
+		}
+	};
+
+	const handleOnFavourite = (id) => {
+		console.log(userId, id);
+		dispatch(userAddFavorite(userId, id));
 	};
 
 	useEffect(() => {
@@ -208,68 +220,7 @@ function BookDetail(props) {
 								</Text>
 							</Text>
 						</Stack>
-						<Stack
-							direction='column'
-							alignItems='center'
-							justifyContent={'center'}>
-							<Accordion
-								minW={'100%'}
-								allowMultiple
-								padding={'15px'}>
-								<AccordionItem rounded={'10px'}>
-									<h2>
-										<AccordionButton
-											rounded={'10px'}
-											bg={useColorModeValue(
-												'blue.500',
-												'blue.200'
-											)}
-											transition='1s'
-											textTransform={'uppercase'}
-											_hover={{
-												bg: useColorModeValue(
-													'rgba(65, 137, 230, 0.50)',
-													'rgba(65, 137, 230, 0.35)'
-												),
-												color: useColorModeValue(
-													'#3483fa',
-													'white'
-												),
-											}}>
-											<Box
-												color={useColorModeValue(
-													'white',
-													'gray.900'
-												)}
-												flex='1'
-												textAlign='left'>
-												Description
-											</Box>
-											<AccordionIcon />
-										</AccordionButton>
-									</h2>
-									<AccordionPanel
-										color={useColorModeValue(
-											'gray.900',
-											'gray.400'
-										)}
-										textAlign={'justify'}
-										rounded={'10px'}
-										bg={useColorModeValue(
-											'white',
-											'gray.900'
-										)}
-										pb={4}>
-										<div
-											dangerouslySetInnerHTML={{
-												__html: details?.description,
-											}}
-										/>
-									</AccordionPanel>
-								</AccordionItem>
-							</Accordion>
-						</Stack>
-						<Stack>
+						<Stack py={"30px"} justify={"center"} align={"center"}>
 							<Text fontSize={'20px'}>
 								<Text>Stock Available:</Text>
 							</Text>
@@ -280,7 +231,7 @@ function BookDetail(props) {
 						<Stack>
 							<Box>
 								<Button
-									onClick={() => handleonclick(details.id)}
+									onClick={() => handleOnClick(details.id)}
 									w={'100%'}
 									size={'lg'}
 									bg={useColorModeValue(
@@ -305,6 +256,37 @@ function BookDetail(props) {
 										),
 									}}>
 									Add to cart
+								</Button>
+							</Box>
+							<Box>
+								<Button
+									onClick={() =>
+										handleOnFavourite(details.id)
+									}
+									w={'100%'}
+									size={'lg'}
+									bg={useColorModeValue(
+										'blue.500',
+										'blue.200'
+									)}
+									color={useColorModeValue(
+										'white',
+										'gray.900'
+									)}
+									leftIcon={<TiHeartOutline />}
+									textTransform={'uppercase'}
+									transition={'1s'}
+									_hover={{
+										bg: useColorModeValue(
+											'blue.200',
+											'blue.500'
+										),
+										color: useColorModeValue(
+											'gray.900',
+											'white'
+										),
+									}}>
+									Add to favourites
 								</Button>
 							</Box>
 							<Box
@@ -344,6 +326,34 @@ function BookDetail(props) {
 						</Stack>
 					</Stack>
 				</SimpleGrid>
+				<Stack
+					p={"20px"}
+					bg={useColorModeValue('whiteAlpha.600', 'gray.700')}
+					direction='column'
+					alignItems='center'
+					justifyContent={'center'}>
+					<Box
+						p={"5px"}
+						rounded={"5px"}
+						w={"100%"}
+						bg={useColorModeValue(
+							'blue.500',
+							'blue.200'
+						)}
+						color={useColorModeValue('white', 'gray.900')}
+						flex='1'
+						textAlign='center'>
+						Description
+					</Box>				
+					<Text
+						textAlign='justify'
+						p={"10px"}
+						justifyContent={"center"}
+						dangerouslySetInnerHTML={{
+							__html: details?.description,
+						}}
+					/>
+				</Stack>
 			</Box>
 			<Reviews reviewData={reviewData} />
 			<CommentPoster id={id} />

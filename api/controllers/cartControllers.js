@@ -13,7 +13,7 @@ const getCart = async (req, res, next) =>{
                     model: User,
                     attributes: ["username", "profile_picture", "status"],
                     model: Books,
-                    attributes: ["id", "title", "price","authors"],
+                    attributes: ["id", "title", "currency", "price","authors", "image"],
                     through: {attributes: ["amount"]}
                 },
                 
@@ -90,7 +90,7 @@ const addBookToCart = async (req, res, next) =>{
 };
 
 const removeOneBookFromCart = async (req, res, next) =>{
-    let { userId, bookId } = req.body;
+    let { userId, bookId } = req.query;
     try{
         let bookToRemove = await Books.findOne({
             where:{
@@ -122,7 +122,7 @@ const removeOneBookFromCart = async (req, res, next) =>{
                     BookId: bookId,
                 }
             }) 
-            return res.send("Amount decreased")
+            return res.send({bookToRemove})
         }else{
             if(await cart.removeBook(bookToRemove)) return res.send(`All copies of ${bookToRemove.title} removed from cart`);
             else return res.send(`No copies of ${bookToRemove.title} in cart!`);
@@ -164,7 +164,7 @@ const removeAllBooksFromCart = async (req, res, next) => {
 };
 
 const clearCart = async (req, res, next) => {
-    let { userId } = req.body;
+    let { userId } = req.query;
     try{
         let cart = await Cart.findOne({
             where:{
@@ -232,7 +232,7 @@ const checkoutCart = async (req, res, next) =>{
     }
 };
 
-const bulkAdd = async (req, res, next) => {
+const bulkAdd = async (req, res, next) => { //funcion para cuando un user esta deslogeado se logea se giardan libros
     let { bookObjects, userId } = req.body;
     let arrayPromises = [];
     try{

@@ -1,6 +1,6 @@
 import { Icon, IconButton, LightMode } from '@chakra-ui/react';
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { FiHeart } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { userGetFavorite } from '../../../../redux/actions';
@@ -9,15 +9,17 @@ export const FavouriteButton = (props) => {
 	const { id, userId, isFav } = props;
 	const { allFavourites } = useSelector((state) => state);
 	const dispatch = useDispatch();
-	let alreadyFav = false;
+	const [alreadyFav, setAlreadyFav] = useState(false);
 
-	allFavourites.map((e) => {
-		if (e.id === id) alreadyFav = true;
-	});
+	// useEffect(() => {
+	// 	allFavourites.map((e) => {
+	// 		if (e.id === id) setAlreadyFav(true);
+	// 	});
+	// },[JSON.stringify(allFavourites)])
 
 	return (
 		<LightMode>
-			{alreadyFav === true ? (
+			{isFav === true ? (
 				<IconButton
 					isRound
 					bg='white'

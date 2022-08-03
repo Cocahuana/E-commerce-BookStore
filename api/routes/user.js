@@ -1,5 +1,6 @@
 const express = require('express');
 const { Router } = require('express');
+const { reset } = require('nodemon');
 const {
 	registerUser,
 	userLogin,
@@ -12,6 +13,8 @@ const {
 	profilePicture,
 	updateUser,
 	googleSignIn,
+	resetPassword,
+	changeSubscription,
 } = require('../controllers/userControllers');
 
 const router = Router();
@@ -32,7 +35,7 @@ router.get('/favorites/:idUser', getFavorite);
 
 router.delete('/favorites', deleteFavorite);
 
-//Eze y lucho: rodi e ivo avisen si lo ven. Rodri: Lo vi...no me gusto.Salu2
+//Eze y lucho: rodi e ivo avisen si lo ven. Rodri: Lo vi...no me gusto.Salu2. Ivo: mientras funcione, pa lante
 router.put('/image/:id', async (req, res) => {
 	try {
 		await profilePicture(req.params, req.body);
@@ -44,7 +47,10 @@ router.put('/image/:id', async (req, res) => {
 
 router.put('/update', updateUser);
 
+router.post('/google', googleSignIn);
 
-router.post('/google', googleSignIn)
+router.put('/password', resetPassword);
+
+router.put('/subscription', changeSubscription);
 
 module.exports = router;

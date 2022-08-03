@@ -44,6 +44,11 @@ module.exports = (sequelize) => {
 				type: DataTypes.JSON,
 				defaultValue: [],
 			},
+
+			subscribed: {
+				type: DataTypes.ENUM(['Subscribed', 'Unsubscribed']),
+				defaultValue: 'Unsubscribed',
+			},
 		},
 		{ timestamps: false }
 	);

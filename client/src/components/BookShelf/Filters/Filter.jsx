@@ -248,8 +248,6 @@ function Filter({ setCurrentPage }) {
 					<RangeSliderMark
 						value={sliderValue[0]}
 						textAlign='center'
-						bg='blue.500'
-						color='white'
 						mt='5'
 						ml='-5'
 						w='15'>
@@ -259,15 +257,13 @@ function Filter({ setCurrentPage }) {
 					<RangeSliderMark
 						value={sliderValue[1]}
 						textAlign='center'
-						bg='blue.500'
-						color='white'
 						mt='5'
 						ml='-5'
 						w='15'>
 						{sliderValue[1]}$
 					</RangeSliderMark>
-					<RangeSliderThumb index={0} />
-					<RangeSliderThumb index={1} />
+					<RangeSliderThumb index={0} bg={useColorModeValue("gray.300", "white")} />
+					<RangeSliderThumb index={1} bg={useColorModeValue("gray.300", "white")} />
 				</RangeSlider>
 			</Flex>
 		</Stack>

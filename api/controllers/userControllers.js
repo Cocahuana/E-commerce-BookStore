@@ -30,7 +30,7 @@ const registerUser = async (req, res, next) => {
 		let cartToAssociate = await Cart.create();
 		await cartToAssociate.setUser(newUser);
 
-		res.send('User created succesfully!');
+		res.json({message: "User created succesfully!", id: newUser.id});
 	} catch (err) {
 		next(err);
 	}
@@ -38,24 +38,32 @@ const registerUser = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {
 	//con esto cambias username, email, contraseña, status, id, favorites y profile pics
+	let {id, username, email, password, status, favorites, profilePic} = req.body;
 	try {
-		const user = await User.findByPk(req.body.id);
-
 		if (req.body.password) {
 			let hashedPassword = crypto
 				.createHash('md5')
 				.update(password)
 				.digest('hex');
-			req.body.password = hashedPassword;
+			password = hashedPassword;
 		}
+		const userCheck = await User.findByPk(id);
 
-		await user.update(req.body);
-
-		const updated = await User.findByPk(req.body.id);
-
-		res.send(updated);
+		const updatedUser = await User.update({
+			username: username ? username : userCheck.username,
+			email: email ? email : userCheck.email,
+			password: password ? password : userCheck.password,
+			status: status ? status : userCheck.status,
+			favorites: favorites ? favorites : userCheck.favorites,
+			profile_picture: profilePic ? profilePic : userCheck.profile_picture,
+		},{
+			where:{
+				id: id,
+			}
+		});
+		res.json(`User ${username ? username : userCheck.username} has been updated!`)
 	} catch (err) {
-		console.log(err);
+		next(err);
 	}
 };
 
@@ -130,8 +138,6 @@ const addFavorite = async (req, res) => {
 		} else {
 			throw new Error('Invalid user');
 		}
-
-		res.send('Agregado a Favoritos');
 	} catch (error) {
 		res.status(400).json(error.message);
 	}
@@ -168,7 +174,9 @@ const searchUserByUsername = async (req, res, next) => {
 
 const getAllUsers = async (req, res, next) => {
 	try {
-		let users = await User.findAll();
+		let users = await User.findAll({ 
+			attributes: {exclude: ['password']},
+		});
 		if (users) res.json(users);
 		else res.status(400).json({ message: 'not users found' });
 	} catch (e) {
@@ -281,6 +289,8 @@ const googleSignIn = async (req, res, next) => {
 				email: email,
 				username: username,
 			});
+			let cartToAssociate = await Cart.create();
+			await cartToAssociate.setUser(create);
 			const jwtToken = jwt.sign(
 				{
 					//token creation
@@ -307,6 +317,63 @@ const googleSignIn = async (req, res, next) => {
 	}
 };
 
+const resetPassword = async (req, res, next) => {
+	let { userId, password } = req.body;
+	try{
+		let user = await User.findOne({
+			where:{
+				id: userId,
+			},
+		});
+		
+		if(!user) return res.status(400).send("User has not been found with that ID");
+
+		let hashedPassword = crypto
+		.createHash('md5')
+		.update(password)
+		.digest('hex');
+
+		await User.update({
+			password: hashedPassword,
+		},
+		{
+			where:{
+				id: userId,
+			},
+		});
+
+		res.send(`User ${user.username} has updated their password`);
+	}catch(err){
+		next(err);
+	}
+};
+
+const changeSubscription = async (req, res, next) => {
+	let { userId } = req.body;
+	try{
+		let user = await User.findOne({
+			where:{
+				id: userId,
+			}
+		});
+
+		if(!user) return res.status(400).send("User has not been found with that ID");
+		
+		await User.update({
+			subscribed: user.subscribed === 'Subscribed' ? 'Unsubscribed' : 'Subscribed',
+		},
+		{
+			where:{
+				id: userId,
+			},
+		});
+
+		res.send(`User ${user.username} has ${user.subscribed === 'Subscribed' ? 'Unsubscribed' : 'Subscribed'}`)
+	}catch(err){
+		next(err);
+	}
+}
+
 module.exports = {
 	registerUser,
 	userLogin,
@@ -319,4 +386,6 @@ module.exports = {
 	profilePicture,
 	updateUser,
 	googleSignIn,
+	resetPassword,
+	changeSubscription,
 };
