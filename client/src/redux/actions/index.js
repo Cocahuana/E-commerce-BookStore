@@ -26,6 +26,8 @@ import {
 	ADD_CART,
 	DEL_CART,
 	DEL_ALL_CART,
+	GET_CART,
+	REMOVE_BOOK_CART_DB,
 	//-------------
 	LOGIN,
 	SIGN_UP,
@@ -346,11 +348,16 @@ export function saveOrder(payload) {
 }
 //------------------------------------------------------------------------------------------------------
 
-// ---------CART------------
+// -----------------------------------------------CART-------------------------------------------------------
 
-export function addToCart(id) {
+export function addToCart(id, idUser) {
 	return async function (dispatch) {
 		try {
+
+			const adding = axios.post(`/cart/`, {
+				userId: idUser,//me llega de estado del componente
+				bookId: id //me llega de params
+			})
 			dispatch({
 				type: ADD_CART,
 				payload: id,
@@ -384,4 +391,25 @@ export function delAllCart() {
 			console.log(err);
 		}
 	};
+}
+
+export function getCart(userId) {
+	return async function (dispatch) {
+		let cart = await axios.get(`/cart?userId=${userId}`);
+		console.log(cart.data, 'reducer cart')
+		return dispatch({ type: GET_CART, payload: cart.data });
+	}
+}
+
+export function removeOneBookFromCart(bookId, userId) {
+	return async function(dispatch) {
+		let deleteBooks = await axios.put(`/cart?bookId=${bookId}&userId=${userId}`) //double query
+		console.log(deleteBooks) //quiero q me traiga libro a eliminar 
+		return dispatch({
+			type: REMOVE_BOOK_CART_DB,
+			payload: deleteBooks
+		})
+	}
+	
+
 }

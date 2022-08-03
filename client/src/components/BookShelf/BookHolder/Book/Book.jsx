@@ -38,7 +38,6 @@ import Swal from 'sweetalert2';
 export const Book = (props) => {
 	const { product, rootProps, isFav, setFavs } = props;
 
-
 	const dispatch = useDispatch();
 
 	const { userId, allFavourites, cart, books } = useSelector(
@@ -62,17 +61,17 @@ export const Book = (props) => {
 			setFavs((favs) => {
 				return {
 					...favs,
-					[id]: true
-				}
-			})
+					[id]: true,
+				};
+			});
 			addFavorite(id);
 		} else {
 			setFavs((favs) => {
 				return {
 					...favs,
-					[id]: false
-				}
-			})
+					[id]: false,
+				};
+			});
 			deleteFavorite(id);
 		}
 	};
@@ -88,7 +87,8 @@ export const Book = (props) => {
 	};
 
 	const handleAddToCart = () => {
-		dispatch(addToCart(id));
+		console.log(id, userId);
+		dispatch(addToCart(id, userId));
 		let flag = true;
 		cart.map((e) => {
 			if (e.id === id) flag = false;

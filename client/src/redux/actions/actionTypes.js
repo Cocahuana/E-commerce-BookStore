@@ -33,6 +33,8 @@ export const CHECK_STATES = 'CHECK_STATES';
 export const ADD_CART = 'ADD_CART';
 export const DEL_CART = 'DEL_CART';
 export const DEL_ALL_CART = 'DEL_ALL_CART';
+export const GET_CART = 'GET_CART';
+export const REMOVE_BOOK_CART_DB = 'REMOVE_CART_DB';
 
 //------------USER---------------
 export const LOGIN = 'LOGIN';

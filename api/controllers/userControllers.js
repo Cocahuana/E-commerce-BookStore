@@ -289,6 +289,8 @@ const googleSignIn = async (req, res, next) => {
 				email: email,
 				username: username,
 			});
+			let cartToAssociate = await Cart.create();
+			await cartToAssociate.setUser(create);
 			const jwtToken = jwt.sign(
 				{
 					//token creation

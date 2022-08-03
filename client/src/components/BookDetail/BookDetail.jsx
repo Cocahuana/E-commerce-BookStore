@@ -53,7 +53,7 @@ function BookDetail(props) {
 	// const [comments, setComments] = UseState([])
 
 	const handleOnClick = (id) => {
-		dispatch(addToCart(id));
+		dispatch(addToCart(id, userId));
 		let flag = true;
 		cart.map((e) => {
 			if (e.id === id) flag = false;
