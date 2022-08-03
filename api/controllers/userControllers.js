@@ -66,6 +66,7 @@ const updateUser = async (req, res, next) => {
 			where:{
 				id: id,
 			},
+			attributes: {exclude: ['password']},
 		});
 		res.json(updatedUser)
 	} catch (err) {
