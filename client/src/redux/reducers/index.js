@@ -30,6 +30,7 @@ import {
 	USER_ADD_FAVSTATE,
 	GET_CART,
 	REMOVE_BOOK_CART_DB,
+	CLEAR_CART,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -361,10 +362,15 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		case GET_CART: {
 			var arrayBooks = action.payload.Books
-			
+			var arrayNuevo = arrayBooks.map(b =>  b.price)
+			var suma = 0; 
+			for (let i = 0; i < arrayNuevo.length; i++) {
+				suma += arrayNuevo[i];	
+			}
 			return {
 				...state,
 				cart: arrayBooks,
+				summary: suma
 
 			}
 		};
@@ -372,9 +378,13 @@ const rootReducer = (state = InitialState, action) => {
 			return {
 				...state,
 			}
-		}
-		
-		
+		};
+		case CLEAR_CART: {
+			return {
+				...state,
+				summary: 0
+			}
+		};
 		case LOGIN:
 			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
 			console.log(action.payload);
@@ -456,7 +466,7 @@ const rootReducer = (state = InitialState, action) => {
 				isSignedIn: false,
 				userId: null,
 				cart: [],
-				summary: 0,
+				//summary: 0,
 				userRole: null,
 				userEmail: null,
 			};

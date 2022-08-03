@@ -22,8 +22,8 @@ const Cart = () => {
 	const dispatch = useDispatch();
 
 	const handleOnDelete = (id) => {
-		dispatch(delCart(id));
 		dispatch(removeOneBookFromCart(id, userId));
+		dispatch(delCart(id));
 	};
 	return (
 		<Stack>
