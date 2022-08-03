@@ -315,6 +315,63 @@ const googleSignIn = async (req, res, next) => {
 	}
 };
 
+const resetPassword = async (req, res, next) => {
+	let { userId, password } = req.body;
+	try{
+		let user = await User.findOne({
+			where:{
+				id: userId,
+			},
+		});
+		
+		if(!user) return res.status(400).send("User has not been found with that ID");
+
+		let hashedPassword = crypto
+		.createHash('md5')
+		.update(password)
+		.digest('hex');
+
+		await User.update({
+			password: hashedPassword,
+		},
+		{
+			where:{
+				id: userId,
+			},
+		});
+
+		res.send(`User ${user.username} has updated their password`);
+	}catch(err){
+		next(err);
+	}
+};
+
+const changeSubscription = async (req, res, next) => {
+	let { userId } = req.body;
+	try{
+		let user = await User.findOne({
+			where:{
+				id: userId,
+			}
+		});
+
+		if(!user) return res.status(400).send("User has not been found with that ID");
+		
+		await User.update({
+			subscribed: user.subscribed === 'Subscribed' ? 'Unsubscribed' : 'Subscribed',
+		},
+		{
+			where:{
+				id: userId,
+			},
+		});
+
+		res.send(`User ${user.username} has ${user.subscribed === 'Subscribed' ? 'Unsubscribed' : 'Subscribed'}`)
+	}catch(err){
+		next(err);
+	}
+}
+
 module.exports = {
 	registerUser,
 	userLogin,
@@ -327,4 +384,6 @@ module.exports = {
 	profilePicture,
 	updateUser,
 	googleSignIn,
+	resetPassword,
+	changeSubscription,
 };
