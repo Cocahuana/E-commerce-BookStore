@@ -49,7 +49,7 @@ const updateUser = async (req, res, next) => {
 		}
 		const userCheck = await User.findByPk(id);
 
-		const updatedUser = await User.update({
+		await User.update({
 			username: username ? username : userCheck.username,
 			email: email ? email : userCheck.email,
 			password: password ? password : userCheck.password,
@@ -61,7 +61,13 @@ const updateUser = async (req, res, next) => {
 				id: id,
 			}
 		});
-		res.json(`User ${username ? username : userCheck.username} has been updated!`)
+
+		const updatedUser = await User.findOne({
+			where:{
+				id: id,
+			},
+		});
+		res.json(updatedUser)
 	} catch (err) {
 		next(err);
 	}
