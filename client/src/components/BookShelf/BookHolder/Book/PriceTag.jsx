@@ -20,15 +20,15 @@ export const PriceTag = (props) => {
 
 const Price = (props) => {
 	const { isOnSale, children, textProps } = props;
-	const defaultColor = mode("gray.700", "gray.400");
-	const onSaleColor = mode("gray.400", "gray.700");
+	const defaultColor = mode("gray.700", "whiteAlpha.600");
+	const onSaleColor = mode("gray.400", "whiteAlpha.600");
 	const color = isOnSale ? onSaleColor : defaultColor;
 	return (
 		<Text
 			as="span"
 			fontWeight="medium"
 			color={color}
-			textDecoration={isOnSale ? "line-through" : "none"}
+			textDecoration={isOnSale ? "line-through red" : "none"}
 			{...textProps}
 		>
 			{children}
