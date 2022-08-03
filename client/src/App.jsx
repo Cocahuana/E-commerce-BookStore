@@ -47,8 +47,14 @@ function App() {
 				<Route path='/register' component={register} />
 				<Route path='/login' component={login} />
 				<Route path='/us' component={AboutUs} />
-				<Route path='/pay' component={Pay} />
-				<Route path='/success' component={Success} />
+				<Route
+					path='/pay'
+					component={userRole === 'User' ? Pay : Unauthorized}
+				/>
+				<Route
+					path='/success'
+					component={userRole === 'User' ? Success : Unauthorized}
+				/>
 				<Route
 					path='/adminDashboard'
 					component={userRole === 'Admin' ? Dashboard : Unauthorized}
@@ -57,12 +63,10 @@ function App() {
 					path='/addBook'
 					component={userRole === 'Admin' ? FormAdd : Unauthorized}
 				/>
-
 				<Route
 					path='/putBook/:id'
 					component={userRole === 'Admin' ? FormAdd : Unauthorized}
 				/>
-
 				<Route
 					path='/profile'
 					component={userRole === 'User' ? userprofile : Unauthorized}
