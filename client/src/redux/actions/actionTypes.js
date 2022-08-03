@@ -47,3 +47,4 @@ export const UPDATE_USER = 'UPDATE_USER';
 //------------ADMIN---------------
 export const HIDE_BOOKS = 'HIDE_BOOKS';
 export const CREATE_BOOK = 'CREATE_BOOK';
+export const MODIFY_BOOK = 'CREATE_BOOK';

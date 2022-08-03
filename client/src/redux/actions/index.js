@@ -38,6 +38,7 @@ import {
 	USER_GET_FAVORITES,
 	POST_COMMENT,
 	CREATE_BOOK,
+	MODIFY_BOOK,
 	USER_DEL_FAVORITES,
 	UPDATE_USER,
 	USER_ADD_FAVSTATE,
@@ -138,6 +139,16 @@ export function createBook(payload) {
 		var json = await axios.post('/books', payload);
 		return dispatch({
 			type: CREATE_BOOK,
+			payload: json.data,
+		});
+	};
+}
+export function modifyBook(payload) {
+	return async function (dispatch) {
+		console.log(payload);
+		var json = await axios.put(`/books/${payload.id}`, payload.input);
+		return dispatch({
+			type: MODIFY_BOOK,
 			payload: json.data,
 		});
 	};

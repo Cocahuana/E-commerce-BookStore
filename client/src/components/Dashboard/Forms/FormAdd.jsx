@@ -29,6 +29,7 @@ import {
 	createBook,
 	getBooksByTitleOrAuthor,
 	getDetails,
+	modifyBook,
 } from '../../../redux/actions';
 import { Link as BuenLink, useHistory } from 'react-router-dom';
 
@@ -57,7 +58,7 @@ function validate(input) {
 
 function FormAdd(props) {
 	const { genres } = useSelector((state) => state);
-
+	const { details } = useSelector((state) => state);
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const toast = useToast();
@@ -68,18 +69,10 @@ function FormAdd(props) {
 	const tituloREGEX =
 		/^[A-Z][a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
 
-	useEffect(() => {
-		if (id) {
-			dispatch(getDetails(id));
-		}
-	}, [dispatch, id]);
-
-	const { details } = useSelector((state) => state);
-
 	const [input, setInput] = useState({
 		title: '',
 		currency: 'USD',
-		authors: [],
+		authors: '',
 		description: '',
 		price: 1,
 		rating: 0,
@@ -88,9 +81,15 @@ function FormAdd(props) {
 		language: 'ENGLISH',
 	});
 
+	useEffect(() => {
+		if (id) {
+			dispatch(getDetails(id));
+		}
+	}, []);
+
 	id &&
-		details.title &&
-		details.title !== input.title &&
+		details.rating &&
+		details.rating !== input.rating &&
 		setInput({
 			title: details.title,
 			currency: details.currency,
@@ -102,8 +101,6 @@ function FormAdd(props) {
 			image: details.image,
 			language: details.Languages[0].name,
 		});
-
-	console.log(details);
 
 	function handleChange(e) {
 		setInput({
@@ -210,28 +207,46 @@ function FormAdd(props) {
 				duration: '2000',
 			});
 		} else {
-			toast({
-				title: 'Book created succesfully',
-				status: 'success',
-				isClosable: 'true',
-				duration: '2500',
-			});
+			if (id) {
+				toast({
+					title: 'Book Modify succesfully',
+					status: 'success',
+					isClosable: 'true',
+					duration: '2500',
+				});
+				console.log(input);
+				dispatch(modifyBook({ id, input }));
+				console.log('modificado :D');
+
+				dispatch(getBooksByTitleOrAuthor(''));
+
+				history.push('/adminDashboard');
+			} else {
+				toast({
+					title: 'Book created succesfully',
+					status: 'success',
+					isClosable: 'true',
+					duration: '2500',
+				});
+				dispatch(createBook(input));
+				console.log('creado :D');
+				console.log(input, 'xd');
+
+				dispatch(getBooksByTitleOrAuthor(''));
+
+				history.push('/adminDashboard');
+			}
 			setInput({
 				title: '',
 				currency: 'USD',
 				authors: [],
 				description: '',
-				price: 100,
+				price: 1,
 				rating: 0,
 				genre: [],
 				image: '',
 				language: 'ENGLISH',
 			});
-			dispatch(createBook(input));
-
-			dispatch(getBooksByTitleOrAuthor(''));
-
-			history.push('/adminDashboard');
 		}
 	}
 
@@ -284,10 +299,10 @@ function FormAdd(props) {
 
 									<Input
 										type='text'
-										name='title'
 										value={input.title}
 										onChange={handleChange}
 										mt={1}
+										name='title'
 										shadow='sm'
 										size='sm'
 										w='full'
@@ -426,17 +441,32 @@ function FormAdd(props) {
 									>
 										Rating
 									</FormLabel>
-									<Input
-										type='number'
-										value={input.rating}
-										onChange={handleChange}
-										name='rating'
-										mt={1}
-										shadow='sm'
-										size='sm'
-										w='full'
-										rounded='md'
-									/>
+									{id ? (
+										<Input
+											type='number'
+											value={input.rating}
+											onChange={handleChange}
+											name='rating'
+											mt={1}
+											shadow='sm'
+											size='sm'
+											w='full'
+											rounded='md'
+											disabled
+										/>
+									) : (
+										<Input
+											type='number'
+											value={input.rating}
+											onChange={handleChange}
+											name='rating'
+											mt={1}
+											shadow='sm'
+											size='sm'
+											w='full'
+											rounded='md'
+										/>
+									)}
 
 									{errors.rating ? (
 										<FormErrorMessage>Rating is required.</FormErrorMessage>
