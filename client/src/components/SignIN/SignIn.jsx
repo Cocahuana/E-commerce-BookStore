@@ -63,7 +63,6 @@ function SignIn() {
 
 	const handleSignIn = (e) => {
 		e.preventDefault();
-
 		if (user.email === '' || user.password === '') {
 			Swal.fire({
 				icon: 'error',

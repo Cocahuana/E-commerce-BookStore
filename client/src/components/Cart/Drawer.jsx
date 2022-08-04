@@ -11,10 +11,12 @@ import {
 	Button,
 	Box,
 	useColorModeValue,
+	Text,
 } from '@chakra-ui/react';
 import Cart from './Cart';
-import { useDispatch } from 'react-redux';
-import { delAllCart } from '../../redux/actions/index';
+import { useDispatch, useSelector } from 'react-redux';
+import { delAllCart, getCart, clearCart } from '../../redux/actions/index';
+
 import { TiShoppingCart } from 'react-icons/ti';
 import SummaryPurchase from './SummaryPurchase';
 import { Link as BuenLink } from 'react-router-dom';
@@ -22,12 +24,15 @@ import { Link as BuenLink } from 'react-router-dom';
 const CartDrawer = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const dispatch = useDispatch();
+	const { userId, cart } = useSelector((state) => state);
 
 	const handleClick = (newSize) => {
+		dispatch(getCart(userId));
 		onOpen();
 	};
 
 	const handleDeleteCart = () => {
+		dispatch(clearCart(userId));
 		dispatch(delAllCart());
 	};
 
@@ -39,6 +44,16 @@ const CartDrawer = () => {
 				m={4}
 				leftIcon={<TiShoppingCart />}>
 				Cart
+				<Text
+					fontSize='14px'
+					bg='gray.400'
+					rounded='50%'
+					px='4px'
+					py='2px'
+					marginLeft='6px'
+					color={useColorModeValue('white', 'gray.600')}>
+					{cart.length}
+				</Text>
 			</Button>
 
 			<Drawer onClose={onClose} isOpen={isOpen} size={'sm'}>
