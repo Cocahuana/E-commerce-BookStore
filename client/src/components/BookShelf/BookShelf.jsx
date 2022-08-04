@@ -101,7 +101,7 @@ const BookShelf = () => {
 								lg: '12',
 							}}
 						>
-							<BookHolder>
+							<BookHolder w={"1000px"}>
 								{loading ? (
 									<Center>
 										<Spinner
