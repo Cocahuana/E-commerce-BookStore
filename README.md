@@ -8,7 +8,7 @@ E-commerce - BookStore repository
 -   npm i dotenv
 -   npm i cors (inside api folder)
 
-# Technologies which would be used all the way long the proyect:
+# Technologies that would be used all the way along the proyect:
 
 -   React.js
 -   Chackra UI for frontend design
