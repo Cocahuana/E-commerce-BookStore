@@ -5,25 +5,29 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import Swal from 'sweetalert2';
+import { UserAuth } from '../firebase/context';
 
 function signout(props) {
 	//SIGN OUT BUTTON, DISPATCHS THE ACTION THAT CLEARS LOCALSTORAGE AND SETS ISSIGNEDIN STATE IN FALSE
 	const dispatch = useDispatch();
 	const history = useHistory();
+	const { logOut } = UserAuth();
 
 	const handleClick = (e) => {
 		e.preventDefault();
 		dispatch(userSignOut());
+		logOut();
 		Swal.fire(
 			'Sign Out',
 			'You have been signed out successfully!',
 			'success'
 		);
+
 		history.push('/');
 		//localStorage.clear();
 	};
 	return (
-		<Stack align={"center"} w={props.wid} >
+		<Stack align={'center'} w={props.wid}>
 			<Button
 				bg={useColorModeValue('red.500', 'red.400')}
 				w={props.wid}

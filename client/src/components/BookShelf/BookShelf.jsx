@@ -19,21 +19,22 @@ import { getBooksByTitleOrAuthor, userGetFavorite } from '../../redux/actions';
 
 const BookShelf = () => {
 	const dispatch = useDispatch();
-	const { books, query } = useSelector((state) => state);
+	const { cart, allFavourites, summary, userId, books, query } = useSelector(
+		(state) => state
+	);
 	const [CurrentPage, setCurrentPage] = useState(1);
 	const BooksPerPage = 12;
 	const indexOfLastBook = CurrentPage * BooksPerPage;
 	const indexOfFirstBook = indexOfLastBook - BooksPerPage;
 
-	const { cart } = useSelector((state) => state);
-	const { summary } = useSelector((state) => state);
-	const { userId } = useSelector((state) => state);
-
 	let slicedBooks = books.slice(indexOfFirstBook, indexOfLastBook);
 
 	const loading = useSelector((state) => state.loading);
 
-	const { token, userRole } = useSelector((state) => state);
+	const { token, userRole} = useSelector((state) => state);
+
+	const [ favs, setFavs ] = useState({});
+
 
 	useEffect(() => {
 		if (!books.length) dispatch(getBooksByTitleOrAuthor(query));
@@ -41,6 +42,7 @@ const BookShelf = () => {
 		// setting variables in localStorage ----
 		localStorage.setItem('cart', JSON.stringify(cart));
 		localStorage.setItem('summary', JSON.stringify(summary));
+		// localStorage.setItem('favorites', JSON.stringify(allFavourites));
 		if (token.length === 0) {
 			localStorage.setItem('isSignedIn', false);
 		} else {
@@ -48,7 +50,16 @@ const BookShelf = () => {
 			localStorage.setItem('token', token);
 			localStorage.setItem('userRole', userRole);
 		}
+
 	}, [dispatch, cart, token]);
+
+	useEffect(() => {
+		const favourites = {}		
+		for(let i = 0; allFavourites.length > i; i++) {
+			favourites[allFavourites[i].id] = true 
+		}
+		setFavs(favourites)
+	},[allFavourites])
 
 	return (
 		<Box>
@@ -106,7 +117,7 @@ const BookShelf = () => {
 									<h2>No books found!</h2>
 								) : (
 									slicedBooks.map((b) => (
-										<Book key={b.id} product={b} />
+										<Book isFav={favs[b.id]} setFavs={setFavs} key={b.id} product={b} />
 									))
 								)}
 							</BookHolder>

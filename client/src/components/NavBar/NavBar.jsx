@@ -60,7 +60,6 @@ export default function NavBar() {
 		<Box
 			position='fixed'
 			width='100%'
-			zIndex={3}
 			backdropFilter={'auto'}
 			backdropBlur='8px'>
 			<Flex
@@ -243,23 +242,19 @@ export default function NavBar() {
 							minW={0}>
 							<ProfileImage tamaño='sm' />
 						</MenuButton>
-						<MenuList
-							bg={useColorModeValue(
-								'white',
-								'gray.700'
-							)}>
+						<MenuList bg={useColorModeValue('white', 'gray.700')}>
 							<MenuItem
+								_focus={{ boxShadow: 'none' }}
 								_hover={{
 									bg: useColorModeValue('white', 'none'),
-									cursor: 'default'
-								}}
-								>
+									cursor: 'default',
+								}}>
 								<FavouriteList />
 							</MenuItem>
 							<MenuItem
 								_hover={{
 									bg: useColorModeValue('white', 'none'),
-									cursor: 'default'
+									cursor: 'default',
 								}}>
 								<BuenLink to='/profile'>
 									<Button

@@ -33,6 +33,9 @@ export const CHECK_STATES = 'CHECK_STATES';
 export const ADD_CART = 'ADD_CART';
 export const DEL_CART = 'DEL_CART';
 export const DEL_ALL_CART = 'DEL_ALL_CART';
+export const GET_CART = 'GET_CART';
+export const REMOVE_BOOK_CART_DB = 'REMOVE_CART_DB';
+export const CLEAR_CART = 'CLEAR_CART';
 
 //------------USER---------------
 export const LOGIN = 'LOGIN';
@@ -40,6 +43,7 @@ export const SIGN_UP = 'SIGN_UP';
 export const SIGN_OUT = 'SIGN_OUT';
 export const USER_GET_FAVORITES = 'USER_GET_FAVORITES';
 export const USER_DEL_FAVORITES = 'USER_DEL_FAVORITES';
+export const USER_ADD_FAVSTATE = 'USER_ADD_FAVSTATE';
 export const LOGIN_GOOGLE = 'LOGIN_GOOGLE';
 export const UPDATE_USER = 'UPDATE_USER';
 

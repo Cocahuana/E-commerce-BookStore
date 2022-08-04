@@ -21,7 +21,7 @@ const testimonials = [
 	},
 	{
 		name: 'Ale',
-		position: 'CEO',
+		position: 'Chakra Partner',
 		company: 'BookStore',
 		image: 'https://media-exp1.licdn.com/dms/image/C5603AQEpi5VxOr05rw/profile-displayphoto-shrink_200_200/0/1632938782612?e=1663804800&v=beta&t=LEz42gvrQXgiDn8A5QuF5sP6LG4F4ZeqoWATjN5nG-w',
 		content: `Invest on Chakra UI. Chakra UI is a simple, modular and accessible component library that gives you the building blocks you need to build your React applications.`,
@@ -35,7 +35,7 @@ const testimonials = [
 	},
 	{
 		name: 'Trini',
-		position: 'suffering developer',
+		position: 'suffering dev',
 		company: 'BookStore',
 		image: 'https://media-exp1.licdn.com/dms/image/C4D03AQEcb0vchcf9lw/profile-displayphoto-shrink_200_200/0/1654380893259?e=1663804800&v=beta&t=jeR_ICRGp6ZpObUz1D6044w77Jg2o8FFhwVBNPo_g7Y',
 		content: `Debugging an app is like a box of chocolates. You never know what you're gonna get`,
@@ -63,7 +63,7 @@ const testimonials = [
 	},
 	{
 		name: 'Ivan Chueco',
-		position: 'Backend Developer',
+		position: 'Back Developer',
 		company: 'BookStore',
 		image: 'https://ca.slack-edge.com/TPRS7H4PN-U031M29E25C-01724309db4f-512',
 		content: `"Run as fast as you can but you won't go far" said Ivan's middlewares to the hacker`,
@@ -176,11 +176,13 @@ function AboutUs() {
 							md: 'lg',
 						}}>
 						Who better to talk about books than the authors
-						themselves? "A book is a gift you can open again and
-						again" -Garrison Keillor "Once you read a book you care
+						themselves? <br /> <br />
+						"A book is a gift you can open again and again"
+						-Garrison Keillor <br /> "Once you read a book you care
 						about, some part of it is always with you" -Louis
-						L'Amour "If you don't like to read you haven't found the
-						right book yet" -JK Rowling
+						L'Amour <br />
+						"If you don't like to read you haven't found the right
+						book yet" -JK Rowling
 					</chakra.p>
 				</Flex>
 				<Flex

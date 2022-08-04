@@ -25,8 +25,12 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CloseIcon } from '@chakra-ui/icons';
-import { checkStates, createBook, getDetails } from '../../../redux/actions';
-import { Link as BuenLink } from 'react-router-dom';
+import {
+	createBook,
+	getBooksByTitleOrAuthor,
+	getDetails,
+} from '../../../redux/actions';
+import { Link as BuenLink, useHistory } from 'react-router-dom';
 
 function validate(input) {
 	let errors = {};
@@ -43,8 +47,8 @@ function validate(input) {
 		errors.ratingN = 'Se requiere un valor entre 0 y 5';
 	} else if (!input.price) {
 		errors.price = 'Se requiere Precio';
-	} else if (input.price < 100) {
-		errors.priceM = 'Precio mayor a 100';
+	} else if (input.price < 1) {
+		errors.priceM = 'Precio mayor a 1';
 	} else if (!input.description) {
 		errors.description = 'Se requiere una descripcion';
 	}
@@ -56,12 +60,14 @@ function FormAdd(props) {
 	const { details } = useSelector((state) => state);
 
 	const dispatch = useDispatch();
-
+	const history = useHistory();
 	const toast = useToast();
 
 	const [errors, setErrors] = useState({});
 
 	const { id } = props.match.params;
+	const tituloREGEX =
+		/^[A-Z][a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
 
 	useEffect(() => {
 		if (id) {
@@ -73,9 +79,10 @@ function FormAdd(props) {
 		id
 			? {
 					title: details?.title,
+					currency: 'USD',
 					authors: [],
 					description: '',
-					price: 100,
+					price: 1,
 					rating: 0,
 					genre: [],
 					image: '',
@@ -83,17 +90,16 @@ function FormAdd(props) {
 			  }
 			: {
 					title: '',
+					currency: 'USD',
 					authors: [],
 					description: '',
-					price: 100,
+					price: 1,
 					rating: 0,
 					genre: [],
 					image: '',
 					language: 'ENGLISH',
 			  }
 	);
-
-	console.log(input);
 
 	function handleChange(e) {
 		setInput({
@@ -169,7 +175,6 @@ function FormAdd(props) {
 			genre: input.genre.filter((gen) => gen !== e),
 		});
 	};
-
 	async function handleSubmit(e) {
 		e.preventDefault();
 
@@ -181,54 +186,45 @@ function FormAdd(props) {
 				duration: '2000',
 				isClosable: 'true',
 			});
-		} else if (!/^[A-Z][a-z_-]{3,19}$/.test(input.title)) {
+		} else if (!tituloREGEX.test(input.title)) {
 			toast({
-				title: 'Title',
+				title: 'Invalid Title',
 				description:
 					' tiene que tener la primera letra en mayus y ser una cadena',
 				status: 'warning',
 				isClosable: 'true',
 				duration: '2000',
 			});
-		} else if (!/^[A-Z][a-z_-]{3,19}$/.test(input.authors[0])) {
+		} else if (!tituloREGEX.test(input.authors[0])) {
 			toast({
-				title: 'Author',
+				title: 'Invalid Author',
 				description:
 					' tiene que tener la primera letra en mayus y ser una cadena',
 				status: 'warning',
 				isClosable: 'true',
 				duration: '2000',
 			});
-		} else if (
-			!/(http(s?):)([/|.|\w|\s|-])*.(?:jpg|gif|png)/.test(input.image)
-		) {
+		} else {
 			toast({
-				title: 'Image',
-				description: 'Formato incorrecto',
-				status: 'warning',
+				title: 'Book created succesfully',
+				status: 'success',
 				isClosable: 'true',
-				duration: '2000',
+				duration: '2500',
 			});
+			setInput({
+				title: '',
+				currency: 'USD',
+				authors: [],
+				description: '',
+				price: 100,
+				rating: 0,
+				genre: [],
+				image: '',
+				language: 'ENGLISH',
+			});
+			dispatch(createBook(input));
+			history.push('/adminDashboard');
 		}
-
-		dispatch(createBook(input));
-		toast({
-			title: 'Book created succesfully',
-			status: 'success',
-			isClosable: 'true',
-			duration: '2000',
-		});
-		setInput({
-			title: '',
-			authors: [],
-			description: '',
-			price: 100,
-			rating: 0,
-			genre: [],
-			image: '',
-			language: 'ENGLISH',
-		});
-		setErrors({});
 	}
 
 	return (
@@ -487,7 +483,7 @@ function FormAdd(props) {
 									)}
 									{errors.priceM ? (
 										<FormErrorMessage>
-											Price min $100.
+											Price min $1.
 										</FormErrorMessage>
 									) : (
 										<FormErrorMessage></FormErrorMessage>
