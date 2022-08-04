@@ -19,6 +19,7 @@ import { delAllCart, getCart, clearCart } from '../../redux/actions/index';
 
 import { TiShoppingCart } from 'react-icons/ti';
 import SummaryPurchase from './SummaryPurchase';
+import { Link as BuenLink } from 'react-router-dom';
 
 const CartDrawer = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -62,6 +63,31 @@ const CartDrawer = () => {
 					<DrawerHeader></DrawerHeader>
 					<DrawerBody>
 						<Cart />
+						<Box p='10px' float='left'>
+							<BuenLink to='/purchase'>
+								<Button
+									onClick={onClose}
+									bg={useColorModeValue(
+										'blue.500',
+										'blue.200'
+									)}
+									color={useColorModeValue(
+										'white',
+										'gray.900'
+									)}
+									size='sm'
+									_hover={{
+										transform: 'translateY(2px)',
+										boxShadow: 'lg',
+										bg: useColorModeValue(
+											'gray.400',
+											'gray.600'
+										),
+									}}>
+									Purchase now!!
+								</Button>
+							</BuenLink>
+						</Box>
 						<Box p='10px' float='right'>
 							<Button
 								bg={useColorModeValue('blue.500', 'blue.200')}
