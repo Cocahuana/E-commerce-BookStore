@@ -36,7 +36,7 @@ function Dashboard() {
 
 	return (
 		<Box>
-			{loading ? (
+			{adminBooks.length === 0 ? (
 				<Center>
 					<Spinner
 						thickness='4px'
