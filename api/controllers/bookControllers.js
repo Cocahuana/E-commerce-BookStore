@@ -193,7 +193,7 @@ const postComment = async (req, res, next) => {
 			}
 		});
 
-		if(!user) return res.status(400).send("User has not been found or is banned from making comments")
+		if(!user) return res.status(400).send("User has not been found or is banned from making comments");
 		const book = await Books.findByPk(parseInt(bookId), {
 			include:{
 				model: Comment,
