@@ -13,7 +13,9 @@ const KEY =
 export default function Pay() {
 	//Seteo el token (con el que se va a asociar la compra con la cuenta de stripe)
 	const [stripeToken, setStripeToken] = useState(null);
-	const { summary } = useSelector((state) => state);
+	const { summary, userName, userProfilePicture } = useSelector(
+		(state) => state
+	);
 
 	//Seteo para usar luego el token (que se genera solo)
 	const onToken = (token) => {
@@ -51,8 +53,8 @@ export default function Pay() {
 				//StripeCheckout es un componente que trae por defecto Stripe. No se debe quitar
 			}
 			<StripeCheckout
-				name='cocahuana'
-				image='https://assets.goal.com/v3/assets/bltcc7a7ffd2fbf71f5/bltf21c2ee30c00121a/627cbc382b67610d5673246f/GettyImages-1347553871.jpg'
+				name={userName}
+				image={userProfilePicture}
 				description={`Your total is ${summary}`}
 				amount={summary * 100}
 				token={onToken}
