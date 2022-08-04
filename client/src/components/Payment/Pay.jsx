@@ -1,8 +1,11 @@
 import { Box, Heading, Text, Button } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
 import StripeCheckout from 'react-stripe-checkout';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { Link as BuenLink } from 'react-router-dom';
 // Traigo la publisheable key de stripe para hacer los pagos (esta es la demo para practicar hacer pagos que no son reales)
 
 const KEY =
@@ -10,6 +13,7 @@ const KEY =
 export default function Pay() {
 	//Seteo el token (con el que se va a asociar la compra con la cuenta de stripe)
 	const [stripeToken, setStripeToken] = useState(null);
+	const { summary } = useSelector((state) => state);
 
 	//Seteo para usar luego el token (que se genera solo)
 	const onToken = (token) => {
@@ -23,7 +27,7 @@ export default function Pay() {
 				const res = await axios.post('/payment/create', {
 					//Le paso los datos que quiero usar. Los ultimos 2 digitos del amount son centavos.
 					tokenId: stripeToken.id,
-					amount: 5000,
+					amount: summary * 100,
 				});
 				console.log(res.data);
 			} catch (err) {
@@ -49,8 +53,8 @@ export default function Pay() {
 			<StripeCheckout
 				name='cocahuana'
 				image='https://assets.goal.com/v3/assets/bltcc7a7ffd2fbf71f5/bltf21c2ee30c00121a/627cbc382b67610d5673246f/GettyImages-1347553871.jpg'
-				description='Your total is $50'
-				amount={5000}
+				description={`Your total is ${summary}`}
+				amount={summary * 100}
 				token={onToken}
 				stripeKey={KEY}>
 				<Button>
@@ -62,7 +66,7 @@ export default function Pay() {
 			<Text color={'gray.500'} mb={6}>
 				This is a payment page
 			</Text>
-			<Link to='/'>
+			<BuenLink to='/'>
 				<Button
 					colorScheme='red'
 					bgGradient='linear(to-r, red.400, red.500, red.600)'
@@ -70,7 +74,7 @@ export default function Pay() {
 					variant='solid'>
 					Back to BookStore
 				</Button>
-			</Link>
+			</BuenLink>
 		</Box>
 	);
 }
