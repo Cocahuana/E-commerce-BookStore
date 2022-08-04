@@ -11,6 +11,7 @@ import { Link as BuenLink } from 'react-router-dom';
 const KEY =
 	'pk_test_51LSdXMF5Vwy6vv6Z1ddeuf2axD3L8DrlxQSaSf4uWRsZZAXNtGGkrdJ5dpECnOZBbp8bc3VBXFcHuIoY5gIl29xV00jo5iLGip';
 export default function Pay() {
+	const history = useHistory();
 	//Seteo el token (con el que se va a asociar la compra con la cuenta de stripe)
 	const [stripeToken, setStripeToken] = useState(null);
 	const { summary, userName, userProfilePicture } = useSelector(
@@ -29,7 +30,10 @@ export default function Pay() {
 				const res = await axios.post('/payment/create', {
 					//Le paso los datos que quiero usar. Los ultimos 2 digitos del amount son centavos.
 					tokenId: stripeToken.id,
-					amount: summary * 100,
+					amount: 100,
+				});
+				history.push('/success', {
+					data: res.data,
 				});
 				console.log(res.data);
 			} catch (err) {
