@@ -335,7 +335,7 @@ export function userDeleteFavorite(userId, bookId) {
 
 export function userGetFavorite(userId) {
 	return async function (dispatch) {
-		let favorites = await axios.get(`/user/favorites/${userId}`);
+		var favorites = await axios.get(`/user/favorites/${userId}`);
 		return dispatch({ type: USER_GET_FAVORITES, payload: favorites.data });
 	};
 }
