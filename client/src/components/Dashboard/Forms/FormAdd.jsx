@@ -101,8 +101,6 @@ function FormAdd(props) {
 			  }
 	);
 
-	console.log(input);
-
 	function handleChange(e) {
 		setInput({
 			...input,
@@ -177,7 +175,6 @@ function FormAdd(props) {
 			genre: input.genre.filter((gen) => gen !== e),
 		});
 	};
-	console.log(errors);
 	async function handleSubmit(e) {
 		e.preventDefault();
 
@@ -226,7 +223,6 @@ function FormAdd(props) {
 				language: 'ENGLISH',
 			});
 			dispatch(createBook(input));
-			console.log('creado');
 			history.push('/adminDashboard');
 		}
 	}
@@ -238,8 +234,7 @@ function FormAdd(props) {
 				bg: '#111',
 			}}
 			pt={'20'}
-			pb={'10'}
-		>
+			pb={'10'}>
 			<Container maxW={'container.lg'}>
 				<Box>
 					<chakra.form
@@ -248,8 +243,7 @@ function FormAdd(props) {
 						onSubmit={(e) => handleSubmit(e)}
 						overflow={{
 							sm: 'hidden',
-						}}
-					>
+						}}>
 						<Stack
 							px={4}
 							py={5}
@@ -258,23 +252,20 @@ function FormAdd(props) {
 							_dark={{
 								bg: '#141517',
 							}}
-							spacing={6}
-						>
+							spacing={6}>
 							<SimpleGrid columns={6} spacing={6}>
 								<FormControl
 									isRequired
 									as={GridItem}
 									colSpan={[6, 3]}
-									isInvalid={errors.title}
-								>
+									isInvalid={errors.title}>
 									<FormLabel
 										fontSize='sm'
 										fontWeight='md'
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
-										}}
-									>
+										}}>
 										Name Of The Book
 									</FormLabel>
 
@@ -291,10 +282,13 @@ function FormAdd(props) {
 									/>
 									{!errors.title ? (
 										<FormHelperText>
-											Title Book. first letter with upper case
+											Title Book. first letter with upper
+											case
 										</FormHelperText>
 									) : (
-										<FormErrorMessage>Name is required.</FormErrorMessage>
+										<FormErrorMessage>
+											Name is required.
+										</FormErrorMessage>
 									)}
 								</FormControl>
 
@@ -302,8 +296,7 @@ function FormAdd(props) {
 									isRequired
 									as={GridItem}
 									colSpan={[6, 3]}
-									isInvalid={errors.authors}
-								>
+									isInvalid={errors.authors}>
 									<FormLabel
 										htmlFor='last_name'
 										fontSize='sm'
@@ -311,8 +304,7 @@ function FormAdd(props) {
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
-										}}
-									>
+										}}>
 										Author
 									</FormLabel>
 									<Input
@@ -329,10 +321,13 @@ function FormAdd(props) {
 									/>
 									{!errors.authors ? (
 										<FormHelperText>
-											Author Book first letter with upper case
+											Author Book first letter with upper
+											case
 										</FormHelperText>
 									) : (
-										<FormErrorMessage>Author is required.</FormErrorMessage>
+										<FormErrorMessage>
+											Author is required.
+										</FormErrorMessage>
 									)}
 								</FormControl>
 
@@ -344,8 +339,7 @@ function FormAdd(props) {
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
-										}}
-									>
+										}}>
 										Language
 									</FormLabel>
 									<RadioGroup
@@ -355,13 +349,20 @@ function FormAdd(props) {
 											color: 'gray.50',
 										}}
 										mt={4}
-										defaultValue={'ENGLISH'}
-									>
+										defaultValue={'ENGLISH'}>
 										<Stack spacing={4}>
-											<Radio value={'ESPAÑOL'} onChange={handdleSelectLanguage}>
+											<Radio
+												value={'ESPAÑOL'}
+												onChange={
+													handdleSelectLanguage
+												}>
 												Español
 											</Radio>
-											<Radio value={'ENGLISH'} onChange={handdleSelectLanguage}>
+											<Radio
+												value={'ENGLISH'}
+												onChange={
+													handdleSelectLanguage
+												}>
 												English
 											</Radio>
 										</Stack>
@@ -371,16 +372,14 @@ function FormAdd(props) {
 									isRequired
 									as={GridItem}
 									colSpan={[6, 3]}
-									isInvalid={errors.genre}
-								>
+									isInvalid={errors.genre}>
 									<FormLabel
 										fontSize='sm'
 										fontWeight='md'
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
-										}}
-									>
+										}}>
 										Genres/Category
 									</FormLabel>
 									<Select
@@ -391,8 +390,7 @@ function FormAdd(props) {
 										size='sm'
 										w='full'
 										rounded='md'
-										onChange={handdleSelectGenre}
-									>
+										onChange={handdleSelectGenre}>
 										{genres.map((g, i) => (
 											<option key={i} value={g.name}>
 												{g.name}
@@ -400,9 +398,13 @@ function FormAdd(props) {
 										))}
 									</Select>
 									{!errors.genre ? (
-										<FormHelperText>Al menos 1 genero</FormHelperText>
+										<FormHelperText>
+											Al menos 1 genero
+										</FormHelperText>
 									) : (
-										<FormErrorMessage>Genre is required.</FormErrorMessage>
+										<FormErrorMessage>
+											Genre is required.
+										</FormErrorMessage>
 									)}
 								</FormControl>
 
@@ -410,16 +412,14 @@ function FormAdd(props) {
 									isRequired
 									as={GridItem}
 									colSpan={[6, 1]}
-									isInvalid={errors.rating || errors.ratingN}
-								>
+									isInvalid={errors.rating || errors.ratingN}>
 									<FormLabel
 										fontSize='sm'
 										fontWeight='md'
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
-										}}
-									>
+										}}>
 										Rating
 									</FormLabel>
 									<Input
@@ -435,12 +435,16 @@ function FormAdd(props) {
 									/>
 
 									{errors.rating ? (
-										<FormErrorMessage>Rating is required.</FormErrorMessage>
+										<FormErrorMessage>
+											Rating is required.
+										</FormErrorMessage>
 									) : (
 										<FormErrorMessage></FormErrorMessage>
 									)}
 									{errors.ratingN ? (
-										<FormErrorMessage>Rating between 0 and 5.</FormErrorMessage>
+										<FormErrorMessage>
+											Rating between 0 and 5.
+										</FormErrorMessage>
 									) : (
 										<FormErrorMessage></FormErrorMessage>
 									)}
@@ -449,16 +453,14 @@ function FormAdd(props) {
 									isRequired
 									as={GridItem}
 									colSpan={[6, 2]}
-									isInvalid={errors.price || errors.priceM}
-								>
+									isInvalid={errors.price || errors.priceM}>
 									<FormLabel
 										fontSize='sm'
 										fontWeight='md'
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
-										}}
-									>
+										}}>
 										Price
 									</FormLabel>
 									<Input
@@ -473,12 +475,16 @@ function FormAdd(props) {
 										rounded='md'
 									/>
 									{errors.price ? (
-										<FormErrorMessage>Price is required.</FormErrorMessage>
+										<FormErrorMessage>
+											Price is required.
+										</FormErrorMessage>
 									) : (
 										<FormHelperText></FormHelperText>
 									)}
 									{errors.priceM ? (
-										<FormErrorMessage>Price min $1.</FormErrorMessage>
+										<FormErrorMessage>
+											Price min $1.
+										</FormErrorMessage>
 									) : (
 										<FormErrorMessage></FormErrorMessage>
 									)}
@@ -488,15 +494,13 @@ function FormAdd(props) {
 									direction='row'
 									colSpan={[6, 3]}
 									align='center'
-									justify={'center'}
-								>
+									justify={'center'}>
 									{input.genre?.map((l, i) => (
 										<Button
 											onClick={() => handleDeleteGenre(l)}
 											key={i}
 											rightIcon={<CloseIcon w={3} />}
-											size={'md'}
-										>
+											size={'md'}>
 											{l}
 										</Button>
 									))}
@@ -514,18 +518,19 @@ function FormAdd(props) {
 							spacing={6}
 							p={{
 								sm: 6,
-							}}
-						>
+							}}>
 							<div>
-								<FormControl id='email' mt={1} isInvalid={errors.description}>
+								<FormControl
+									id='email'
+									mt={1}
+									isInvalid={errors.description}>
 									<FormLabel
 										fontSize='sm'
 										fontWeight='md'
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
-										}}
-									>
+										}}>
 										Description
 									</FormLabel>
 									<Textarea
@@ -546,7 +551,9 @@ function FormAdd(props) {
 											Description is required.
 										</FormErrorMessage>
 									) : (
-										<FormHelperText>Descripcion ...</FormHelperText>
+										<FormHelperText>
+											Descripcion ...
+										</FormHelperText>
 									)}
 								</FormControl>
 							</div>
@@ -558,8 +565,7 @@ function FormAdd(props) {
 									color='gray.700'
 									_dark={{
 										color: 'gray.50',
-									}}
-								>
+									}}>
 									Image Book
 								</FormLabel>
 								<Flex
@@ -573,15 +579,13 @@ function FormAdd(props) {
 										color: 'gray.500',
 									}}
 									borderStyle='dashed'
-									rounded='md'
-								>
+									rounded='md'>
 									<Stack spacing={1} textAlign='center'>
 										<Input
 											name='image'
 											value={input.image}
 											onChange={handleChange}
-											type={'url'}
-										></Input>
+											type={'url'}></Input>
 										{/* <Icon
 											mx='auto'
 											boxSize={12}
@@ -662,16 +666,14 @@ function FormAdd(props) {
 								bg: '#121212',
 							}}
 							textAlign='right'
-							pb='16'
-						>
+							pb='16'>
 							<Button
 								type='submit'
 								colorScheme='blue'
 								_focus={{
 									shadow: '',
 								}}
-								fontWeight='md'
-							>
+								fontWeight='md'>
 								Create Book
 							</Button>
 						</Box>
