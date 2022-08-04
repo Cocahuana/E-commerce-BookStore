@@ -262,8 +262,14 @@ function Filter({ setCurrentPage }) {
 						w='15'>
 						{sliderValue[1]}$
 					</RangeSliderMark>
-					<RangeSliderThumb index={0} bg={useColorModeValue("gray.300", "white")} />
-					<RangeSliderThumb index={1} bg={useColorModeValue("gray.300", "white")} />
+					<RangeSliderThumb
+						index={0}
+						bg={useColorModeValue('gray.300', 'white')}
+					/>
+					<RangeSliderThumb
+						index={1}
+						bg={useColorModeValue('gray.300', 'white')}
+					/>
 				</RangeSlider>
 			</Flex>
 		</Stack>
