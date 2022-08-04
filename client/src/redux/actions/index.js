@@ -45,6 +45,7 @@ import {
 	USER_DEL_FAVORITES,
 	UPDATE_USER,
 	USER_ADD_FAVSTATE,
+	SEARCH_BOOK,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -154,6 +155,20 @@ export function modifyBook(payload) {
 			type: MODIFY_BOOK,
 			payload: json.data,
 		});
+	};
+}
+export function searchBooksByAdmin(titleOrAuthor) {
+	return async function (dispatch) {
+		try {
+			var json = await axios.get(`/books/search?input=${titleOrAuthor}`);
+			return dispatch({
+				type: SEARCH_BOOK,
+				//json.data devuelve lo que nos da la ruta de arriba, ya filtrado por nombre
+				payload: { data: json.data, query: titleOrAuthor },
+			});
+		} catch (error) {
+			console.log(error);
+		}
 	};
 }
 
@@ -365,12 +380,11 @@ export function saveOrder(payload) {
 export function addToCart(id, idUser) {
 	return async function (dispatch) {
 		try {
-			
 			const adding = axios.post(`/cart/`, {
-				userId: idUser,//me llega de estado del componente
-				bookId: id //me llega de params
-			})
-			
+				userId: idUser, //me llega de estado del componente
+				bookId: id, //me llega de params
+			});
+
 			dispatch({
 				type: ADD_CART,
 				payload: id,
@@ -409,27 +423,29 @@ export function delAllCart() {
 export function getCart(userId) {
 	return async function (dispatch) {
 		let cart = await axios.get(`/cart?userId=${userId}`);
-		console.log(cart.data, 'reducer cart')
+		console.log(cart.data, 'reducer cart');
 		return dispatch({ type: GET_CART, payload: cart.data });
-	}
+	};
 }
 
 export function removeOneBookFromCart(bookId, userId) {
-	return async function(dispatch) {
-		let deleteBooks = await axios.put(`/cart?bookId=${bookId}&userId=${userId}`) //double query
-		console.log(deleteBooks) //quiero q me traiga libro a eliminar 
+	return async function (dispatch) {
+		let deleteBooks = await axios.put(
+			`/cart?bookId=${bookId}&userId=${userId}`
+		); //double query
+		console.log(deleteBooks); //quiero q me traiga libro a eliminar
 		return dispatch({
 			type: REMOVE_BOOK_CART_DB,
-			payload: deleteBooks
-		})
-	}
+			payload: deleteBooks,
+		});
+	};
 }
 
 export function clearCart(userId) {
-	return async function (dispatch){
-		let clearAll = await axios.put(`/cart/clear?userId=${userId}`)
-	return dispatch({
-		type: CLEAR_CART
-		})
-	}
+	return async function (dispatch) {
+		let clearAll = await axios.put(`/cart/clear?userId=${userId}`);
+		return dispatch({
+			type: CLEAR_CART,
+		});
+	};
 }

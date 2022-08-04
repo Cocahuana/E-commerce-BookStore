@@ -31,6 +31,7 @@ import {
 	GET_CART,
 	REMOVE_BOOK_CART_DB,
 	CLEAR_CART,
+	SEARCH_BOOK,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -325,7 +326,23 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		}
 		//--------------------------------------------El ADMIN CAPO--------------------------------------------------
-
+		case SEARCH_BOOK: {
+			if (typeof action.payload.data === 'string') {
+				return {
+					...state,
+					adminBooks: [],
+					query: action.payload.query,
+				};
+			}
+			return {
+				...state,
+				booksCopy: action.payload.data,
+				books: action.payload.data,
+				query: action.payload.query,
+				loading: false,
+				adminBooks: action.payload,
+			};
+		}
 		//-----------------------------------------------------------------------------------------------------
 
 		case RESET_DETAILS: {
@@ -361,30 +378,29 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 			};
 		case GET_CART: {
-			var arrayBooks = action.payload.Books
-			var arrayNuevo = arrayBooks.map(b =>  b.price)
-			var suma = 0; 
+			var arrayBooks = action.payload.Books;
+			var arrayNuevo = arrayBooks.map((b) => b.price);
+			var suma = 0;
 			for (let i = 0; i < arrayNuevo.length; i++) {
-				suma += arrayNuevo[i];	
+				suma += arrayNuevo[i];
 			}
 			return {
 				...state,
 				cart: arrayBooks,
-				summary: suma
-
-			}
-		};
+				summary: suma,
+			};
+		}
 		case REMOVE_BOOK_CART_DB: {
 			return {
 				...state,
-			}
-		};
+			};
+		}
 		case CLEAR_CART: {
 			return {
 				...state,
-				summary: 0
-			}
-		};
+				summary: 0,
+			};
+		}
 		case LOGIN:
 			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
 			console.log(action.payload);
