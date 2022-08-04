@@ -9,6 +9,7 @@ import {
 	getAllUsers,
 	postComment,
 	userAddFavorite,
+	userAddFavState,
 } from '../../redux/actions';
 import { Link as BuenLink } from 'react-router-dom';
 import {
@@ -70,8 +71,8 @@ function BookDetail(props) {
 	};
 
 	const handleOnFavourite = (id) => {
-		console.log(userId, id);
 		dispatch(userAddFavorite(userId, id));
+		dispatch(userAddFavState(id));
 	};
 
 	useEffect(() => {
@@ -220,7 +221,7 @@ function BookDetail(props) {
 								</Text>
 							</Text>
 						</Stack>
-						<Stack py={"30px"} justify={"center"} align={"center"}>
+						<Stack py={'30px'} justify={'center'} align={'center'}>
 							<Text fontSize={'20px'}>
 								<Text>Stock Available:</Text>
 							</Text>
@@ -327,28 +328,25 @@ function BookDetail(props) {
 					</Stack>
 				</SimpleGrid>
 				<Stack
-					p={"20px"}
+					p={'20px'}
 					bg={useColorModeValue('whiteAlpha.600', 'gray.700')}
 					direction='column'
 					alignItems='center'
 					justifyContent={'center'}>
 					<Box
-						p={"5px"}
-						rounded={"5px"}
-						w={"100%"}
-						bg={useColorModeValue(
-							'blue.500',
-							'blue.200'
-						)}
+						p={'5px'}
+						rounded={'5px'}
+						w={'100%'}
+						bg={useColorModeValue('blue.500', 'blue.200')}
 						color={useColorModeValue('white', 'gray.900')}
 						flex='1'
 						textAlign='center'>
 						Description
-					</Box>				
+					</Box>
 					<Text
 						textAlign='justify'
-						p={"10px"}
-						justifyContent={"center"}
+						p={'10px'}
+						justifyContent={'center'}
 						dangerouslySetInnerHTML={{
 							__html: details?.description,
 						}}
