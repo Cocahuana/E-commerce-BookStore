@@ -30,7 +30,7 @@ const registerUser = async (req, res, next) => {
 		let cartToAssociate = await Cart.create();
 		await cartToAssociate.setUser(newUser);
 
-		res.send('User created succesfully!');
+		res.json({ message: 'User created succesfully!', id: newUser.id });
 	} catch (err) {
 		next(err);
 	}
@@ -38,24 +38,31 @@ const registerUser = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {
 	//con esto cambias username, email, contraseña, status, id, favorites y profile pics
+	let { id, password } = req.body;
 	try {
-		const user = await User.findByPk(req.body.id);
-
 		if (req.body.password) {
 			let hashedPassword = crypto
 				.createHash('md5')
 				.update(password)
 				.digest('hex');
-			req.body.password = hashedPassword;
+			password = hashedPassword;
 		}
 
-		await user.update(req.body);
+		await User.update(req.body, {
+			where: {
+				id: id,
+			},
+		});
 
-		const updated = await User.findByPk(req.body.id);
-
-		res.send(updated);
+		const updatedUser = await User.findOne({
+			where: {
+				id: id,
+			},
+			attributes: { exclude: ['password'] },
+		});
+		res.json(updatedUser);
 	} catch (err) {
-		console.log(err);
+		next(err);
 	}
 };
 
@@ -130,8 +137,6 @@ const addFavorite = async (req, res) => {
 		} else {
 			throw new Error('Invalid user');
 		}
-
-		res.send('Agregado a Favoritos');
 	} catch (error) {
 		res.status(400).json(error.message);
 	}
@@ -168,7 +173,9 @@ const searchUserByUsername = async (req, res, next) => {
 
 const getAllUsers = async (req, res, next) => {
 	try {
-		let users = await User.findAll();
+		let users = await User.findAll({
+			attributes: { exclude: ['password'] },
+		});
 		if (users) res.json(users);
 		else res.status(400).json({ message: 'not users found' });
 	} catch (e) {
@@ -250,6 +257,135 @@ const profilePicture = async (id, body) => {
 	}
 };
 
+const googleSignIn = async (req, res, next) => {
+	const { username, email } = req.body;
+	try {
+		const alreadyExists = await User.findOne({ where: { email: email } });
+		if (alreadyExists) {
+			const jwtToken = jwt.sign(
+				{
+					//token creation
+					id: alreadyExists.id,
+					email: alreadyExists.email,
+					status: 'User',
+				},
+				MY_SECRET,
+				{ expiresIn: '12h' }
+			);
+
+			res.status(200).json({
+				token: jwtToken,
+				status: 'User',
+				id: alreadyExists.id,
+				email: alreadyExists.email,
+				username: alreadyExists.username,
+				profile_picture: alreadyExists.profile_picture,
+				favorites: alreadyExists.favorites,
+			});
+		}
+		if (!alreadyExists) {
+			const create = await User.create({
+				email: email,
+				username: username,
+			});
+			let cartToAssociate = await Cart.create();
+			await cartToAssociate.setUser(create);
+			const jwtToken = jwt.sign(
+				{
+					//token creation
+					id: create.id,
+					email: create.email,
+					status: create.status,
+				},
+				MY_SECRET,
+				{ expiresIn: '12h' }
+			);
+			res.status(200).json({
+				token: jwtToken,
+				status: create.status,
+				id: create.id,
+				email: create.email,
+				username: create.username,
+				profile_picture: create.profile_picture,
+				favorites: create.favorites,
+			});
+		}
+	} catch (e) {
+		console.log(e);
+		next(e);
+	}
+};
+
+const resetPassword = async (req, res, next) => {
+	let { userId, password } = req.body;
+	try {
+		let user = await User.findOne({
+			where: {
+				id: userId,
+			},
+		});
+
+		if (!user)
+			return res.status(400).send('User has not been found with that ID');
+
+		let hashedPassword = crypto
+			.createHash('md5')
+			.update(password)
+			.digest('hex');
+
+		await User.update(
+			{
+				password: hashedPassword,
+			},
+			{
+				where: {
+					id: userId,
+				},
+			}
+		);
+
+		res.send(`User ${user.username} has updated their password`);
+	} catch (err) {
+		next(err);
+	}
+};
+
+const changeSubscription = async (req, res, next) => {
+	let { userId } = req.body;
+	try {
+		let user = await User.findOne({
+			where: {
+				id: userId,
+			},
+		});
+
+		if (!user)
+			return res.status(400).send('User has not been found with that ID');
+
+		await User.update(
+			{
+				subscribed:
+					user.subscribed === 'Subscribed'
+						? 'Unsubscribed'
+						: 'Subscribed',
+			},
+			{
+				where: {
+					id: userId,
+				},
+			}
+		);
+
+		res.send(
+			`User ${user.username} has ${
+				user.subscribed === 'Subscribed' ? 'Unsubscribed' : 'Subscribed'
+			}`
+		);
+	} catch (err) {
+		next(err);
+	}
+};
+
 module.exports = {
 	registerUser,
 	userLogin,
@@ -261,4 +397,7 @@ module.exports = {
 	getAllUsers,
 	profilePicture,
 	updateUser,
+	googleSignIn,
+	resetPassword,
+	changeSubscription,
 };

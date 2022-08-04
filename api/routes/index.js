@@ -1,10 +1,12 @@
 const express = require('express');
 const { Router } = require('express');
-const bookRoutes = require("./books");
-const userRoutes = require("./user");
-const adminRoutes = require("./admin");
-const cartRoutes = require("./cart");
-const {	allGenres } = require("../controllers/bookControllers");
+const bookRoutes = require('./books');
+const userRoutes = require('./user');
+const adminRoutes = require('./admin');
+const cartRoutes = require('./cart');
+const mailRoutes = require('./mail');
+const paymentRoutes = require('./payment');
+const { allGenres } = require('../controllers/bookControllers');
 const passport = require('passport');
 //AUTHENTICATION
 //passport.authenticate('jwt-auth', {session: false})
@@ -17,14 +19,22 @@ const passport = require('passport');
 
 const router = Router();
 
-router.use("/books", bookRoutes);
-
-router.use("/user", userRoutes);
-
-router.use("/admin", passport.authenticate('jwt-admin', {session: false}), adminRoutes);
+router.use('/books', bookRoutes);
 
 router.get('/genres', allGenres);
 
-router.use("/cart", cartRoutes);
+router.use('/user', userRoutes);
+
+router.use(
+	'/admin',
+	passport.authenticate('jwt-admin', { session: false }),
+	adminRoutes
+);
+
+router.use('/cart', cartRoutes);
+
+router.use('/mail', mailRoutes);
+
+router.use('/payment', paymentRoutes);
 
 module.exports = router;

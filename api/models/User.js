@@ -20,7 +20,7 @@ module.exports = (sequelize) => {
 
 			password: {
 				type: DataTypes.STRING,
-				allowNull: false,
+				allowNull: true,
 			},
 
 			username: {
@@ -43,6 +43,11 @@ module.exports = (sequelize) => {
 			favorites: {
 				type: DataTypes.JSON,
 				defaultValue: [],
+			},
+
+			subscribed: {
+				type: DataTypes.ENUM(['Subscribed', 'Unsubscribed']),
+				defaultValue: 'Unsubscribed',
 			},
 		},
 		{ timestamps: false }

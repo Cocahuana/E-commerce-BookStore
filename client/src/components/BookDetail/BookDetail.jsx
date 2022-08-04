@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import ProfileImage from '../UserProfile/ProfileImage';
 import {
 	addToCart,
 	getDetails,
 	resetDetails,
 	getAllUsers,
-	postComment,
+	userAddFavorite,
+	userAddFavState,
 } from '../../redux/actions';
-import { Link as BuenLink } from 'react-router-dom';
+import { Link as BuenLink, useHistory } from 'react-router-dom';
 import {
 	Box,
 	Container,
@@ -17,62 +17,60 @@ import {
 	Text,
 	Image,
 	Flex,
-	VStack,
 	Button,
-	Heading,
 	SimpleGrid,
-	StackDivider,
 	useColorModeValue,
-	Accordion,
-	AccordionItem,
-	AccordionButton,
-	AccordionPanel,
-	AccordionIcon,
-	Avatar,
-	Editable,
-	EditablePreview,
-	EditableTextarea,
-	ChakraProvider,
-	HStack,
+	useToast,
 } from '@chakra-ui/react';
-import { TiShoppingCart } from 'react-icons/ti';
+import { TiShoppingCart, TiHeartOutline } from 'react-icons/ti';
 import { Rating } from '../BookShelf/BookHolder/Book/Rating';
 import { PriceTag } from '../BookShelf/BookHolder/Book/PriceTag';
 import Swal from 'sweetalert2';
+import Reviews from './Reviews';
+import CommentPoster from './CommentPoster';
 
 function BookDetail(props) {
 	const dispatch = useDispatch();
+	const history = useHistory();
+	const toast = useToast();
 	const { id } = props.match.params;
 
 	const { cart, summary, allUsers, userId, details } = useSelector(
 		(state) => state
 	);
 	// const [comments, setComments] = UseState([])
-	const [textarea, setTextArea] = useState('');
 
-	const handleOnChange = (e) => {
-		setTextArea(e.target.value);
-	};
-
-	const handlePost = () => {
-		dispatch(
-			postComment({
-				comment: textarea,
-				userId: userId,
-				bookId: id,
-			})
-		);
-	};
-
-	const handleonclick = (id) => {
-		dispatch(addToCart(id));
-		Swal.fire({
-			position: 'top-end',
-			icon: 'success',
-			title: 'Added to the cart successfully',
-			showConfirmButton: false,
-			timer: 1500,
+	const handleOnClick = (id) => {
+		dispatch(addToCart(id, userId));
+		let flag = true;
+		cart.map((e) => {
+			if (e.id === id) flag = false;
 		});
+		if (flag) {
+			Swal.fire({
+				position: 'top-end',
+				icon: 'success',
+				title: 'Added to the cart successfully',
+				showConfirmButton: false,
+				timer: 800,
+			});
+		}
+	};
+
+	const handleOnFavourite = (id) => {
+		if (userId) {
+			dispatch(userAddFavorite(userId, id));
+			dispatch(userAddFavState(id));
+		} else {
+			history.push('/login');
+			toast({
+				title: 'You need to be logged in to add to Favourites',
+				status: 'warning',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'top',
+			});
+		}
 	};
 
 	useEffect(() => {
@@ -85,10 +83,21 @@ function BookDetail(props) {
 		};
 	}, [dispatch, cart]);
 
-	let comments = details?.Comments?.map((c) => {
+	// let comments = details?.Comments?.map((c) => {
+	// 	return {
+	// 		text: c.text,
+	// 		user: allUsers.filter((u) => c.UserId === u.id),
+	// 	};
+	// });
+
+	let reviewData = details?.Comments?.map((r) => {
+		let reviewer = allUsers.filter((u) => r.UserId === u.id);
 		return {
-			text: c.text,
-			user: allUsers.filter((u) => c.UserId === u.id),
+			avatarSrc: reviewer[0]?.profile_picture,
+			review: r.text,
+			stars: r.rating || 5,
+			userName: reviewer[0]?.username,
+			dateTime: r.date,
 		};
 	});
 
@@ -180,7 +189,7 @@ function BookDetail(props) {
 
 						<Stack spacing={{ base: 4, sm: 6 }}>
 							<Text fontSize={'20px'}>
-								<Text>{details?.authors}(author)</Text>
+								<Text>{details?.authors}</Text>
 							</Text>
 
 							<Text fontSize={'20px'}>
@@ -201,76 +210,27 @@ function BookDetail(props) {
 							</Text>
 							<Text fontSize={'20px'}>
 								<Text>
-									{details?.Languages?.map((e) => e.name) +
-										''}
+									{'Language: '}
+									{details?.Languages?.map(
+										(e) =>
+											e.name.charAt(0) +
+											e.name.slice(1).toLowerCase()
+									) + ''}
 								</Text>
 							</Text>
 						</Stack>
-						<Stack
-							direction='column'
-							alignItems='center'
-							justifyContent={'center'}>
-							<Accordion
-								minW={'100%'}
-								allowMultiple
-								padding={'15px'}>
-								<AccordionItem rounded={'10px'}>
-									<h2>
-										<AccordionButton
-											rounded={'10px'}
-											bg={useColorModeValue(
-												'blue.500',
-												'blue.200'
-											)}
-											transition='1s'
-											textTransform={'uppercase'}
-											_hover={{
-												bg: useColorModeValue(
-													'rgba(65, 137, 230, 0.50)',
-													'rgba(65, 137, 230, 0.35)'
-												),
-												color: useColorModeValue(
-													'#3483fa',
-													'white'
-												),
-											}}>
-											<Box
-												color={useColorModeValue(
-													'white',
-													'gray.900'
-												)}
-												flex='1'
-												textAlign='left'>
-												Description
-											</Box>
-											<AccordionIcon />
-										</AccordionButton>
-									</h2>
-									<AccordionPanel
-										color={useColorModeValue(
-											'gray.900',
-											'gray.400'
-										)}
-										textAlign={'justify'}
-										rounded={'10px'}
-										bg={useColorModeValue(
-											'white',
-											'gray.900'
-										)}
-										pb={4}>
-										<div
-											dangerouslySetInnerHTML={{
-												__html: details?.description,
-											}}
-										/>
-									</AccordionPanel>
-								</AccordionItem>
-							</Accordion>
+						<Stack py={'30px'} justify={'center'} align={'center'}>
+							<Text fontSize={'20px'}>
+								<Text>Stock Available:</Text>
+							</Text>
+							<Text>
+								<Text>{details.stock} units</Text>
+							</Text>
 						</Stack>
 						<Stack>
 							<Box>
 								<Button
-									onClick={() => handleonclick(details.id)}
+									onClick={() => handleOnClick(details.id)}
 									w={'100%'}
 									size={'lg'}
 									bg={useColorModeValue(
@@ -295,6 +255,37 @@ function BookDetail(props) {
 										),
 									}}>
 									Add to cart
+								</Button>
+							</Box>
+							<Box>
+								<Button
+									onClick={() =>
+										handleOnFavourite(details.id)
+									}
+									w={'100%'}
+									size={'lg'}
+									bg={useColorModeValue(
+										'blue.500',
+										'blue.200'
+									)}
+									color={useColorModeValue(
+										'white',
+										'gray.900'
+									)}
+									leftIcon={<TiHeartOutline />}
+									textTransform={'uppercase'}
+									transition={'1s'}
+									_hover={{
+										bg: useColorModeValue(
+											'blue.200',
+											'blue.500'
+										),
+										color: useColorModeValue(
+											'gray.900',
+											'white'
+										),
+									}}>
+									Add to favourites
 								</Button>
 							</Box>
 							<Box
@@ -334,8 +325,35 @@ function BookDetail(props) {
 						</Stack>
 					</Stack>
 				</SimpleGrid>
+				<Stack
+					p={'20px'}
+					bg={useColorModeValue('whiteAlpha.600', 'gray.700')}
+					direction='column'
+					alignItems='center'
+					justifyContent={'center'}>
+					<Box
+						p={'5px'}
+						rounded={'5px'}
+						w={'100%'}
+						bg={useColorModeValue('blue.500', 'blue.200')}
+						color={useColorModeValue('white', 'gray.900')}
+						flex='1'
+						textAlign='center'>
+						Description
+					</Box>
+					<Text
+						textAlign='justify'
+						p={'10px'}
+						justifyContent={'center'}
+						dangerouslySetInnerHTML={{
+							__html: details?.description,
+						}}
+					/>
+				</Stack>
 			</Box>
-			<Box
+			<Reviews reviewData={reviewData} />
+			<CommentPoster id={id} />
+			{/* <Box
 				maxW={'6xl'}
 				p={{ base: 10, sm: 10, md: 10, lg: 10 }}
 				bg={useColorModeValue('whiteAlpha.600', 'gray.700')}
@@ -398,7 +416,10 @@ function BookDetail(props) {
 								</Box>
 								<Box w='80%' minH='100%'>
 									<Text
-										color={useColorModeValue("black", "white")}
+										color={useColorModeValue(
+											'black',
+											'white'
+										)}
 										p={'5px'}
 										rounded={'10px'}
 										justify={'center'}
@@ -447,7 +468,7 @@ function BookDetail(props) {
 						</Button>
 					</Box>
 				</Stack>
-			</Box>
+			</Box> */}
 		</Container>
 	);
 }

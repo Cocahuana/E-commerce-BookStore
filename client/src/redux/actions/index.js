@@ -26,6 +26,9 @@ import {
 	ADD_CART,
 	DEL_CART,
 	DEL_ALL_CART,
+	GET_CART,
+	REMOVE_BOOK_CART_DB,
+	CLEAR_CART,
 	//-------------
 	LOGIN,
 	SIGN_UP,
@@ -40,6 +43,7 @@ import {
 	CREATE_BOOK,
 	USER_DEL_FAVORITES,
 	UPDATE_USER,
+	USER_ADD_FAVSTATE,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -192,28 +196,28 @@ export function addGoogleUser(currentUser) {
 
 	return async function (dispatch) {
 		try {
-			var addToDb = await axios.post(`/user/register`, {
-				username: currentUser.displayName,
-				email: currentUser.email,
-				password: currentUser.uid,
-			});
-			console.log('Soy Register: ' + Object.keys(currentUser));
+			if (currentUser !== null && currentUser.hasOwnProperty('email')) {
+				var addToDb = await axios.post(`/user/google`, {
+					username: currentUser.displayName,
+					email: currentUser.email,
+					//password: currentUser.uid,
+				});
 
-			let login = await axios.post(`/user/login`, {
+				/*let login = await axios.post(`/user/login`, {
 				username: currentUser.displayName,
-				password: currentUser.uid, //le puse como pw uid porq es unico segun cada usuario de google. (fuck cibersecurity)
+				//password: currentUser.uid, //le puse como pw uid porq es unico segun cada usuario de google. (fuck cibersecurity)
 				//pero como coincide el email con el uid puse ese valor como pw. podemos ver de usar otro maybe
 				//igual en la db la pw aparece hasheada
 			});
-			console.log('Soy login: ' + Object.keys(currentUser));
-
-			return dispatch({
-				type: LOGIN,
-				payload: login.data, //lo q me interesa es la info de current user (obj de firebase)
-			});
+			console.log('Soy login: ' + Object.keys(currentUser));*/
+				return dispatch({
+					type: LOGIN_GOOGLE,
+					payload: addToDb.data, //lo q me interesa es la info de current user (obj de firebase)
+				});
+			}
 		} catch (error) {
-			const err = error;
-			if (err.response.status === 404) {
+			console.log(error);
+			/*(err.response.status === 404) {
 				//Status es el tipo de error y data el send/json del error en el back
 				// console.log('status: ' + err.response.status);
 				// console.log('data: ' + err.response.data);
@@ -231,7 +235,7 @@ export function addGoogleUser(currentUser) {
 					title: `${err.response.status}`,
 					text: `${err.response.data}`,
 				});
-			}
+			}*/
 		}
 	};
 }
@@ -309,6 +313,9 @@ export function userGetFavorite(userId) {
 		return dispatch({ type: USER_GET_FAVORITES, payload: favorites.data });
 	};
 }
+export function userAddFavState(payload) {
+	return { type: USER_ADD_FAVSTATE, payload };
+}
 
 export function userDelFavorite(payload) {
 	return { type: USER_DEL_FAVORITES, payload };
@@ -340,11 +347,16 @@ export function saveOrder(payload) {
 }
 //------------------------------------------------------------------------------------------------------
 
-// ---------CART------------
+// -----------------------------------------------CART-------------------------------------------------------
 
-export function addToCart(id) {
+export function addToCart(id, idUser) {
 	return async function (dispatch) {
 		try {
+			const adding = axios.post(`/cart/`, {
+				userId: idUser, //me llega de estado del componente
+				bookId: id, //me llega de params
+			});
+
 			dispatch({
 				type: ADD_CART,
 				payload: id,
@@ -377,5 +389,34 @@ export function delAllCart() {
 		} catch (err) {
 			console.log(err);
 		}
+	};
+}
+
+export function getCart(userId) {
+	return async function (dispatch) {
+		let cart = await axios.get(`/cart?userId=${userId}`);
+		return dispatch({ type: GET_CART, payload: cart.data });
+	};
+}
+
+export function removeOneBookFromCart(bookId, userId) {
+	return async function (dispatch) {
+		let deleteBooks = await axios.put(
+			`/cart?bookId=${bookId}&userId=${userId}`
+		); //double query
+		console.log(deleteBooks); //quiero q me traiga libro a eliminar
+		return dispatch({
+			type: REMOVE_BOOK_CART_DB,
+			payload: deleteBooks,
+		});
+	};
+}
+
+export function clearCart(userId) {
+	return async function (dispatch) {
+		let clearAll = await axios.put(`/cart/clear?userId=${userId}`);
+		return dispatch({
+			type: CLEAR_CART,
+		});
 	};
 }

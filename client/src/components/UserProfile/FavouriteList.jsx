@@ -5,10 +5,13 @@ import {
 	userDeleteFavorite,
 	userDelFavorite,
 	addToCart,
+	checkStates,
+	getBooksByTitleOrAuthor,
 } from '../../redux/actions/index.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as BuenLink } from 'react-router-dom';
 import { TiShoppingCart } from 'react-icons/ti';
+import { FiHeart } from 'react-icons/fi';
 import {
 	Stack,
 	HStack,
@@ -29,6 +32,8 @@ import {
 	ModalOverlay,
 	Alert,
 	AlertIcon,
+	Box,
+	useColorModeValue,
 } from '@chakra-ui/react';
 import Swal from 'sweetalert2';
 
@@ -39,10 +44,17 @@ export function favourites(props) {
 	const { userId, allFavourites } = useSelector((state) => state);
 
 	const Overlay = () => (
-		<ModalOverlay bg='blackAlpha.300' backdropFilter='blur(10px)' />
+		<ModalOverlay
+			bg={useColorModeValue('blackAlpha.600', 'blackAlpha.600')}
+			backdropFilter='blur(0px)'
+		/>
 	);
 
 	const [overlay, setOverlay] = React.useState(<Overlay />);
+
+	const buenOnClose = () => {
+		onClose();
+	};
 
 	useEffect(() => {
 		dispatch(userGetFavorite(userId));
@@ -57,7 +69,6 @@ export function favourites(props) {
 	const deleteFavorite = (id) => {
 		dispatch(userDeleteFavorite(userId, id)); //userid, bookid
 		dispatch(userDelFavorite(id));
-		// ESTO NO SE VE PORQUE CHAKRA ES UNA PIJA. AGUANTE SWEETALERT.
 		Swal.fire({
 			position: 'top-end',
 			icon: 'success',
@@ -80,27 +91,44 @@ export function favourites(props) {
 
 	return (
 		<Stack w={'full'}>
-			<Button onClick={() => handleFavorite()}>
-				Favourite list
+			<Button w={'100%'} onClick={() => handleFavorite()}>
+				<Text paddingLeft={'5.5%'} w='90%'>
+					Favourite list
+				</Text>
+				<Box>
+				<FiHeart fill='red'/>
+				{allFavourites.length}
+				</Box>
 			</Button>
+
 			<Modal
+				scrollBehavior={'inside'}
 				rounded={'10px'}
 				isCentered
 				size={'xl'}
 				isOpen={isOpen}
-				onClose={onClose}>
+				onClose={buenOnClose}>
 				{overlay}
 
 				<ModalContent bg={'gray.300'}>
 					<ModalHeader
 						rounded={'5px'}
-						bgGradient={'linear(to-r, blue.400, blue.100)'}>
+						bgGradient={useColorModeValue(
+							'linear(to-r, blue.400, blue.100)',
+							'linear(to-r, blue.700, blue.500)'
+						)}>
 						Favourite List
 					</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody p={'0'}>
 						<Flex>
-							<Container maxW={'100%'}>
+							<Container
+								maxW={'100%'}
+								bg={useColorModeValue('gray.200', 'gray.900')}
+								color={useColorModeValue(
+									'gray.700',
+									'whiteAlpha.600'
+								)}>
 								<Tabs>
 									{allFavourites.length ? (
 										allFavourites.map((e) => (
