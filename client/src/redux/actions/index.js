@@ -222,8 +222,6 @@ export function addGoogleUser(currentUser) {
 
 	return async function (dispatch) {
 		try {
-			console.log('Soy Register: ' + JSON.stringify(currentUser));
-
 			if (currentUser !== null && currentUser.hasOwnProperty('email')) {
 				var addToDb = await axios.post(`/user/google`, {
 					username: currentUser.displayName,
@@ -423,7 +421,6 @@ export function delAllCart() {
 export function getCart(userId) {
 	return async function (dispatch) {
 		let cart = await axios.get(`/cart?userId=${userId}`);
-		console.log(cart.data, 'reducer cart');
 		return dispatch({ type: GET_CART, payload: cart.data });
 	};
 }

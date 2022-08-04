@@ -176,7 +176,6 @@ function FormAdd(props) {
 			genre: input.genre.filter((gen) => gen !== e),
 		});
 	};
-
 	async function handleSubmit(e) {
 		e.preventDefault();
 

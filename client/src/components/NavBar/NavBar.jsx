@@ -61,7 +61,6 @@ export default function NavBar() {
 		<Box
 			position='fixed'
 			width='100%'
-			zIndex={3}
 			backdropFilter={'auto'}
 			backdropBlur='8px'
 		>

@@ -403,8 +403,6 @@ const rootReducer = (state = InitialState, action) => {
 		}
 		case LOGIN:
 			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
-			console.log(action.payload);
-
 			localStorage.setItem('userId', action.payload.id);
 			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('userName', action.payload.username);
@@ -423,7 +421,6 @@ const rootReducer = (state = InitialState, action) => {
 				isSignedIn: true,
 			};
 		case LOGIN_GOOGLE:
-			console.log(action.payload, 'action.payload');
 			localStorage.setItem('userId', action.payload.id);
 			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('userName', action.payload.username);
