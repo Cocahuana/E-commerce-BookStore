@@ -17,28 +17,30 @@ function signout(props) {
 		e.preventDefault();
 		dispatch(userSignOut());
 		logOut();
+		$crisp.push(['do', 'session:reset']);
 		Swal.fire(
 			'Sign Out',
 			'You have been signed out successfully!',
 			'success'
 		);
-
 		history.push('/');
 		//localStorage.clear();
 	};
 	return (
 		<Stack align={'center'} w={props.wid}>
 			<Button
-				bg={useColorModeValue('red.500', 'red.400')}
+				// bg={useColorModeValue('red.500', 'red.400')}
+				colorScheme={'twitter'}
 				w={props.wid}
 				onClick={(e) => handleClick(e)}
-				display={{md: 'inline-flex' }}
+				display={{ md: 'inline-flex' }}
 				fontSize={'sm'}
 				fontWeight={600}
-				color={'black'}
-				_hover={{
-					bg: 'lightgray',
-				}}>
+				color={useColorModeValue('gray.700', 'white')}
+				// _hover={{
+				// 	bg: 'gray.200',
+				// }}
+			>
 				{' '}
 				Sign out
 			</Button>
