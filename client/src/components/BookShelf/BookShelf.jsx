@@ -31,10 +31,9 @@ const BookShelf = () => {
 
 	const loading = useSelector((state) => state.loading);
 
-	const { token, userRole} = useSelector((state) => state);
+	const { token, userRole } = useSelector((state) => state);
 
-	const [ favs, setFavs ] = useState({});
-
+	const [favs, setFavs] = useState({});
 
 	useEffect(() => {
 		if (!books.length) dispatch(getBooksByTitleOrAuthor(query));
@@ -50,37 +49,38 @@ const BookShelf = () => {
 			localStorage.setItem('token', token);
 			localStorage.setItem('userRole', userRole);
 		}
-
 	}, [dispatch, cart, token]);
 
 	useEffect(() => {
-		const favourites = {}		
-		for(let i = 0; allFavourites.length > i; i++) {
-			favourites[allFavourites[i].id] = true 
+		const favourites = {};
+		for (let i = 0; allFavourites.length > i; i++) {
+			favourites[allFavourites[i].id] = true;
 		}
-		setFavs(favourites)
-	},[allFavourites])
+		setFavs(favourites);
+	}, [allFavourites]);
 
 	return (
-		<Box>
+		<Box minW={'xs'}>
 			<Box pt={'16'} bg={'gray.100'}>
 				<SearchBar setCurrentPage={setCurrentPage} />
 			</Box>
-			<Container maxW={'container.xl'} py={'5'}>
+			<Container maxW={'max'} py={'5'}>
 				<Flex
 					flexDirection={{
 						base: 'column',
 						sm: 'column',
 						md: 'column',
 						xl: 'row',
-					}}>
-					<Box minW={'xs'}>
+					}}
+				>
+					<Box minW={'sm'}>
 						<Filter setCurrentPage={setCurrentPage} />
 					</Box>
 					<Box>
 						<Box
 							display={{ base: 'none', md: 'block', lg: 'block' }}
-							pt={{ md: '4', lg: '0' }}>
+							pt={{ md: '4', lg: '0' }}
+						>
 							<Paging
 								BooksPerPage={BooksPerPage}
 								TotalBooksLength={books.length}
@@ -90,8 +90,6 @@ const BookShelf = () => {
 						</Box>
 
 						<Box
-							maxW='7xl'
-							mx='auto'
 							px={{
 								base: '4',
 								md: '8',
@@ -101,7 +99,8 @@ const BookShelf = () => {
 								base: '6',
 								md: '8',
 								lg: '12',
-							}}>
+							}}
+						>
 							<BookHolder>
 								{loading ? (
 									<Center>
@@ -117,7 +116,12 @@ const BookShelf = () => {
 									<h2>No books found!</h2>
 								) : (
 									slicedBooks.map((b) => (
-										<Book isFav={favs[b.id]} setFavs={setFavs} key={b.id} product={b} />
+										<Book
+											isFav={favs[b.id]}
+											setFavs={setFavs}
+											key={b.id}
+											product={b}
+										/>
 									))
 								)}
 							</BookHolder>
