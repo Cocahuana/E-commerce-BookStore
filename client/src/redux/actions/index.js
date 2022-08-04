@@ -41,9 +41,11 @@ import {
 	USER_GET_FAVORITES,
 	POST_COMMENT,
 	CREATE_BOOK,
+	MODIFY_BOOK,
 	USER_DEL_FAVORITES,
 	UPDATE_USER,
 	USER_ADD_FAVSTATE,
+	SEARCH_BOOK,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -143,6 +145,30 @@ export function createBook(payload) {
 			type: CREATE_BOOK,
 			payload: json.data,
 		});
+	};
+}
+export function modifyBook(payload) {
+	return async function (dispatch) {
+		console.log(payload);
+		var json = await axios.put(`/books/${payload.id}`, payload.input);
+		return dispatch({
+			type: MODIFY_BOOK,
+			payload: json.data,
+		});
+	};
+}
+export function searchBooksByAdmin(titleOrAuthor) {
+	return async function (dispatch) {
+		try {
+			var json = await axios.get(`/books/search?input=${titleOrAuthor}`);
+			return dispatch({
+				type: SEARCH_BOOK,
+				//json.data devuelve lo que nos da la ruta de arriba, ya filtrado por nombre
+				payload: { data: json.data, query: titleOrAuthor },
+			});
+		} catch (error) {
+			console.log(error);
+		}
 	};
 }
 
