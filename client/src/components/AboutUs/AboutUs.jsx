@@ -21,7 +21,7 @@ const testimonials = [
 	},
 	{
 		name: 'Ale',
-		position: 'CEO',
+		position: 'Chakra Partner',
 		company: 'BookStore',
 		image: 'https://media-exp1.licdn.com/dms/image/C5603AQEpi5VxOr05rw/profile-displayphoto-shrink_200_200/0/1632938782612?e=1663804800&v=beta&t=LEz42gvrQXgiDn8A5QuF5sP6LG4F4ZeqoWATjN5nG-w',
 		content: `Invest on Chakra UI. Chakra UI is a simple, modular and accessible component library that gives you the building blocks you need to build your React applications.`,
