@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Link as BuenLink } from 'react-router-dom';
 import { PriceTag } from '../BookShelf/BookHolder/Book/PriceTag';
-import Pay from './Pay';
+import SummaryPurchase from '../Cart/SummaryPurchase';
 
 import {
 	Flex,
@@ -92,7 +92,9 @@ export default function Purchase() {
 					</Stack>
 				);
 			})}
-			<Box paddingTop={'10px'}>{summary}</Box>
+			<Box paddingTop={'10px'}>
+				<SummaryPurchase />
+			</Box>
 			<BuenLink to='/pay'>
 				<Button>Continue purchase</Button>
 			</BuenLink>
