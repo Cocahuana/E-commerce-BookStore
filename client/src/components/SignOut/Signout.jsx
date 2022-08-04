@@ -23,8 +23,6 @@ function signout(props) {
 			'You have been signed out successfully!',
 			'success'
 		);
-
-
 		history.push('/');
 		//localStorage.clear();
 	};
