@@ -175,11 +175,12 @@ function AboutUs() {
 						fontSize={{
 							md: 'lg',
 						}}>
-						Because if we dont, we aint passing Next to our Because
-						if we dont, we aint passing and free plugins you can use
-						our expansive Because if we dont, we aint passing
-						Payments and build advanced and Because if we dont, we
-						aint passing
+						Who better to talk about books than the authors
+						themselves? "A book is a gift you can open again and
+						again" -Garrison Keillor "Once you read a book you care
+						about, some part of it is always with you" -Louis
+						L'Amour "If you don't like to read you haven't found the
+						right book yet" -JK Rowling
 					</chakra.p>
 				</Flex>
 				<Flex
