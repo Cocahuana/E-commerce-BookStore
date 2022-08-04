@@ -196,8 +196,6 @@ export function addGoogleUser(currentUser) {
 
 	return async function (dispatch) {
 		try {
-			console.log('Soy Register: ' + JSON.stringify(currentUser));
-
 			if (currentUser !== null && currentUser.hasOwnProperty('email')) {
 				var addToDb = await axios.post(`/user/google`, {
 					username: currentUser.displayName,
@@ -354,12 +352,11 @@ export function saveOrder(payload) {
 export function addToCart(id, idUser) {
 	return async function (dispatch) {
 		try {
-			
 			const adding = axios.post(`/cart/`, {
-				userId: idUser,//me llega de estado del componente
-				bookId: id //me llega de params
-			})
-			
+				userId: idUser, //me llega de estado del componente
+				bookId: id, //me llega de params
+			});
+
 			dispatch({
 				type: ADD_CART,
 				payload: id,
@@ -398,27 +395,28 @@ export function delAllCart() {
 export function getCart(userId) {
 	return async function (dispatch) {
 		let cart = await axios.get(`/cart?userId=${userId}`);
-		console.log(cart.data, 'reducer cart')
 		return dispatch({ type: GET_CART, payload: cart.data });
-	}
+	};
 }
 
 export function removeOneBookFromCart(bookId, userId) {
-	return async function(dispatch) {
-		let deleteBooks = await axios.put(`/cart?bookId=${bookId}&userId=${userId}`) //double query
-		console.log(deleteBooks) //quiero q me traiga libro a eliminar 
+	return async function (dispatch) {
+		let deleteBooks = await axios.put(
+			`/cart?bookId=${bookId}&userId=${userId}`
+		); //double query
+		console.log(deleteBooks); //quiero q me traiga libro a eliminar
 		return dispatch({
 			type: REMOVE_BOOK_CART_DB,
-			payload: deleteBooks
-		})
-	}
+			payload: deleteBooks,
+		});
+	};
 }
 
 export function clearCart(userId) {
-	return async function (dispatch){
-		let clearAll = await axios.put(`/cart/clear?userId=${userId}`)
-	return dispatch({
-		type: CLEAR_CART
-		})
-	}
+	return async function (dispatch) {
+		let clearAll = await axios.put(`/cart/clear?userId=${userId}`);
+		return dispatch({
+			type: CLEAR_CART,
+		});
+	};
 }

@@ -361,34 +361,31 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 			};
 		case GET_CART: {
-			var arrayBooks = action.payload.Books
-			var arrayNuevo = arrayBooks.map(b =>  b.price)
-			var suma = 0; 
+			var arrayBooks = action.payload.Books;
+			var arrayNuevo = arrayBooks.map((b) => b.price);
+			var suma = 0;
 			for (let i = 0; i < arrayNuevo.length; i++) {
-				suma += arrayNuevo[i];	
+				suma += arrayNuevo[i];
 			}
 			return {
 				...state,
 				cart: arrayBooks,
-				summary: suma
-
-			}
-		};
+				summary: suma,
+			};
+		}
 		case REMOVE_BOOK_CART_DB: {
 			return {
 				...state,
-			}
-		};
+			};
+		}
 		case CLEAR_CART: {
 			return {
 				...state,
-				summary: 0
-			}
-		};
+				summary: 0,
+			};
+		}
 		case LOGIN:
 			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
-			console.log(action.payload);
-
 			localStorage.setItem('userId', action.payload.id);
 			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('userName', action.payload.username);
@@ -410,7 +407,6 @@ const rootReducer = (state = InitialState, action) => {
 				isSignedIn: true,
 			};
 		case LOGIN_GOOGLE:
-			console.log(action.payload, 'action.payload');
 			localStorage.setItem('userId', action.payload.id);
 			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('userName', action.payload.username);

@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import ProfileImage from '../UserProfile/ProfileImage';
 import {
 	addToCart,
 	getDetails,
 	resetDetails,
 	getAllUsers,
-	postComment,
 	userAddFavorite,
 	userAddFavState,
 } from '../../redux/actions';
-import { Link as BuenLink } from 'react-router-dom';
+import { Link as BuenLink, useHistory } from 'react-router-dom';
 import {
 	Box,
 	Container,
@@ -19,23 +17,10 @@ import {
 	Text,
 	Image,
 	Flex,
-	VStack,
 	Button,
-	Heading,
 	SimpleGrid,
-	StackDivider,
 	useColorModeValue,
-	Accordion,
-	AccordionItem,
-	AccordionButton,
-	AccordionPanel,
-	AccordionIcon,
-	Avatar,
-	Editable,
-	EditablePreview,
-	EditableTextarea,
-	ChakraProvider,
-	HStack,
+	useToast,
 } from '@chakra-ui/react';
 import { TiShoppingCart, TiHeartOutline } from 'react-icons/ti';
 import { Rating } from '../BookShelf/BookHolder/Book/Rating';
@@ -46,6 +31,8 @@ import CommentPoster from './CommentPoster';
 
 function BookDetail(props) {
 	const dispatch = useDispatch();
+	const history = useHistory();
+	const toast = useToast();
 	const { id } = props.match.params;
 
 	const { cart, summary, allUsers, userId, details } = useSelector(
@@ -71,8 +58,19 @@ function BookDetail(props) {
 	};
 
 	const handleOnFavourite = (id) => {
-		dispatch(userAddFavorite(userId, id));
-		dispatch(userAddFavState(id));
+		if (userId) {
+			dispatch(userAddFavorite(userId, id));
+			dispatch(userAddFavState(id));
+		} else {
+			history.push('/login');
+			toast({
+				title: 'You need to be logged in to add to Favourites',
+				status: 'warning',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'top',
+			});
+		}
 	};
 
 	useEffect(() => {

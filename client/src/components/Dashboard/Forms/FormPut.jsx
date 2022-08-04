@@ -16,8 +16,6 @@ function FormPut(props) {
 		};
 	}, [dispatch]);
 
-	console.log(details);
-
 	return <div>FormPut</div>;
 }
 

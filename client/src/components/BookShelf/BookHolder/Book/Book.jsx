@@ -16,9 +16,11 @@ import {
 	AlertIcon,
 	AlertTitle,
 	AlertDescription,
+	useToast,
 } from '@chakra-ui/react';
 import * as React from 'react';
 import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Rating } from './Rating';
 import { FavouriteButton } from './FavouriteButton';
 import {
@@ -39,10 +41,12 @@ export const Book = (props) => {
 	const { product, rootProps, isFav, setFavs } = props;
 
 	const dispatch = useDispatch();
+	const history = useHistory();
 
 	const { userId, allFavourites, cart, books } = useSelector(
 		(state) => state
 	);
+	const toast = useToast();
 
 	const {
 		title,
@@ -57,22 +61,33 @@ export const Book = (props) => {
 	} = product;
 
 	const handleFavorite = (e, id) => {
-		if (!isFav) {
-			setFavs((favs) => {
-				return {
-					...favs,
-					[id]: true,
-				};
-			});
-			addFavorite(id);
+		if (userId) {
+			if (!isFav) {
+				setFavs((favs) => {
+					return {
+						...favs,
+						[id]: true,
+					};
+				});
+				addFavorite(id);
+			} else {
+				setFavs((favs) => {
+					return {
+						...favs,
+						[id]: false,
+					};
+				});
+				deleteFavorite(id);
+			}
 		} else {
-			setFavs((favs) => {
-				return {
-					...favs,
-					[id]: false,
-				};
+			history.push('/login');
+			toast({
+				title: 'You need to be logged in to add a book to Favourites',
+				status: 'warning',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'top',
 			});
-			deleteFavorite(id);
 		}
 	};
 
@@ -87,7 +102,6 @@ export const Book = (props) => {
 	};
 
 	const handleAddToCart = () => {
-		console.log(id, userId);
 		dispatch(addToCart(id, userId));
 		let flag = true;
 		cart.map((e) => {
@@ -102,6 +116,16 @@ export const Book = (props) => {
 				timer: 900,
 			});
 		}
+	};
+
+	const handleOnClick = () => {
+		toast({
+			title: 'You need to be logged in to Quick Shop',
+			status: 'warning',
+			isClosable: 'true',
+			duration: '2000',
+			position: 'top',
+		});
 	};
 
 	return (
@@ -192,14 +216,26 @@ export const Book = (props) => {
 				<Button colorScheme='blue' onClick={handleAddToCart} w='100%'>
 					Add to cart
 				</Button>
-				<BuenLink to='/pasarelaDePagos'>
-					<Link
-						textDecoration='underline'
-						fontWeight='medium'
-						color={useColorModeValue('gray.600', 'gray.400')}>
-						Quick shop
-					</Link>
-				</BuenLink>
+				{userId ? (
+					<BuenLink to='/pasarelaDePagos'>
+						<Link
+							textDecoration='underline'
+							fontWeight='medium'
+							color={useColorModeValue('gray.600', 'gray.400')}>
+							Quick shop
+						</Link>
+					</BuenLink>
+				) : (
+					<BuenLink to='/login'>
+						<Link
+							textDecoration='underline'
+							fontWeight='medium'
+							onClick={() => handleOnClick()}
+							color={useColorModeValue('gray.600', 'gray.400')}>
+							Quick shop
+						</Link>
+					</BuenLink>
+				)}
 			</Stack>
 		</Stack>
 	);
