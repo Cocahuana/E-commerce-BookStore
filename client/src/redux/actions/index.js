@@ -226,6 +226,7 @@ export function addGoogleUser(currentUser) {
 				var addToDb = await axios.post(`/user/google`, {
 					username: currentUser.displayName,
 					email: currentUser.email,
+					photoURL: await currentUser.photoURL //el await es porq tarda en llegar si no esta no funca
 					//password: currentUser.uid,
 				});
 

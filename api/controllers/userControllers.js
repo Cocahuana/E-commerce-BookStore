@@ -258,7 +258,7 @@ const profilePicture = async (id, body) => {
 };
 
 const googleSignIn = async (req, res, next) => {
-	const { username, email } = req.body;
+	const { username, email, photoURL } = req.body;
 	try {
 		const alreadyExists = await User.findOne({ where: { email: email } });
 		if (alreadyExists) {
@@ -287,6 +287,7 @@ const googleSignIn = async (req, res, next) => {
 			const create = await User.create({
 				email: email,
 				username: username,
+				profile_picture: photoURL
 			});
 			let cartToAssociate = await Cart.create();
 			await cartToAssociate.setUser(create);
