@@ -184,14 +184,36 @@ const putBook = async (req, res, next) => {
 const postComment = async (req, res, next) => {
 	try {
 		const { comment, rating, userId, bookId } = req.body;
-		const user = await User.findByPk(userId); //descomentar cuando haya users
-		const book = await Books.findByPk(parseInt(bookId));
+		const user = await User.findOne({
+			where:{
+				id: userId,
+				status:{
+					[Op.not]: 'Banned',
+				}
+			}
+		});
+
+		if(!user) return res.status(400).send("User has not been found or is banned from making comments")
+		const book = await Books.findByPk(parseInt(bookId), {
+			include:{
+				model: Comment,
+				as: "Comments"
+			}
+		});
 		const newComment = await Comment.create({
 			text: comment,
 			rating: rating,
 		});
+
+		let newRating = book.Comments.map(comment => comment.rating)
+		let divisor = newRating.length + 1
+		newRating = [...newRating, rating].reduce((previousValue, currentValue) => previousValue + currentValue);
+
+		await book.update({
+			rating: parseFloat((newRating / divisor).toFixed(1))
+		})
 		await book.addComment(newComment);
-		await user.addComment(newComment); //descomentar cuando haya users
+		await user.addComment(newComment); 
 		res.send('Comment Created!');
 	} catch (error) {
 		console.log(error);
