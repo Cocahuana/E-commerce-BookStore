@@ -32,6 +32,7 @@ var server = http.createServer(app);
  * Using property "force: false" to handle the emptying of database
  */
 conn.sync({ force: true }).then(() => {
+
 	app.listen(process.env.PORT || 3001, async () => {
 		console.log('%s listening at 3001'); // eslint-disable-line no-console
 		// function cambiarDeLugar(){

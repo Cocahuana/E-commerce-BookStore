@@ -17,7 +17,13 @@ function signout(props) {
 		e.preventDefault();
 		dispatch(userSignOut());
 		logOut();
-		Swal.fire('Sign Out', 'You have been signed out successfully!', 'success');
+		$crisp.push(['do', 'session:reset']);
+		Swal.fire(
+			'Sign Out',
+			'You have been signed out successfully!',
+			'success'
+		);
+
 
 		history.push('/');
 		//localStorage.clear();
