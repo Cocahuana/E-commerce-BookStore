@@ -18,6 +18,10 @@ export default function Pay() {
 		(state) => state
 	);
 
+	// Como stripe sí o sí debe recibir un numero entero este debe multiplicarse por 100
+	// Al mismo tiempo Stripe no acepta puntos, por lo que con Math.trunc le removemos decimales infinitos innecesarios
+	let total = Math.trunc(summary.toFixed(2) * 100);
+
 	//Seteo para usar luego el token (que se genera solo)
 	const onToken = (token) => {
 		setStripeToken(token);
@@ -30,7 +34,7 @@ export default function Pay() {
 				const res = await axios.post('/payment/create', {
 					//Le paso los datos que quiero usar. Los ultimos 2 digitos del amount son centavos.
 					tokenId: stripeToken.id,
-					amount: 100,
+					amount: total,
 				});
 				history.push('/success', {
 					data: res.data,
@@ -60,7 +64,7 @@ export default function Pay() {
 				name={userName}
 				image={userProfilePicture}
 				description={`Your total is ${summary}`}
-				amount={summary * 100}
+				amount={total}
 				token={onToken}
 				stripeKey={KEY}>
 				<Button>
