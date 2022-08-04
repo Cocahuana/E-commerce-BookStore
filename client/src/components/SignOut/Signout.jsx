@@ -17,6 +17,7 @@ function signout(props) {
 		e.preventDefault();
 		dispatch(userSignOut());
 		logOut();
+		$crisp.push(['do', 'session:reset']);
 		Swal.fire(
 			'Sign Out',
 			'You have been signed out successfully!',
@@ -32,7 +33,7 @@ function signout(props) {
 				bg={useColorModeValue('red.500', 'red.400')}
 				w={props.wid}
 				onClick={(e) => handleClick(e)}
-				display={{md: 'inline-flex' }}
+				display={{ md: 'inline-flex' }}
 				fontSize={'sm'}
 				fontWeight={600}
 				color={'black'}
