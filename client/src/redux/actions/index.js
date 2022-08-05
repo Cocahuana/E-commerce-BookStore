@@ -48,7 +48,7 @@ import {
 	USER_ADD_FAVSTATE,
 	SEARCH_BOOK,
 	UPGRADE_USER,
-	BAN_USER
+	BAN_USER,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -129,8 +129,15 @@ export function postComment(comment) {
 //----------------------------------------------ADMIN-----------------------------------------
 
 export function createBook(payload) {
+	let { token } = payload;
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+	};
 	return async function (dispatch) {
-		var json = await axios.post('/books', payload);
+		var json = await axios.post('/books', payload, config);
 		return dispatch({
 			type: CREATE_BOOK,
 			payload: json.data,
@@ -138,9 +145,20 @@ export function createBook(payload) {
 	};
 }
 export function modifyBook(payload) {
+	let { token } = payload;
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+	};
 	return async function (dispatch) {
 		console.log(payload);
-		var json = await axios.put(`/books/${payload.id}`, payload.input);
+		var json = await axios.put(
+			`/books/${payload.id}`,
+			payload.input,
+			config
+		);
 		return dispatch({
 			type: MODIFY_BOOK,
 			payload: json.data,
@@ -173,27 +191,26 @@ export function hideBook(payload) {
 }
 
 export function toBanUser(id, token) {
-	return async function (dispatch){
-		console.log(token)
+	return async function (dispatch) {
+		console.log(token);
 		const config = {
 			headers: {
 				'Content-Type': 'application/json',
-	
+
 				Authorization: `Bearer ${token}`,
 			},
-		};	
-		try{
-			var userBan =  await axios.put(`/admin/ban`, { userId: id}, config )
-			var users = await axios.get(`/user/all`)
+		};
+		try {
+			var userBan = await axios.put(`/admin/ban`, { userId: id }, config);
+			var users = await axios.get(`/user/all`);
 			return dispatch({
 				type: GET_USERS,
-				payload: users.data
-			})
-
-		} catch(err){
-			console.log(err)
+				payload: users.data,
+			});
+		} catch (err) {
+			console.log(err);
 		}
-	}
+	};
 }
 
 //----------------------------------------------USERS-----------------------------------------
@@ -471,9 +488,19 @@ export function clearCart(userId) {
 		});
 	};
 }
-export function checkoutCart(userId) {
+export function checkoutCart(userId, token) {
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+	};
 	return async function (dispatch) {
-		let checkoutCart = await axios.put(`/cart/checkout/`, { userId });
+		let checkoutCart = await axios.put(
+			`/cart/checkout/`,
+			{ userId },
+			config
+		);
 		return dispatch({
 			type: CHECKOUT_CART,
 		});
