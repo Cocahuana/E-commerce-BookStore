@@ -32,6 +32,9 @@ const getAllCarts = async (req, res, next) =>{
             where:{
                 UserId: userId,
             },
+            order:[
+                ["status", "ASC"]
+            ],
             include:{
                 model: Books,
                 attributes: ["id", "title", "price","authors"],
@@ -199,7 +202,9 @@ const checkoutCart = async (req, res, next) =>{
                 model: Books,
             },
         })
-        
+        let totalPrice = oldCart.Books.map(book => book.price).reduce(
+            (previousValue, currentValue) => previousValue + currentValue);
+
         //RESTAMOS EL STOCK / CHECKEAMOS SI HAY STOCK
         let books = oldCart.Books.map(book=> book.id)
         let newStock = oldCart.Books.map(book => book.stock - book.Cart_Books.amount)
@@ -215,7 +220,8 @@ const checkoutCart = async (req, res, next) =>{
         };
 
         arrayPromises.push(Cart.update({
-            status: "Disabled"
+            status: "Disabled",
+            totalPrice: totalPrice.toFixed(2),
         },{
             where:{
                 UserId: userId,

@@ -197,11 +197,11 @@ const specificOffer = async (req, res, next) =>{
 };
 
 const passwordRecovery = async (req, res, next) => {
-    let { userId } = req.body;
+    let { email } = req.body;
     try{
         let user = await User.findOne({
             where:{
-                id: userId,
+                email: email,
             },
         });
 
@@ -212,8 +212,8 @@ const passwordRecovery = async (req, res, next) => {
             to: user.email,
             subject: `Password recovery email`,
             html:`<h4>You are receiving this mail because a password reset was requested</h4>
-            <p>Click the following link to start reseting your password: <a href="https://e-commerce-book-store.vercel.app/">Bookovich</a>.
-            <br>Or copy & paste this URL in your browser: https://e-commerce-book-store.vercel.app/</p>`
+            <p>Click the following link to start reseting your password: <a href="https://e-commerce-book-store.vercel.app/recovery/${user.id}">Bookovich</a>.
+            <br>Or copy & paste this URL in your browser: https://e-commerce-book-store.vercel.app/recovery/${user.id}</p>`
           }, (err, info) => {
             if (err) {
               res.status(400).send(err.message);
