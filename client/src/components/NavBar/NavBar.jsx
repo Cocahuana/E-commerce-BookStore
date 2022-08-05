@@ -286,7 +286,7 @@ export default function NavBar() {
 							</MenuItem>
 
 							<MenuItem w={'100%'} _hover={{ bg: 'none', cursor: 'default' }}>
-								<Drawer widt={'100%'} />
+								<Drawer widt={'215px'} />
 							</MenuItem>
 
 							<MenuDivider />

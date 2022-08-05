@@ -34,7 +34,6 @@ export function avatar(props) {
 
 	const uploadImage = (e) => {
 		const files = e.target.files[0];
-		console.log(files)
 		if (files && ALLOWED_TYPES.includes(files.type)) {
 			const data = new FormData();
 			data.append('file', files);

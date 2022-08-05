@@ -42,17 +42,14 @@ import { useSelector, useDispatch } from 'react-redux';
 function BooksTable({ books }) {
 	const textColor = useColorModeValue('gray.700', 'white');
 	const dispatch = useDispatch();
-	const [titleBook, setTitleBook] = useState();
-	const { adminBooks } = useSelector((state) => state);
-	const [scroll, setScroll] = useState(
-		Array.from(adminBooks?.data?.slice(0, 20))
-	);
+
+	const [scroll, setScroll] = useState(books.slice(0, 20));
 
 	const fetchMoreData = () => {
 		setTimeout(() => {
 			setScroll(
 				scroll.concat(
-					Array.from(adminBooks?.data?.slice(scroll.length, scroll.length + 20))
+					Array.from(books.slice(scroll.length, scroll.length + 20))
 				)
 			);
 		}, 1300);

@@ -93,6 +93,7 @@ const InitialState = {
 	details: {},
 	genres: [],
 	booksCopy: [],
+	booksAutocomplete: [],
 	loading: true,
 	filters: {
 		genres: [],
@@ -131,8 +132,8 @@ const rootReducer = (state = InitialState, action) => {
 		case GET_BOOKS: {
 			return {
 				...state,
-				books: action.payload,
-				booksCopy: action.payload,
+				// books: action.payload,
+				// booksCopy: action.payload,
 				adminBooks: action.payload,
 				loading: false,
 			};
@@ -145,14 +146,24 @@ const rootReducer = (state = InitialState, action) => {
 					query: action.payload.query,
 				};
 			}
-			return {
-				...state,
-				booksCopy: action.payload.data,
-				books: action.payload.data,
-				query: action.payload.query,
-				loading: false,
-				adminBooks: action.payload,
-			};
+			if (!action.payload.query) {
+				return {
+					...state,
+					booksAutocomplete: action.payload.data,
+					booksCopy: action.payload.data,
+					books: action.payload.data,
+					query: action.payload.query,
+					loading: false,
+				};
+			} else {
+				return {
+					...state,
+					booksCopy: action.payload.data,
+					books: action.payload.data,
+					query: action.payload.query,
+					loading: false,
+				};
+			}
 		}
 		case GET_GENRES: {
 			return {
