@@ -128,8 +128,8 @@ export function postComment(comment) {
 }
 //----------------------------------------------ADMIN-----------------------------------------
 
-export function createBook(payload) {
-	let { token } = payload;
+export function createBook(input, token) {
+	console.log('CREATE-BOOK-ACTION', token);
 	const config = {
 		headers: {
 			'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ export function createBook(payload) {
 		},
 	};
 	return async function (dispatch) {
-		var json = await axios.post('/books', payload, config);
+		var json = await axios.post('/books', input, config);
 		return dispatch({
 			type: CREATE_BOOK,
 			payload: json.data,

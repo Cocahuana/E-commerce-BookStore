@@ -77,6 +77,7 @@ function FormAdd(props) {
 	const image = useRef(null);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
+	console.log('FORM-ADD', token);
 
 	const [errors, setErrors] = useState({});
 
@@ -91,7 +92,7 @@ function FormAdd(props) {
 		description: '',
 		price: 1,
 		rating: 0,
-		genre: ['Drama'],
+		genre: [],
 		image: '',
 		language: 'ENGLISH',
 	});
@@ -228,7 +229,6 @@ function FormAdd(props) {
 					isClosable: 'true',
 					duration: '2500',
 				});
-				console.log(input);
 				dispatch(modifyBook({ id, input, token }));
 				console.log('modificado :D');
 
