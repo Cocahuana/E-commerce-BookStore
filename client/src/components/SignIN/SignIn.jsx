@@ -168,12 +168,17 @@ function SignIn() {
 							onClick={(event) => handleSignIn(event)}>
 							Sign in
 						</Button>
-						<GoogleButton
-							colorScheme={'blue'}
-							variant={'solid'}
-							onClick={handleGoogleSignIn}>
-							Sign in with Google
-						</GoogleButton>
+
+						<Stack align ={"center"}>
+							<GoogleButton
+								w={''}
+								justify={'center'}
+								colorScheme={'blue'}
+								variant={'solid'}
+								onClick={handleGoogleSignIn}>
+								Sign in with Google
+							</GoogleButton>
+						</Stack>
 					</Stack>
 
 					<Stack pt={6}>

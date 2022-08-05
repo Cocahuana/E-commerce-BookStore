@@ -48,7 +48,6 @@ export const Book = (props) => {
 		(state) => state
 	);
 	const toast = useToast();
-
 	const {
 		title,
 		authors,
@@ -110,7 +109,7 @@ export const Book = (props) => {
 		});
 		if (flag) {
 			Swal.fire({
-				position: 'top-end',
+				position: 'center',
 				icon: 'success',
 				title: 'Added to the cart successfully',
 				showConfirmButton: false,
