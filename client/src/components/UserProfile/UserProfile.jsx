@@ -77,7 +77,7 @@ function UserProfile() {
 					h={{ lg: '60%', md: '60%', base: '150rem' }}
 					w={{ lg: '50%', md: '50%', base: '100%' }}>
 					<VStack>
-						<FavouriteList />
+						<FavouriteList widt={"100%"}/>
 						<Button w={'100%'}>Change your password</Button>
 						<br />
 						<SignOut wid='60%' />

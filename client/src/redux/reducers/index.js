@@ -51,19 +51,19 @@ if (!summaryFromLocalStorage) {
 	summaryFromLocalStorage = 0;
 }
 
-let tokenFromLocalStorage = localStorage.getItem('token');
+let tokenFromLocalStorage = JSON.parse(localStorage.getItem('token'));
 if (!tokenFromLocalStorage) {
 	tokenFromLocalStorage = '';
 }
-let isSignedInFromLocalStorage = localStorage.getItem('isSignedIn');
+let isSignedInFromLocalStorage = JSON.parse(localStorage.getItem('isSignedIn'));
 if (!isSignedInFromLocalStorage) {
 	isSignedInFromLocalStorage = false;
 }
-let userIdFromLocalStorage = localStorage.getItem('userId');
+let userIdFromLocalStorage = JSON.parse(localStorage.getItem('userId'));
 if (!userIdFromLocalStorage) {
 	userIdFromLocalStorage = false;
 }
-let userRoleFromLocalStorage = localStorage.getItem('userRole');
+let userRoleFromLocalStorage = JSON.parse(localStorage.getItem('userRole'));
 if (!userRoleFromLocalStorage) {
 	userRoleFromLocalStorage = null;
 }
@@ -429,7 +429,7 @@ const rootReducer = (state = InitialState, action) => {
 			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('userName', action.payload.username);
 			localStorage.setItem('userEmail', action.payload.email);
-			localStorage.setItem('userProfileImage', action.payload.profile_picture);
+			localStorage.setItem('userProfileImage', action.payload.photoURL);
 			return {
 				...state,
 				token: action.payload.token,

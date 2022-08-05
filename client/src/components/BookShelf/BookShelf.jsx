@@ -15,7 +15,11 @@ import Filter from './Filters/Filter';
 import { Paging } from './Paging/Paging';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getBooksByTitleOrAuthor, userGetFavorite } from '../../redux/actions';
+import {
+	getBooksByTitleOrAuthor,
+	getCart,
+	userGetFavorite,
+} from '../../redux/actions';
 
 const BookShelf = () => {
 	const dispatch = useDispatch();
@@ -37,7 +41,7 @@ const BookShelf = () => {
 
 	useEffect(() => {
 		if (!books.length) dispatch(getBooksByTitleOrAuthor(query));
-		dispatch(userGetFavorite(userId));
+		if (userId) dispatch(userGetFavorite(userId));
 		// setting variables in localStorage ----
 		localStorage.setItem('cart', JSON.stringify(cart));
 		localStorage.setItem('summary', JSON.stringify(summary));
@@ -71,16 +75,14 @@ const BookShelf = () => {
 						sm: 'column',
 						md: 'column',
 						xl: 'row',
-					}}
-				>
+					}}>
 					<Box minW={'sm'}>
 						<Filter setCurrentPage={setCurrentPage} />
 					</Box>
 					<Box>
 						<Box
 							display={{ base: 'none', md: 'block', lg: 'block' }}
-							pt={{ md: '4', lg: '0' }}
-						>
+							pt={{ md: '4', lg: '0' }}>
 							<Paging
 								BooksPerPage={BooksPerPage}
 								TotalBooksLength={books.length}
@@ -99,9 +101,12 @@ const BookShelf = () => {
 								base: '6',
 								md: '8',
 								lg: '12',
+
 							}}
 						>
-							<BookHolder>
+							<BookHolder w={"1000px"}>
+							}}>
+
 								{loading ? (
 									<Center>
 										<Spinner

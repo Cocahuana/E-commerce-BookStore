@@ -16,6 +16,7 @@ import {
 	ModalBody,
 	ModalFooter,
 	useDisclosure,
+	Text,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUsers, updateUser } from '../../redux/actions';
@@ -33,6 +34,7 @@ export function avatar(props) {
 
 	const uploadImage = (e) => {
 		const files = e.target.files[0];
+		console.log(files)
 		if (files && ALLOWED_TYPES.includes(files.type)) {
 			const data = new FormData();
 			data.append('file', files);
