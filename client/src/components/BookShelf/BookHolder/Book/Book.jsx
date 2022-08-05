@@ -30,6 +30,7 @@ import {
 	userDeleteFavorite,
 	userDelFavorite,
 	userAddFavState,
+	clearCart,
 } from '../../../../redux/actions/index';
 import { PriceTag } from './PriceTag';
 import { Link as BuenLink } from 'react-router-dom';
@@ -47,7 +48,6 @@ export const Book = (props) => {
 		(state) => state
 	);
 	const toast = useToast();
-
 	const {
 		title,
 		authors,
@@ -109,13 +109,18 @@ export const Book = (props) => {
 		});
 		if (flag) {
 			Swal.fire({
-				position: 'top-end',
+				position: 'center',
 				icon: 'success',
 				title: 'Added to the cart successfully',
 				showConfirmButton: false,
 				timer: 900,
 			});
 		}
+	};
+
+	const handleQuickShop = () => {
+		clearCart(userId);
+		handleAddToCart(id);
 	};
 
 	const handleOnClick = () => {
@@ -217,11 +222,12 @@ export const Book = (props) => {
 					Add to cart
 				</Button>
 				{userId ? (
-					<BuenLink to='/pasarelaDePagos'>
+					<BuenLink to='/pay'>
 						<Link
 							textDecoration='underline'
 							fontWeight='medium'
-							color={useColorModeValue('gray.600', 'gray.400')}>
+							color={useColorModeValue('gray.600', 'gray.400')}
+							onClick={handleQuickShop}>
 							Quick shop
 						</Link>
 					</BuenLink>

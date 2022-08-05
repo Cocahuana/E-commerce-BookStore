@@ -6,15 +6,17 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Link as BuenLink } from 'react-router-dom';
+import { checkoutCart, getCart } from '../../redux/actions';
 // Traigo la publisheable key de stripe para hacer los pagos (esta es la demo para practicar hacer pagos que no son reales)
 
 const KEY =
 	'pk_test_51LSdXMF5Vwy6vv6Z1ddeuf2axD3L8DrlxQSaSf4uWRsZZAXNtGGkrdJ5dpECnOZBbp8bc3VBXFcHuIoY5gIl29xV00jo5iLGip';
 export default function Pay() {
+	const dispatch = useDispatch();
 	const history = useHistory();
 	//Seteo el token (con el que se va a asociar la compra con la cuenta de stripe)
 	const [stripeToken, setStripeToken] = useState(null);
-	const { summary, userName, userProfilePicture } = useSelector(
+	const { summary, userName, userProfilePicture, userId } = useSelector(
 		(state) => state
 	);
 
@@ -39,6 +41,7 @@ export default function Pay() {
 				history.push('/success', {
 					data: res.data,
 				});
+				dispatch(checkoutCart(userId));
 				console.log(res.data);
 			} catch (err) {
 				console.log(err);

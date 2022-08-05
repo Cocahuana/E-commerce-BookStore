@@ -15,7 +15,11 @@ import Filter from './Filters/Filter';
 import { Paging } from './Paging/Paging';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getBooksByTitleOrAuthor, userGetFavorite } from '../../redux/actions';
+import {
+	getBooksByTitleOrAuthor,
+	getCart,
+	userGetFavorite,
+} from '../../redux/actions';
 
 const BookShelf = () => {
 	const dispatch = useDispatch();
@@ -98,7 +102,7 @@ const BookShelf = () => {
 								md: '8',
 								lg: '12',
 							}}>
-							<BookHolder>
+							<BookHolder w={'1000px'}>
 								{loading ? (
 									<Center>
 										<Spinner

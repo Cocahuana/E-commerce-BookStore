@@ -32,6 +32,7 @@ import {
 	REMOVE_BOOK_CART_DB,
 	CLEAR_CART,
 	SEARCH_BOOK,
+	CHECKOUT_CART,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -50,19 +51,19 @@ if (!summaryFromLocalStorage) {
 	summaryFromLocalStorage = 0;
 }
 
-let tokenFromLocalStorage = JSON.parse(localStorage.getItem('token'));
+let tokenFromLocalStorage = localStorage.getItem('token');
 if (!tokenFromLocalStorage) {
 	tokenFromLocalStorage = '';
 }
-let isSignedInFromLocalStorage = JSON.parse(localStorage.getItem('isSignedIn'));
+let isSignedInFromLocalStorage = localStorage.getItem('isSignedIn');
 if (!isSignedInFromLocalStorage) {
 	isSignedInFromLocalStorage = false;
 }
-let userIdFromLocalStorage = JSON.parse(localStorage.getItem('userId'));
+let userIdFromLocalStorage = localStorage.getItem('userId');
 if (!userIdFromLocalStorage) {
 	userIdFromLocalStorage = false;
 }
-let userRoleFromLocalStorage = JSON.parse(localStorage.getItem('userRole'));
+let userRoleFromLocalStorage = localStorage.getItem('userRole');
 if (!userRoleFromLocalStorage) {
 	userRoleFromLocalStorage = null;
 }
@@ -389,6 +390,12 @@ const rootReducer = (state = InitialState, action) => {
 				...state,
 				cart: arrayBooks,
 				summary: suma,
+			};
+		}
+		case CHECKOUT_CART: {
+			return {
+				...state,
+				cart: [],
 			};
 		}
 		case REMOVE_BOOK_CART_DB: {
