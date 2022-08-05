@@ -57,13 +57,13 @@ export function favourites(props) {
 	};
 
 	useEffect(() => {
-		dispatch(userGetFavorite(userId));
+		if (userId) dispatch(userGetFavorite(userId));
 	}, [dispatch]);
 
 	const handleFavorite = () => {
 		onOpen();
 		setOverlay(<Overlay />);
-		dispatch(userGetFavorite(userId)); //userid
+		if (userId) dispatch(userGetFavorite(userId)); //userid
 	};
 
 	const deleteFavorite = (id) => {
@@ -96,8 +96,8 @@ export function favourites(props) {
 					Favourite list
 				</Text>
 				<Box>
-				<FiHeart fill='red'/>
-				{allFavourites.length}
+					<FiHeart fill='red' />
+					{allFavourites.length}
 				</Box>
 			</Button>
 
