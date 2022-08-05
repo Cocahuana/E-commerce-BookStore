@@ -29,24 +29,29 @@ import {
 	AutoCompleteItem,
 	AutoCompleteList,
 } from '@choc-ui/chakra-autocomplete';
+import axios from 'axios';
 
 function SearchBar({ setCurrentPage }) {
 	const dispatch = useDispatch();
-	const { query, books } = useSelector((state) => state);
+	const { query, booksAutocomplete } = useSelector((state) => state);
+	const [title, setTitle] = useState('');
+
+	useEffect(() => {
+		setTitle(query);
+	}, [query]);
 
 	function handleInputChange(e) {
 		e.preventDefault();
-		dispatch(getBooksByTitleOrAuthor(e.target.value));
+		setTitle(e.target.value);
+	}
+
+	function handleSubmit(e) {
+		e.preventDefault();
+		dispatch(getBooksByTitleOrAuthor(title));
 		dispatch(resetFilters());
 		setCurrentPage(1);
 	}
-
-	// function handleSubmit(e) {
-	// 	e.preventDefault();
-	// 	dispatch(getBooksByTitleOrAuthor(title));
-	// 	setTitle('');
-	// 	setCurrentPage(1);
-	// }
+	console.log(title);
 
 	return (
 		<Box pb={8} bg={useColorModeValue('whiteAlpha.100', 'gray.500')}>
@@ -96,7 +101,7 @@ function SearchBar({ setCurrentPage }) {
 										size='lg'
 										type='text'
 										placeholder='Find your book, author here...'
-										value={query}
+										value={title}
 										onChange={(e) => handleInputChange(e)}
 									/>
 								</Box>
@@ -126,81 +131,78 @@ function SearchBar({ setCurrentPage }) {
 												<AutoCompleteInput
 													variant='filled'
 													size={'lg'}
-													placeholder={
-														query
-															? query
-															: 'Find your book, author, here...'
-													}
+													value={title}
 													onChange={(e) =>
 														handleInputChange(e)
 													}
-													// onClick={(e) =>
-													// 	handleInputChange(e)
-													// }
 												/>
 												<AutoCompleteList>
-													{books.map((b, id) => (
-														<AutoCompleteItem
-															key={`option-${id}`}
-															value={b.title}>
-															<Button
-																w='100%'
-																h='100%'
-																align={'center'}
-																justifyContent='flex-start'
-																value={b.title}
-																onClick={(e) =>
-																	handleInputChange(
-																		e
-																	)
-																}>
-																<Image
-																	rounded={
-																		'md'
-																	}
-																	alt={
-																		'book image'
-																	}
-																	src={
-																		b?.image
-																	}
-																	fit={
-																		'container'
-																	}
+													{booksAutocomplete.map(
+														(b, id) => (
+															<AutoCompleteItem
+																key={`option-${id}`}
+																value={b.title}>
+																<Button
+																	w='100%'
+																	h='100%'
 																	align={
 																		'center'
 																	}
 																	justifyContent='flex-start'
-																	w={{
-																		base: '50px',
-																		sm: '50px',
-																		lg: '50px',
-																	}}
-																	h={{
-																		base: '50px',
-																		sm: '50px',
-																		lg: '50px',
-																	}}
-																	mr='10px'
-																/>
-																{b.title}
-															</Button>
-														</AutoCompleteItem>
-													))}
+																	value={
+																		b.title
+																	}
+																	onClick={
+																		handleInputChange
+																	}>
+																	<Image
+																		rounded={
+																			'md'
+																		}
+																		alt={
+																			'book image'
+																		}
+																		src={
+																			b?.image
+																		}
+																		fit={
+																			'container'
+																		}
+																		align={
+																			'center'
+																		}
+																		justifyContent='flex-start'
+																		w={{
+																			base: '50px',
+																			sm: '50px',
+																			lg: '50px',
+																		}}
+																		h={{
+																			base: '50px',
+																			sm: '50px',
+																			lg: '50px',
+																		}}
+																		mr='10px'
+																	/>
+																	{b.title}
+																</Button>
+															</AutoCompleteItem>
+														)
+													)}
 												</AutoCompleteList>
 											</AutoComplete>
 										</FormControl>
 
 										<Button
-											// onClick={handleSubmit}
+											onClick={handleSubmit}
 											color='white'
 											variant='solid'
 											bg={'brand.pepe'}
 											size='lg'
-											type='submit'
+											type='button'
 											roundedLeft={0}
 											leftIcon={<Search2Icon />}>
-											Empty Search
+											Search
 										</Button>
 									</Flex>
 								</InputGroup>
