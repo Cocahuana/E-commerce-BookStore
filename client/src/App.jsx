@@ -22,6 +22,7 @@ import FormPut from './components/Dashboard/Forms/FormPut';
 import Pay from './components/Payment/Pay';
 import Success from './components/Payment/Success';
 import Purchase from './components/Payment/Purchase';
+import PasswordRecovery from './components/PRecovery/PasswordRecovery';
 
 /*
  NO SACAR EL SWITCH, AMIGUENSE CON REACT ROUTER DOM V5 :D
@@ -47,6 +48,7 @@ function App() {
 				<Route path='/book/:id' component={details} />
 				<Route path='/register' component={register} />
 				<Route path='/login' component={login} />
+				<Route path='/recovery/:userId' component={PasswordRecovery} />
 				<Route path='/us' component={AboutUs} />
 				<Route
 					path='/purchase'
