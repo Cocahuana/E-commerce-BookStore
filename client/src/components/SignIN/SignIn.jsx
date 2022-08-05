@@ -18,6 +18,14 @@ import {
 	Image,
 	Checkbox,
 	tokenToCSSVar,
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalCloseButton,
+	ModalBody,
+	ModalFooter,
+	useDisclosure,
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,6 +41,8 @@ function SignIn() {
 	const [show, setShow] = React.useState(false);
 	const { token } = useSelector((state) => state);
 	// const handleClick = () => setShow(!show);
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [email, setEmail] = useState({email: ""})
 
 	const [user, setLoginUser] = useState({
 		email: '',
@@ -106,6 +116,25 @@ function SignIn() {
 		}
 	};
 
+		const handleOnChangePass = (e) => {
+			setEmail({
+				email: e.target.value
+			})
+		}
+
+		const handlepass = (e) => {
+			e.preventDefault()
+			if(email.email === "") {
+				Swal.fire({
+					position: "top",
+					icon: 'error',
+					title: 'Oops...',
+					text: 'Email input can not be empty, sorry!',
+				});
+			
+			} else console.log(email)
+		}
+
 	return (
 		<Stack
 			minH={'100vh'}
@@ -155,6 +184,7 @@ function SignIn() {
 							justify={'space-between'}>
 							<Checkbox>Remember me</Checkbox>
 							<Button
+								onClick={onOpen}
 								as={'a'}
 								variant={'link'}
 								color={'blue.500'}>
@@ -169,7 +199,7 @@ function SignIn() {
 							Sign in
 						</Button>
 
-						<Stack align ={"center"}>
+						<Stack align={'center'}>
 							<GoogleButton
 								w={''}
 								justify={'center'}
@@ -209,6 +239,29 @@ function SignIn() {
 					}
 				/>
 			</Flex>
+
+			<Modal isOpen={isOpen} isCentered onClose={onClose}>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalHeader>Forgot password</ModalHeader>
+					<ModalBody>
+						<Text>
+							We will sent you an email with a link to change your
+							password
+						</Text>
+						<HStack mt={1}>
+							<FormControl>
+							<FormLabel pt={'15px'}>Email</FormLabel>
+								<Input onChange={handleOnChangePass} type='email' label={'Email'} />
+							</FormControl>
+						</HStack>
+					</ModalBody>
+					<ModalFooter justifyContent={'space-between'} w={'100%'}>
+						<Button onClick={onClose}>Cancelar</Button>
+						<Button onClick={(e) => handlepass(e)}>Enviar</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
 		</Stack>
 	);
 }
