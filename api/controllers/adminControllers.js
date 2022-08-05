@@ -14,11 +14,11 @@ const banUser = async (req, res, next) => {
 			await userToBan.update({
 				status: 'Banned',
 			});
-		Comment.destroy({
-			where:{
-				UserId: userId,
-			}
-		})
+			Comment.destroy({
+				where: {
+					UserId: userId,
+				},
+			});
 			res.status(200).send(`User ${userToBan.username} has been banned!`);
 		} else {
 			res.status(400).send('No user was found with that id');
@@ -37,8 +37,7 @@ const upgradeToAdmin = async (req, res, next) => {
 			},
 		});
 		if (userToAdmin) {
-			await userToBan.update({
-				//errror aca
+			await userToAdmin.update({
 				status: 'Admin',
 			});
 			res.status(200).send(
@@ -73,16 +72,16 @@ const hideBook = async (req, res, next) => {
 	}
 };
 
-const deleteComment = async (req, res, next) =>{
+const deleteComment = async (req, res, next) => {
 	let { commentId } = req.body;
-	try{
+	try {
 		await Comment.destroy({
-			where:{
+			where: {
 				id: commentId,
 			},
 		});
-		res.send(`Comment has been deleted`)
-	}catch(err){
+		res.send(`Comment has been deleted`);
+	} catch (err) {
 		next(err);
 	}
 };

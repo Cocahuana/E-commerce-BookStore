@@ -47,6 +47,7 @@ import {
 	UPDATE_USER,
 	USER_ADD_FAVSTATE,
 	SEARCH_BOOK,
+	UPGRADE_USER,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -453,6 +454,25 @@ export function checkoutCart(userId) {
 		let checkoutCart = await axios.put(`/cart/checkout/`, { userId });
 		return dispatch({
 			type: CHECKOUT_CART,
+		});
+	};
+}
+
+export function upgradeToAdmin(userId, token) {
+	console.log(token);
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+	};
+
+	return async function (dispatch) {
+		await axios.put(`/admin/upgrade`, { userId }, config);
+		var users = await axios.get(`/user/all`);
+		return dispatch({
+			type: GET_USERS,
+			payload: users.data,
 		});
 	};
 }

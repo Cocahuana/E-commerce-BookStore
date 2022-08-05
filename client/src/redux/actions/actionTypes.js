@@ -53,3 +53,4 @@ export const HIDE_BOOKS = 'HIDE_BOOKS';
 export const CREATE_BOOK = 'CREATE_BOOK';
 export const MODIFY_BOOK = 'CREATE_BOOK';
 export const SEARCH_BOOK = 'SEARCH_BOOK';
+export const UPGRADE_USER = 'UPGRADE_USER';
