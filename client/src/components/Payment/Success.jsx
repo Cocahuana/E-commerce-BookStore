@@ -9,13 +9,8 @@ export default function Success() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		handleCheckout();
-	}, [dispatch, userId]);
-
-	const handleCheckout = () => {
-		dispatch(checkoutCart(userId));
 		dispatch(getCart(userId));
-	};
+	}, [dispatch]);
 
 	return (
 		<Box textAlign='center' py={10} px={6} pt='24' h='90vh'>

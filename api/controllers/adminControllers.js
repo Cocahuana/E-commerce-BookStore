@@ -1,6 +1,6 @@
 const axios = require('axios');
 const db = require('../db');
-const { User, Books } = require('../db');
+const { User, Books, Comment } = require('../db');
 
 const banUser = async (req, res, next) => {
 	let { userId } = req.body;
@@ -14,6 +14,11 @@ const banUser = async (req, res, next) => {
 			await userToBan.update({
 				status: 'Banned',
 			});
+		Comment.destroy({
+			where:{
+				UserId: userId,
+			}
+		})
 			res.status(200).send(`User ${userToBan.username} has been banned!`);
 		} else {
 			res.status(400).send('No user was found with that id');
@@ -68,4 +73,18 @@ const hideBook = async (req, res, next) => {
 	}
 };
 
-module.exports = { banUser, upgradeToAdmin, hideBook };
+const deleteComment = async (req, res, next) =>{
+	let { commentId } = req.body;
+	try{
+		await Comment.destroy({
+			where:{
+				id: commentId,
+			},
+		});
+		res.send(`Comment has been deleted`)
+	}catch(err){
+		next(err);
+	}
+};
+
+module.exports = { banUser, upgradeToAdmin, hideBook, deleteComment };
