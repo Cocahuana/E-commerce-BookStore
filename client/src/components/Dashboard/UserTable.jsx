@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
 	Table,
 	Tbody,
@@ -19,12 +19,38 @@ import {
 	Input,
 	InputGroup,
 	InputRightElement,
+	useToast,
 } from '@chakra-ui/react';
 import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 import { Search2Icon, SmallAddIcon } from '@chakra-ui/icons';
+import { useSelector, useDispatch } from 'react-redux';
+import { getAllUsers, upgradeToAdmin } from '../../redux/actions';
 
 function UserTable({ user }) {
 	const textColor = useColorModeValue('gray.700', 'white');
+	const toast = useToast();
+	const dispatch = useDispatch();
+
+	const { token } = useSelector((state) => state);
+
+	// const { idUser } = useSelector((state) => state);
+
+	// useEffect(() => {}, [dispatch]);
+
+	const handleUpgrade = async (id, token, status) => {
+		console.log(status);
+		if (status === 'Admin') {
+			toast({
+				title: 'The user is already an Admin!',
+				status: 'warning',
+				isClosable: 'true',
+				duration: '1500',
+			});
+		} else {
+			dispatch(upgradeToAdmin(id, token));
+			dispatch(getAllUsers());
+		}
+	};
 
 	return (
 		<Box rounded={'md'} boxShadow={'xl'}>
@@ -63,8 +89,7 @@ function UserTable({ user }) {
 									py='.8rem'
 									minWidth='100%'
 									flexWrap='nowrap'
-									pl={'4'}
-								>
+									pl={'4'}>
 									<Image
 										w='40px'
 										borderRadius='10px'
@@ -76,29 +101,29 @@ function UserTable({ user }) {
 											fontSize='md'
 											color={textColor}
 											fontWeight='bold'
-											minWidth='10px'
-										>
+											minWidth='10px'>
 											{u.username}
 										</Text>
 										<Text
 											fontSize='sm'
 											color='gray.400'
-											fontWeight='normal'
-										></Text>
+											fontWeight='normal'></Text>
 									</Flex>
 								</Flex>
 							</Td>
 
 							<Td>
 								<Flex direction='column'>
-									<Text fontSize='md' color={textColor} fontWeight='bold'>
+									<Text
+										fontSize='md'
+										color={textColor}
+										fontWeight='bold'>
 										{u.email}
 									</Text>
 									<Text
 										fontSize='sm'
 										color='gray.400'
-										fontWeight='normal'
-									></Text>
+										fontWeight='normal'></Text>
 								</Flex>
 							</Td>
 
@@ -107,33 +132,47 @@ function UserTable({ user }) {
 									fontSize='md'
 									color={textColor}
 									fontWeight='bold'
-									pb='.5rem'
-								>
+									pb='.5rem'>
 									{u.status}
 								</Text>
 							</Td>
 							<Td>
-								<Button p='0px' bg='transparent' variant='no-hover'>
-									<Icon color='blue.300' as={FaPencilAlt} me='4px' />
+								<Button
+									p='0px'
+									bg='transparent'
+									variant='no-hover'
+									onClick={() =>
+										handleUpgrade(u.id, token, u.status)
+									}>
+									<Icon
+										color='blue.300'
+										as={FaPencilAlt}
+										me='4px'
+									/>
 									<Text
 										fontSize='md'
 										color='gray.400'
 										fontWeight='bold'
-										cursor='pointer'
-									>
-										Change
+										cursor='pointer'>
+										Upgrade
 									</Text>
 								</Button>
 							</Td>
 							<Td>
-								<Button p='0px' bg='transparent' variant='no-hover'>
+								<Button
+									p='0px'
+									bg='transparent'
+									variant='no-hover'>
 									<Text
 										fontSize='md'
 										color='gray.400'
 										fontWeight='bold'
-										cursor='pointer'
-									>
-										<Icon color='red.500' as={FaTrashAlt} me='4px' />
+										cursor='pointer'>
+										<Icon
+											color='red.500'
+											as={FaTrashAlt}
+											me='4px'
+										/>
 										Ban User
 									</Text>
 								</Button>
