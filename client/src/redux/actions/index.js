@@ -226,6 +226,7 @@ export function addGoogleUser(currentUser) {
 				var addToDb = await axios.post(`/user/google`, {
 					username: currentUser.displayName,
 					email: currentUser.email,
+					photoURL: await currentUser.photoURL //el await es porq tarda en llegar si no esta no funca
 					//password: currentUser.uid,
 				});
 
@@ -335,7 +336,7 @@ export function userDeleteFavorite(userId, bookId) {
 
 export function userGetFavorite(userId) {
 	return async function (dispatch) {
-		let favorites = await axios.get(`/user/favorites/${userId}`);
+		var favorites = await axios.get(`/user/favorites/${userId}`);
 		return dispatch({ type: USER_GET_FAVORITES, payload: favorites.data });
 	};
 }

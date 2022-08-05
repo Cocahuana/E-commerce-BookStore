@@ -50,19 +50,19 @@ if (!summaryFromLocalStorage) {
 	summaryFromLocalStorage = 0;
 }
 
-let tokenFromLocalStorage = localStorage.getItem('token');
+let tokenFromLocalStorage = JSON.parse(localStorage.getItem('token'));
 if (!tokenFromLocalStorage) {
 	tokenFromLocalStorage = '';
 }
-let isSignedInFromLocalStorage = localStorage.getItem('isSignedIn');
+let isSignedInFromLocalStorage = JSON.parse(localStorage.getItem('isSignedIn'));
 if (!isSignedInFromLocalStorage) {
 	isSignedInFromLocalStorage = false;
 }
-let userIdFromLocalStorage = localStorage.getItem('userId');
+let userIdFromLocalStorage = JSON.parse(localStorage.getItem('userId'));
 if (!userIdFromLocalStorage) {
 	userIdFromLocalStorage = false;
 }
-let userRoleFromLocalStorage = localStorage.getItem('userRole');
+let userRoleFromLocalStorage = JSON.parse(localStorage.getItem('userRole'));
 if (!userRoleFromLocalStorage) {
 	userRoleFromLocalStorage = null;
 }
@@ -251,7 +251,8 @@ const rootReducer = (state = InitialState, action) => {
 				//asumo que el libro debe incluirse y si no cumple algun filtro devuelvo false para q sea filtrado (no se incluya en el array)
 
 				//--------Filtro por oferta------------
-				if (state.filters.onsale && book.flag !== 'on-sale') return false;
+				if (state.filters.onsale && book.flag !== 'on-sale')
+					return false;
 
 				//--------Filtro por moneda------------
 				//if (state.filters.currency && state.filters.currency!==book.currency) return false
@@ -407,7 +408,10 @@ const rootReducer = (state = InitialState, action) => {
 			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('userName', action.payload.username);
 			localStorage.setItem('userEmail', action.payload.email);
-			localStorage.setItem('userProfileImage', action.payload.profile_picture);
+			localStorage.setItem(
+				'userProfileImage',
+				action.payload.profile_picture
+			);
 			// localStorage.setItem('token', token);
 			// localStorage.setItem('userRole', userRole);
 			return {
@@ -425,7 +429,7 @@ const rootReducer = (state = InitialState, action) => {
 			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('userName', action.payload.username);
 			localStorage.setItem('userEmail', action.payload.email);
-			localStorage.setItem('userProfileImage', action.payload.profile_picture);
+			localStorage.setItem('userProfileImage', action.payload.photoURL);
 			return {
 				...state,
 				token: action.payload.token,
@@ -438,7 +442,10 @@ const rootReducer = (state = InitialState, action) => {
 			};
 
 		case UPDATE_USER:
-			localStorage.setItem('userProfileImage', action.payload.profile_picture);
+			localStorage.setItem(
+				'userProfileImage',
+				action.payload.profile_picture
+			);
 			return {
 				...state,
 				userId: action.payload.id,
@@ -478,7 +485,9 @@ const rootReducer = (state = InitialState, action) => {
 		case USER_GET_FAVORITES:
 			let favoriteBooks = [];
 			let booksIds = action.payload;
-			favoriteBooks = state.booksCopy.filter((e) => booksIds.includes(e.id));
+			favoriteBooks = state.booksCopy.filter((e) =>
+				booksIds.includes(e.id)
+			);
 
 			// localStorage.setItem('favorites', favoriteBooks);
 			return {
