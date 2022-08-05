@@ -35,6 +35,7 @@ import {
 	SIGN_UP,
 	SIGN_OUT,
 	LOGIN_GOOGLE,
+	FORGOT_PASSWORD,
 	//-------------
 	CHECK_STATES,
 	//-------------
@@ -392,6 +393,21 @@ export function userDelFavorite(payload) {
 	return { type: USER_DEL_FAVORITES, payload };
 }
 
+export function forgotPass(email) {
+	return async function (dispatch) {
+		try {
+			let resp = await axios.put('/mail/password', {
+				email: email.email,
+			});
+			return dispatch({
+				type: FORGOT_PASSWORD,
+				payload: resp.data,
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
 //-------------------------------------------------FILTERS---------------------------------------------
 export function saveFilterGenre(payload) {
 	return { type: FILTER_GENRE, payload };

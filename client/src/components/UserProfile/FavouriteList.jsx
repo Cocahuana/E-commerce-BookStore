@@ -188,7 +188,6 @@ export function favourites(props) {
 							</Container>
 						</Flex>
 					</ModalBody>
-					{/* <ModalBody> <h1>You don´t have favorite books</h1> </ModalBody> */}
 				</ModalContent>
 			</Modal>
 		</Stack>
