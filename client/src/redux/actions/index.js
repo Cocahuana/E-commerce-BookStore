@@ -48,6 +48,7 @@ import {
 	USER_ADD_FAVSTATE,
 	SEARCH_BOOK,
 	UPGRADE_USER,
+	BAN_USER
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -169,6 +170,30 @@ export function hideBook(payload) {
 			payload: json.data,
 		});
 	};
+}
+
+export function toBanUser(id, token) {
+	return async function (dispatch){
+		console.log(token)
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+	
+				Authorization: `Bearer ${token}`,
+			},
+		};	
+		try{
+			var userBan =  await axios.put(`/admin/ban`, { userId: id}, config )
+			var users = await axios.get(`/user/all`)
+			return dispatch({
+				type: GET_USERS,
+				payload: users.data
+			})
+
+		} catch(err){
+			console.log(err)
+		}
+	}
 }
 
 //----------------------------------------------USERS-----------------------------------------

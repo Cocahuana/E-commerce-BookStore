@@ -25,11 +25,14 @@ import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 import { Search2Icon, SmallAddIcon } from '@chakra-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllUsers, upgradeToAdmin } from '../../redux/actions';
+import { toBanUser } from '../../redux/actions/index';
 
 function UserTable({ user }) {
 	const textColor = useColorModeValue('gray.700', 'white');
 	const toast = useToast();
 	const dispatch = useDispatch();
+
+	console.log(user);
 
 	const { token } = useSelector((state) => state);
 
@@ -48,6 +51,19 @@ function UserTable({ user }) {
 			});
 		} else {
 			dispatch(upgradeToAdmin(id, token));
+			dispatch(getAllUsers());
+		}
+	};
+	const handleBan = (id, token, status) => {
+		if (status === 'Banned') {
+			toast({
+				title: 'User is already banned!',
+				status: 'warning',
+				isClosable: 'true',
+				duration: '1500',
+			});
+		} else {
+			dispatch(toBanUser(id, token));
 			dispatch(getAllUsers());
 		}
 	};
@@ -79,7 +95,6 @@ function UserTable({ user }) {
 						<Th color='gray.400'>Upgrade to Admin</Th>
 					</Tr>
 				</Thead>
-
 				<Tbody>
 					{user.map((u, i) => (
 						<Tr key={i}>
@@ -162,7 +177,10 @@ function UserTable({ user }) {
 								<Button
 									p='0px'
 									bg='transparent'
-									variant='no-hover'>
+									variant='no-hover'
+									onClick={() =>
+										handleBan(u.id, token, u.status)
+									}>
 									<Text
 										fontSize='md'
 										color='gray.400'
