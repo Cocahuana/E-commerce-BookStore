@@ -47,7 +47,6 @@ export const Book = (props) => {
 		(state) => state
 	);
 	const toast = useToast();
-
 	const {
 		title,
 		authors,
