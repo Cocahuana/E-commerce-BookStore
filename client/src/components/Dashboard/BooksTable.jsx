@@ -21,32 +21,43 @@ import {
 	InputRightElement,
 	Center,
 	CircularProgress,
+	Popover,
+	PopoverTrigger,
+	Portal,
+	PopoverContent,
+	PopoverArrow,
+	PopoverHeader,
+	PopoverCloseButton,
+	PopoverBody,
+	PopoverFooter,
 } from '@chakra-ui/react';
 import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 
 import { Search2Icon, SmallAddIcon } from '@chakra-ui/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { getBooksByTitleOrAuthor } from '../../redux/actions';
+import { hideBook } from '../../redux/actions/index';
 import { Link as BuenLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 function BooksTable({ books }) {
 	const textColor = useColorModeValue('gray.700', 'white');
 	const dispatch = useDispatch();
-	const [titleBook, setTitleBook] = useState();
-	const { adminBooks } = useSelector((state) => state);
-	const [scroll, setScroll] = useState(
-		Array.from(adminBooks?.data?.slice(0, 20))
-	);
+
+	const [scroll, setScroll] = useState(books.slice(0, 20));
 
 	const fetchMoreData = () => {
 		setTimeout(() => {
 			setScroll(
 				scroll.concat(
-					Array.from(adminBooks?.data?.slice(scroll.length, scroll.length + 20))
+					Array.from(books.slice(scroll.length, scroll.length + 20))
 				)
 			);
 		}, 1300);
+	};
+
+	const onClickhideBook = (e) => {
+		console.log(e);
+		//dispatch(hideBook({ bookId: e }));
 	};
 
 	return (
@@ -63,8 +74,7 @@ function BooksTable({ books }) {
 								fontSize='md'
 								color='gray.600'
 								fontWeight='bold'
-								cursor='pointer'
-							>
+								cursor='pointer'>
 								Create
 							</Text>
 						</Button>
@@ -89,8 +99,7 @@ function BooksTable({ books }) {
 							<CircularProgress value={32} color={'blue.200'} />
 						</Box>
 					</Center>
-				}
-			>
+				}>
 				<Table variant='simple' color={textColor}>
 					<Thead>
 						<Tr my='.8rem' pl='0px' color='gray.400'>
@@ -112,8 +121,7 @@ function BooksTable({ books }) {
 										py='.8rem'
 										minWidth='100%'
 										flexWrap='nowrap'
-										pl={'4'}
-									>
+										pl={'4'}>
 										<Image
 											w='40px'
 											borderRadius='10px'
@@ -125,11 +133,13 @@ function BooksTable({ books }) {
 												fontSize='md'
 												color={textColor}
 												fontWeight='bold'
-												minWidth='10px'
-											>
+												minWidth='10px'>
 												{b.title}
 											</Text>
-											<Text fontSize='sm' color='gray.400' fontWeight='normal'>
+											<Text
+												fontSize='sm'
+												color='gray.400'
+												fontWeight='normal'>
 												{b.authors}
 											</Text>
 										</Flex>
@@ -138,16 +148,25 @@ function BooksTable({ books }) {
 
 								<Td>
 									<Flex direction='column'>
-										<Text fontSize='md' color={textColor} fontWeight='bold'>
+										<Text
+											fontSize='md'
+											color={textColor}
+											fontWeight='bold'>
 											Price
 										</Text>
-										<Text fontSize='sm' color='gray.400' fontWeight='normal'>
+										<Text
+											fontSize='sm'
+											color='gray.400'
+											fontWeight='normal'>
 											${b.price}
 										</Text>
 									</Flex>
 								</Td>
 								<Td>
-									<Badge fontSize='16px' p='3px 10px' borderRadius='8px'>
+									<Badge
+										fontSize='16px'
+										p='3px 10px'
+										borderRadius='8px'>
 										Stock
 									</Badge>
 								</Td>
@@ -156,28 +175,63 @@ function BooksTable({ books }) {
 										fontSize='md'
 										color={textColor}
 										fontWeight='bold'
-										pb='.5rem'
-									>
-										{b.rating}
+										pb='.5rem'>
+										{b.stock}
 									</Text>
 								</Td>
 								<Td>
 									<BuenLink to={`/putBook/${b.id}`}>
-										<Button p='0px' bg='transparent' variant='no-hover'>
-											<Icon color='blue.300' as={FaPencilAlt} me='4px' />
+										<Button
+											p='0px'
+											bg='transparent'
+											variant='no-hover'>
+											<Icon
+												color='blue.300'
+												as={FaPencilAlt}
+												me='4px'
+											/>
 											<Text
 												fontSize='md'
 												color='gray.400'
 												fontWeight='bold'
-												cursor='pointer'
-											>
+												cursor='pointer'>
 												Edit
 											</Text>
 										</Button>
 									</BuenLink>
 								</Td>
 								<Td>
-									<Button p='0px' bg='transparent' variant='no-hover'>
+									<Popover>
+										<PopoverTrigger>
+											<Button></Button>
+										</PopoverTrigger>
+										<Portal>
+											<PopoverContent>
+												<PopoverArrow />
+												<PopoverHeader>
+													Header
+												</PopoverHeader>
+												<PopoverCloseButton />
+												<PopoverBody>
+													<Button
+														colorScheme='blue'
+														onClick={() =>
+															onClickhideBook(
+																b.id
+															)
+														}>
+														Button
+													</Button>
+												</PopoverBody>
+											</PopoverContent>
+										</Portal>
+									</Popover>
+									{/* <Button
+										p='0px'
+										bg='transparent'
+										variant='no-hover'
+										onClick={() => onClickhideBook(b.id)}
+									>
 										<Text
 											fontSize='md'
 											color='gray.400'
@@ -185,9 +239,9 @@ function BooksTable({ books }) {
 											cursor='pointer'
 										>
 											<Icon color='red.500' as={FaTrashAlt} me='4px' />
-											Delete
+											Hide
 										</Text>
-									</Button>
+									</Button> */}
 								</Td>
 							</Tr>
 						))}

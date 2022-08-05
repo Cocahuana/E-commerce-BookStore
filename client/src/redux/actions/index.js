@@ -47,6 +47,8 @@ import {
 	UPDATE_USER,
 	USER_ADD_FAVSTATE,
 	SEARCH_BOOK,
+	UPGRADE_USER,
+	BAN_USER,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -126,22 +128,16 @@ export function postComment(comment) {
 }
 //----------------------------------------------ADMIN-----------------------------------------
 
-export const hideBook = () => {
-	return async function (dispatch) {
-		try {
-			let result = await axios.put('/hide');
-			return dispatch({
-				type: HIDE_BOOKS,
-				payload: result.data,
-			});
-		} catch (error) {
-			alert(error);
-		}
+export function createBook(input, token) {
+	console.log('CREATE-BOOK-ACTION', token);
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
 	};
-};
-export function createBook(payload) {
 	return async function (dispatch) {
-		var json = await axios.post('/books', payload);
+		var json = await axios.post('/books', input, config);
 		return dispatch({
 			type: CREATE_BOOK,
 			payload: json.data,
@@ -149,9 +145,20 @@ export function createBook(payload) {
 	};
 }
 export function modifyBook(payload) {
+	let { token } = payload;
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+	};
 	return async function (dispatch) {
 		console.log(payload);
-		var json = await axios.put(`/books/${payload.id}`, payload.input);
+		var json = await axios.put(
+			`/books/${payload.id}`,
+			payload.input,
+			config
+		);
 		return dispatch({
 			type: MODIFY_BOOK,
 			payload: json.data,
@@ -169,6 +176,39 @@ export function searchBooksByAdmin(titleOrAuthor) {
 			});
 		} catch (error) {
 			console.log(error);
+		}
+	};
+}
+export function hideBook(payload) {
+	return async function (dispatch) {
+		console.log(payload);
+		var json = await axios.put('admin/hide', payload);
+		return dispatch({
+			type: HIDE_BOOKS,
+			payload: json.data,
+		});
+	};
+}
+
+export function toBanUser(id, token) {
+	return async function (dispatch) {
+		console.log(token);
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+
+				Authorization: `Bearer ${token}`,
+			},
+		};
+		try {
+			var userBan = await axios.put(`/admin/ban`, { userId: id }, config);
+			var users = await axios.get(`/user/all`);
+			return dispatch({
+				type: GET_USERS,
+				payload: users.data,
+			});
+		} catch (err) {
+			console.log(err);
 		}
 	};
 }
@@ -448,11 +488,40 @@ export function clearCart(userId) {
 		});
 	};
 }
-export function checkoutCart(userId) {
+export function checkoutCart(userId, token) {
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+	};
 	return async function (dispatch) {
-		let checkoutCart = await axios.put(`/cart/checkout/`, { userId });
+		let checkoutCart = await axios.put(
+			`/cart/checkout/`,
+			{ userId },
+			config
+		);
 		return dispatch({
 			type: CHECKOUT_CART,
+		});
+	};
+}
+
+export function upgradeToAdmin(userId, token) {
+	console.log(token);
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+	};
+
+	return async function (dispatch) {
+		await axios.put(`/admin/upgrade`, { userId }, config);
+		var users = await axios.get(`/user/all`);
+		return dispatch({
+			type: GET_USERS,
+			payload: users.data,
 		});
 	};
 }

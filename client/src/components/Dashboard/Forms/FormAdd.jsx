@@ -38,6 +38,7 @@ import axios from 'axios';
 import { CloseIcon } from '@chakra-ui/icons';
 import {
 	createBook,
+	getBooks,
 	getBooksByTitleOrAuthor,
 	getDetails,
 	modifyBook,
@@ -69,13 +70,14 @@ function validate(input) {
 
 function FormAdd(props) {
 	const { genres } = useSelector((state) => state);
-	const { details } = useSelector((state) => state);
+	const { details, token } = useSelector((state) => state);
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const toast = useToast();
 	const image = useRef(null);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
+	console.log('FORM-ADD', token);
 
 	const [errors, setErrors] = useState({});
 
@@ -90,7 +92,7 @@ function FormAdd(props) {
 		description: '',
 		price: 1,
 		rating: 0,
-		genre: ["Drama"],
+		genre: [],
 		image: '',
 		language: 'ENGLISH',
 	});
@@ -227,11 +229,10 @@ function FormAdd(props) {
 					isClosable: 'true',
 					duration: '2500',
 				});
-				console.log(input);
-				dispatch(modifyBook({ id, input }));
+				dispatch(modifyBook({ id, input, token }));
 				console.log('modificado :D');
 
-				dispatch(getBooksByTitleOrAuthor(''));
+				dispatch(getBooks());
 
 				history.push('/adminDashboard');
 			} else {
@@ -241,11 +242,11 @@ function FormAdd(props) {
 					isClosable: 'true',
 					duration: '2500',
 				});
-				dispatch(createBook(input));
+				dispatch(createBook(input, token));
 				console.log('creado :D');
 				console.log(input, 'xd');
 
-				dispatch(getBooksByTitleOrAuthor(''));
+				dispatch(getBooks());
 
 				history.push('/adminDashboard');
 			}
@@ -262,7 +263,7 @@ function FormAdd(props) {
 			});
 		}
 	}
-	console.log(input)
+	console.log(input);
 
 	const chooseimage = () => {
 		image.current.click();

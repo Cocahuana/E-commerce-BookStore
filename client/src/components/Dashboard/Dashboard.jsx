@@ -20,6 +20,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import UserTable from './UserTable';
 import {
 	getAllUsers,
+	getBooks,
 	getBooksByTitleOrAuthor,
 	getGenres,
 } from '../../redux/actions';
@@ -29,7 +30,7 @@ function Dashboard() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(getBooksByTitleOrAuthor(''));
+		dispatch(getBooks());
 		dispatch(getAllUsers());
 		dispatch(getGenres());
 	}, [dispatch]);
@@ -47,7 +48,9 @@ function Dashboard() {
 					/>
 				</Center>
 			) : (
-				<Flex direction='column' pt={{ base: '120px', md: '75px', sm: '20px' }}>
+				<Flex
+					direction='column'
+					pt={{ base: '120px', md: '75px', sm: '20px' }}>
 					<Container maxW={'container.xl'}>
 						<Tabs variant='enclosed'>
 							<TabList>

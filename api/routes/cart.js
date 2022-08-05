@@ -26,8 +26,12 @@ router.put('/all', removeAllBooksFromCart);
 
 router.put('/clear', clearCart);
 
-router.put('/checkout', checkoutCart);
-//, passport.authenticate('jwt-auth', {session: false})
+router.put(
+	'/checkout',
+	passport.authenticate('jwt-auth', { session: false }),
+	checkoutCart
+);
+//,
 
 router.post('/bulk', bulkAdd);
 

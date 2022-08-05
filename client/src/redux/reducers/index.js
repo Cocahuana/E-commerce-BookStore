@@ -32,53 +32,65 @@ import {
 	REMOVE_BOOK_CART_DB,
 	CLEAR_CART,
 	SEARCH_BOOK,
+	HIDE_BOOKS,
 	CHECKOUT_CART,
+	BAN_USER,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
-let cartFromLocalStorage = JSON.parse(localStorage.getItem('cart'));
-if (!cartFromLocalStorage) {
+let cartFromLocalStorage = JSON.parse( localStorage.getItem( 'cart' ) );
+if ( !cartFromLocalStorage )
+{
 	cartFromLocalStorage = [];
 }
 
-let favoritesFromLocalStorage = JSON.parse(localStorage.getItem('favorites'));
-if (!favoritesFromLocalStorage) {
+let favoritesFromLocalStorage = JSON.parse( localStorage.getItem( 'favorites' ) );
+if ( !favoritesFromLocalStorage )
+{
 	favoritesFromLocalStorage = [];
 }
 
-let summaryFromLocalStorage = JSON.parse(localStorage.getItem('summary'));
-if (!summaryFromLocalStorage) {
+let summaryFromLocalStorage = JSON.parse( localStorage.getItem( 'summary' ) );
+if ( !summaryFromLocalStorage )
+{
 	summaryFromLocalStorage = 0;
 }
 
-let tokenFromLocalStorage = localStorage.getItem('token');
-if (!tokenFromLocalStorage) {
+let tokenFromLocalStorage = localStorage.getItem( 'token' );
+if ( !tokenFromLocalStorage )
+{
 	tokenFromLocalStorage = '';
 }
-let isSignedInFromLocalStorage = localStorage.getItem('isSignedIn');
-if (!isSignedInFromLocalStorage) {
+let isSignedInFromLocalStorage = localStorage.getItem( 'isSignedIn' );
+if ( !isSignedInFromLocalStorage )
+{
 	isSignedInFromLocalStorage = false;
 }
-let userIdFromLocalStorage = localStorage.getItem('userId');
-if (!userIdFromLocalStorage) {
+let userIdFromLocalStorage = localStorage.getItem( 'userId' );
+if ( !userIdFromLocalStorage )
+{
 	userIdFromLocalStorage = false;
 }
-let userRoleFromLocalStorage = localStorage.getItem('userRole');
-if (!userRoleFromLocalStorage) {
+let userRoleFromLocalStorage = localStorage.getItem( 'userRole' );
+if ( !userRoleFromLocalStorage )
+{
 	userRoleFromLocalStorage = null;
 }
-let userProfileImageFromLocalStorage = localStorage.getItem('userProfileImage');
-if (!userProfileImageFromLocalStorage) {
+let userProfileImageFromLocalStorage = localStorage.getItem( 'userProfileImage' );
+if ( !userProfileImageFromLocalStorage )
+{
 	userProfileImageFromLocalStorage = '';
 }
 
-let userNameFromLocalStorage = localStorage.getItem('userName');
-if (!userNameFromLocalStorage) {
+let userNameFromLocalStorage = localStorage.getItem( 'userName' );
+if ( !userNameFromLocalStorage )
+{
 	userNameFromLocalStorage = '';
 }
 
-let userEmailFromLocalStorage = localStorage.getItem('userEmail');
-if (!userEmailFromLocalStorage) {
+let userEmailFromLocalStorage = localStorage.getItem( 'userEmail' );
+if ( !userEmailFromLocalStorage )
+{
 	userEmailFromLocalStorage = '';
 }
 
@@ -119,8 +131,9 @@ const InitialState = {
 	allFavourites: favoritesFromLocalStorage,
 };
 
-const rootReducer = (state = InitialState, action) => {
-	switch (action.type) {
+const rootReducer = ( state = InitialState, action ) => {
+	switch ( action.type )
+	{
 		case GET_DETAILS: {
 			return {
 				...state,
@@ -138,7 +151,8 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		}
 		case GET_BOOKS_BY_TITLE_OR_AUTHOR: {
-			if (typeof action.payload.data === 'string') {
+			if ( typeof action.payload.data === 'string' )
+			{
 				return {
 					...state,
 					books: [],
@@ -257,14 +271,14 @@ const rootReducer = (state = InitialState, action) => {
 		// Aplico los filtros del estado global (filters)
 		case APPLY_FILTERS: {
 			//------------------------------------------FILTERS----------------------------------------
-			var filteredBooks = state.booksCopy.filter((book) => {
+			var filteredBooks = state.booksCopy.filter( ( book ) => {
 				//variable donde se guardaran los libros que coincidan con todas las condiciones
 
 				//asumo que el libro debe incluirse y si no cumple algun filtro devuelvo false para q sea filtrado (no se incluya en el array)
 
 				//--------Filtro por oferta------------
-				if (state.filters.onsale && book.flag !== 'on-sale')
-					return false;
+
+				if (state.filters.onsale && book.flag !== 'on-sale') return false;
 
 				//--------Filtro por moneda------------
 				//if (state.filters.currency && state.filters.currency!==book.currency) return false
@@ -284,52 +298,59 @@ const rootReducer = (state = InitialState, action) => {
 					return false;
 
 				//--------Filtro por genero------------
-				if (state.filters.genres.length) {
-					let bookgenres = book.Genres.map((g) => g.name);
+				if ( state.filters.genres.length )
+				{
+					let bookgenres = book.Genres.map( ( g ) => g.name );
 					let flag = true;
-					state.filters.genres.forEach((filtergenre) => {
-						if (!bookgenres.includes(filtergenre)) flag = false;
-					});
-					if (flag === false) return false;
+					state.filters.genres.forEach( ( filtergenre ) => {
+						if ( !bookgenres.includes( filtergenre ) ) flag = false;
+					} );
+					if ( flag === false ) return false;
 				}
 
 				return true; //si no se corto la ejecucion en ningun momento es porque se cumplen todos los filtros
-			});
+			} );
 			//------------------------------------------SORTS----------------------------------------
-			if (state.filters.order) {
+			if ( state.filters.order )
+			{
 				//---------------Sorting Function------------------
 				var ordern;
-				switch (state.filters.order) {
+				switch ( state.filters.order )
+				{
 					case 'highest':
-						ordern = function (a, b) {
-							if (a.rating < b.rating) {
+						ordern = function ( a, b ) {
+							if ( a.rating < b.rating )
+							{
 								return 1;
 							}
-							if (a.rating > b.rating) {
+							if ( a.rating > b.rating )
+							{
 								return -1;
 							}
 							return 0;
 						};
 						break;
 					case 'lowest':
-						ordern = function (a, b) {
-							if (a.rating < b.rating) {
+						ordern = function ( a, b ) {
+							if ( a.rating < b.rating )
+							{
 								return -1;
 							}
-							if (a.rating > b.rating) {
+							if ( a.rating > b.rating )
+							{
 								return 1;
 							}
 							return 0;
 						};
 						break;
 					default:
-						ordern = function (a, b) {
+						ordern = function ( a, b ) {
 							return 0;
 						};
 						break;
 				}
 				//-----------------Applying Sort---------------------
-				filteredBooks = filteredBooks.sort(ordern);
+				filteredBooks = filteredBooks.sort( ordern );
 			}
 
 			//modifico el estado de los libros reemplazando con los libros filtrados y ordenados
@@ -339,23 +360,27 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		}
 		//--------------------------------------------El ADMIN CAPO--------------------------------------------------
-		case SEARCH_BOOK: {
-			if (typeof action.payload.data === 'string') {
-				return {
-					...state,
-					adminBooks: [],
-					query: action.payload.query,
-				};
-			}
-			return {
-				...state,
-				booksCopy: action.payload.data,
-				books: action.payload.data,
-				query: action.payload.query,
-				loading: false,
-				adminBooks: action.payload,
-			};
-		}
+
+		// case SEARCH_BOOK: {
+		// 	if (typeof action.payload.data === 'string') {
+		// 		return {
+		// 			...state,
+		// 			adminBooks: [],
+		// 			query: action.payload.query,
+		// 		};
+		// 	}
+		// 	return {
+		// 		...state,
+		// 		booksCopy: action.payload.data,
+		// 		books: action.payload.data,
+		// 		query: action.payload.query,
+		// 		loading: false,
+		// 		adminBooks: action.payload,
+		// 	};
+		// }
+
+		// case HIDE_BOOKS: {
+		// }
 		//-----------------------------------------------------------------------------------------------------
 
 		case RESET_DETAILS: {
@@ -366,9 +391,9 @@ const rootReducer = (state = InitialState, action) => {
 		}
 
 		case ADD_CART:
-			let exist = state.cart.filter((el) => el.id === action.payload);
-			if (exist.length === 1) return state;
-			let newItem = state.booksCopy.find((p) => p.id === action.payload);
+			let exist = state.cart.filter( ( el ) => el.id === action.payload );
+			if ( exist.length === 1 ) return state;
+			let newItem = state.booksCopy.find( ( p ) => p.id === action.payload );
 			let sum = newItem.price;
 			return {
 				...state,
@@ -376,11 +401,11 @@ const rootReducer = (state = InitialState, action) => {
 				summary: state.summary + sum,
 			};
 		case DEL_CART:
-			let itemToDelete = state.cart.find((p) => p.id === action.payload);
+			let itemToDelete = state.cart.find( ( p ) => p.id === action.payload );
 			let substr = itemToDelete.price;
 			return {
 				...state,
-				cart: state.cart.filter((p) => p.id !== action.payload),
+				cart: state.cart.filter( ( p ) => p.id !== action.payload ),
 				summary: state.summary - substr,
 			};
 
@@ -392,9 +417,10 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		case GET_CART: {
 			var arrayBooks = action.payload.Books;
-			var arrayNuevo = arrayBooks.map((b) => b.price);
+			var arrayNuevo = arrayBooks.map( ( b ) => b.price );
 			var suma = 0;
-			for (let i = 0; i < arrayNuevo.length; i++) {
+			for ( let i = 0; i < arrayNuevo.length; i++ )
+			{
 				suma += arrayNuevo[i];
 			}
 			return {
@@ -417,19 +443,19 @@ const rootReducer = (state = InitialState, action) => {
 		case CLEAR_CART: {
 			return {
 				...state,
+				cart: [],
 				summary: 0,
 			};
 		}
 		case LOGIN:
 			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
+
 			localStorage.setItem('userId', action.payload.id);
 			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('userName', action.payload.username);
 			localStorage.setItem('userEmail', action.payload.email);
-			localStorage.setItem(
-				'userProfileImage',
-				action.payload.profile_picture
-			);
+			localStorage.setItem('userProfileImage', action.payload.profile_picture);
+
 			// localStorage.setItem('token', token);
 			// localStorage.setItem('userRole', userRole);
 			return {
@@ -443,11 +469,11 @@ const rootReducer = (state = InitialState, action) => {
 				isSignedIn: true,
 			};
 		case LOGIN_GOOGLE:
-			localStorage.setItem('userId', action.payload.id);
-			localStorage.setItem('isSignedIn', true);
-			localStorage.setItem('userName', action.payload.username);
-			localStorage.setItem('userEmail', action.payload.email);
-			localStorage.setItem('userProfileImage', action.payload.photoURL);
+			localStorage.setItem( 'userId', action.payload.id );
+			localStorage.setItem( 'isSignedIn', true );
+			localStorage.setItem( 'userName', action.payload.username );
+			localStorage.setItem( 'userEmail', action.payload.email );
+			localStorage.setItem( 'userProfileImage', action.payload.photoURL );
 			return {
 				...state,
 				token: action.payload.token,
@@ -460,10 +486,7 @@ const rootReducer = (state = InitialState, action) => {
 			};
 
 		case UPDATE_USER:
-			localStorage.setItem(
-				'userProfileImage',
-				action.payload.profile_picture
-			);
+			localStorage.setItem('userProfileImage', action.payload.profile_picture);
 			return {
 				...state,
 				userId: action.payload.id,
@@ -483,12 +506,12 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		case SIGN_OUT:
 			// We clear the whole localStorage and set isSignedIn false, and the token as an empty string
-			localStorage.setItem('cart', JSON.stringify([]));
-			localStorage.setItem('isSignedIn', false);
-			localStorage.setItem('userId', null);
-			localStorage.setItem('userRole', null);
-			localStorage.setItem('userEmail', null);
-			localStorage.removeItem('token');
+			localStorage.setItem( 'cart', JSON.stringify( [] ) );
+			localStorage.setItem( 'isSignedIn', false );
+			localStorage.setItem( 'userId', null );
+			localStorage.setItem( 'userRole', null );
+			localStorage.setItem( 'userEmail', null );
+			localStorage.removeItem( 'token' );
 			return {
 				...state,
 				token: '',
@@ -503,9 +526,8 @@ const rootReducer = (state = InitialState, action) => {
 		case USER_GET_FAVORITES:
 			let favoriteBooks = [];
 			let booksIds = action.payload;
-			favoriteBooks = state.booksCopy.filter((e) =>
-				booksIds.includes(e.id)
-			);
+
+			favoriteBooks = state.booksCopy.filter((e) => booksIds.includes(e.id));
 
 			// localStorage.setItem('favorites', favoriteBooks);
 			return {
@@ -513,7 +535,7 @@ const rootReducer = (state = InitialState, action) => {
 				allFavourites: favoriteBooks,
 			};
 		case USER_ADD_FAVSTATE:
-			let favBook = state.booksCopy.find((p) => p.id === action.payload);
+			let favBook = state.booksCopy.find( ( p ) => p.id === action.payload );
 			return {
 				...state,
 				allFavourites: [...state.allFavourites, { ...favBook }],
@@ -523,7 +545,7 @@ const rootReducer = (state = InitialState, action) => {
 			return {
 				...state,
 				allFavourites: state.allFavourites.filter(
-					(p) => p.id !== action.payload
+					( p ) => p.id !== action.payload
 				),
 			};
 		case GET_USERS:
@@ -531,6 +553,10 @@ const rootReducer = (state = InitialState, action) => {
 				...state,
 				allUsers: action.payload,
 			};
+		case BAN_USER: 
+			return {
+				...state
+			}
 
 		default:
 			return {
