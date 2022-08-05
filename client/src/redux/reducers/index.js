@@ -34,6 +34,7 @@ import {
 	SEARCH_BOOK,
 	HIDE_BOOKS,
 	CHECKOUT_CART,
+	BAN_USER,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -526,6 +527,10 @@ const rootReducer = (state = InitialState, action) => {
 				...state,
 				allUsers: action.payload,
 			};
+		case BAN_USER: 
+			return {
+				...state
+			}
 
 		default:
 			return {
