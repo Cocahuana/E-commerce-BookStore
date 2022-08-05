@@ -16,9 +16,8 @@ export default function Pay() {
 	const history = useHistory();
 	//Seteo el token (con el que se va a asociar la compra con la cuenta de stripe)
 	const [stripeToken, setStripeToken] = useState(null);
-	const { summary, userName, userProfilePicture, userId } = useSelector(
-		(state) => state
-	);
+	const { summary, userName, userProfilePicture, userId, token } =
+		useSelector((state) => state);
 
 	// Como stripe sí o sí debe recibir un numero entero este debe multiplicarse por 100
 	// Al mismo tiempo Stripe no acepta puntos, por lo que con Math.trunc le removemos decimales infinitos innecesarios
@@ -41,7 +40,7 @@ export default function Pay() {
 				history.push('/success', {
 					data: res.data,
 				});
-				dispatch(checkoutCart(userId));
+				dispatch(checkoutCart(userId, token));
 				console.log(res.data);
 			} catch (err) {
 				console.log(err);

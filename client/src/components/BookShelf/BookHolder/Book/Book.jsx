@@ -31,6 +31,8 @@ import {
 	userDelFavorite,
 	userAddFavState,
 	clearCart,
+	checkoutCart,
+	delAllCart,
 } from '../../../../redux/actions/index';
 import { PriceTag } from './PriceTag';
 import { Link as BuenLink } from 'react-router-dom';
@@ -119,8 +121,16 @@ export const Book = (props) => {
 	};
 
 	const handleQuickShop = () => {
-		clearCart(userId);
-		handleAddToCart(id);
+		handleDeleteCart();
+		// No Borrar o se destruye el espacio - tiempo
+		setTimeout(() => {
+			dispatch(addToCart(id, userId));
+			history.push('/pay');
+		}, 100);
+	};
+
+	const handleDeleteCart = () => {
+		dispatch(clearCart(userId));
 	};
 
 	const handleOnClick = () => {
@@ -222,15 +232,13 @@ export const Book = (props) => {
 					Add to cart
 				</Button>
 				{userId ? (
-					<BuenLink to='/pay'>
-						<Link
-							textDecoration='underline'
-							fontWeight='medium'
-							color={useColorModeValue('gray.600', 'gray.400')}
-							onClick={handleQuickShop}>
-							Quick shop
-						</Link>
-					</BuenLink>
+					<Link
+						textDecoration='underline'
+						fontWeight='medium'
+						color={useColorModeValue('gray.600', 'gray.400')}
+						onClick={handleQuickShop}>
+						Quick shop
+					</Link>
 				) : (
 					<BuenLink to='/login'>
 						<Link

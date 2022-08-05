@@ -71,7 +71,7 @@ function validate(input) {
 
 function FormAdd(props) {
 	const { genres } = useSelector((state) => state);
-	const { details } = useSelector((state) => state);
+	const { details, token } = useSelector((state) => state);
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const toast = useToast();

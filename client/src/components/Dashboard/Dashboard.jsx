@@ -26,7 +26,7 @@ import {
 } from '../../redux/actions';
 
 function Dashboard() {
-	const { adminBooks, loading, allUsers } = useSelector((state) => state);
+	const { adminBooks, allUsers } = useSelector((state) => state);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
