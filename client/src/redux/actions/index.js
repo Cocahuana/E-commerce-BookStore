@@ -29,6 +29,7 @@ import {
 	GET_CART,
 	REMOVE_BOOK_CART_DB,
 	CLEAR_CART,
+	CHECKOUT_CART,
 	//-------------
 	LOGIN,
 	SIGN_UP,
@@ -443,6 +444,14 @@ export function clearCart(userId) {
 		let clearAll = await axios.put(`/cart/clear?userId=${userId}`);
 		return dispatch({
 			type: CLEAR_CART,
+		});
+	};
+}
+export function checkoutCart(userId) {
+	return async function (dispatch) {
+		let checkoutCart = await axios.put(`/cart/checkout/`, { userId });
+		return dispatch({
+			type: CHECKOUT_CART,
 		});
 	};
 }

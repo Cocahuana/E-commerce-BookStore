@@ -1,7 +1,17 @@
+import React, { useEffect } from 'react';
 import { Box, Heading, Text, Button } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { checkoutCart, getCart } from '../../redux/actions';
 
 export default function Success() {
+	const { userId } = useSelector((state) => state);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(checkoutCart(userId));
+	}, [dispatch, userId]);
+
 	return (
 		<Box textAlign='center' py={10} px={6} pt='24' h='90vh'>
 			<Heading
@@ -16,7 +26,7 @@ export default function Success() {
 				Enjoy!!
 			</Text>
 			<Text color={'gray.500'} mb={6}>
-				The page you're looking for does not seem to exist
+				Your purchase was succesful!
 			</Text>
 			<Link to='/'>
 				<Button

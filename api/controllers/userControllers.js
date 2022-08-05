@@ -144,8 +144,10 @@ const addFavorite = async (req, res) => {
 
 const searchUserById = async (req, res, next) => {
 	let { id } = req.params;
+	console.log(id);
 	try {
 		let userCheck = await User.findByPk(id);
+		console.log(userCheck);
 		if (userCheck) res.json(userCheck);
 		else res.status(400).json({ message: 'User has not been found' });
 	} catch (e) {
