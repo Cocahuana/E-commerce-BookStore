@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { BsSun, BsMoonStarsFill } from 'react-icons/bs';
+import { FiHeart } from 'react-icons/fi';
 import {
 	Box,
 	Flex,
@@ -245,6 +246,8 @@ export default function NavBar() {
 						{/* <Switch size={'lg'} onChange={toggleColorMode} /> */}
 					</Center>
 
+					<FavouriteList widt={"10%"} dis={"none"}/>
+
 					<Drawer />
 
 					<Menu>
@@ -265,8 +268,12 @@ export default function NavBar() {
 									cursor: 'default',
 								}}
 							>
-								<FavouriteList />
+								<FavouriteList widt={"100%"}/>
 							</MenuItem>
+
+							
+
+
 							<MenuItem
 								_hover={{
 									bg: useColorModeValue('white', 'none'),
@@ -279,6 +286,11 @@ export default function NavBar() {
 									</Button>
 								</BuenLink>
 							</MenuItem>
+
+							<MenuItem w={"100%"}_hover={{ bg: 'none', cursor: 'default' }}>
+							<Drawer widt={"100%"}/>
+							</MenuItem>
+
 							<MenuDivider />
 							<MenuItem _hover={{ bg: 'none', cursor: 'default' }}>
 								<Signout wid='100%' />

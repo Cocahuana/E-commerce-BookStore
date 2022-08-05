@@ -190,11 +190,13 @@ function Filter({ setCurrentPage }) {
 			</Flex>
 
 			<Flex
+				pt={'15px'}
 				justify='space-between'
+				float={'left'}
 				alignItems='center'
 				flexDirection={'column'}>
-				Languages:
-				<Stack spacing={5} direction='column'>
+				<Text>Languages:</Text>
+				<Stack w={'46.5%'} spacing={5} direction='column'>
 					<Flex direction='column'>
 						<Stack spacing={4}>
 							<Checkbox
@@ -214,19 +216,26 @@ function Filter({ setCurrentPage }) {
 				</Stack>
 			</Flex>
 
-			<Center>
-				<Flex alignItems='center' direction='column'>
-					Tags:
-					<Stack spacing={0} direction='column' alignItems='center'>
-						<Checkbox
-							onChange={(e) => handleOnSale(e)}
-							value='onsale'
-							isChecked={onsale}>
-							On Sale Only
-						</Checkbox>
-					</Stack>
-				</Flex>
-			</Center>
+			<Flex
+				pt={'15px'}
+				justify='space-between'
+				float={'left'}
+				alignItems='center'
+				flexDirection={'column'}>
+				<Text pt={'10px'}>Tags:</Text>
+				<Stack w={'46.5%'} spacing={5} direction='column'>
+					<Flex direction='column'>
+						<Stack spacing={4}>
+							<Checkbox
+								onChange={(e) => handleOnSale(e)}
+								value='onsale'
+								isChecked={onsale}>
+								On Sale Only
+							</Checkbox>
+						</Stack>
+					</Flex>
+				</Stack>
+			</Flex>
 
 			<Flex
 				justifyContent='center'
@@ -262,8 +271,14 @@ function Filter({ setCurrentPage }) {
 						w='15'>
 						{sliderValue[1]}$
 					</RangeSliderMark>
-					<RangeSliderThumb index={0} bg={useColorModeValue("gray.300", "white")} />
-					<RangeSliderThumb index={1} bg={useColorModeValue("gray.300", "white")} />
+					<RangeSliderThumb
+						index={0}
+						bg={useColorModeValue('gray.300', 'white')}
+					/>
+					<RangeSliderThumb
+						index={1}
+						bg={useColorModeValue('gray.300', 'white')}
+					/>
 				</RangeSlider>
 			</Flex>
 		</Stack>
