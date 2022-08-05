@@ -82,7 +82,7 @@ const userLogin = async (req, res, next) => {
 		if (!userCheck) return res.status(400).send('User not found');
 		else if (userCheck.password !== hashedPassword)
 			return res.status(400).send('Password does not match!');
-		else if (userCheck.username !== username)
+		else if (userCheck.username !== username && userCheck.email !== username)
 			return res.status(400).send('Username does not match!');
 		else {
 			const jwtToken = jwt.sign(
