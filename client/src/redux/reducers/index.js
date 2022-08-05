@@ -50,7 +50,7 @@ if (!summaryFromLocalStorage) {
 	summaryFromLocalStorage = 0;
 }
 
-let tokenFromLocalStorage = JSON.parse(localStorage.getItem('token'));
+let tokenFromLocalStorage = localStorage.getItem('token');
 if (!tokenFromLocalStorage) {
 	tokenFromLocalStorage = '';
 }
@@ -58,11 +58,11 @@ let isSignedInFromLocalStorage = JSON.parse(localStorage.getItem('isSignedIn'));
 if (!isSignedInFromLocalStorage) {
 	isSignedInFromLocalStorage = false;
 }
-let userIdFromLocalStorage = JSON.parse(localStorage.getItem('userId'));
+let userIdFromLocalStorage = localStorage.getItem('userId');
 if (!userIdFromLocalStorage) {
 	userIdFromLocalStorage = false;
 }
-let userRoleFromLocalStorage = JSON.parse(localStorage.getItem('userRole'));
+let userRoleFromLocalStorage = localStorage.getItem('userRole');
 if (!userRoleFromLocalStorage) {
 	userRoleFromLocalStorage = null;
 }
