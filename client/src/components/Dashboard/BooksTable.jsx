@@ -21,12 +21,21 @@ import {
 	InputRightElement,
 	Center,
 	CircularProgress,
+	Popover,
+	PopoverTrigger,
+	Portal,
+	PopoverContent,
+	PopoverArrow,
+	PopoverHeader,
+	PopoverCloseButton,
+	PopoverBody,
+	PopoverFooter,
 } from '@chakra-ui/react';
 import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 
 import { Search2Icon, SmallAddIcon } from '@chakra-ui/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { getBooksByTitleOrAuthor } from '../../redux/actions';
+import { hideBook } from '../../redux/actions/index';
 import { Link as BuenLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -47,6 +56,11 @@ function BooksTable({ books }) {
 				)
 			);
 		}, 1300);
+	};
+
+	const onClickhideBook = (e) => {
+		console.log(e);
+		//dispatch(hideBook({ bookId: e }));
 	};
 
 	return (
@@ -158,7 +172,7 @@ function BooksTable({ books }) {
 										fontWeight='bold'
 										pb='.5rem'
 									>
-										{b.rating}
+										{b.stock}
 									</Text>
 								</Td>
 								<Td>
@@ -177,7 +191,32 @@ function BooksTable({ books }) {
 									</BuenLink>
 								</Td>
 								<Td>
-									<Button p='0px' bg='transparent' variant='no-hover'>
+									<Popover>
+										<PopoverTrigger>
+											<Button></Button>
+										</PopoverTrigger>
+										<Portal>
+											<PopoverContent>
+												<PopoverArrow />
+												<PopoverHeader>Header</PopoverHeader>
+												<PopoverCloseButton />
+												<PopoverBody>
+													<Button
+														colorScheme='blue'
+														onClick={() => onClickhideBook(b.id)}
+													>
+														Button
+													</Button>
+												</PopoverBody>
+											</PopoverContent>
+										</Portal>
+									</Popover>
+									{/* <Button
+										p='0px'
+										bg='transparent'
+										variant='no-hover'
+										onClick={() => onClickhideBook(b.id)}
+									>
 										<Text
 											fontSize='md'
 											color='gray.400'
@@ -185,9 +224,9 @@ function BooksTable({ books }) {
 											cursor='pointer'
 										>
 											<Icon color='red.500' as={FaTrashAlt} me='4px' />
-											Delete
+											Hide
 										</Text>
-									</Button>
+									</Button> */}
 								</Td>
 							</Tr>
 						))}
