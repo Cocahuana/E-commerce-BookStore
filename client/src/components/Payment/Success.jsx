@@ -5,12 +5,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import { checkoutCart, getCart } from '../../redux/actions';
 
 export default function Success() {
-	const { userId } = useSelector((state) => state);
+	const { userId, cart } = useSelector((state) => state);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(checkoutCart(userId));
+		handleCheckout();
 	}, [dispatch, userId]);
+
+	const handleCheckout = () => {
+		dispatch(checkoutCart(userId));
+		dispatch(getCart(userId));
+	};
 
 	return (
 		<Box textAlign='center' py={10} px={6} pt='24' h='90vh'>
