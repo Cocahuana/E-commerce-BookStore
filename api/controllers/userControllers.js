@@ -260,7 +260,7 @@ const profilePicture = async (id, body) => {
 };
 
 const googleSignIn = async (req, res, next) => {
-	const { username, email, photoURL } = req.body;
+	const { username, email, profile_picture} = req.body;
 	try {
 		const alreadyExists = await User.findOne({ where: { email: email } });
 		if (alreadyExists) {
@@ -281,7 +281,7 @@ const googleSignIn = async (req, res, next) => {
 				id: alreadyExists.id,
 				email: alreadyExists.email,
 				username: alreadyExists.username,
-				profile_picture: alreadyExists.profile_picture,
+				profile_picture: profile_picture,
 				favorites: alreadyExists.favorites,
 			});
 		}
@@ -289,7 +289,7 @@ const googleSignIn = async (req, res, next) => {
 			const create = await User.create({
 				email: email,
 				username: username,
-				profile_picture: photoURL
+				profile_picture: profile_picture
 			});
 			let cartToAssociate = await Cart.create();
 			await cartToAssociate.setUser(create);

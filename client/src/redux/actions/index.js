@@ -35,6 +35,7 @@ import {
 	SIGN_UP,
 	SIGN_OUT,
 	LOGIN_GOOGLE,
+	FORGOT_PASSWORD,
 	//-------------
 	CHECK_STATES,
 	//-------------
@@ -128,16 +129,16 @@ export function postComment(comment) {
 }
 //----------------------------------------------ADMIN-----------------------------------------
 
-export function createBook(payload) {
-	// let { token } = payload;
-	// const config = {
-	// 	headers: {
-	// 		'Content-Type': 'application/json',
-	// 		Authorization: `Bearer ${token}`,
-	// 	},
-	// };
+export function createBook(input, token) {
+	console.log('CREATE-BOOK-ACTION', token);
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+	};
 	return async function (dispatch) {
-		var json = await axios.post('/books', payload);
+		var json = await axios.post('/books', input, config);
 		return dispatch({
 			type: CREATE_BOOK,
 			payload: json.data,
@@ -259,12 +260,12 @@ export function addGoogleUser(currentUser) {
 
 	return async function (dispatch) {
 		try {
+			console.log(currentUser.photoURL);
 			if (currentUser !== null && currentUser.hasOwnProperty('email')) {
 				var addToDb = await axios.post(`/user/google`, {
 					username: currentUser.displayName,
 					email: currentUser.email,
-					photoURL: await currentUser.photoURL, //el await es porq tarda en llegar si no esta no funca
-					//password: currentUser.uid,
+					profile_picture: await currentUser.photoURL,
 				});
 
 				/*let login = await axios.post(`/user/login`, {
@@ -274,6 +275,7 @@ export function addGoogleUser(currentUser) {
 				//igual en la db la pw aparece hasheada
 			});
 			console.log('Soy login: ' + Object.keys(currentUser));*/
+				console.log(addToDb.data, 'lo q me trae ruta');
 				return dispatch({
 					type: LOGIN_GOOGLE,
 					payload: addToDb.data, //lo q me interesa es la info de current user (obj de firebase)
@@ -385,6 +387,21 @@ export function userDelFavorite(payload) {
 	return { type: USER_DEL_FAVORITES, payload };
 }
 
+export function forgotPass(email) {
+	return async function (dispatch) {
+		try {
+			let resp = await axios.put('/mail/password', {
+				email: email.email,
+			});
+			return dispatch({
+				type: FORGOT_PASSWORD,
+				payload: resp.data,
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
 //-------------------------------------------------FILTERS---------------------------------------------
 export function saveFilterGenre(payload) {
 	return { type: FILTER_GENRE, payload };

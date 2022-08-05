@@ -469,11 +469,12 @@ const rootReducer = ( state = InitialState, action ) => {
 				isSignedIn: true,
 			};
 		case LOGIN_GOOGLE:
-			localStorage.setItem( 'userId', action.payload.id );
-			localStorage.setItem( 'isSignedIn', true );
-			localStorage.setItem( 'userName', action.payload.username );
-			localStorage.setItem( 'userEmail', action.payload.email );
-			localStorage.setItem( 'userProfileImage', action.payload.photoURL );
+			console.log(action.payload, 'reducer')
+			localStorage.setItem('userId', action.payload.id);
+			localStorage.setItem('isSignedIn', true);
+			localStorage.setItem('userName', action.payload.username);
+			localStorage.setItem('userEmail', action.payload.email);
+			localStorage.setItem('userProfileImage', action.payload.profile_picture);
 			return {
 				...state,
 				token: action.payload.token,
@@ -553,11 +554,6 @@ const rootReducer = ( state = InitialState, action ) => {
 				...state,
 				allUsers: action.payload,
 			};
-		case BAN_USER: 
-			return {
-				...state
-			}
-
 		default:
 			return {
 				...state,

@@ -197,14 +197,13 @@ const specificOffer = async (req, res, next) =>{
 };
 
 const passwordRecovery = async (req, res, next) => {
-    let { userId } = req.body;
+    let { email } = req.body;
     try{
         let user = await User.findOne({
             where:{
-                id: userId,
+                email: email,
             },
         });
-
         if (!user) return res.status(400).send('User not found');
         
         await transporter.sendMail({
