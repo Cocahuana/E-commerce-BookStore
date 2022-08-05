@@ -70,7 +70,7 @@ function validate(input) {
 
 function FormAdd(props) {
 	const { genres } = useSelector((state) => state);
-	const { details } = useSelector((state) => state);
+	const { details, token } = useSelector((state) => state);
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const toast = useToast();
@@ -229,7 +229,7 @@ function FormAdd(props) {
 					duration: '2500',
 				});
 				console.log(input);
-				dispatch(modifyBook({ id, input }));
+				dispatch(modifyBook({ id, input, token }));
 				console.log('modificado :D');
 
 				dispatch(getBooks());
@@ -242,7 +242,7 @@ function FormAdd(props) {
 					isClosable: 'true',
 					duration: '2500',
 				});
-				dispatch(createBook(input));
+				dispatch(createBook(input, token));
 				console.log('creado :D');
 				console.log(input, 'xd');
 
@@ -276,7 +276,10 @@ function FormAdd(props) {
 			data.append('file', files);
 			data.append('upload_preset', 'proyect_preset');
 			axios
-				.post('https://api.cloudinary.com/v1_1/lucho/image/upload', data)
+				.post(
+					'https://api.cloudinary.com/v1_1/lucho/image/upload',
+					data
+				)
 				.then((res) =>
 					setInput({
 						...input,
@@ -296,8 +299,7 @@ function FormAdd(props) {
 				bg: '#111',
 			}}
 			pt={'20'}
-			pb={'10'}
-		>
+			pb={'10'}>
 			<Container maxW={'container.lg'}>
 				<Box>
 					<chakra.form
@@ -306,8 +308,7 @@ function FormAdd(props) {
 						onSubmit={(e) => handleSubmit(e)}
 						overflow={{
 							sm: 'hidden',
-						}}
-					>
+						}}>
 						<Stack
 							px={4}
 							py={5}
@@ -316,23 +317,20 @@ function FormAdd(props) {
 							_dark={{
 								bg: '#141517',
 							}}
-							spacing={6}
-						>
+							spacing={6}>
 							<SimpleGrid columns={6} spacing={6}>
 								<FormControl
 									isRequired
 									as={GridItem}
 									colSpan={[6, 3]}
-									isInvalid={errors.title}
-								>
+									isInvalid={errors.title}>
 									<FormLabel
 										fontSize='sm'
 										fontWeight='md'
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
-										}}
-									>
+										}}>
 										Name Of The Book
 									</FormLabel>
 
@@ -349,10 +347,13 @@ function FormAdd(props) {
 									/>
 									{!errors.title ? (
 										<FormHelperText>
-											Title Book. first letter with upper case
+											Title Book. first letter with upper
+											case
 										</FormHelperText>
 									) : (
-										<FormErrorMessage>Name is required.</FormErrorMessage>
+										<FormErrorMessage>
+											Name is required.
+										</FormErrorMessage>
 									)}
 								</FormControl>
 
@@ -360,8 +361,7 @@ function FormAdd(props) {
 									isRequired
 									as={GridItem}
 									colSpan={[6, 3]}
-									isInvalid={errors.authors}
-								>
+									isInvalid={errors.authors}>
 									<FormLabel
 										htmlFor='last_name'
 										fontSize='sm'
@@ -369,8 +369,7 @@ function FormAdd(props) {
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
-										}}
-									>
+										}}>
 										Author
 									</FormLabel>
 									<Input
@@ -387,10 +386,13 @@ function FormAdd(props) {
 									/>
 									{!errors.authors ? (
 										<FormHelperText>
-											Author Book first letter with upper case
+											Author Book first letter with upper
+											case
 										</FormHelperText>
 									) : (
-										<FormErrorMessage>Author is required.</FormErrorMessage>
+										<FormErrorMessage>
+											Author is required.
+										</FormErrorMessage>
 									)}
 								</FormControl>
 
@@ -402,8 +404,7 @@ function FormAdd(props) {
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
-										}}
-									>
+										}}>
 										Language
 									</FormLabel>
 									<RadioGroup
@@ -413,13 +414,20 @@ function FormAdd(props) {
 											color: 'gray.50',
 										}}
 										mt={4}
-										value={input.language}
-									>
+										value={input.language}>
 										<Stack spacing={4}>
-											<Radio value={'ESPAÑOL'} onChange={handdleSelectLanguage}>
+											<Radio
+												value={'ESPAÑOL'}
+												onChange={
+													handdleSelectLanguage
+												}>
 												Español
 											</Radio>
-											<Radio value={'ENGLISH'} onChange={handdleSelectLanguage}>
+											<Radio
+												value={'ENGLISH'}
+												onChange={
+													handdleSelectLanguage
+												}>
 												English
 											</Radio>
 										</Stack>
@@ -429,16 +437,14 @@ function FormAdd(props) {
 									isRequired
 									as={GridItem}
 									colSpan={[6, 3]}
-									isInvalid={errors.genre}
-								>
+									isInvalid={errors.genre}>
 									<FormLabel
 										fontSize='sm'
 										fontWeight='md'
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
-										}}
-									>
+										}}>
 										Genres/Category
 									</FormLabel>
 									<Select
@@ -449,8 +455,7 @@ function FormAdd(props) {
 										size='sm'
 										w='full'
 										rounded='md'
-										onChange={handdleSelectGenre}
-									>
+										onChange={handdleSelectGenre}>
 										{genres.map((g, i) => (
 											<option key={i} value={g.name}>
 												{g.name}
@@ -458,9 +463,13 @@ function FormAdd(props) {
 										))}
 									</Select>
 									{!errors.genre ? (
-										<FormHelperText>Al menos 1 genero</FormHelperText>
+										<FormHelperText>
+											Al menos 1 genero
+										</FormHelperText>
 									) : (
-										<FormErrorMessage>Genre is required.</FormErrorMessage>
+										<FormErrorMessage>
+											Genre is required.
+										</FormErrorMessage>
 									)}
 								</FormControl>
 
@@ -468,16 +477,14 @@ function FormAdd(props) {
 									isRequired
 									as={GridItem}
 									colSpan={[6, 1]}
-									isInvalid={errors.rating || errors.ratingN}
-								>
+									isInvalid={errors.rating || errors.ratingN}>
 									<FormLabel
 										fontSize='sm'
 										fontWeight='md'
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
-										}}
-									>
+										}}>
 										Rating
 									</FormLabel>
 									{id ? (
@@ -508,12 +515,16 @@ function FormAdd(props) {
 									)}
 
 									{errors.rating ? (
-										<FormErrorMessage>Rating is required.</FormErrorMessage>
+										<FormErrorMessage>
+											Rating is required.
+										</FormErrorMessage>
 									) : (
 										<FormErrorMessage></FormErrorMessage>
 									)}
 									{errors.ratingN ? (
-										<FormErrorMessage>Rating between 0 and 5.</FormErrorMessage>
+										<FormErrorMessage>
+											Rating between 0 and 5.
+										</FormErrorMessage>
 									) : (
 										<FormErrorMessage></FormErrorMessage>
 									)}
@@ -522,16 +533,14 @@ function FormAdd(props) {
 									isRequired
 									as={GridItem}
 									colSpan={[6, 2]}
-									isInvalid={errors.price || errors.priceM}
-								>
+									isInvalid={errors.price || errors.priceM}>
 									<FormLabel
 										fontSize='sm'
 										fontWeight='md'
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
-										}}
-									>
+										}}>
 										Price
 									</FormLabel>
 									<Input
@@ -546,7 +555,9 @@ function FormAdd(props) {
 										rounded='md'
 									/>
 									{errors.price ? (
-										<FormErrorMessage>Price is required.</FormErrorMessage>
+										<FormErrorMessage>
+											Price is required.
+										</FormErrorMessage>
 									) : (
 										<FormHelperText>US$</FormHelperText>
 									)}
@@ -563,15 +574,13 @@ function FormAdd(props) {
 									direction='row'
 									colSpan={[6, 3]}
 									align='center'
-									justify={'center'}
-								>
+									justify={'center'}>
 									{input.genre?.map((l, i) => (
 										<Button
 											onClick={() => handleDeleteGenre(l)}
 											key={i}
 											rightIcon={<CloseIcon w={3} />}
-											size={'md'}
-										>
+											size={'md'}>
 											{l}
 										</Button>
 									))}
@@ -589,18 +598,19 @@ function FormAdd(props) {
 							spacing={6}
 							p={{
 								sm: 6,
-							}}
-						>
+							}}>
 							<div>
-								<FormControl id='email' mt={1} isInvalid={errors.description}>
+								<FormControl
+									id='email'
+									mt={1}
+									isInvalid={errors.description}>
 									<FormLabel
 										fontSize='sm'
 										fontWeight='md'
 										color='gray.700'
 										_dark={{
 											color: 'gray.50',
-										}}
-									>
+										}}>
 										Description
 									</FormLabel>
 									<Textarea
@@ -621,7 +631,9 @@ function FormAdd(props) {
 											Description is required.
 										</FormErrorMessage>
 									) : (
-										<FormHelperText>Descripcion ...</FormHelperText>
+										<FormHelperText>
+											Descripcion ...
+										</FormHelperText>
 									)}
 								</FormControl>
 							</div>
@@ -633,8 +645,7 @@ function FormAdd(props) {
 									color='gray.700'
 									_dark={{
 										color: 'gray.50',
-									}}
-								>
+									}}>
 									Image Book
 								</FormLabel>
 								<Flex
@@ -648,8 +659,7 @@ function FormAdd(props) {
 										color: 'gray.500',
 									}}
 									borderStyle='dashed'
-									rounded='md'
-								>
+									rounded='md'>
 									<Button h={'100%'} onClick={chooseimage}>
 										<Stack spacing={1} textAlign='center'>
 											{/* <Input
@@ -668,8 +678,7 @@ function FormAdd(props) {
 												stroke='currentColor'
 												fill='none'
 												viewBox='0 0 48 48'
-												aria-hidden='true'
-											>
+												aria-hidden='true'>
 												<path
 													d='M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02'
 													strokeWidth='2'
@@ -683,8 +692,7 @@ function FormAdd(props) {
 												_dark={{
 													color: 'gray.400',
 												}}
-												alignItems='baseline'
-											>
+												alignItems='baseline'>
 												<chakra.label
 													htmlFor='file-upload'
 													cursor='pointer'
@@ -700,27 +708,29 @@ function FormAdd(props) {
 														_dark: {
 															color: 'brand.300',
 														},
-													}}
-												>
+													}}>
 													<span>Upload a file</span>
 													<VisuallyHidden>
 														<input
 															name='image'
 															ref={image}
-															onChange={uploadImage}
+															onChange={
+																uploadImage
+															}
 															type='file'
 														/>
 													</VisuallyHidden>
 												</chakra.label>
-												<Text pl={1}>or drag and drop</Text>
+												<Text pl={1}>
+													or drag and drop
+												</Text>
 											</Flex>
 											<Text
 												fontSize='xs'
 												color='gray.500'
 												_dark={{
 													color: 'gray.50',
-												}}
-											>
+												}}>
 												PNG, JPG, GIF up to 10MB
 											</Text>
 										</Stack>
@@ -740,16 +750,14 @@ function FormAdd(props) {
 								bg: '#121212',
 							}}
 							textAlign='right'
-							pb='16'
-						>
+							pb='16'>
 							<Button
 								type='submit'
 								colorScheme='blue'
 								_focus={{
 									shadow: '',
 								}}
-								fontWeight='md'
-							>
+								fontWeight='md'>
 								Create Book
 							</Button>
 						</Box>
