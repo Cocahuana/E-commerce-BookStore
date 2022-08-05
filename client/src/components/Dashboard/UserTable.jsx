@@ -19,6 +19,7 @@ import {
 	Input,
 	InputGroup,
 	InputRightElement,
+	useToast,
 } from '@chakra-ui/react';
 import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 import { Search2Icon, SmallAddIcon } from '@chakra-ui/icons';
@@ -27,7 +28,7 @@ import { getAllUsers, upgradeToAdmin } from '../../redux/actions';
 
 function UserTable({ user }) {
 	const textColor = useColorModeValue('gray.700', 'white');
-
+	const toast = useToast();
 	const dispatch = useDispatch();
 
 	const { token } = useSelector((state) => state);
@@ -36,9 +37,19 @@ function UserTable({ user }) {
 
 	// useEffect(() => {}, [dispatch]);
 
-	const handleUpgrade = async (id, token) => {
-		dispatch(upgradeToAdmin(id, token));
-		dispatch(getAllUsers());
+	const handleUpgrade = async (id, token, status) => {
+		console.log(status);
+		if (status === 'Admin') {
+			toast({
+				title: 'The user is already an Admin!',
+				status: 'warning',
+				isClosable: 'true',
+				duration: '1500',
+			});
+		} else {
+			dispatch(upgradeToAdmin(id, token));
+			dispatch(getAllUsers());
+		}
 	};
 
 	return (
@@ -130,7 +141,9 @@ function UserTable({ user }) {
 									p='0px'
 									bg='transparent'
 									variant='no-hover'
-									onClick={() => handleUpgrade(u.id, token)}>
+									onClick={() =>
+										handleUpgrade(u.id, token, u.status)
+									}>
 									<Icon
 										color='blue.300'
 										as={FaPencilAlt}
