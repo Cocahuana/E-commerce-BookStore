@@ -8,9 +8,10 @@ export default function Success() {
 	const { userId, cart } = useSelector((state) => state);
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		dispatch(getCart(userId));
-	}, [dispatch]);
+	// useEffect(() => {
+	// 	dispatch(getCart(userId));
+	// 	console.log(userId);
+	// }, [dispatch]);
 
 	return (
 		<Box textAlign='center' py={10} px={6} pt='24' h='90vh'>

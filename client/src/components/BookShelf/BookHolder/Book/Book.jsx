@@ -120,7 +120,7 @@ export const Book = (props) => {
 	};
 
 	const handleQuickShop = () => {
-		dispatch(clearCart(userId));
+		clearCart(userId);
 		handleAddToCart(id);
 	};
 
@@ -223,7 +223,7 @@ export const Book = (props) => {
 					Add to cart
 				</Button>
 				{userId ? (
-					<BuenLink to='/purchase'>
+					<BuenLink to='/pay'>
 						<Link
 							textDecoration='underline'
 							fontWeight='medium'

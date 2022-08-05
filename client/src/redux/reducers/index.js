@@ -32,6 +32,7 @@ import {
 	REMOVE_BOOK_CART_DB,
 	CLEAR_CART,
 	SEARCH_BOOK,
+	CHECKOUT_CART,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -389,6 +390,12 @@ const rootReducer = (state = InitialState, action) => {
 				...state,
 				cart: arrayBooks,
 				summary: suma,
+			};
+		}
+		case CHECKOUT_CART: {
+			return {
+				...state,
+				cart: [],
 			};
 		}
 		case REMOVE_BOOK_CART_DB: {
