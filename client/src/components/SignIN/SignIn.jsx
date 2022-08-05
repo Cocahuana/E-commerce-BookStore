@@ -29,7 +29,7 @@ import {
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { userLogin, checkStates } from '../../redux/actions/index';
+import { userLogin, checkStates, forgotPass } from '../../redux/actions/index';
 import { useHistory } from 'react-router-dom';
 import { Link as BuenLink } from 'react-router-dom';
 import { GoogleButton } from 'react-google-button';
@@ -42,7 +42,7 @@ function SignIn() {
 	const { token } = useSelector((state) => state);
 	// const handleClick = () => setShow(!show);
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const [email, setEmail] = useState({email: ""})
+	const [email, setEmail] = useState({ email: '' });
 
 	const [user, setLoginUser] = useState({
 		email: '',
@@ -116,24 +116,32 @@ function SignIn() {
 		}
 	};
 
-		const handleOnChangePass = (e) => {
-			setEmail({
-				email: e.target.value
-			})
-		}
+	const handleOnChangePass = (e) => {
+		setEmail({
+			email: e.target.value,
+		});
+	};
 
-		const handlepass = (e) => {
-			e.preventDefault()
-			if(email.email === "") {
-				Swal.fire({
-					position: "top",
-					icon: 'error',
-					title: 'Oops...',
-					text: 'Email input can not be empty, sorry!',
-				});
-			
-			} else console.log(email)
+	const handlePass = (e) => {
+		e.preventDefault();
+		if (email.email === '') {
+			Swal.fire({
+				position: 'top',
+				icon: 'error',
+				title: 'Oops...',
+				text: 'Email input can not be empty, sorry!',
+			});
+		} else {
+			dispatch(forgotPass(email));
+			onClose();
+			Swal.fire({
+				position: 'top',
+				icon: 'success',
+				title: 'Good job',
+				text: 'Email was sent succesfully!',
+			});
 		}
+	};
 
 	return (
 		<Stack
@@ -240,7 +248,7 @@ function SignIn() {
 				/>
 			</Flex>
 
-			<Modal isOpen={isOpen} isCentered onClose={onClose}>
+			<Modal size={'xl'} isOpen={isOpen} isCentered onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>Forgot password</ModalHeader>
@@ -251,14 +259,18 @@ function SignIn() {
 						</Text>
 						<HStack mt={1}>
 							<FormControl>
-							<FormLabel pt={'15px'}>Email</FormLabel>
-								<Input onChange={handleOnChangePass} type='email' label={'Email'} />
+								<FormLabel pt={'15px'}>Email</FormLabel>
+								<Input
+									onChange={handleOnChangePass}
+									type='email'
+									label={'Email'}
+								/>
 							</FormControl>
 						</HStack>
 					</ModalBody>
 					<ModalFooter justifyContent={'space-between'} w={'100%'}>
 						<Button onClick={onClose}>Cancelar</Button>
-						<Button onClick={(e) => handlepass(e)}>Enviar</Button>
+						<Button onClick={(e) => handlePass(e)}>Enviar</Button>
 					</ModalFooter>
 				</ModalContent>
 			</Modal>
