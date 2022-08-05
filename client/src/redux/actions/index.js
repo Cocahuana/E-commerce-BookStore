@@ -264,12 +264,13 @@ export function addGoogleUser(currentUser) {
 
 	return async function (dispatch) {
 		try {
+			console.log(currentUser.photoURL)
 			if (currentUser !== null && currentUser.hasOwnProperty('email')) {
 				var addToDb = await axios.post(`/user/google`, {
 					username: currentUser.displayName,
 					email: currentUser.email,
-					photoURL: await currentUser.photoURL, //el await es porq tarda en llegar si no esta no funca
-					//password: currentUser.uid,
+					profile_picture: await currentUser.photoURL
+					
 				});
 
 				/*let login = await axios.post(`/user/login`, {
@@ -279,6 +280,7 @@ export function addGoogleUser(currentUser) {
 				//igual en la db la pw aparece hasheada
 			});
 			console.log('Soy login: ' + Object.keys(currentUser));*/
+			console.log(addToDb.data, 'lo q me trae ruta')
 				return dispatch({
 					type: LOGIN_GOOGLE,
 					payload: addToDb.data, //lo q me interesa es la info de current user (obj de firebase)
