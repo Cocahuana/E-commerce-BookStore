@@ -32,7 +32,9 @@ import {
 	REMOVE_BOOK_CART_DB,
 	CLEAR_CART,
 	SEARCH_BOOK,
+	HIDE_BOOKS,
 	CHECKOUT_CART,
+	BAN_USER,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -102,6 +104,7 @@ const InitialState = {
 	details: {},
 	genres: [],
 	booksCopy: [],
+	booksAutocomplete: [],
 	loading: true,
 	filters: {
 		genres: [],
@@ -141,8 +144,8 @@ const rootReducer = ( state = InitialState, action ) => {
 		case GET_BOOKS: {
 			return {
 				...state,
-				books: action.payload,
-				booksCopy: action.payload,
+				// books: action.payload,
+				// booksCopy: action.payload,
 				adminBooks: action.payload,
 				loading: false,
 			};
@@ -156,14 +159,24 @@ const rootReducer = ( state = InitialState, action ) => {
 					query: action.payload.query,
 				};
 			}
-			return {
-				...state,
-				booksCopy: action.payload.data,
-				books: action.payload.data,
-				query: action.payload.query,
-				loading: false,
-				adminBooks: action.payload,
-			};
+			if (!action.payload.query) {
+				return {
+					...state,
+					booksAutocomplete: action.payload.data,
+					booksCopy: action.payload.data,
+					books: action.payload.data,
+					query: action.payload.query,
+					loading: false,
+				};
+			} else {
+				return {
+					...state,
+					booksCopy: action.payload.data,
+					books: action.payload.data,
+					query: action.payload.query,
+					loading: false,
+				};
+			}
 		}
 		case GET_GENRES: {
 			return {
@@ -264,8 +277,8 @@ const rootReducer = ( state = InitialState, action ) => {
 				//asumo que el libro debe incluirse y si no cumple algun filtro devuelvo false para q sea filtrado (no se incluya en el array)
 
 				//--------Filtro por oferta------------
-				if ( state.filters.onsale && book.flag !== 'on-sale' )
-					return false;
+
+				if (state.filters.onsale && book.flag !== 'on-sale') return false;
 
 				//--------Filtro por moneda------------
 				//if (state.filters.currency && state.filters.currency!==book.currency) return false
@@ -347,24 +360,27 @@ const rootReducer = ( state = InitialState, action ) => {
 			};
 		}
 		//--------------------------------------------El ADMIN CAPO--------------------------------------------------
-		case SEARCH_BOOK: {
-			if ( typeof action.payload.data === 'string' )
-			{
-				return {
-					...state,
-					adminBooks: [],
-					query: action.payload.query,
-				};
-			}
-			return {
-				...state,
-				booksCopy: action.payload.data,
-				books: action.payload.data,
-				query: action.payload.query,
-				loading: false,
-				adminBooks: action.payload,
-			};
-		}
+
+		// case SEARCH_BOOK: {
+		// 	if (typeof action.payload.data === 'string') {
+		// 		return {
+		// 			...state,
+		// 			adminBooks: [],
+		// 			query: action.payload.query,
+		// 		};
+		// 	}
+		// 	return {
+		// 		...state,
+		// 		booksCopy: action.payload.data,
+		// 		books: action.payload.data,
+		// 		query: action.payload.query,
+		// 		loading: false,
+		// 		adminBooks: action.payload,
+		// 	};
+		// }
+
+		// case HIDE_BOOKS: {
+		// }
 		//-----------------------------------------------------------------------------------------------------
 
 		case RESET_DETAILS: {
@@ -433,14 +449,13 @@ const rootReducer = ( state = InitialState, action ) => {
 		}
 		case LOGIN:
 			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
-			localStorage.setItem( 'userId', action.payload.id );
-			localStorage.setItem( 'isSignedIn', true );
-			localStorage.setItem( 'userName', action.payload.username );
-			localStorage.setItem( 'userEmail', action.payload.email );
-			localStorage.setItem(
-				'userProfileImage',
-				action.payload.profile_picture
-			);
+
+			localStorage.setItem('userId', action.payload.id);
+			localStorage.setItem('isSignedIn', true);
+			localStorage.setItem('userName', action.payload.username);
+			localStorage.setItem('userEmail', action.payload.email);
+			localStorage.setItem('userProfileImage', action.payload.profile_picture);
+
 			// localStorage.setItem('token', token);
 			// localStorage.setItem('userRole', userRole);
 			return {
@@ -471,10 +486,7 @@ const rootReducer = ( state = InitialState, action ) => {
 			};
 
 		case UPDATE_USER:
-			localStorage.setItem(
-				'userProfileImage',
-				action.payload.profile_picture
-			);
+			localStorage.setItem('userProfileImage', action.payload.profile_picture);
 			return {
 				...state,
 				userId: action.payload.id,
@@ -514,9 +526,8 @@ const rootReducer = ( state = InitialState, action ) => {
 		case USER_GET_FAVORITES:
 			let favoriteBooks = [];
 			let booksIds = action.payload;
-			favoriteBooks = state.booksCopy.filter( ( e ) =>
-				booksIds.includes( e.id )
-			);
+
+			favoriteBooks = state.booksCopy.filter((e) => booksIds.includes(e.id));
 
 			// localStorage.setItem('favorites', favoriteBooks);
 			return {
@@ -542,6 +553,10 @@ const rootReducer = ( state = InitialState, action ) => {
 				...state,
 				allUsers: action.payload,
 			};
+		case BAN_USER: 
+			return {
+				...state
+			}
 
 		default:
 			return {

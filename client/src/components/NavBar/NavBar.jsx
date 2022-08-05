@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { BsSun, BsMoonStarsFill } from 'react-icons/bs';
-import { FiHeart } from 'react-icons/fi';
 import {
 	Box,
 	Flex,
@@ -63,7 +62,9 @@ export default function NavBar() {
 			position='fixed'
 			width='100%'
 			backdropFilter={'auto'}
-			backdropBlur='8px'>
+			backdropBlur='8px'
+			zIndex={3}
+		>
 			<Flex
 				bg={useColorModeValue('whiteAlpha.800', 'gray.700')}
 				color={useColorModeValue('gray.600', 'white')}
@@ -76,34 +77,31 @@ export default function NavBar() {
 				boxShadow={useColorModeValue(
 					'0 4px 6px rgba(160,174,192,0.6)',
 					'0 4px 6px rgba(9,17,28,0.9'
-				)}>
+				)}
+			>
 				<Flex
 					flex={{ base: 1, md: 'auto' }}
 					ml={{ base: -2 }}
-					display={{ base: 'flex', md: 'none' }}>
+					display={{ base: 'flex', md: 'none' }}
+				>
 					<IconButton
 						onClick={onToggle}
 						icon={
-							isOpen ? (
-								<CloseIcon w={3} h={3} />
-							) : (
-								<HamburgerIcon w={5} h={5} />
-							)
+							isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
 						}
 						variant={'ghost'}
 						aria-label={'Toggle Navigation'}
 					/>
 				</Flex>
-				<Flex
-					flex={{ base: 1 }}
-					justify={{ base: 'center', md: 'start' }}>
+				<Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
 					<BuenLink to='/'>
 						<Text
 							textAlign={useBreakpointValue({
 								base: 'center',
 								md: 'left',
 							})}
-							color={useColorModeValue('gray.800', 'white')}>
+							color={useColorModeValue('gray.800', 'white')}
+						>
 							<Highlight
 								key='1'
 								query={'Book'}
@@ -113,7 +111,8 @@ export default function NavBar() {
 									rounded: 'xl',
 									bg: 'brand.pepe',
 									color: 'white',
-								}}>
+								}}
+							>
 								E-BookStore
 							</Highlight>
 						</Text>
@@ -128,14 +127,16 @@ export default function NavBar() {
 					flex={{ base: 1, md: 0 }}
 					justify={'flex-end'}
 					direction={'row'}
-					spacing={6}>
+					spacing={6}
+				>
 					<Center>
 						<Button
 							size={'md'}
 							aria-label='Toggle Color Mode'
 							onClick={toggleColorMode}
 							_focus={{ boxShadow: 'none' }}
-							w='fit-content'>
+							w='fit-content'
+						>
 							{colorMode === 'light' ? (
 								<BsMoonStarsFill title='Toggle to dark mode' />
 							) : (
@@ -164,7 +165,8 @@ export default function NavBar() {
 			width='100%'
 			zIndex={3}
 			backdropFilter={'auto'}
-			backdropBlur='8px'>
+			backdropBlur='8px'
+		>
 			<Flex
 				bg={useColorModeValue('whiteAlpha.800', 'gray.700')}
 				color={useColorModeValue('gray.600', 'white')}
@@ -177,34 +179,31 @@ export default function NavBar() {
 				boxShadow={useColorModeValue(
 					'0 4px 6px rgba(160,174,192,0.6)',
 					'0 4px 6px rgba(9,17,28,0.9'
-				)}>
+				)}
+			>
 				<Flex
 					flex={{ base: 1, md: 'auto' }}
 					ml={{ base: -2 }}
-					display={{ base: 'flex', md: 'none' }}>
+					display={{ base: 'flex', md: 'none' }}
+				>
 					<IconButton
 						onClick={onToggle}
 						icon={
-							isOpen ? (
-								<CloseIcon w={3} h={3} />
-							) : (
-								<HamburgerIcon w={5} h={5} />
-							)
+							isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
 						}
 						variant={'ghost'}
 						aria-label={'Toggle Navigation'}
 					/>
 				</Flex>
-				<Flex
-					flex={{ base: 1 }}
-					justify={{ base: 'center', md: 'start' }}>
+				<Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
 					<BuenLink to='/'>
 						<Text
 							textAlign={useBreakpointValue({
 								base: 'center',
 								md: 'left',
 							})}
-							color={useColorModeValue('gray.800', 'white')}>
+							color={useColorModeValue('gray.800', 'white')}
+						>
 							<Highlight
 								query={'E-Book'}
 								styles={{
@@ -213,7 +212,8 @@ export default function NavBar() {
 									rounded: 'xl',
 									bg: 'brand.pepe',
 									color: 'white',
-								}}>
+								}}
+							>
 								E-BookStore
 							</Highlight>
 						</Text>
@@ -228,14 +228,16 @@ export default function NavBar() {
 					flex={{ base: 1, md: 0 }}
 					justify={'flex-end'}
 					direction={'row'}
-					spacing={6}>
+					spacing={6}
+				>
 					<Center>
 						<Button
 							size={'md'}
 							aria-label='Toggle Color Mode'
 							onClick={toggleColorMode}
 							_focus={{ boxShadow: 'none' }}
-							w='fit-content'>
+							w='fit-content'
+						>
 							{colorMode === 'light' ? (
 								<BsMoonStarsFill title='Toggle to dark mode' />
 							) : (
@@ -245,7 +247,7 @@ export default function NavBar() {
 						{/* <Switch size={'lg'} onChange={toggleColorMode} /> */}
 					</Center>
 
-					<FavouriteList widt={"10%"} dis={"none"}/>
+					<FavouriteList widt={'10%'} dis={'none'} />
 
 					<Drawer />
 
@@ -255,7 +257,8 @@ export default function NavBar() {
 							rounded={'full'}
 							variant={'link'}
 							cursor={'pointer'}
-							minW={0}>
+							minW={0}
+						>
 							<ProfileImage tamaño='sm' />
 						</MenuButton>
 						<MenuList bg={useColorModeValue('white', 'gray.700')}>
@@ -266,34 +269,28 @@ export default function NavBar() {
 									cursor: 'default',
 								}}
 							>
-								<FavouriteList widt={"100%"}/>
+								<FavouriteList widt={'100%'} />
 							</MenuItem>
-
-							
-
 
 							<MenuItem
 								_hover={{
 									bg: useColorModeValue('white', 'none'),
 									cursor: 'default',
-								}}>
+								}}
+							>
 								<BuenLink to='/profile'>
-									<Button
-										as={'a'}
-										fontSize={'md'}
-										w={'250px'}>
+									<Button as={'a'} fontSize={'md'} w={'250px'}>
 										Profile
 									</Button>
 								</BuenLink>
 							</MenuItem>
 
-							<MenuItem w={"100%"}_hover={{ bg: 'none', cursor: 'default' }}>
-							<Drawer widt={"100%"}/>
+							<MenuItem w={'100%'} _hover={{ bg: 'none', cursor: 'default' }}>
+								<Drawer widt={'215px'} />
 							</MenuItem>
 
 							<MenuDivider />
-							<MenuItem
-								_hover={{ bg: 'none', cursor: 'default' }}>
+							<MenuItem _hover={{ bg: 'none', cursor: 'default' }}>
 								<Signout wid='100%' />
 							</MenuItem>
 						</MenuList>
@@ -312,7 +309,8 @@ export default function NavBar() {
 			width='100%'
 			zIndex={3}
 			backdropFilter={'auto'}
-			backdropBlur='8px'>
+			backdropBlur='8px'
+		>
 			<Flex
 				bg={useColorModeValue('whiteAlpha.800', 'gray.700')}
 				color={useColorModeValue('gray.600', 'white')}
@@ -325,34 +323,31 @@ export default function NavBar() {
 				boxShadow={useColorModeValue(
 					'0 4px 6px rgba(160,174,192,0.6)',
 					'0 4px 6px rgba(9,17,28,0.9'
-				)}>
+				)}
+			>
 				<Flex
 					flex={{ base: 1, md: 'auto' }}
 					ml={{ base: -2 }}
-					display={{ base: 'flex', md: 'none' }}>
+					display={{ base: 'flex', md: 'none' }}
+				>
 					<IconButton
 						onClick={onToggle}
 						icon={
-							isOpen ? (
-								<CloseIcon w={3} h={3} />
-							) : (
-								<HamburgerIcon w={5} h={5} />
-							)
+							isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
 						}
 						variant={'ghost'}
 						aria-label={'Toggle Navigation'}
 					/>
 				</Flex>
-				<Flex
-					flex={{ base: 1 }}
-					justify={{ base: 'center', md: 'start' }}>
+				<Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
 					<BuenLink to='/'>
 						<Text
 							textAlign={useBreakpointValue({
 								base: 'center',
 								md: 'left',
 							})}
-							color={useColorModeValue('gray.800', 'white')}>
+							color={useColorModeValue('gray.800', 'white')}
+						>
 							<Highlight
 								query={'E-Book'}
 								styles={{
@@ -361,7 +356,8 @@ export default function NavBar() {
 									rounded: 'xl',
 									bg: 'brand.pepe',
 									color: 'white',
-								}}>
+								}}
+							>
 								E-BookStore
 							</Highlight>
 						</Text>
@@ -376,13 +372,15 @@ export default function NavBar() {
 					flex={{ base: 1, md: 0 }}
 					justify={'flex-end'}
 					direction={'row'}
-					spacing={6}>
+					spacing={6}
+				>
 					<Center>
 						<Button
 							aria-label='Toggle Color Mode'
 							onClick={toggleColorMode}
 							_focus={{ boxShadow: 'none' }}
-							w='fit-content'>
+							w='fit-content'
+						>
 							{colorMode === 'light' ? (
 								<BsMoonStarsFill title='Toggle to dark mode' />
 							) : (
@@ -399,7 +397,8 @@ export default function NavBar() {
 								as={'a'}
 								fontSize={'sm'}
 								fontWeight={400}
-								variant={'link'}>
+								variant={'link'}
+							>
 								Sign In
 							</Button>
 						</BuenLink>
@@ -416,7 +415,8 @@ export default function NavBar() {
 								bg={'brand.pepe'}
 								_hover={{
 									bg: '#2E3532',
-								}}>
+								}}
+							>
 								Sign Up
 							</Button>
 						</BuenLink>
@@ -452,7 +452,8 @@ const DesktopNav = () => {
 									_hover={{
 										textDecoration: 'none',
 										color: linkHoverColor,
-									}}>
+									}}
+								>
 									{navItem.label}
 								</Link>
 							</BuenLink>
@@ -465,13 +466,11 @@ const DesktopNav = () => {
 								bg={popoverContentBgColor}
 								p={4}
 								rounded={'xl'}
-								minW={'sm'}>
+								minW={'sm'}
+							>
 								<Stack>
 									{navItem.children.map((child) => (
-										<DesktopSubNav
-											key={child.label}
-											{...child}
-										/>
+										<DesktopSubNav key={child.label} {...child} />
 									))}
 								</Stack>
 							</PopoverContent>
@@ -491,13 +490,15 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
 				display={'block'}
 				p={2}
 				rounded={'md'}
-				_hover={{ bg: useColorModeValue('#2E3532', 'gray.900') }}>
+				_hover={{ bg: useColorModeValue('#2E3532', 'gray.900') }}
+			>
 				<Stack direction={'row'} align={'center'}>
 					<Box>
 						<Text
 							transition={'all .3s ease'}
 							_groupHover={{ color: '#2E3532' }}
-							fontWeight={500}>
+							fontWeight={500}
+						>
 							{label}
 						</Text>
 						<Text fontSize={'sm'}>{subLabel}</Text>
@@ -512,13 +513,9 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
 						}}
 						justify={'flex-end'}
 						align={'center'}
-						flex={1}>
-						<Icon
-							color={'#8B2635'}
-							w={5}
-							h={5}
-							as={ChevronRightIcon}
-						/>
+						flex={1}
+					>
+						<Icon color={'#8B2635'} w={5} h={5} as={ChevronRightIcon} />
 					</Flex>
 				</Stack>
 			</Link>
@@ -531,7 +528,8 @@ const MobileNav = () => {
 		<Stack
 			bg={useColorModeValue('white', 'gray.800')}
 			p={4}
-			display={{ md: 'none' }}>
+			display={{ md: 'none' }}
+		>
 			{NAV_ITEMS.map((navItem) => (
 				<MobileNavItem key={navItem.label} {...navItem} />
 			))}
@@ -553,10 +551,12 @@ const MobileNavItem = ({ label, children, href }) => {
 					align={'center'}
 					_hover={{
 						textDecoration: 'none',
-					}}>
+					}}
+				>
 					<Text
 						fontWeight={600}
-						color={useColorModeValue('gray.600', 'gray.200')}>
+						color={useColorModeValue('gray.600', 'gray.200')}
+					>
 						{label}
 					</Text>
 					{children && (
@@ -571,17 +571,15 @@ const MobileNavItem = ({ label, children, href }) => {
 				</Flex>
 			</BuenLink>
 
-			<Collapse
-				in={isOpen}
-				animateOpacity
-				style={{ marginTop: '0!important' }}>
+			<Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
 				<Stack
 					mt={2}
 					pl={4}
 					borderLeft={1}
 					borderStyle={'solid'}
 					borderColor={useColorModeValue('gray.200', 'gray.700')}
-					align={'start'}>
+					align={'start'}
+				>
 					{children &&
 						children.map((child) => (
 							<BuenLink key={child.label} to={child.href}>

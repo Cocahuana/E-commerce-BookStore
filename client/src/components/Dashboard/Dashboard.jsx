@@ -20,6 +20,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import UserTable from './UserTable';
 import {
 	getAllUsers,
+	getBooks,
 	getBooksByTitleOrAuthor,
 	getGenres,
 } from '../../redux/actions';
@@ -29,7 +30,7 @@ function Dashboard() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(getBooksByTitleOrAuthor(''));
+		dispatch(getBooks());
 		dispatch(getAllUsers());
 		dispatch(getGenres());
 	}, [dispatch]);

@@ -47,6 +47,8 @@ import {
 	UPDATE_USER,
 	USER_ADD_FAVSTATE,
 	SEARCH_BOOK,
+	UPGRADE_USER,
+	BAN_USER
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -126,19 +128,6 @@ export function postComment(comment) {
 }
 //----------------------------------------------ADMIN-----------------------------------------
 
-export const hideBook = () => {
-	return async function (dispatch) {
-		try {
-			let result = await axios.put('/hide');
-			return dispatch({
-				type: HIDE_BOOKS,
-				payload: result.data,
-			});
-		} catch (error) {
-			alert(error);
-		}
-	};
-};
 export function createBook(payload) {
 	return async function (dispatch) {
 		var json = await axios.post('/books', payload);
@@ -171,6 +160,40 @@ export function searchBooksByAdmin(titleOrAuthor) {
 			console.log(error);
 		}
 	};
+}
+export function hideBook(payload) {
+	return async function (dispatch) {
+		console.log(payload);
+		var json = await axios.put('admin/hide', payload);
+		return dispatch({
+			type: HIDE_BOOKS,
+			payload: json.data,
+		});
+	};
+}
+
+export function toBanUser(id, token) {
+	return async function (dispatch){
+		console.log(token)
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+	
+				Authorization: `Bearer ${token}`,
+			},
+		};	
+		try{
+			var userBan =  await axios.put(`/admin/ban`, { userId: id}, config )
+			var users = await axios.get(`/user/all`)
+			return dispatch({
+				type: GET_USERS,
+				payload: users.data
+			})
+
+		} catch(err){
+			console.log(err)
+		}
+	}
 }
 
 //----------------------------------------------USERS-----------------------------------------
@@ -453,6 +476,25 @@ export function checkoutCart(userId) {
 		let checkoutCart = await axios.put(`/cart/checkout/`, { userId });
 		return dispatch({
 			type: CHECKOUT_CART,
+		});
+	};
+}
+
+export function upgradeToAdmin(userId, token) {
+	console.log(token);
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+	};
+
+	return async function (dispatch) {
+		await axios.put(`/admin/upgrade`, { userId }, config);
+		var users = await axios.get(`/user/all`);
+		return dispatch({
+			type: GET_USERS,
+			payload: users.data,
 		});
 	};
 }
