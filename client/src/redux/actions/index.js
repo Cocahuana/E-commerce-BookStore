@@ -125,19 +125,6 @@ export function postComment(comment) {
 }
 //----------------------------------------------ADMIN-----------------------------------------
 
-export const hideBook = () => {
-	return async function (dispatch) {
-		try {
-			let result = await axios.put('/hide');
-			return dispatch({
-				type: HIDE_BOOKS,
-				payload: result.data,
-			});
-		} catch (error) {
-			alert(error);
-		}
-	};
-};
 export function createBook(payload) {
 	return async function (dispatch) {
 		var json = await axios.post('/books', payload);
@@ -169,6 +156,16 @@ export function searchBooksByAdmin(titleOrAuthor) {
 		} catch (error) {
 			console.log(error);
 		}
+	};
+}
+export function hideBook(payload) {
+	return async function (dispatch) {
+		console.log(payload);
+		var json = await axios.put('admin/hide', payload);
+		return dispatch({
+			type: HIDE_BOOKS,
+			payload: json.data,
+		});
 	};
 }
 

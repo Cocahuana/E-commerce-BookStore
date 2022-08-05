@@ -32,6 +32,7 @@ import {
 	REMOVE_BOOK_CART_DB,
 	CLEAR_CART,
 	SEARCH_BOOK,
+	HIDE_BOOKS,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -326,23 +327,26 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		}
 		//--------------------------------------------El ADMIN CAPO--------------------------------------------------
-		case SEARCH_BOOK: {
-			if (typeof action.payload.data === 'string') {
-				return {
-					...state,
-					adminBooks: [],
-					query: action.payload.query,
-				};
-			}
-			return {
-				...state,
-				booksCopy: action.payload.data,
-				books: action.payload.data,
-				query: action.payload.query,
-				loading: false,
-				adminBooks: action.payload,
-			};
-		}
+		// case SEARCH_BOOK: {
+		// 	if (typeof action.payload.data === 'string') {
+		// 		return {
+		// 			...state,
+		// 			adminBooks: [],
+		// 			query: action.payload.query,
+		// 		};
+		// 	}
+		// 	return {
+		// 		...state,
+		// 		booksCopy: action.payload.data,
+		// 		books: action.payload.data,
+		// 		query: action.payload.query,
+		// 		loading: false,
+		// 		adminBooks: action.payload,
+		// 	};
+		// }
+
+		// case HIDE_BOOKS: {
+		// }
 		//-----------------------------------------------------------------------------------------------------
 
 		case RESET_DETAILS: {

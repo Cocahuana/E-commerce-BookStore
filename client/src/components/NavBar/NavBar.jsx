@@ -63,6 +63,7 @@ export default function NavBar() {
 			width='100%'
 			backdropFilter={'auto'}
 			backdropBlur='8px'
+			zIndex={3}
 		>
 			<Flex
 				bg={useColorModeValue('whiteAlpha.800', 'gray.700')}
