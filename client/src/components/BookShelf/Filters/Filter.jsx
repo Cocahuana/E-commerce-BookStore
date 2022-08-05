@@ -73,7 +73,12 @@ function Filter({ setCurrentPage }) {
 	};
 
 	const handleSlideChange = (pricesArr) => {
-		setSliderValue(pricesArr);
+		if (pricesArr[0] === pricesArr[1]) {
+			pricesArr[0] = pricesArr[0] - 1;
+			setSliderValue(pricesArr);
+		} else {
+			setSliderValue(pricesArr);
+		}
 	};
 
 	function areEqual(array1, array2) {
