@@ -90,9 +90,9 @@ export function favourites(props) {
 	};
 
 	return (
-		<Stack w={'full'}>
+		<Stack w={props.widt}>
 			<Button w={'100%'} onClick={() => handleFavorite()}>
-				<Text paddingLeft={'5.5%'} w='90%'>
+				<Text display={props.dis} paddingLeft={'5.5%'} w='90%'>
 					Favourite list
 				</Text>
 				<Box>
@@ -112,7 +112,6 @@ export function favourites(props) {
 
 				<ModalContent bg={'gray.300'}>
 					<ModalHeader
-						rounded={'5px'}
 						bgGradient={useColorModeValue(
 							'linear(to-r, blue.400, blue.100)',
 							'linear(to-r, blue.700, blue.500)'
@@ -120,7 +119,8 @@ export function favourites(props) {
 						Favourite List
 					</ModalHeader>
 					<ModalCloseButton />
-					<ModalBody p={'0'}>
+					<ModalBody
+						p={'0'}>
 						<Flex>
 							<Container
 								maxW={'100%'}
