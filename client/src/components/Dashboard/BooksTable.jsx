@@ -57,7 +57,7 @@ function BooksTable({ books }) {
 
 	const onClickhideBook = (e) => {
 		console.log(e);
-		//dispatch(hideBook({ bookId: e }));
+		dispatch(hideBook({ bookId: e }));
 	};
 
 	return (
@@ -108,7 +108,7 @@ function BooksTable({ books }) {
 							<Th color='gray.400'>Books</Th>
 							<Th color='gray.400'>Price</Th>
 							<Th color='gray.400'>Books</Th>
-							<Th color='gray.400'>Rating</Th>
+							<Th color='gray.400'>Stock</Th>
 							<Th color='gray.400'>Edit</Th>
 							<Th color='gray.400'>Delete</Th>
 						</Tr>
@@ -116,7 +116,7 @@ function BooksTable({ books }) {
 
 					<Tbody>
 						{scroll.map((b, i) => (
-							<Tr key={i}>
+							<Tr key={i} bg={b.stock < 1 ? 'blackAlpha.300' : ''}>
 								<Td minWidth={{ sm: '250px' }} pl='0px'>
 									<Flex
 										align='center'
@@ -188,26 +188,40 @@ function BooksTable({ books }) {
 									</BuenLink>
 								</Td>
 								<Td>
-									<Popover>
-										<PopoverTrigger>
-											<Button></Button>
-										</PopoverTrigger>
-										<Portal>
-											<PopoverContent>
-												<PopoverArrow />
-												<PopoverHeader>Header</PopoverHeader>
-												<PopoverCloseButton />
-												<PopoverBody>
-													<Button
-														colorScheme='blue'
-														onClick={() => onClickhideBook(b.id)}
-													>
-														Button
-													</Button>
-												</PopoverBody>
-											</PopoverContent>
-										</Portal>
-									</Popover>
+									{b.stock < 1 ? (
+										<Text>oculto xd</Text>
+									) : (
+										<Popover>
+											<PopoverTrigger>
+												{/* <Button colorScheme='blue'>Hide</Button> */}
+
+												<Button
+													rightIcon={<FaTrashAlt />}
+													colorScheme='red'
+													variant='outline'
+												>
+													Hide Book
+												</Button>
+											</PopoverTrigger>
+											<Portal>
+												<PopoverContent>
+													<PopoverArrow />
+													<PopoverHeader>
+														Would you like to hide this book?
+													</PopoverHeader>
+													<PopoverCloseButton />
+													<PopoverBody>
+														<Button
+															colorScheme='red'
+															onClick={() => onClickhideBook(b.id)}
+														>
+															Hide Book
+														</Button>
+													</PopoverBody>
+												</PopoverContent>
+											</Portal>
+										</Popover>
+									)}
 									{/* <Button
 										p='0px'
 										bg='transparent'
