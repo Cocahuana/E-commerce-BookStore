@@ -26,7 +26,7 @@ import {
 } from '../../redux/actions';
 
 function Dashboard() {
-	const { adminBooks, loading, allUsers } = useSelector((state) => state);
+	const { adminBooks, allUsers } = useSelector((state) => state);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -48,9 +48,7 @@ function Dashboard() {
 					/>
 				</Center>
 			) : (
-				<Flex
-					direction='column'
-					pt={{ base: '120px', md: '75px', sm: '20px' }}>
+				<Flex direction='column' pt={{ base: '120px', md: '75px', sm: '20px' }}>
 					<Container maxW={'container.xl'}>
 						<Tabs variant='enclosed'>
 							<TabList>

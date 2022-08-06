@@ -146,20 +146,16 @@ export function createBook(input, token) {
 	};
 }
 export function modifyBook(payload) {
-	let { token } = payload;
-	const config = {
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
-	};
+	// let { token } = payload;
+	// const config = {
+	// 	headers: {
+	// 		'Content-Type': 'application/json',
+	// 		Authorization: `Bearer ${token}`,
+	// 	},
+	// };
 	return async function (dispatch) {
 		console.log(payload);
-		var json = await axios.put(
-			`/books/${payload.id}`,
-			payload.input,
-			config
-		);
+		var json = await axios.put(`/books/${payload.id}`, payload.input);
 		return dispatch({
 			type: MODIFY_BOOK,
 			payload: json.data,
@@ -214,7 +210,6 @@ export function toBanUser(id, token) {
 	};
 }
 
-
 //----------------------------------------------USERS-----------------------------------------
 
 export function userLogin(user) {
@@ -265,13 +260,12 @@ export function addGoogleUser(currentUser) {
 
 	return async function (dispatch) {
 		try {
-			console.log(currentUser.photoURL)
+			console.log(currentUser.photoURL);
 			if (currentUser !== null && currentUser.hasOwnProperty('email')) {
 				var addToDb = await axios.post(`/user/google`, {
 					username: currentUser.displayName,
 					email: currentUser.email,
-					profile_picture: await currentUser.photoURL
-					
+					profile_picture: await currentUser.photoURL,
 				});
 
 				/*let login = await axios.post(`/user/login`, {
@@ -281,7 +275,7 @@ export function addGoogleUser(currentUser) {
 				//igual en la db la pw aparece hasheada
 			});
 			console.log('Soy login: ' + Object.keys(currentUser));*/
-			console.log(addToDb.data, 'lo q me trae ruta')
+				console.log(addToDb.data, 'lo q me trae ruta');
 				return dispatch({
 					type: LOGIN_GOOGLE,
 					payload: addToDb.data, //lo q me interesa es la info de current user (obj de firebase)
@@ -515,11 +509,7 @@ export function checkoutCart(userId, token) {
 		},
 	};
 	return async function (dispatch) {
-		let checkoutCart = await axios.put(
-			`/cart/checkout/`,
-			{ userId },
-			config
-		);
+		let checkoutCart = await axios.put(`/cart/checkout/`, { userId }, config);
 		return dispatch({
 			type: CHECKOUT_CART,
 		});
