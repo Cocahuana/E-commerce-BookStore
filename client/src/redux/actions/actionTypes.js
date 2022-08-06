@@ -38,6 +38,7 @@ export const REMOVE_BOOK_CART_DB = 'REMOVE_CART_DB';
 export const CLEAR_CART = 'CLEAR_CART';
 export const CHECKOUT_CART = 'CHECKOUT_CART';
 export const GET_PURCHASED_CART = 'GET_PURCHASED_CART';
+export const GET_ACTIVE_CART = 'GET_ACTIVE_CART';
 
 //------------USER---------------
 export const LOGIN = 'LOGIN';

@@ -1,16 +1,39 @@
-import React, { useEffect } from 'react';
-import { Box, Heading, Text, Button, Center, Spinner } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
+import {
+	Box,
+	Heading,
+	Text,
+	Button,
+	Center,
+	Spinner,
+	Stack,
+} from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { checkoutCart, getCart, getPurchasedCart } from '../../redux/actions';
 
 export default function Success() {
-	const { userId, purchasedCart, loading } = useSelector((state) => state);
+	const { userId, purchasedCart, activeCart } = useSelector((state) => state);
 	const dispatch = useDispatch();
+	const [loader, setLoader] = useState(true);
+
+	console.log('purchasedCart', purchasedCart);
+	console.log('activeCart', activeCart);
 
 	useEffect(() => {
 		dispatch(getPurchasedCart(userId));
 	}, [dispatch]);
+
+	let receiptCart = {};
+	setTimeout(() => {
+		purchasedCart?.map((e) => {
+			if (e.id === activeCart.id) {
+				receiptCart = e;
+			}
+		});
+		setLoader(false);
+		console.log('recieptCart', receiptCart);
+	}, 2000);
 
 	return (
 		<Box textAlign='center' py={10} px={6} pt='24' h='90vh'>
@@ -29,8 +52,8 @@ export default function Success() {
 				Your purchase was succesful!
 			</Text>
 			<Link to='/'>
-				<Text color={'blue'}>
-					{loading ? (
+				<Stack color={'blue'}>
+					{loader ? (
 						<Center>
 							<Spinner
 								thickness='4px'
@@ -41,11 +64,17 @@ export default function Success() {
 							/>
 						</Center>
 					) : (
-						purchasedCart.map((e) => {
-							<h1>e.title</h1>;
-						})
+						setTimeout(() => {
+							receiptCart?.Books?.map((e) => (
+								<Text>
+									<p>{e.title}</p>
+									<p>{e.price}</p>
+								</Text>
+							));
+						}, 2500)
 					)}
-				</Text>
+					{/* <h1>{receiptCart[0].totalPrice}</h1> */}
+				</Stack>
 				<Button
 					colorScheme='red'
 					bgGradient='linear(to-r, red.400, red.500, red.600)'

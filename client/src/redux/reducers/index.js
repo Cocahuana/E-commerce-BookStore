@@ -38,6 +38,7 @@ import {
 	FILTERED_ADMIN_BOOKS,
 	FILTERED_ADMIN_USER,
 	GET_PURCHASED_CART,
+	GET_ACTIVE_CART,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -124,7 +125,8 @@ const InitialState = {
 	allUsersCopy: [],
 	isSignedIn: isSignedInFromLocalStorage,
 	allFavourites: favoritesFromLocalStorage,
-	purchasedCart: {},
+	purchasedCart: [],
+	activeCart: {},
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -436,13 +438,16 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		}
 		case GET_PURCHASED_CART: {
-			let lastPurchasedCart =
-				action.payload[action.payload.length - 1].Books;
-			console.log('Purchased Cart', lastPurchasedCart);
 			return {
 				...state,
-				purchasedCart: lastPurchasedCart,
+				purchasedCart: action.payload,
 				loading: false,
+			};
+		}
+		case GET_ACTIVE_CART: {
+			return {
+				...state,
+				activeCart: action.payload,
 			};
 		}
 		case LOGIN:

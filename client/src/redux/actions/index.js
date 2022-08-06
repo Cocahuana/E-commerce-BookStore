@@ -33,6 +33,7 @@ import {
 	CLEAR_CART,
 	CHECKOUT_CART,
 	GET_PURCHASED_CART,
+	GET_ACTIVE_CART,
 	//-------------
 	LOGIN,
 	SIGN_UP,
@@ -537,10 +538,19 @@ export function checkoutCart(userId, token) {
 
 export function getPurchasedCart(userId) {
 	return async function (dispatch) {
-		let allUserCarts = await axios.get(`/cart/all/`, { userId });
+		let allUserCarts = await axios.get(`/cart/all?userId=${userId}`);
 		return dispatch({
 			type: GET_PURCHASED_CART,
 			payload: allUserCarts.data,
+		});
+	};
+}
+export function getActiveCart(userId) {
+	return async function (dispatch) {
+		let activeCart = await axios.get(`/cart?userId=${userId}`);
+		return dispatch({
+			type: GET_ACTIVE_CART,
+			payload: activeCart.data,
 		});
 	};
 }
