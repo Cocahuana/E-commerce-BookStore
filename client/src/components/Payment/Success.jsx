@@ -16,6 +16,8 @@ export default function Success() {
 	const { userId, purchasedCart, activeCart } = useSelector((state) => state);
 	const dispatch = useDispatch();
 	const [loader, setLoader] = useState(true);
+	let [receipt, setReceipt] = useState({});
+	let receiptCart = [];
 
 	console.log('purchasedCart', purchasedCart);
 	console.log('activeCart', activeCart);
@@ -24,16 +26,16 @@ export default function Success() {
 		dispatch(getPurchasedCart(userId));
 	}, [dispatch]);
 
-	let receiptCart = {};
 	setTimeout(() => {
 		purchasedCart?.map((e) => {
 			if (e.id === activeCart.id) {
-				receiptCart = e;
+				receiptCart.push(e);
+				setReceipt(e);
 			}
 		});
 		setLoader(false);
-		console.log('recieptCart', receiptCart);
 	}, 2000);
+	console.log('recieptCart', receiptCart);
 
 	return (
 		<Box textAlign='center' py={10} px={6} pt='24' h='90vh'>
@@ -64,16 +66,14 @@ export default function Success() {
 							/>
 						</Center>
 					) : (
-						setTimeout(() => {
-							receiptCart?.Books?.map((e) => (
-								<Text>
-									<p>{e.title}</p>
-									<p>{e.price}</p>
-								</Text>
-							));
-						}, 2500)
+						receipt?.Books?.map((e) => (
+							<Text>
+								<p>{e.title}</p>
+								<p>{e.price}</p>
+							</Text>
+						))
 					)}
-					{/* <h1>{receiptCart[0].totalPrice}</h1> */}
+					{<h1>{receipt.totalPrice}</h1>}
 				</Stack>
 				<Button
 					colorScheme='red'
