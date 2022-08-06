@@ -125,8 +125,8 @@ export const Book = (props) => {
 		// No Borrar o se destruye el espacio - tiempo
 		setTimeout(() => {
 			dispatch(addToCart(id, userId));
-			history.push('/pay');
-		}, 100);
+			history.push('/purchase');
+		}, 300);
 	};
 
 	const handleDeleteCart = () => {
