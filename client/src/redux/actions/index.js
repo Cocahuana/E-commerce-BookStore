@@ -32,6 +32,7 @@ import {
 	REMOVE_BOOK_CART_DB,
 	CLEAR_CART,
 	CHECKOUT_CART,
+	GET_PURCHASED_CART,
 	//-------------
 	LOGIN,
 	SIGN_UP,
@@ -523,13 +524,26 @@ export function checkoutCart(userId, token) {
 		},
 	};
 	return async function (dispatch) {
-		let checkoutCart = await axios.put(`/cart/checkout/`, { userId }, config);
+		let checkoutCart = await axios.put(
+			`/cart/checkout/`,
+			{ userId },
+			config
+		);
 		return dispatch({
 			type: CHECKOUT_CART,
 		});
 	};
 }
 
+export function getPurchasedCart(userId) {
+	return async function (dispatch) {
+		let allUserCarts = await axios.get(`/cart/all/`, { userId });
+		return dispatch({
+			type: GET_PURCHASED_CART,
+			payload: allUserCarts.data,
+		});
+	};
+}
 export function upgradeToAdmin(userId, token) {
 	console.log(token);
 	const config = {
