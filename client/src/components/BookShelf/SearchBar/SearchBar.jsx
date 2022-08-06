@@ -51,7 +51,6 @@ function SearchBar({ setCurrentPage }) {
 		dispatch(resetFilters());
 		setCurrentPage(1);
 	}
-	console.log(title);
 
 	return (
 		<Box pb={8} bg={useColorModeValue('whiteAlpha.100', 'gray.500')}>

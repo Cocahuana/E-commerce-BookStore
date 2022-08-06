@@ -55,4 +55,6 @@ export const CREATE_BOOK = 'CREATE_BOOK';
 export const MODIFY_BOOK = 'CREATE_BOOK';
 export const SEARCH_BOOK = 'SEARCH_BOOK';
 export const UPGRADE_USER = 'UPGRADE_USER';
-export const BAN_USER = 'BAN_USER'
+export const BAN_USER = 'BAN_USER';
+export const FILTERED_ADMIN_BOOKS = 'FILTERED_ADMIN_BOOKS';
+export const FILTERED_ADMIN_USER = 'FILTERED_ADMIN_USER';
