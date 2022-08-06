@@ -12,6 +12,8 @@ import {
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
 	RESET_DETAILS,
 	HIDE_BOOKS,
+	FILTERED_ADMIN_BOOKS,
+	FILTERED_ADMIN_USER,
 	//----------
 	FILTER_GENRE,
 	FILTER_PRICE,
@@ -210,6 +212,18 @@ export function toBanUser(id, token) {
 		} catch (err) {
 			console.log(err);
 		}
+	};
+}
+
+export function filteredAdminBooks(input) {
+	return async function (dispatch) {
+		return dispatch({ type: FILTERED_ADMIN_BOOKS, payload: input });
+	};
+}
+
+export function filteredAdminUsers(input) {
+	return async function (dispatch) {
+		return dispatch({ type: FILTERED_ADMIN_USER, payload: input });
 	};
 }
 

@@ -35,7 +35,11 @@ import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 
 import { Search2Icon, SmallAddIcon } from '@chakra-ui/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { hideBook } from '../../redux/actions/index';
+import {
+	hideBook,
+	filteredAdminBooks,
+	getBooks,
+} from '../../redux/actions/index';
 import { Link as BuenLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -43,7 +47,13 @@ function BooksTable({ books }) {
 	const textColor = useColorModeValue('gray.700', 'white');
 	const dispatch = useDispatch();
 
+	const [booksSearch, setBooksSearch] = useState('');
 	const [scroll, setScroll] = useState(books.slice(0, 20));
+	const [libro, setLibro] = useState(books);
+	if (libro[0] !== books[0] || libro.length !== books.length) {
+		setScroll(books.slice(0, 20));
+		setLibro(books);
+	}
 
 	const fetchMoreData = () => {
 		setTimeout(() => {
@@ -57,7 +67,16 @@ function BooksTable({ books }) {
 
 	const onClickhideBook = (e) => {
 		console.log(e);
-		//dispatch(hideBook({ bookId: e }));
+		dispatch(hideBook({ bookId: e }));
+	};
+
+	const handleOnChange = (e) => {
+		e.preventDefault();
+		setBooksSearch(e.target.value);
+	};
+
+	const handleOnClick = () => {
+		dispatch(filteredAdminBooks(booksSearch));
 	};
 
 	return (
@@ -82,9 +101,11 @@ function BooksTable({ books }) {
 				</Box>
 				<Flex>
 					<InputGroup>
-						<Input />
+						<Input onChange={(e) => handleOnChange(e)} />
 						<InputRightElement>
-							<Search2Icon />
+							<Button onClick={() => handleOnClick()}>
+								<Search2Icon />
+							</Button>
 						</InputRightElement>
 					</InputGroup>
 				</Flex>
