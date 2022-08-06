@@ -1,6 +1,7 @@
 const axios = require('axios');
 const db = require('../db');
-const { User, Books, Comment } = require('../db');
+const { User, Books, Comment, Cart } = require('../db');
+const { Op } = require('sequelize');
 
 const banUser = async (req, res, next) => {
 	let { userId } = req.body;
@@ -86,4 +87,22 @@ const deleteComment = async (req, res, next) => {
 	}
 };
 
-module.exports = { banUser, upgradeToAdmin, hideBook, deleteComment };
+const getAllOrders = async (req, res, next) => {
+  try{
+	let allOrders = await Cart.findAll({
+		where:{
+			status:{
+				[Op.not]: "Active"
+			}
+		},
+		include:{
+			model: Books,
+		}
+	})
+	res.json(allOrders)
+  } catch(err){
+	next(err);
+  } 
+};
+
+module.exports = { banUser, upgradeToAdmin, hideBook, deleteComment, getAllOrders };
