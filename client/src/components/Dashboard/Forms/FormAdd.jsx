@@ -21,12 +21,25 @@ import {
 	useToast,
 	RadioGroup,
 	FormErrorMessage,
+	useDisclosure,
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalCloseButton,
+	ModalBody,
+	ModalFooter,
+	HStack,
+	Badge,
+	Image,
 } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import { CloseIcon } from '@chakra-ui/icons';
 import {
 	createBook,
+	getBooks,
 	getBooksByTitleOrAuthor,
 	getDetails,
 	modifyBook,
@@ -58,10 +71,14 @@ function validate(input) {
 
 function FormAdd(props) {
 	const { genres } = useSelector((state) => state);
-	const { details } = useSelector((state) => state);
+	const { details, token } = useSelector((state) => state);
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const toast = useToast();
+	const image = useRef(null);
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
+	console.log('FORM-ADD', token);
 
 	const [errors, setErrors] = useState({});
 
@@ -213,12 +230,10 @@ function FormAdd(props) {
 					isClosable: 'true',
 					duration: '2500',
 				});
-				console.log(input);
-				dispatch(modifyBook({ id, input }));
+				dispatch(modifyBook({ id, input, token }));
 				console.log('modificado :D');
 
-				dispatch(getBooksByTitleOrAuthor(''));
-
+				dispatch(getBooks());
 				history.push('/adminDashboard');
 			} else {
 				toast({
@@ -231,7 +246,7 @@ function FormAdd(props) {
 				console.log('creado :D');
 				console.log(input, 'xd');
 
-				dispatch(getBooksByTitleOrAuthor(''));
+				dispatch(getBooks());
 
 				history.push('/adminDashboard');
 			}
@@ -248,6 +263,31 @@ function FormAdd(props) {
 			});
 		}
 	}
+	console.log(input);
+
+	const chooseimage = () => {
+		image.current.click();
+	};
+
+	const uploadImage = (e) => {
+		const files = e.target.files[0];
+		if (files && ALLOWED_TYPES.includes(files.type)) {
+			const data = new FormData();
+			data.append('file', files);
+			data.append('upload_preset', 'proyect_preset');
+			axios
+				.post('https://api.cloudinary.com/v1_1/lucho/image/upload', data)
+				.then((res) =>
+					setInput({
+						...input,
+						image: res.data.secure_url,
+					})
+				)
+				.catch((err) => console.log(err));
+		} else {
+			onOpen();
+		}
+	};
 
 	return (
 		<Box
@@ -610,78 +650,84 @@ function FormAdd(props) {
 									borderStyle='dashed'
 									rounded='md'
 								>
-									<Stack spacing={1} textAlign='center'>
-										<Input
+									<Button h={'100%'} onClick={chooseimage}>
+										{/* <Input
 											name='image'
 											value={input.image}
 											onChange={handleChange}
 											type={'url'}
-										/>
-										{/* <Icon
-											mx='auto'
-											boxSize={12}
-											color='gray.400'
-											_dark={{
-												color: 'gray.500',
-											}}
-											stroke='currentColor'
-											fill='none'
-											viewBox='0 0 48 48'
-											aria-hidden='true'
-										>
-											<path
-												d='M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02'
-												strokeWidth='2'
-												strokeLinecap='round'
-												strokeLinejoin='round'
-											/>
-										</Icon>
-										<Flex
-											fontSize='sm'
-											color='gray.600'
-											_dark={{
-												color: 'gray.400',
-											}}
-											alignItems='baseline'
-										>
-											<chakra.label
-												htmlFor='file-upload'
-												cursor='pointer'
-												rounded='md'
-												fontSize='md'
-												color='brand.600'
-												_dark={{
-													color: 'brand.200',
-												}}
-												pos='relative'
-												_hover={{
-													color: 'brand.400',
-													_dark: {
-														color: 'brand.300',
-													},
-												}}
-											>
-												<span>Upload a file</span>
-												<VisuallyHidden>
-													<input
-														id='file-upload'
-														name='file-upload'
-														type='file'
+										/> */}
+										{
+											<Stack spacing={1} textAlign='center'>
+												<Icon
+													mx='auto'
+													boxSize={12}
+													color='gray.400'
+													_dark={{
+														color: 'gray.500',
+													}}
+													stroke='currentColor'
+													fill='none'
+													viewBox='0 0 48 48'
+													aria-hidden='true'
+												>
+													<path
+														d='M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02'
+														strokeWidth='2'
+														strokeLinecap='round'
+														strokeLinejoin='round'
 													/>
-												</VisuallyHidden>
-											</chakra.label>
-											<Text pl={1}>or drag and drop</Text>
-										</Flex>
-										<Text
-											fontSize='xs'
-											color='gray.500'
-											_dark={{
-												color: 'gray.50',
-											}}
-										>
-											PNG, JPG, GIF up to 10MB
-										</Text> */}
-									</Stack>
+												</Icon>
+												<Image w={'xs'} src={input.image} />
+												<Flex
+													fontSize='sm'
+													color='gray.600'
+													_dark={{
+														color: 'gray.400',
+													}}
+													alignItems='baseline'
+												>
+													<chakra.label
+														htmlFor='file-upload'
+														cursor='pointer'
+														rounded='md'
+														fontSize='md'
+														color='brand.pepe'
+														_dark={{
+															color: 'brand.200',
+														}}
+														pos='relative'
+														_hover={{
+															color: 'brand.400',
+															_dark: {
+																color: 'brand.300',
+															},
+														}}
+													>
+														<span>Upload a file</span>
+														<VisuallyHidden>
+															<input
+																name='image'
+																ref={image}
+																onChange={uploadImage}
+																type='file'
+															/>
+														</VisuallyHidden>
+													</chakra.label>
+													<Text pl={1}>or drag and drop</Text>
+												</Flex>
+												<Text
+													fontSize='xs'
+													color='gray.500'
+													_dark={{
+														color: 'gray.50',
+													}}
+												>
+													PNG, JPG, GIF up to 10MB
+												</Text>
+											</Stack>
+										}
+									</Button>
 								</Flex>
 							</FormControl>
 						</Stack>
@@ -699,20 +745,54 @@ function FormAdd(props) {
 							textAlign='right'
 							pb='16'
 						>
-							<Button
-								type='submit'
-								colorScheme='blue'
-								_focus={{
-									shadow: '',
-								}}
-								fontWeight='md'
-							>
-								Create Book
-							</Button>
+							{id ? (
+								<Button
+									type='submit'
+									colorScheme='green'
+									_focus={{
+										shadow: '',
+									}}
+									fontWeight='md'
+								>
+									Modify Book
+								</Button>
+							) : (
+								<Button
+									type='submit'
+									colorScheme='blue'
+									_focus={{
+										shadow: '',
+									}}
+									fontWeight='md'
+								>
+									Create Book
+								</Button>
+							)}
 						</Box>
 					</chakra.form>
 				</Box>
 			</Container>
+			<Modal isOpen={isOpen} onClose={onClose}>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalHeader>Something went wrong</ModalHeader>
+					<ModalBody>
+						<Text>File not supported!</Text>
+						<HStack mt={1}>
+							<Text color='brand.cadet' fontSize='sm'>
+								Supported types:
+							</Text>
+							<Badge colorScheme='green'>PNG</Badge>
+							<Badge colorScheme='green'>JPG</Badge>
+							<Badge colorScheme='green'>JPEG</Badge>
+						</HStack>
+					</ModalBody>
+
+					<ModalFooter>
+						<Button onClick={onClose}>Close</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
 		</Box>
 	);
 }

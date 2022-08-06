@@ -204,7 +204,6 @@ const passwordRecovery = async (req, res, next) => {
                 email: email,
             },
         });
-
         if (!user) return res.status(400).send('User not found');
         
         await transporter.sendMail({

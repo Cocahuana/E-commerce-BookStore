@@ -16,6 +16,7 @@ import {
 	ModalBody,
 	ModalFooter,
 	useDisclosure,
+	Text,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUsers, updateUser } from '../../redux/actions';

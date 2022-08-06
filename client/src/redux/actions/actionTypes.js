@@ -36,6 +36,7 @@ export const DEL_ALL_CART = 'DEL_ALL_CART';
 export const GET_CART = 'GET_CART';
 export const REMOVE_BOOK_CART_DB = 'REMOVE_CART_DB';
 export const CLEAR_CART = 'CLEAR_CART';
+export const CHECKOUT_CART = 'CHECKOUT_CART';
 
 //------------USER---------------
 export const LOGIN = 'LOGIN';
@@ -46,9 +47,14 @@ export const USER_DEL_FAVORITES = 'USER_DEL_FAVORITES';
 export const USER_ADD_FAVSTATE = 'USER_ADD_FAVSTATE';
 export const LOGIN_GOOGLE = 'LOGIN_GOOGLE';
 export const UPDATE_USER = 'UPDATE_USER';
+export const FORGOT_PASSWORD = "FORGOT_PASSWORD"
 
 //------------ADMIN---------------
 export const HIDE_BOOKS = 'HIDE_BOOKS';
 export const CREATE_BOOK = 'CREATE_BOOK';
 export const MODIFY_BOOK = 'CREATE_BOOK';
 export const SEARCH_BOOK = 'SEARCH_BOOK';
+export const UPGRADE_USER = 'UPGRADE_USER';
+export const BAN_USER = 'BAN_USER';
+export const FILTERED_ADMIN_BOOKS = 'FILTERED_ADMIN_BOOKS';
+export const FILTERED_ADMIN_USER = 'FILTERED_ADMIN_USER';

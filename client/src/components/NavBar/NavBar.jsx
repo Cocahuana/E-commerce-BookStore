@@ -63,6 +63,7 @@ export default function NavBar() {
 			width='100%'
 			backdropFilter={'auto'}
 			backdropBlur='8px'
+			zIndex={3}
 		>
 			<Flex
 				bg={useColorModeValue('whiteAlpha.800', 'gray.700')}
@@ -102,6 +103,7 @@ export default function NavBar() {
 							color={useColorModeValue('gray.800', 'white')}
 						>
 							<Highlight
+								key='1'
 								query={'Book'}
 								styles={{
 									px: '1',
@@ -245,6 +247,8 @@ export default function NavBar() {
 						{/* <Switch size={'lg'} onChange={toggleColorMode} /> */}
 					</Center>
 
+					<FavouriteList widt={'10%'} dis={'none'} />
+
 					<Drawer />
 
 					<Menu>
@@ -265,8 +269,9 @@ export default function NavBar() {
 									cursor: 'default',
 								}}
 							>
-								<FavouriteList />
+								<FavouriteList widt={'100%'} />
 							</MenuItem>
+
 							<MenuItem
 								_hover={{
 									bg: useColorModeValue('white', 'none'),
@@ -279,6 +284,11 @@ export default function NavBar() {
 									</Button>
 								</BuenLink>
 							</MenuItem>
+
+							<MenuItem w={'100%'} _hover={{ bg: 'none', cursor: 'default' }}>
+								<Drawer widt={'215px'} />
+							</MenuItem>
+
 							<MenuDivider />
 							<MenuItem _hover={{ bg: 'none', cursor: 'default' }}>
 								<Signout wid='100%' />

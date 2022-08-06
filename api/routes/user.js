@@ -23,7 +23,7 @@ router.post('/register', registerUser);
 
 router.post('/login', userLogin);
 
-router.get('/search/:username', searchUserByUsername);
+// router.get('/search/:username', searchUserByUsername); Se comenta porque colisiona con /search/:id
 
 router.get('/search/:id', searchUserById);
 

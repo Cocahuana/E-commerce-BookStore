@@ -21,7 +21,7 @@ import { TiShoppingCart } from 'react-icons/ti';
 import SummaryPurchase from './SummaryPurchase';
 import { Link as BuenLink } from 'react-router-dom';
 
-const CartDrawer = () => {
+const CartDrawer = (props) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const dispatch = useDispatch();
 	const { userId, cart } = useSelector((state) => state);
@@ -39,13 +39,15 @@ const CartDrawer = () => {
 	return (
 		<>
 			<Button
+				w={props.widt}
 				onClick={() => handleClick()}
 				key={'sm'}
 				m={4}
 				leftIcon={
-					<TiShoppingCart color={useColorModeValue('#64c2e4', '#64c2e4')} />
-				}
-			>
+					<TiShoppingCart
+						color={useColorModeValue('#64c2e4', '#64c2e4')}
+					/>
+				}>
 				Cart
 				<Text
 					fontSize='14px'
@@ -99,10 +101,12 @@ const CartDrawer = () => {
 								_hover={{
 									transform: 'translateY(2px)',
 									boxShadow: 'lg',
-									bg: useColorModeValue('gray.400', 'gray.600'),
+									bg: useColorModeValue(
+										'gray.400',
+										'gray.600'
+									),
 								}}
-								onClick={() => handleDeleteCart()}
-							>
+								onClick={() => handleDeleteCart()}>
 								Empty Cart
 							</Button>
 						</Box>
