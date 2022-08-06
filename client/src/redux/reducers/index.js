@@ -462,7 +462,10 @@ const rootReducer = (state = InitialState, action) => {
 			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('userName', action.payload.username);
 			localStorage.setItem('userEmail', action.payload.email);
-			localStorage.setItem('userProfileImage', action.payload.photoURL);
+			localStorage.setItem(
+				'userProfileImage',
+				action.payload.profile_picture
+			);
 			return {
 				...state,
 				token: action.payload.token,

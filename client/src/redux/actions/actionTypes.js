@@ -47,6 +47,7 @@ export const USER_DEL_FAVORITES = 'USER_DEL_FAVORITES';
 export const USER_ADD_FAVSTATE = 'USER_ADD_FAVSTATE';
 export const LOGIN_GOOGLE = 'LOGIN_GOOGLE';
 export const UPDATE_USER = 'UPDATE_USER';
+export const FORGOT_PASSWORD = "FORGOT_PASSWORD"
 
 //------------ADMIN---------------
 export const HIDE_BOOKS = 'HIDE_BOOKS';
