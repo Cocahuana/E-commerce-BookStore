@@ -26,6 +26,7 @@ import {
 	ModalBody,
 	ModalFooter,
 	useDisclosure,
+	useToast,
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -43,6 +44,7 @@ function SignIn() {
 	// const handleClick = () => setShow(!show);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [email, setEmail] = useState({ email: '' });
+	const toast = useToast();
 
 	const [user, setLoginUser] = useState({
 		email: '',
@@ -74,10 +76,12 @@ function SignIn() {
 	const handleSignIn = (e) => {
 		e.preventDefault();
 		if (user.email === '' || user.password === '') {
-			Swal.fire({
-				icon: 'error',
-				title: 'Oops...',
-				text: 'Login inputs can not be empty, sorry!',
+			toast({
+				title: 'Login inputs can not be empty, sorry!',
+				status: 'warning',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'bottom',
 			});
 		} else {
 			// Compueba si la autentication es correcta o no
@@ -91,28 +95,13 @@ function SignIn() {
 		try {
 			await googleSignIn();
 		} catch (error) {
-			console.log(error);
-			/*const err = error;
-			if (err.response.status === 404) {
-				//Status es el tipo de error y data el send/json del error en el back
-				// console.log('status: ' + err.response.status);
-				// console.log('data: ' + err.response.data);
-				Swal.fire({
-					icon: 'error',
-					title: `${err.response.status}`,
-					text: `${err.response.data}`,
-				});
-			} else if (err.response.status === 400) {
-				//Status es el tipo de error y data el send/json del error en el back
-				// console.log('status: ' + err.response.status);
-				// console.log('data: ' + err.response.data);
-				Swal.fire({
-					icon: 'error',
-					title: `${err.response.status}`,
-					text: `${err.response.data}`,
-				});
-			}
-		}*/
+			toast({
+				title: 'Sorry, something went wrong. Please Try again',
+				status: 'Error',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'bottom',
+			});
 		}
 	};
 
@@ -125,21 +114,23 @@ function SignIn() {
 	const handlePass = (e) => {
 		e.preventDefault();
 		if (email.email === '') {
-			Swal.fire({
-				position: 'top',
-				icon: 'error',
-				title: 'Oops...',
-				text: 'Email input can not be empty, sorry!',
+			toast({
+				title: 'Email input can not be empty, sorry!',
+				status: 'Warning',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'bottom',
 			});
 		} else {
+			toast({
+				title: 'Email was sent succesfully!',
+				status: 'success',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'bottom',
+			});
 			dispatch(forgotPass(email));
 			onClose();
-			Swal.fire({
-				position: 'top',
-				icon: 'success',
-				title: 'Good job',
-				text: 'Email was sent succesfully!',
-			});
 		}
 	};
 
