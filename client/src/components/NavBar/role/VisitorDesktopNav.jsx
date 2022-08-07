@@ -48,35 +48,19 @@ import BtnDarkMode from '../../buttons/BtnDarkMode';
 import BtnLandingPage from '../../buttons/BtnLandingPage';
 
 const VisitorDesktopNav = () => {
-	const { colorMode, toggleColorMode } = useColorMode();
-	const linkColor = useColorModeValue('gray.600', 'gray.200');
-	const linkHoverColor = useColorModeValue('gray.800', 'white');
-	const popoverContentBgColor = useColorModeValue('white', 'gray.800');
-
 	return (
-		<Stack
-			flex={{ base: 1, md: 0 }}
-			justify={'flex-end'}
-			direction={'row'}
-			spacing={6}
-			bg='red'>
-			<BtnLandingPage bg='green' />
-			<BuenLink bg='blue' to='/us'>
-				About us
-			</BuenLink>
-			<BuenLink bg='pink' to='/books'>
-				Books
-			</BuenLink>
-			<Center bg='orange.900'>
-				<BtnDarkMode bg='orange.100' />
-			</Center>
-
-			<Drawer bg='violet' />
-			<HStack bg='black'>
+		<HStack w='100%' h={'100%'} justify='space-around' fontSize={'20px'}>
+			<HStack spacing='50px' justify='flex-start' h='100%' p='10px'>
+				<BtnLandingPage bg='green' />
+				<BuenLink to='/us'>About</BuenLink>
+				<BuenLink to='/books'>Books</BuenLink>
+			</HStack>
+			<HStack justify={'flex-end'} spacing='50px' h='100%' p='10px'>
 				<BtnSignIn />
 				<BtnSignUp />
+				<BtnDarkMode />
 			</HStack>
-		</Stack>
+		</HStack>
 	);
 };
 
