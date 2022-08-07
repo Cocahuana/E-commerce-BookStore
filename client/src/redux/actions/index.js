@@ -295,13 +295,12 @@ export function addGoogleUser ( currentUser ) {
 	return async function ( dispatch ) {
 		try
 		{
-			console.log( currentUser.photoURL );
 			if ( currentUser !== null && currentUser.hasOwnProperty( 'email' ) )
 			{
 				var addToDb = await axios.post( `/user/google`, {
 					username: currentUser.displayName,
 					email: currentUser.email,
-					profile_picture: await currentUser.photoURL,
+					profile_picture: currentUser.photoURL,
 				} );
 
 				/*let login = await axios.post(`/user/login`, {
@@ -314,7 +313,7 @@ export function addGoogleUser ( currentUser ) {
 				console.log( addToDb.data, 'lo q me trae ruta' );
 				return dispatch( {
 					type: LOGIN_GOOGLE,
-					payload: addToDb.data, //lo q me interesa es la info de current user (obj de firebase)
+					payload: addToDb.data
 				} );
 			}
 		} catch ( error )
