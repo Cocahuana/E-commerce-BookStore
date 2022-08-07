@@ -6,6 +6,7 @@ import FavouriteList from '../../UserProfile/FavouriteList';
 import BtnDarkMode from '../../buttons/BtnDarkMode';
 import BtnLandingPage from '../../buttons/BtnLandingPage';
 import UserProfileDropdown from '../../UserProfile/UserProfileDropdown';
+import CartDrawer from '../../Cart/Drawer';
 
 const UserDesktopNav = () => {
 	return (
@@ -17,8 +18,8 @@ const UserDesktopNav = () => {
 			</HStack>
 			<HStack justify={'flex-end'} spacing='50px' h='100%' p='10px'>
 				<FavouriteList widt={'10%'} dis={'none'} />
-				<Drawer />
 				<BtnDarkMode />
+				<CartDrawer />
 				<UserProfileDropdown />
 			</HStack>
 		</HStack>

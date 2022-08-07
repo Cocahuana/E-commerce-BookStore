@@ -10,6 +10,8 @@ import { HamburgerIcon } from '@chakra-ui/icons';
 import { Link as BuenLink } from 'react-router-dom';
 import Signout from '../../SignOut/Signout';
 import BtnDarkMode from '../../buttons/BtnDarkMode';
+import CartDrawer from '../../Cart/Drawer';
+import FavouriteList from '../../UserProfile/FavouriteList';
 
 const UserMobileNav = () => {
 	return (
@@ -22,7 +24,8 @@ const UserMobileNav = () => {
 			/>
 			<MenuList>
 				<MenuItem>
-					<BtnDarkMode />
+					<BtnDarkMode /> <FavouriteList widt={'10%'} dis={'none'} />{' '}
+					<CartDrawer />
 				</MenuItem>
 				<MenuItem>
 					<BuenLink to='/us'>About us</BuenLink>

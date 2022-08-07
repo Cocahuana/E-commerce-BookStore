@@ -18,8 +18,6 @@ const AdminDesktopNav = () => {
 				<BuenLink to='/books'>Books</BuenLink>
 			</HStack>
 			<HStack justify={'flex-end'} spacing='50px' h='100%' p='10px'>
-				<FavouriteList widt={'10%'} dis={'none'} />
-				<Drawer />
 				<BtnDarkMode />
 				<BtnAdminDashboard />
 				<Signout />
