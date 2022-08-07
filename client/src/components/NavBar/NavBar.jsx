@@ -44,6 +44,7 @@ import { checkStates } from '../../redux/actions';
 import VisitorDesktopNav from './role/VisitorDesktopNav';
 import VisitorMobileNav from './role/VisitorMobileNav';
 import BtnLandingPage from '../buttons/BtnLandingPage';
+import UserDesktopNav from './role/UserDesktopNav';
 
 export default function NavBar() {
 	const dispatch = useDispatch();
@@ -113,7 +114,11 @@ export default function NavBar() {
 					justifyContent='center'
 					w={'70%'}
 					h={'100%'}>
-					<VisitorDesktopNav />
+					{userRole === 'User' ? (
+						<UserDesktopNav />
+					) : (
+						<VisitorDesktopNav />
+					)}
 				</Flex>
 			</Flex>
 		</Box>
