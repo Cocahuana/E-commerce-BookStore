@@ -37,6 +37,8 @@ import {
 	BAN_USER,
 	FILTERED_ADMIN_BOOKS,
 	FILTERED_ADMIN_USER,
+	GET_PURCHASED_CART,
+	GET_ACTIVE_CART,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -123,6 +125,8 @@ const InitialState = {
 	allUsersCopy: [],
 	isSignedIn: isSignedInFromLocalStorage,
 	allFavourites: favoritesFromLocalStorage,
+	purchasedCart: [],
+	activeCart: {},
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -433,6 +437,19 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 			};
 		}
+		case GET_PURCHASED_CART: {
+			return {
+				...state,
+				purchasedCart: action.payload,
+				loading: false,
+			};
+		}
+		case GET_ACTIVE_CART: {
+			return {
+				...state,
+				activeCart: action.payload,
+			};
+		}
 		case LOGIN:
 			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
 
@@ -532,6 +549,10 @@ const rootReducer = (state = InitialState, action) => {
 				allFavourites: favoriteBooks,
 			};
 		case USER_ADD_FAVSTATE:
+			let existsFav = state.allFavourites.filter(
+				(el) => el.id === action.payload
+			);
+			if (existsFav.length === 1) return state;
 			let favBook = state.booksCopy.find((p) => p.id === action.payload);
 			return {
 				...state,
