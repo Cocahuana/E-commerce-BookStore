@@ -34,7 +34,7 @@ export default function Success() {
 			}
 		});
 		setLoader(false);
-	}, 2000);
+	}, 1000);
 	console.log('recieptCart', receiptCart);
 
 	return (
