@@ -1,44 +1,13 @@
 import React, { useEffect } from 'react';
-import { BsSun, BsMoonStarsFill } from 'react-icons/bs';
 import {
 	Box,
 	Flex,
-	Text,
 	IconButton,
-	Button,
-	Stack,
-	Collapse,
-	Switch,
-	Icon,
-	Link,
-	Popover,
-	PopoverTrigger,
-	PopoverContent,
 	useColorModeValue,
-	useBreakpointValue,
 	useDisclosure,
 	useColorMode,
-	Center,
 	HStack,
-	Menu,
-	MenuButton,
-	Avatar,
-	MenuList,
-	MenuItem,
-	MenuDivider,
-	Highlight,
 } from '@chakra-ui/react';
-import {
-	HamburgerIcon,
-	CloseIcon,
-	ChevronDownIcon,
-	ChevronRightIcon,
-} from '@chakra-ui/icons';
-import { Link as BuenLink } from 'react-router-dom';
-import Drawer from '../Cart/Drawer';
-import Signout from '../SignOut/Signout';
-import ProfileImage from '../UserProfile/ProfileImage';
-import FavouriteList from '../UserProfile/FavouriteList';
 import { useSelector, useDispatch } from 'react-redux';
 import { checkStates } from '../../redux/actions';
 import VisitorDesktopNav from './role/VisitorDesktopNav';
@@ -48,6 +17,7 @@ import UserDesktopNav from './role/UserDesktopNav';
 import UserMobileNav from './role/UserMobileNav';
 import AdminDesktopNav from './role/AdminDesktopNav';
 import AdminMobileNav from './role/AdminMobileNav';
+import UserProfileDropdown from '../UserProfile/UserProfileDropdown';
 
 export default function NavBar() {
 	const dispatch = useDispatch();
@@ -118,6 +88,7 @@ export default function NavBar() {
 						<HStack h='100%' w='60%' justify={'center'}>
 							<BtnLandingPage />
 						</HStack>
+						{userRole === 'User' ? <UserProfileDropdown /> : ''}
 					</HStack>
 				</Flex>
 

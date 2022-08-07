@@ -42,7 +42,6 @@ import FavouriteList from '../../UserProfile/FavouriteList';
 import { useSelector, useDispatch } from 'react-redux';
 import { checkStates } from '../../../redux/actions';
 import BtnDarkMode from '../../buttons/BtnDarkMode';
-import signout from '../../SignOut/Signout';
 import BtnAdminDashboard from '../../buttons/BtnAdminDashboard';
 
 const AdminMobileNav = () => {
