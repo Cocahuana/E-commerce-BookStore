@@ -12,6 +12,8 @@ import {
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
 	RESET_DETAILS,
 	HIDE_BOOKS,
+	FILTERED_ADMIN_BOOKS,
+	FILTERED_ADMIN_USER,
 	//----------
 	FILTER_GENRE,
 	FILTER_PRICE,
@@ -29,11 +31,15 @@ import {
 	GET_CART,
 	REMOVE_BOOK_CART_DB,
 	CLEAR_CART,
+	CHECKOUT_CART,
+	GET_PURCHASED_CART,
+	GET_ACTIVE_CART,
 	//-------------
 	LOGIN,
 	SIGN_UP,
 	SIGN_OUT,
 	LOGIN_GOOGLE,
+	FORGOT_PASSWORD,
 	//-------------
 	CHECK_STATES,
 	//-------------
@@ -46,188 +52,257 @@ import {
 	UPDATE_USER,
 	USER_ADD_FAVSTATE,
 	SEARCH_BOOK,
+	UPGRADE_USER,
+	BAN_USER,
 } from './actionTypes';
 
-export const getDetails = (id) => {
-	return async function (dispatch) {
-		try {
-			let det = await axios.get(`/books/book/${id}`);
-			return dispatch({
+export const getDetails = ( id ) => {
+	return async function ( dispatch ) {
+		try
+		{
+			let det = await axios.get( `/books/book/${ id }` );
+			return dispatch( {
 				type: GET_DETAILS,
 				payload: det.data,
-			});
-		} catch (error) {
-			alert(error);
+			} );
+		} catch ( error )
+		{
+			alert( error );
 		}
 	};
 };
 
 export const getBooks = () => {
-	return async function (dispatch) {
-		try {
-			dispatch({
+	return async function ( dispatch ) {
+		try
+		{
+			dispatch( {
 				type: LOADING,
-			});
-			let result = await axios.get('/books');
-			return dispatch({
+			} );
+			let result = await axios.get( '/books' );
+			return dispatch( {
 				type: GET_BOOKS,
 				payload: result.data,
-			});
-		} catch (error) {
-			alert(error);
+			} );
+		} catch ( error )
+		{
+			alert( error );
 		}
 	};
 };
 export const getGenres = () => {
-	return async function (dispatch) {
-		try {
-			let result = await axios.get('/genres');
-			return dispatch({
+	return async function ( dispatch ) {
+		try
+		{
+			let result = await axios.get( '/genres' );
+			return dispatch( {
 				type: GET_GENRES,
 				payload: result.data,
-			});
-		} catch (error) {
-			alert(error);
+			} );
+		} catch ( error )
+		{
+			alert( error );
 		}
 	};
 };
 
-export function getBooksByTitleOrAuthor(titleOrAuthor) {
-	return async function (dispatch) {
-		try {
-			var json = await axios.get(`/books/search?input=${titleOrAuthor}`);
-			return dispatch({
+export function getBooksByTitleOrAuthor ( titleOrAuthor ) {
+	return async function ( dispatch ) {
+		try
+		{
+			var json = await axios.get( `/books/search?input=${ titleOrAuthor }` );
+			return dispatch( {
 				type: GET_BOOKS_BY_TITLE_OR_AUTHOR,
 				//json.data devuelve lo que nos da la ruta de arriba, ya filtrado por nombre
 				payload: { data: json.data, query: titleOrAuthor },
-			});
-		} catch (error) {
-			console.log(error);
+			} );
+		} catch ( error )
+		{
+			console.log( error );
 		}
 	};
 }
 
-export function resetDetails() {
+export function resetDetails () {
 	return {
 		type: RESET_DETAILS,
 	};
 }
 
-export function postComment(comment) {
-	return async function (dispatch) {
-		try {
-			await axios.post(`/books/comment`, comment);
-			return dispatch({ type: POST_COMMENT, payload: comment });
-		} catch (error) {
-			console.log(error);
+export function postComment ( comment ) {
+	return async function ( dispatch ) {
+		try
+		{
+			await axios.post( `/books/comment`, comment );
+			return dispatch( { type: POST_COMMENT, payload: comment } );
+		} catch ( error )
+		{
+			console.log( error );
 		}
 	};
 }
 //----------------------------------------------ADMIN-----------------------------------------
 
-export const hideBook = () => {
-	return async function (dispatch) {
-		try {
-			let result = await axios.put('/hide');
-			return dispatch({
-				type: HIDE_BOOKS,
-				payload: result.data,
-			});
-		} catch (error) {
-			alert(error);
-		}
+export function createBook ( input, token ) {
+	console.log( 'CREATE-BOOK-ACTION', token );
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${ token }`,
+		},
 	};
-};
-export function createBook(payload) {
-	return async function (dispatch) {
-		var json = await axios.post('/books', payload);
-		return dispatch({
+	return async function ( dispatch ) {
+		var json = await axios.post( '/books', input, config );
+		return dispatch( {
 			type: CREATE_BOOK,
 			payload: json.data,
-		});
+		} );
 	};
 }
-export function modifyBook(payload) {
-	return async function (dispatch) {
-		console.log(payload);
-		var json = await axios.put(`/books/${payload.id}`, payload.input);
-		return dispatch({
+export function modifyBook ( payload ) {
+	// let { token } = payload;
+	// const config = {
+	// 	headers: {
+	// 		'Content-Type': 'application/json',
+	// 		Authorization: `Bearer ${token}`,
+	// 	},
+	// };
+	return async function ( dispatch ) {
+		console.log( payload );
+		var json = await axios.put( `/books/${ payload.id }`, payload.input );
+		return dispatch( {
 			type: MODIFY_BOOK,
 			payload: json.data,
-		});
+		} );
 	};
 }
-export function searchBooksByAdmin(titleOrAuthor) {
-	return async function (dispatch) {
-		try {
-			var json = await axios.get(`/books/search?input=${titleOrAuthor}`);
-			return dispatch({
+export function searchBooksByAdmin ( titleOrAuthor ) {
+	return async function ( dispatch ) {
+		try
+		{
+			var json = await axios.get( `/books/search?input=${ titleOrAuthor }` );
+			return dispatch( {
 				type: SEARCH_BOOK,
 				//json.data devuelve lo que nos da la ruta de arriba, ya filtrado por nombre
 				payload: { data: json.data, query: titleOrAuthor },
-			});
-		} catch (error) {
-			console.log(error);
+			} );
+		} catch ( error )
+		{
+			console.log( error );
 		}
+	};
+}
+export function hideBook ( payload ) {
+	return async function ( dispatch ) {
+		console.log( payload );
+		var json = await axios.put( 'admin/hide', payload );
+		return dispatch( {
+			type: HIDE_BOOKS,
+			payload: json.data,
+		} );
+	};
+}
+
+export function toBanUser ( id, token ) {
+	return async function ( dispatch ) {
+		console.log( token );
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+
+				Authorization: `Bearer ${ token }`,
+			},
+		};
+		try
+		{
+			var userBan = await axios.put( `/admin/ban`, { userId: id }, config );
+			var users = await axios.get( `/user/all` );
+			return dispatch( {
+				type: GET_USERS,
+				payload: users.data,
+			} );
+		} catch ( err )
+		{
+			console.log( err );
+		}
+	};
+}
+
+export function filteredAdminBooks ( input ) {
+	return async function ( dispatch ) {
+		return dispatch( { type: FILTERED_ADMIN_BOOKS, payload: input } );
+	};
+}
+
+export function filteredAdminUsers ( input ) {
+	return async function ( dispatch ) {
+		return dispatch( { type: FILTERED_ADMIN_USER, payload: input } );
 	};
 }
 
 //----------------------------------------------USERS-----------------------------------------
 
-export function userLogin(user) {
-	return async function (dispatch) {
-		try {
-			let resp = await axios.post(`/user/login`, {
+export function userLogin ( user ) {
+	return async function ( dispatch ) {
+		try
+		{
+			let resp = await axios.post( `/user/login`, {
 				username: user.email,
 				password: user.password,
-			});
+			} );
 			Swal.fire(
 				'Good job!',
 				'You have been signed in successfully!',
 				'success'
 			);
-			return dispatch({
+			return dispatch( {
 				type: LOGIN,
 				payload: resp.data,
-			});
-		} catch (error) {
+			} );
+		} catch ( error )
+		{
 			// Te lanza un error cuando la autenticacion falló o no es correcta
 			// Permaneces en la pagina del sign in
 			const err = error;
-			if (err.response.status === 404) {
+			if ( err.response.status === 404 )
+			{
 				//Status es el tipo de error y data el send/json del error en el back
 				// console.log('status: ' + err.response.status);
 				// console.log('data: ' + err.response.data);
-				Swal.fire({
+				Swal.fire( {
 					icon: 'error',
-					title: `${err.response.status}`,
-					text: `${err.response.data}`,
-				});
-			} else if (err.response.status === 400) {
+					title: `${ err.response.status }`,
+					text: `${ err.response.data }`,
+				} );
+			} else if ( err.response.status === 400 )
+			{
 				//Status es el tipo de error y data el send/json del error en el back
 				// console.log('status: ' + err.response.status);
 				// console.log('data: ' + err.response.data);
-				Swal.fire({
+				Swal.fire( {
 					icon: 'error',
-					title: `${err.response.status}`,
-					text: `${err.response.data}`,
-				});
+					title: `${ err.response.status }`,
+					text: `${ err.response.data }`,
+				} );
 			}
 		}
 	};
 }
 
-export function addGoogleUser(currentUser) {
+export function addGoogleUser ( currentUser ) {
 	//con esta action me creo un usuario en la db y me loggea al mismo tiempo (soy crack lo se)
 
-	return async function (dispatch) {
-		try {
-			if (currentUser !== null && currentUser.hasOwnProperty('email')) {
-				var addToDb = await axios.post(`/user/google`, {
+	return async function ( dispatch ) {
+		try
+		{
+			console.log( currentUser.photoURL );
+			if ( currentUser !== null && currentUser.hasOwnProperty( 'email' ) )
+			{
+				var addToDb = await axios.post( `/user/google`, {
 					username: currentUser.displayName,
 					email: currentUser.email,
-					//password: currentUser.uid,
-				});
+					profile_picture: await currentUser.photoURL,
+				} );
 
 				/*let login = await axios.post(`/user/login`, {
 				username: currentUser.displayName,
@@ -236,13 +311,15 @@ export function addGoogleUser(currentUser) {
 				//igual en la db la pw aparece hasheada
 			});
 			console.log('Soy login: ' + Object.keys(currentUser));*/
-				return dispatch({
+				console.log( addToDb.data, 'lo q me trae ruta' );
+				return dispatch( {
 					type: LOGIN_GOOGLE,
 					payload: addToDb.data, //lo q me interesa es la info de current user (obj de firebase)
-				});
+				} );
 			}
-		} catch (error) {
-			console.log(error);
+		} catch ( error )
+		{
+			console.log( error );
 			/*(err.response.status === 404) {
 				//Status es el tipo de error y data el send/json del error en el back
 				// console.log('status: ' + err.response.status);
@@ -266,183 +343,259 @@ export function addGoogleUser(currentUser) {
 	};
 }
 
-export function updateUser(propsToUpdate) {
-	return async function (dispatch) {
-		var updatedUser = await axios.put(`/user/update`, propsToUpdate);
-		return dispatch({
+export function updateUser ( propsToUpdate ) {
+	return async function ( dispatch ) {
+		var updatedUser = await axios.put( `/user/update`, propsToUpdate );
+		return dispatch( {
 			type: UPDATE_USER,
 			payload: updatedUser.data,
-		});
+		} );
 	};
 }
 
 // Aca checkeamos si el estado del token está o no actualizado
-export function checkStates() {
-	return async function (dispatch) {
-		return dispatch({
+export function checkStates () {
+	return async function ( dispatch ) {
+		return dispatch( {
 			type: CHECK_STATES,
-		});
+		} );
 	};
 }
 
-export function userSignUp(user) {
-	return async function (dispatch) {
-		var result = await axios.post(`/user/register`, {
+export function userSignUp ( user ) {
+	return async function ( dispatch ) {
+		var result = await axios.post( `/user/register`, {
 			username: user.username,
 			email: user.email,
 			password: user.password,
-		});
+		} );
 
-		return dispatch({
+		return dispatch( {
 			type: SIGN_UP,
 			payload: result.data.username,
-		});
+		} );
 	};
 }
 
-export function userSignOut() {
+export function userSignOut () {
 	return { type: SIGN_OUT };
 }
 
-export function getAllUsers() {
-	return async function (dispatch) {
-		var users = await axios.get(`/user/all`);
-		return dispatch({
+export function getAllUsers () {
+	return async function ( dispatch ) {
+		var users = await axios.get( `/user/all` );
+		return dispatch( {
 			type: GET_USERS,
 			payload: users.data,
-		});
+		} );
 	};
 }
-export function userAddFavorite(userId, bookId) {
+export function userAddFavorite ( userId, bookId ) {
 	return async function () {
-		return await axios.put('/user/favorites', {
+		return await axios.put( '/user/favorites', {
 			idUser: userId,
 			idBook: bookId,
-		});
+		} );
 	};
 }
 
-export function userDeleteFavorite(userId, bookId) {
+export function userDeleteFavorite ( userId, bookId ) {
 	return async function () {
-		return await axios.delete('/user/favorites', {
+		return await axios.delete( '/user/favorites', {
 			data: {
 				idUser: userId,
 				idBook: bookId,
 			},
-		});
+		} );
 	};
 }
 
-export function userGetFavorite(userId) {
-	return async function (dispatch) {
-		let favorites = await axios.get(`/user/favorites/${userId}`);
-		return dispatch({ type: USER_GET_FAVORITES, payload: favorites.data });
+export function userGetFavorite ( userId ) {
+	return async function ( dispatch ) {
+		var favorites = await axios.get( `/user/favorites/${ userId }` );
+		return dispatch( { type: USER_GET_FAVORITES, payload: favorites.data } );
 	};
 }
-export function userAddFavState(payload) {
+export function userAddFavState ( payload ) {
 	return { type: USER_ADD_FAVSTATE, payload };
 }
 
-export function userDelFavorite(payload) {
+export function userDelFavorite ( payload ) {
 	return { type: USER_DEL_FAVORITES, payload };
 }
 
+export function forgotPass ( email ) {
+	return async function ( dispatch ) {
+		try
+		{
+			let resp = await axios.put( '/mail/password', {
+				email: email.email,
+			} );
+			return dispatch( {
+				type: FORGOT_PASSWORD,
+				payload: resp.data,
+			} );
+		} catch ( error )
+		{
+			console.log( error );
+		}
+	};
+}
 //-------------------------------------------------FILTERS---------------------------------------------
-export function saveFilterGenre(payload) {
+export function saveFilterGenre ( payload ) {
 	return { type: FILTER_GENRE, payload };
 }
-export function saveFilterPrice(payload) {
+export function saveFilterPrice ( payload ) {
 	return { type: FILTER_PRICE, payload };
 }
-export function saveFilterLanguage(payload) {
+export function saveFilterLanguage ( payload ) {
 	return { type: FILTER_LANGUAGE, payload };
 }
-export function saveFilterOnSale(payload) {
+export function saveFilterOnSale ( payload ) {
 	return { type: FILTER_ONSALE, payload };
 }
-export function applyFilters(payload) {
+export function applyFilters ( payload ) {
 	return { type: APPLY_FILTERS, payload };
 }
-export function resetFilters(payload) {
+export function resetFilters ( payload ) {
 	return { type: RESET_FILTERS, payload };
 }
 //------------------------------------------------------------------------------------------------------
 //-------------------------------------------------SORTS------------------------------------------------
-export function saveOrder(payload) {
+export function saveOrder ( payload ) {
 	return { type: SORT_ORDER, payload };
 }
 //------------------------------------------------------------------------------------------------------
 
 // -----------------------------------------------CART-------------------------------------------------------
 
-export function addToCart(id, idUser) {
-	return async function (dispatch) {
-		try {
-			const adding = axios.post(`/cart/`, {
+export function addToCart ( id, idUser ) {
+	return async function ( dispatch ) {
+		try
+		{
+			const adding = axios.post( `/cart/`, {
 				userId: idUser, //me llega de estado del componente
 				bookId: id, //me llega de params
-			});
+			} );
 
-			dispatch({
+			dispatch( {
 				type: ADD_CART,
 				payload: id,
-			});
-		} catch (err) {
-			console.log(err);
+			} );
+		} catch ( err )
+		{
+			console.log( err );
 		}
 	};
 }
 
-export function delCart(id) {
-	return async function (dispatch) {
-		try {
-			return dispatch({
+export function delCart ( id ) {
+	return async function ( dispatch ) {
+		try
+		{
+			return dispatch( {
 				type: DEL_CART,
 				payload: id,
-			});
-		} catch (err) {
-			console.log(err);
+			} );
+		} catch ( err )
+		{
+			console.log( err );
 		}
 	};
 }
 
-export function delAllCart() {
-	return async function (dispatch) {
-		try {
-			return dispatch({
+export function delAllCart () {
+	return async function ( dispatch ) {
+		try
+		{
+			return dispatch( {
 				type: DEL_ALL_CART,
-			});
-		} catch (err) {
-			console.log(err);
+			} );
+		} catch ( err )
+		{
+			console.log( err );
 		}
 	};
 }
 
-export function getCart(userId) {
-	return async function (dispatch) {
-		let cart = await axios.get(`/cart?userId=${userId}`);
-		return dispatch({ type: GET_CART, payload: cart.data });
+export function getCart ( userId ) {
+	return async function ( dispatch ) {
+		let cart = await axios.get( `/cart?userId=${ userId }` );
+		return dispatch( { type: GET_CART, payload: cart.data } );
 	};
 }
 
-export function removeOneBookFromCart(bookId, userId) {
-	return async function (dispatch) {
+export function removeOneBookFromCart ( bookId, userId ) {
+	return async function ( dispatch ) {
 		let deleteBooks = await axios.put(
-			`/cart?bookId=${bookId}&userId=${userId}`
+			`/cart?bookId=${ bookId }&userId=${ userId }`
 		); //double query
-		console.log(deleteBooks); //quiero q me traiga libro a eliminar
-		return dispatch({
+		console.log( deleteBooks ); //quiero q me traiga libro a eliminar
+		return dispatch( {
 			type: REMOVE_BOOK_CART_DB,
 			payload: deleteBooks,
-		});
+		} );
 	};
 }
 
-export function clearCart(userId) {
-	return async function (dispatch) {
-		let clearAll = await axios.put(`/cart/clear?userId=${userId}`);
-		return dispatch({
+export function clearCart ( userId ) {
+	return async function ( dispatch ) {
+		let clearAll = await axios.put( `/cart/clear?userId=${ userId }` );
+		return dispatch( {
 			type: CLEAR_CART,
+		} );
+	};
+}
+export function checkoutCart ( userId, token ) {
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${ token }`,
+		},
+	};
+	return async function ( dispatch ) {
+		let checkoutCart = await axios.put( `/cart/checkout/`, { userId }, config );
+		return dispatch( {
+
+			type: CHECKOUT_CART,
+		} );
+	};
+}
+
+
+export function getPurchasedCart(userId) {
+	return async function (dispatch) {
+		let allUserCarts = await axios.get(`/cart/all?userId=${userId}`);
+		return dispatch({
+			type: GET_PURCHASED_CART,
+			payload: allUserCarts.data,
 		});
+	};
+}
+export function getActiveCart(userId) {
+	return async function (dispatch) {
+		let activeCart = await axios.get(`/cart?userId=${userId}`);
+		return dispatch({
+			type: GET_ACTIVE_CART,
+			payload: activeCart.data,
+		});
+	};
+}
+export function upgradeToAdmin(userId, token) {
+	console.log(token);
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${ token }`,
+		},
+	};
+
+	return async function ( dispatch ) {
+		await axios.put( `/admin/upgrade`, { userId }, config );
+		var users = await axios.get( `/user/all` );
+		return dispatch( {
+			type: GET_USERS,
+			payload: users.data,
+		} );
 	};
 }

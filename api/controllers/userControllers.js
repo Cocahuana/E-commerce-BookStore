@@ -82,7 +82,7 @@ const userLogin = async (req, res, next) => {
 		if (!userCheck) return res.status(400).send('User not found');
 		else if (userCheck.password !== hashedPassword)
 			return res.status(400).send('Password does not match!');
-		else if (userCheck.username !== username)
+		else if (userCheck.username !== username && userCheck.email !== username)
 			return res.status(400).send('Username does not match!');
 		else {
 			const jwtToken = jwt.sign(
@@ -144,8 +144,10 @@ const addFavorite = async (req, res) => {
 
 const searchUserById = async (req, res, next) => {
 	let { id } = req.params;
+	console.log(id);
 	try {
 		let userCheck = await User.findByPk(id);
+		console.log(userCheck);
 		if (userCheck) res.json(userCheck);
 		else res.status(400).json({ message: 'User has not been found' });
 	} catch (e) {
@@ -258,7 +260,7 @@ const profilePicture = async (id, body) => {
 };
 
 const googleSignIn = async (req, res, next) => {
-	const { username, email } = req.body;
+	const { username, email, profile_picture} = req.body;
 	try {
 		const alreadyExists = await User.findOne({ where: { email: email } });
 		if (alreadyExists) {
@@ -279,7 +281,7 @@ const googleSignIn = async (req, res, next) => {
 				id: alreadyExists.id,
 				email: alreadyExists.email,
 				username: alreadyExists.username,
-				profile_picture: alreadyExists.profile_picture,
+				profile_picture: profile_picture,
 				favorites: alreadyExists.favorites,
 			});
 		}
@@ -287,6 +289,7 @@ const googleSignIn = async (req, res, next) => {
 			const create = await User.create({
 				email: email,
 				username: username,
+				profile_picture: profile_picture
 			});
 			let cartToAssociate = await Cart.create();
 			await cartToAssociate.setUser(create);

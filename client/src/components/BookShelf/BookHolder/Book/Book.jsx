@@ -30,12 +30,14 @@ import {
 	userDeleteFavorite,
 	userDelFavorite,
 	userAddFavState,
+	clearCart,
+	checkoutCart,
+	delAllCart,
 } from '../../../../redux/actions/index';
 import { PriceTag } from './PriceTag';
 import { Link as BuenLink } from 'react-router-dom';
 import { FaCommentDots } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
-import Swal from 'sweetalert2';
 
 export const Book = (props) => {
 	const { product, rootProps, isFav, setFavs } = props;
@@ -47,7 +49,6 @@ export const Book = (props) => {
 		(state) => state
 	);
 	const toast = useToast();
-
 	const {
 		title,
 		authors,
@@ -70,6 +71,13 @@ export const Book = (props) => {
 					};
 				});
 				addFavorite(id);
+				toast({
+					title: 'Added to favourites successfully',
+					status: 'success',
+					isClosable: 'true',
+					duration: '2000',
+					position: 'bottom',
+				});
 			} else {
 				setFavs((favs) => {
 					return {
@@ -78,6 +86,13 @@ export const Book = (props) => {
 					};
 				});
 				deleteFavorite(id);
+				toast({
+					title: 'Removed from favourites successfully',
+					status: 'success',
+					isClosable: 'true',
+					duration: '2000',
+					position: 'bottom',
+				});
 			}
 		} else {
 			history.push('/login');
@@ -86,7 +101,7 @@ export const Book = (props) => {
 				status: 'warning',
 				isClosable: 'true',
 				duration: '2000',
-				position: 'top',
+				position: 'bottom',
 			});
 		}
 	};
@@ -108,14 +123,35 @@ export const Book = (props) => {
 			if (e.id === id) flag = false;
 		});
 		if (flag) {
-			Swal.fire({
-				position: 'top-end',
-				icon: 'success',
+			toast({
 				title: 'Added to the cart successfully',
-				showConfirmButton: false,
-				timer: 900,
+				status: 'success',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'bottom',
+			});
+		} else {
+			toast({
+				title: 'Removed from the cart successfully',
+				status: 'success',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'bottom',
 			});
 		}
+	};
+
+	const handleQuickShop = () => {
+		handleDeleteCart();
+		// No Borrar o se destruye el espacio - tiempo
+		setTimeout(() => {
+			dispatch(addToCart(id, userId));
+			history.push('/purchase');
+		}, 300);
+	};
+
+	const handleDeleteCart = () => {
+		dispatch(clearCart(userId));
 	};
 
 	const handleOnClick = () => {
@@ -217,14 +253,13 @@ export const Book = (props) => {
 					Add to cart
 				</Button>
 				{userId ? (
-					<BuenLink to='/pasarelaDePagos'>
-						<Link
-							textDecoration='underline'
-							fontWeight='medium'
-							color={useColorModeValue('gray.600', 'gray.400')}>
-							Quick shop
-						</Link>
-					</BuenLink>
+					<Link
+						textDecoration='underline'
+						fontWeight='medium'
+						color={useColorModeValue('gray.600', 'gray.400')}
+						onClick={handleQuickShop}>
+						Quick shop
+					</Link>
 				) : (
 					<BuenLink to='/login'>
 						<Link

@@ -57,13 +57,13 @@ export function favourites(props) {
 	};
 
 	useEffect(() => {
-		dispatch(userGetFavorite(userId));
+		if (userId) dispatch(userGetFavorite(userId));
 	}, [dispatch]);
 
 	const handleFavorite = () => {
 		onOpen();
 		setOverlay(<Overlay />);
-		dispatch(userGetFavorite(userId)); //userid
+		if (userId) dispatch(userGetFavorite(userId)); //userid
 	};
 
 	const deleteFavorite = (id) => {
@@ -90,15 +90,15 @@ export function favourites(props) {
 	};
 
 	return (
-		<Stack w={'full'}>
+		<Stack w={props.widt}>
 			<Button w={'100%'} onClick={() => handleFavorite()}>
-				<Text paddingLeft={'5.5%'} w='90%'>
+				<Text display={props.dis} paddingLeft={'5.5%'} w='90%'>
 					Favourite list
 				</Text>
-				<Box>
-				<FiHeart fill='red'/>
-				{allFavourites.length}
-				</Box>
+				<Flex align={'center'}>
+					<FiHeart fill='red' />
+					<Box ml={'5px'}>{allFavourites.length}</Box>
+				</Flex>
 			</Button>
 
 			<Modal
@@ -112,7 +112,6 @@ export function favourites(props) {
 
 				<ModalContent bg={'gray.300'}>
 					<ModalHeader
-						rounded={'5px'}
 						bgGradient={useColorModeValue(
 							'linear(to-r, blue.400, blue.100)',
 							'linear(to-r, blue.700, blue.500)'
@@ -188,7 +187,6 @@ export function favourites(props) {
 							</Container>
 						</Flex>
 					</ModalBody>
-					{/* <ModalBody> <h1>You don´t have favorite books</h1> </ModalBody> */}
 				</ModalContent>
 			</Modal>
 		</Stack>

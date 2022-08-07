@@ -12,6 +12,7 @@ import {
 	Box,
 	useColorModeValue,
 	Text,
+	useToast,
 } from '@chakra-ui/react';
 import Cart from './Cart';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,10 +22,11 @@ import { TiShoppingCart } from 'react-icons/ti';
 import SummaryPurchase from './SummaryPurchase';
 import { Link as BuenLink } from 'react-router-dom';
 
-const CartDrawer = () => {
+const CartDrawer = (props) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const dispatch = useDispatch();
 	const { userId, cart } = useSelector((state) => state);
+	const toast = useToast();
 
 	const handleClick = (newSize) => {
 		dispatch(getCart(userId));
@@ -34,18 +36,27 @@ const CartDrawer = () => {
 	const handleDeleteCart = () => {
 		dispatch(clearCart(userId));
 		dispatch(delAllCart());
+		toast({
+			title: 'All books from cart have been removed successfully!',
+			status: 'success',
+			isClosable: 'true',
+			duration: '2000',
+			position: 'bottom',
+		});
 	};
 
 	return (
 		<>
 			<Button
+				w={props.widt}
 				onClick={() => handleClick()}
 				key={'sm'}
 				m={4}
 				leftIcon={
-					<TiShoppingCart color={useColorModeValue('#64c2e4', '#64c2e4')} />
-				}
-			>
+					<TiShoppingCart
+						color={useColorModeValue('#64c2e4', '#64c2e4')}
+					/>
+				}>
 				Cart
 				<Text
 					fontSize='14px'
@@ -86,7 +97,8 @@ const CartDrawer = () => {
 											'gray.400',
 											'gray.600'
 										),
-									}}>
+									}}
+									disabled={cart.length === 0}>
 									Purchase now!!
 								</Button>
 							</BuenLink>
@@ -99,10 +111,12 @@ const CartDrawer = () => {
 								_hover={{
 									transform: 'translateY(2px)',
 									boxShadow: 'lg',
-									bg: useColorModeValue('gray.400', 'gray.600'),
+									bg: useColorModeValue(
+										'gray.400',
+										'gray.600'
+									),
 								}}
-								onClick={() => handleDeleteCart()}
-							>
+								onClick={() => handleDeleteCart()}>
 								Empty Cart
 							</Button>
 						</Box>
