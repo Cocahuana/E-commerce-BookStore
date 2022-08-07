@@ -45,6 +45,7 @@ import VisitorDesktopNav from './role/VisitorDesktopNav';
 import VisitorMobileNav from './role/VisitorMobileNav';
 import BtnLandingPage from '../buttons/BtnLandingPage';
 import UserDesktopNav from './role/UserDesktopNav';
+import UserMobileNav from './role/UserMobileNav';
 
 export default function NavBar() {
 	const dispatch = useDispatch();
@@ -93,7 +94,13 @@ export default function NavBar() {
 								onClick={onToggle}
 								icon={
 									isOpen ? (
-										<VisitorMobileNav w={3} h={3} />
+										userRole === 'User' ? (
+											<UserMobileNav w={5} h={5} />
+										) : (
+											<VisitorMobileNav w={5} h={5} />
+										)
+									) : userRole === 'User' ? (
+										<UserMobileNav w={5} h={5} />
 									) : (
 										<VisitorMobileNav w={5} h={5} />
 									)

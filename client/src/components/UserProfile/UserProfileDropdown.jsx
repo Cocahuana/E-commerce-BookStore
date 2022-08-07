@@ -27,6 +27,7 @@ import {
 	MenuItem,
 	MenuDivider,
 	Highlight,
+	Drawer,
 } from '@chakra-ui/react';
 import {
 	HamburgerIcon,
@@ -35,12 +36,9 @@ import {
 	ChevronRightIcon,
 } from '@chakra-ui/icons';
 import { Link as BuenLink } from 'react-router-dom';
-import Drawer from '../../Cart/Drawer';
-import Signout from '../../SignOut/Signout';
-import ProfileImage from '../../UserProfile/ProfileImage';
-import FavouriteList from '../../UserProfile/FavouriteList';
-import { useSelector, useDispatch } from 'react-redux';
-import { checkStates } from '../../../redux/actions';
+import Signout from '../SignOut/Signout';
+import ProfileImage from '../UserProfile/ProfileImage';
+import FavouriteList from '../UserProfile/FavouriteList';
 
 const UserProfileDropdown = () => {
 	return (

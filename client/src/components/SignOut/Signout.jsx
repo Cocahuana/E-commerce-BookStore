@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { UserAuth } from '../firebase/context';
 
-function signout(props) {
+function Signout(props) {
 	//SIGN OUT BUTTON, DISPATCHS THE ACTION THAT CLEARS LOCALSTORAGE AND SETS ISSIGNEDIN STATE IN FALSE
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -48,4 +48,4 @@ function signout(props) {
 	);
 }
 
-export default signout;
+export default Signout;

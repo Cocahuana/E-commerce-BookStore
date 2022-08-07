@@ -52,7 +52,7 @@ const UserDesktopNav = () => {
 	return (
 		<HStack w='100%' h={'100%'} justify='space-around' fontSize={'20px'}>
 			<HStack spacing='50px' justify='flex-start' h='100%' p='10px'>
-				<BtnLandingPage bg='green' />
+				<BtnLandingPage />
 				<BuenLink to='/us'>About</BuenLink>
 				<BuenLink to='/books'>Books</BuenLink>
 			</HStack>
@@ -60,7 +60,7 @@ const UserDesktopNav = () => {
 				<FavouriteList widt={'10%'} dis={'none'} />
 				<Drawer />
 				<BtnDarkMode />
-				<UserProfileDropdown/>
+				<UserProfileDropdown />
 			</HStack>
 		</HStack>
 	);
