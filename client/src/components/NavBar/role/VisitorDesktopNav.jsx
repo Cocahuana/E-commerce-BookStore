@@ -6,6 +6,7 @@ import BtnSignIn from '../../buttons/BtnSignIn';
 import BtnSignUp from '../../buttons/BtnSignUp';
 import BtnDarkMode from '../../buttons/BtnDarkMode';
 import BtnLandingPage from '../../buttons/BtnLandingPage';
+import CartDrawer from '../../Cart/Drawer';
 
 const VisitorDesktopNav = () => {
 	return (
@@ -16,9 +17,10 @@ const VisitorDesktopNav = () => {
 				<BuenLink to='/books'>Books</BuenLink>
 			</HStack>
 			<HStack justify={'flex-end'} spacing='50px' h='100%' p='10px'>
+				<BtnDarkMode />
+				<CartDrawer />
 				<BtnSignIn />
 				<BtnSignUp />
-				<BtnDarkMode />
 			</HStack>
 		</HStack>
 	);
