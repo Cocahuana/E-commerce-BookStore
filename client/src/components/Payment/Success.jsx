@@ -17,7 +17,6 @@ export default function Success() {
 	const dispatch = useDispatch();
 	const [loader, setLoader] = useState(true);
 	let [receipt, setReceipt] = useState({});
-	let receiptCart = [];
 
 	console.log('purchasedCart', purchasedCart);
 	console.log('activeCart', activeCart);
@@ -29,13 +28,11 @@ export default function Success() {
 	setTimeout(() => {
 		purchasedCart?.map((e) => {
 			if (e.id === activeCart.id) {
-				receiptCart.push(e);
 				setReceipt(e);
 			}
 		});
 		setLoader(false);
-	}, 2000);
-	console.log('recieptCart', receiptCart);
+	}, 1000);
 
 	return (
 		<Box textAlign='center' py={10} px={6} pt='24' h='90vh'>
