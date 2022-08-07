@@ -543,7 +543,7 @@ const rootReducer = (state = InitialState, action) => {
 				isSignedIn: false,
 				userId: null,
 				cart: [],
-				//summary: 0,
+				summary: 0,
 				userRole: null,
 				userEmail: null,
 			};
