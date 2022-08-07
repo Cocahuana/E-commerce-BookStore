@@ -46,6 +46,8 @@ import VisitorMobileNav from './role/VisitorMobileNav';
 import BtnLandingPage from '../buttons/BtnLandingPage';
 import UserDesktopNav from './role/UserDesktopNav';
 import UserMobileNav from './role/UserMobileNav';
+import AdminDesktopNav from './role/AdminDesktopNav';
+import AdminMobileNav from './role/AdminMobileNav';
 
 export default function NavBar() {
 	const dispatch = useDispatch();
@@ -94,11 +96,15 @@ export default function NavBar() {
 								onClick={onToggle}
 								icon={
 									isOpen ? (
-										userRole === 'User' ? (
+										userRole === 'Admin' ? (
+											<AdminMobileNav w={5} h={5} />
+										) : userRole === 'User' ? (
 											<UserMobileNav w={5} h={5} />
 										) : (
 											<VisitorMobileNav w={5} h={5} />
 										)
+									) : userRole === 'Admin' ? (
+										<AdminMobileNav w={5} h={5} />
 									) : userRole === 'User' ? (
 										<UserMobileNav w={5} h={5} />
 									) : (
@@ -121,7 +127,9 @@ export default function NavBar() {
 					justifyContent='center'
 					w={'70%'}
 					h={'100%'}>
-					{userRole === 'User' ? (
+					{userRole === 'Admin' ? (
+						<AdminDesktopNav />
+					) : userRole === 'User' ? (
 						<UserDesktopNav />
 					) : (
 						<VisitorDesktopNav />

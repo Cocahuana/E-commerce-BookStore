@@ -41,31 +41,38 @@ import ProfileImage from '../../UserProfile/ProfileImage';
 import FavouriteList from '../../UserProfile/FavouriteList';
 import { useSelector, useDispatch } from 'react-redux';
 import { checkStates } from '../../../redux/actions';
-
-import BtnSignIn from '../../buttons/BtnSignIn';
-import BtnSignUp from '../../buttons/BtnSignUp';
 import BtnDarkMode from '../../buttons/BtnDarkMode';
-import BtnLandingPage from '../../buttons/BtnLandingPage';
-import UserProfileDropdown from '../../UserProfile/UserProfileDropdown';
+import signout from '../../SignOut/Signout';
 import BtnAdminDashboard from '../../buttons/BtnAdminDashboard';
 
-const AdminDesktopNav = () => {
+const AdminMobileNav = () => {
 	return (
-		<HStack w='100%' h={'100%'} justify='space-around' fontSize={'20px'}>
-			<HStack spacing='50px' justify='flex-start' h='100%' p='10px'>
-				<BtnLandingPage />
-				<BuenLink to='/us'>About</BuenLink>
-				<BuenLink to='/books'>Books</BuenLink>
-			</HStack>
-			<HStack justify={'flex-end'} spacing='50px' h='100%' p='10px'>
-				<FavouriteList widt={'10%'} dis={'none'} />
-				<Drawer />
-				<BtnDarkMode />
-				<BtnAdminDashboard />
-				<Signout />
-			</HStack>
-		</HStack>
+		<Menu>
+			<MenuButton
+				as={IconButton}
+				aria-label='Options'
+				icon={<HamburgerIcon />}
+				variant='outline'
+			/>
+			<MenuList>
+				<MenuItem>
+					<BtnDarkMode />
+				</MenuItem>
+				<MenuItem>
+					<BuenLink to='/us'>About us</BuenLink>
+				</MenuItem>
+				<MenuItem>
+					<BuenLink to='/books'>Books</BuenLink>
+				</MenuItem>
+				<MenuItem>
+					<BtnAdminDashboard />
+				</MenuItem>
+				<MenuItem>
+					<Signout />
+				</MenuItem>
+			</MenuList>
+		</Menu>
 	);
 };
 
-export default AdminDesktopNav;
+export default AdminMobileNav;
