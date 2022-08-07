@@ -61,7 +61,11 @@ export default function NavBar() {
 					flex={{ base: 1, md: 'auto' }}
 					display={{ base: 'flex', md: 'none' }}>
 					<HStack w='100%' px='10px'>
-						<HStack h='100%'>
+						<Flex
+							w='100%'
+							h='100%'
+							justify={'space-between'}
+							align='center'>
 							<IconButton
 								onClick={onToggle}
 								icon={
@@ -84,11 +88,14 @@ export default function NavBar() {
 								variant={'ghost'}
 								aria-label={'Toggle Navigation'}
 							/>
-						</HStack>
-						<HStack h='100%' w='60%' justify={'center'}>
+
 							<BtnLandingPage />
-						</HStack>
-						{userRole === 'User' ? <UserProfileDropdown /> : ''}
+							{userRole === 'User' ? (
+								<UserProfileDropdown />
+							) : (
+								<Box bg='blue' />
+							)}
+						</Flex>
 					</HStack>
 				</Flex>
 
