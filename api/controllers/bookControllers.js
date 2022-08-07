@@ -123,8 +123,8 @@ const putBook = async (req, res, next) => {
 		flag,
 		currency,
 		stock,
-		languages,
-		genres,
+		language,
+		genre,
 	} = req.body;
 	let { id } = req.params;
 	try {
@@ -133,7 +133,8 @@ const putBook = async (req, res, next) => {
 			let updatedBook = await Books.update(
 				{
 					title: title ? title : currentBook.title,
-					authors: authors ? authors : currentBook.authors,
+					authors:
+						authors.length > 0 ? authors.join(', ') : currentBook.authors,
 					price: price ? price : currentBook.price,
 					description: description ? description : currentBook.description,
 					image: image ? image : currentBook.image,
@@ -146,37 +147,32 @@ const putBook = async (req, res, next) => {
 					where: { id: id },
 				}
 			);
-		currentBook = await Books.findByPk(id);
-			
-			let languagesArray
-			let genresArray
-			if(languages){
-				languagesArray = await Language.findAll({
-					where:{
-						name:{
-							[Op.in]: languages
-						}
-					}
-				})
-				await currentBook.setLanguages(languagesArray) 
-			}
-			if(genres){
-				genresArray = await Genre.findAll({
-					where:{
-						name:{
-							[Op.in]: genres
-						}
-					}
-				})
+			currentBook = await Books.findByPk(id);
 
-				await currentBook.setGenres(genresArray)
+			let genresArray;
+			if (language) {
+				let lenguaje = await Language.findOne({ where: { name: language } });
+				await currentBook.setLanguages(lenguaje);
 			}
-			res.status(200).send(`${title ? title : currentBook.title} has been updated`);
+			if (genre) {
+				genresArray = await Genre.findAll({
+					where: {
+						name: {
+							[Op.in]: genre,
+						},
+					},
+				});
+
+				await currentBook.setGenres(genresArray);
+			}
+			res
+				.status(200)
+				.send(`${title ? title : currentBook.title} has been updated`);
 		} else {
 			res.status(400).send(`Book with id ${id} not found`);
 		}
 	} catch (e) {
-		console.error(e)
+		console.error(e);
 		res.status(404).send(e);
 	}
 };

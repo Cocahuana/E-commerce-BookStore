@@ -67,9 +67,7 @@ conn.sync({ force: true }).then(() => {
 					},
 				});
 
-				arrayPromises.push(
-					genresToAssociate.addBooks(booksToAssociate)
-				);
+				arrayPromises.push(genresToAssociate.addBooks(booksToAssociate));
 			}
 
 			let languageNames = languages.map((language) => {
@@ -95,9 +93,7 @@ conn.sync({ force: true }).then(() => {
 					},
 				});
 
-				arrayPromises.push(
-					languagesToAssociate.addBooks(booksToAssociate)
-				);
+				arrayPromises.push(languagesToAssociate.addBooks(booksToAssociate));
 			}
 			await Promise.all(arrayPromises);
 		}
