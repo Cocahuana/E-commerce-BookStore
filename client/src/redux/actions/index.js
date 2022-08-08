@@ -345,16 +345,21 @@ export function checkStates() {
 
 export function userSignUp(user) {
 	return async function (dispatch) {
-		var result = await axios.post(`/user/register`, {
-			username: user.username,
-			email: user.email,
-			password: user.password,
-		});
-
-		return dispatch({
-			type: SIGN_UP,
-			payload: result.data.username,
-		});
+		try {
+			var result = await axios.post(`/user/register`, {
+				email: user.email,
+				username: user.username,
+				password: user.password,
+			});
+			console.log(result);
+			return dispatch({
+				type: SIGN_UP,
+				payload: result.data,
+			});
+		} catch (error) {
+			// alert(error.response.data);
+			Swal.fire('Sign Up Failed!', error.response.data, 'warning');
+		}
 	};
 }
 
@@ -527,7 +532,12 @@ export function checkoutCart(userId, token) {
 		},
 	};
 	return async function (dispatch) {
-		let checkoutCartId = await axios.put(`/cart/checkout/`, { userId }, config);
+
+		let checkoutCartId = await axios.put(
+			`/cart/checkout/`,
+			{ userId },
+			config
+		);
 		return dispatch({
 			type: CHECKOUT_CART,
 			payload: checkoutCartId.data,
