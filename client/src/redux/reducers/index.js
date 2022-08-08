@@ -400,12 +400,20 @@ const rootReducer = (state = InitialState, action) => {
 			for (let i = 0; i < arrayNuevo.length; i++) {
 				suma += arrayNuevo[i];
 			}
+			
+			var booksLS = JSON.parse(localStorage.getItem('cart'));
+			
+			let nuevo = arrayBooks.concat(booksLS)
+
+			console.log(nuevo, "books")
+
 			return {
 				...state,
 				cart: arrayBooks,
 				summary: suma,
 			};
 		}
+
 		case CHECKOUT_CART: {
 			return {
 				...state,

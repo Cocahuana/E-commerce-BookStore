@@ -571,6 +571,7 @@ export function getActiveCart(userId) {
 		});
 	};
 }
+
 export function upgradeToAdmin(userId, token) {
 	console.log(token);
 	const config = {
