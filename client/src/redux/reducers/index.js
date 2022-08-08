@@ -394,40 +394,41 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 			};
 		case GET_CART: {
-			let totalBooks = [];
-			var arrayBooks = action.payload.Books;
-			var booksLS = JSON.parse(localStorage.getItem('cart'));
-			console.log('arrayBooks', arrayBooks);
-			console.log('booksLS', booksLS);
+			let totalBooks;
+			let arrayBooks = action.payload.Books;
+			let booksLS = JSON.parse(localStorage.getItem('cart'));
 
-			// function getDifference(arrayBooks, booksLS) {
-			// 	return arrayBooks.filter((object1) => {
-			// 		return !booksLS.some((object2) => {
-			// 			return object1.id === object2.id;
-			// 		});
-			// 	});
-			// }
-			// function getIntersection(arrayBooks, booksLS) {
-			// 	return arrayBooks.filter((object1) => {
-			// 		return booksLS.some((object2) => {
-			// 			return object1.id === object2.id;
-			// 		});
-			// 	});
-			// }
-			// let intersection = getIntersection(arrayBooks, booksLS);
-			// let difference = getDifference(arrayBooks, booksLS);
+			function getDifference(arrayBooks, booksLS) {
+				return arrayBooks.filter((object1) => {
+					return !booksLS.some((object2) => {
+						return object1.id === object2.id;
+					});
+				});
+			}
 
-			// console.log('intersection', intersection);
-			// console.log('difference', difference);
+			let difference = [
+				...getDifference(arrayBooks, booksLS),
+				...getDifference(booksLS, arrayBooks),
+			];
 
-			var arrayNuevo = arrayBooks.map((b) => b.price);
+			if (difference.length === 0) {
+				if (arrayBooks.length > 0) {
+					totalBooks = arrayBooks;
+				} else {
+					totalBooks = booksLS;
+				}
+			} else {
+				totalBooks = difference;
+			}
+
+			var arrayNuevo = totalBooks.map((b) => b.price);
 			var suma = 0;
 			for (let i = 0; i < arrayNuevo.length; i++) {
 				suma += arrayNuevo[i];
 			}
 			return {
 				...state,
-				cart: arrayBooks,
+				cart: totalBooks,
 				summary: suma,
 			};
 		}

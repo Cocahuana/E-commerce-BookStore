@@ -42,6 +42,7 @@ const BookShelf = () => {
 		if (!books.length) dispatch(getBooksByTitleOrAuthor(query));
 		if (userId) dispatch(userGetFavorite(userId));
 		if (userId) dispatch(getCart(userId));
+		localStorage.setItem('cart', JSON.stringify(cart));
 	}, [dispatch]);
 
 	useEffect(() => {
@@ -57,7 +58,7 @@ const BookShelf = () => {
 			localStorage.setItem('token', token);
 			localStorage.setItem('userRole', userRole);
 		}
-	}, [cart, token]);
+	}, [token]);
 
 	useEffect(() => {
 		const favourites = {};
