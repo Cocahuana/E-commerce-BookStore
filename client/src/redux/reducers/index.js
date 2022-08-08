@@ -39,6 +39,7 @@ import {
 	FILTERED_ADMIN_USER,
 	GET_PURCHASED_CART,
 	GET_ACTIVE_CART,
+	EMPTY_PURCHASED_CART,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -352,26 +353,12 @@ const rootReducer = (state = InitialState, action) => {
 		}
 		//--------------------------------------------El ADMIN CAPO--------------------------------------------------
 
-		// case SEARCH_BOOK: {
-		// 	if (typeof action.payload.data === 'string') {
-		// 		return {
-		// 			...state,
-		// 			adminBooks: [],
-		// 			query: action.payload.query,
-		// 		};
+		// case HIDE_BOOKS:{
+		// 	return{
+
 		// 	}
-		// 	return {
-		// 		...state,
-		// 		booksCopy: action.payload.data,
-		// 		books: action.payload.data,
-		// 		query: action.payload.query,
-		// 		loading: false,
-		// 		adminBooks: action.payload,
-		// 	};
 		// }
 
-		// case HIDE_BOOKS: {
-		// }
 		//-----------------------------------------------------------------------------------------------------
 
 		case RESET_DETAILS: {
@@ -408,33 +395,33 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		case GET_CART: {
 			var arrayBooks = action.payload.Books;
-			var booksLS = JSON.parse(localStorage.getItem('cart'));
-
-			function getDifference(arrayBooks, booksLS) {
-				return arrayBooks.filter((object1) => {
-					return !booksLS.some((object2) => {
-						return object1.id === object2.id;
-					});
-				});
-			}
-
-			var totalCartBooks = get(getDifference(arrayBooks, booksLS));
-
-			var arrayNuevo = totalCartBooks.map((b) => b.price);
+			var arrayNuevo = arrayBooks.map((b) => b.price);
 			var suma = 0;
-			for (let i = 0; i < totalCartBooks.length; i++) {
+			for (let i = 0; i < arrayNuevo.length; i++) {
 				suma += arrayNuevo[i];
 			}
 			return {
 				...state,
-				cart: totalCartBooks,
+				cart: arrayBooks,
 				summary: suma,
 			};
 		}
 		case CHECKOUT_CART: {
 			return {
 				...state,
+				purchasedCart: {
+					Books: state.cart,
+					Total: state.summary,
+					CartId: action.payload,
+				},
+				summary: 0,
 				cart: [],
+			};
+		}
+		case EMPTY_PURCHASED_CART: {
+			return {
+				...state,
+				purchasedCart: { Books: [], Total: 0, CartId: '' },
 			};
 		}
 		case REMOVE_BOOK_CART_DB: {
@@ -485,6 +472,7 @@ const rootReducer = (state = InitialState, action) => {
 				userEmail: action.payload.email,
 				userProfilePicture: action.payload.profile_picture,
 				isSignedIn: true,
+				registeredUsers: [],
 			};
 		case LOGIN_GOOGLE:
 			localStorage.setItem('userId', action.payload.id);

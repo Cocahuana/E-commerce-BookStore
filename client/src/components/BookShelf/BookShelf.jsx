@@ -16,7 +16,6 @@ import { Paging } from './Paging/Paging';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import {
-	getActiveCart,
 	getBooksByTitleOrAuthor,
 	getCart,
 	userGetFavorite,
@@ -42,7 +41,10 @@ const BookShelf = () => {
 	useEffect(() => {
 		if (!books.length) dispatch(getBooksByTitleOrAuthor(query));
 		if (userId) dispatch(userGetFavorite(userId));
-		dispatch(getActiveCart(userId));
+		if (userId) dispatch(getCart(userId));
+	}, [dispatch]);
+
+	useEffect(() => {
 		// setting variables in localStorage ----
 		localStorage.setItem('cart', JSON.stringify(cart));
 		localStorage.setItem('summary', JSON.stringify(summary));
@@ -55,7 +57,7 @@ const BookShelf = () => {
 			localStorage.setItem('token', token);
 			localStorage.setItem('userRole', userRole);
 		}
-	}, [dispatch, cart, token]);
+	}, [cart, token]);
 
 	useEffect(() => {
 		const favourites = {};
