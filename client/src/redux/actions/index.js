@@ -136,7 +136,6 @@ export function postComment(comment) {
 //----------------------------------------------ADMIN-----------------------------------------
 
 export function createBook(input, token) {
-	console.log('CREATE-BOOK-ACTION', token);
 	const config = {
 		headers: {
 			'Content-Type': 'application/json',
@@ -160,7 +159,6 @@ export function modifyBook(payload) {
 	// 	},
 	// };
 	return async function (dispatch) {
-		console.log(payload);
 		var json = await axios.put(`/books/${payload.id}`, payload.input);
 	};
 }
@@ -180,7 +178,6 @@ export function searchBooksByAdmin(titleOrAuthor) {
 }
 export function hideBook(payload) {
 	return async function (dispatch) {
-		console.log(payload);
 		var json = await axios.put('admin/hide', payload);
 		// return dispatch({
 		// 	type: HIDE_BOOKS,
@@ -197,7 +194,6 @@ export function showBook(payload) {
 
 export function toBanUser(id, token) {
 	return async function (dispatch) {
-		console.log(token);
 		const config = {
 			headers: {
 				'Content-Type': 'application/json',
@@ -294,7 +290,7 @@ export function addGoogleUser(currentUser) {
 				//igual en la db la pw aparece hasheada
 			});
 			console.log('Soy login: ' + Object.keys(currentUser));*/
-				console.log(addToDb.data, 'lo q me trae ruta');
+
 				return dispatch({
 					type: LOGIN_GOOGLE,
 					payload: addToDb.data,
@@ -352,7 +348,7 @@ export function userSignUp(user) {
 				username: user.username,
 				password: user.password,
 			});
-			console.log(result);
+
 			return dispatch({
 				type: SIGN_UP,
 				payload: result.data,
@@ -507,7 +503,6 @@ export function removeOneBookFromCart(bookId, userId) {
 		let deleteBooks = await axios.put(
 			`/cart?bookId=${bookId}&userId=${userId}`
 		); //double query
-		console.log(deleteBooks); //quiero q me traiga libro a eliminar
 		return dispatch({
 			type: REMOVE_BOOK_CART_DB,
 			payload: deleteBooks,
