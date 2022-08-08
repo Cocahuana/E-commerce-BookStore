@@ -16,12 +16,19 @@ import {
 	getCart,
 	getPurchasedCart,
 } from '../../redux/actions';
+import { sendConfirmation } from '../../redux/actions';
 
 export default function Success() {
 	const { userId, purchasedCart, summary } = useSelector((state) => state);
 	const dispatch = useDispatch();
 	const [loader, setLoader] = useState(true);
 	if (purchasedCart.Books?.length && loader) setLoader(false);
+
+	useEffect(() => {
+		if (userId && purchasedCart.CartId) {
+			dispatch(sendConfirmation(userId, purchasedCart.CartId));
+		}
+	});
 
 	return (
 		<Box textAlign='center' py={10} px={6} pt='24' h='90vh'>

@@ -36,7 +36,7 @@ const orderConfirmation = async (req, res, next) => {
         await transporter.sendMail({
             from: '"Bookovich" <bookovich.book.store@gmail.com>',
             to: user.email,
-            subject: `Order number ${order.id} Confirmation`,
+            subject: `Order confirmation for your latest purchase!`,
             html: `<p>Receipt of purchase, Order n° ${order.id}.<br>
             <b>Price:</b> US$${Math.round(totalPrice)}<br>
             <b>Books:</b><br>${booksBought}</p>
