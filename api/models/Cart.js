@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
             },
 			totalPrice:{
 				type: DataTypes.FLOAT,
-				defaultValue: null,
+				defaultValue: 0,
 			}
 		},
 		{ timestamps: false }

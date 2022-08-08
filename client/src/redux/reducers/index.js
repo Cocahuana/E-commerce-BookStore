@@ -276,8 +276,7 @@ const rootReducer = (state = InitialState, action) => {
 
 				//--------Filtro por oferta------------
 
-				if (state.filters.onsale && book.flag !== 'on-sale')
-					return false;
+				if (state.filters.onsale && book.flag !== 'on-sale') return false;
 
 				//--------Filtro por moneda------------
 				//if (state.filters.currency && state.filters.currency!==book.currency) return false
@@ -353,26 +352,12 @@ const rootReducer = (state = InitialState, action) => {
 		}
 		//--------------------------------------------El ADMIN CAPO--------------------------------------------------
 
-		// case SEARCH_BOOK: {
-		// 	if (typeof action.payload.data === 'string') {
-		// 		return {
-		// 			...state,
-		// 			adminBooks: [],
-		// 			query: action.payload.query,
-		// 		};
+		// case HIDE_BOOKS:{
+		// 	return{
+
 		// 	}
-		// 	return {
-		// 		...state,
-		// 		booksCopy: action.payload.data,
-		// 		books: action.payload.data,
-		// 		query: action.payload.query,
-		// 		loading: false,
-		// 		adminBooks: action.payload,
-		// 	};
 		// }
 
-		// case HIDE_BOOKS: {
-		// }
 		//-----------------------------------------------------------------------------------------------------
 
 		case RESET_DETAILS: {
@@ -466,10 +451,7 @@ const rootReducer = (state = InitialState, action) => {
 			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('userName', action.payload.username);
 			localStorage.setItem('userEmail', action.payload.email);
-			localStorage.setItem(
-				'userProfileImage',
-				action.payload.profile_picture
-			);
+			localStorage.setItem('userProfileImage', action.payload.profile_picture);
 
 			// localStorage.setItem('token', token);
 			// localStorage.setItem('userRole', userRole);
@@ -488,10 +470,7 @@ const rootReducer = (state = InitialState, action) => {
 			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('userName', action.payload.username);
 			localStorage.setItem('userEmail', action.payload.email);
-			localStorage.setItem(
-				'userProfileImage',
-				action.payload.profile_picture
-			);
+			localStorage.setItem('userProfileImage', action.payload.profile_picture);
 			return {
 				...state,
 				token: action.payload.token,
@@ -504,10 +483,7 @@ const rootReducer = (state = InitialState, action) => {
 			};
 
 		case UPDATE_USER:
-			localStorage.setItem(
-				'userProfileImage',
-				action.payload.profile_picture
-			);
+			localStorage.setItem('userProfileImage', action.payload.profile_picture);
 			return {
 				...state,
 				userId: action.payload.id,
@@ -549,9 +525,7 @@ const rootReducer = (state = InitialState, action) => {
 			let favoriteBooks = [];
 			let booksIds = action.payload;
 
-			favoriteBooks = state.booksCopy.filter((e) =>
-				booksIds.includes(e.id)
-			);
+			favoriteBooks = state.booksCopy.filter((e) => booksIds.includes(e.id));
 
 			// localStorage.setItem('favorites', favoriteBooks);
 			return {
@@ -594,11 +568,7 @@ const rootReducer = (state = InitialState, action) => {
 				filteredBooksSearch = state.adminBooks;
 			} else {
 				state.adminBooks.map((e) => {
-					if (
-						e.title
-							.toLowerCase()
-							.includes(action.payload.toLowerCase())
-					) {
+					if (e.title.toLowerCase().includes(action.payload.toLowerCase())) {
 						filteredBooksSearch.push(e);
 					}
 				});
@@ -615,11 +585,7 @@ const rootReducer = (state = InitialState, action) => {
 				filteredUserSearch = state.allUsers;
 			} else {
 				state.allUsers.map((e) => {
-					if (
-						e.username
-							.toLowerCase()
-							.includes(action.payload.toLowerCase())
-					) {
+					if (e.username.toLowerCase().includes(action.payload.toLowerCase())) {
 						filteredUserSearch.push(e);
 					}
 				});
