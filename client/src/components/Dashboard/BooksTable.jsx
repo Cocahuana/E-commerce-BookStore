@@ -40,14 +40,16 @@ import {
 	hideBook,
 	filteredAdminBooks,
 	getBooks,
+	checkStates,
+	showBook,
 } from '../../redux/actions/index';
-import { Link as BuenLink } from 'react-router-dom';
+import { Link as BuenLink, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 function BooksTable({ books }) {
 	const textColor = useColorModeValue('gray.700', 'white');
 	const dispatch = useDispatch();
-
+	const history = useHistory();
 	const [booksSearch, setBooksSearch] = useState('');
 	const [scroll, setScroll] = useState(books.slice(0, 20));
 	const [libro, setLibro] = useState(books);
@@ -67,9 +69,13 @@ function BooksTable({ books }) {
 	};
 
 	const onClickhideBook = (e) => {
-		console.log(e);
 		dispatch(hideBook({ bookId: e }));
-		reload();
+	};
+
+	const onClickshowBook = (e) => {
+		console.log(e);
+		dispatch(showBook({ bookId: e }));
+		history.push('/adminDashboard');
 	};
 
 	const handleOnChange = (e) => {
@@ -222,14 +228,16 @@ function BooksTable({ books }) {
 								</Td>
 								<Td>
 									{b.stock < 1 ? (
-										<Text align={'center'} fontWeight={'bold'} fontSize={'md'}>
-											Hidden
-										</Text>
+										<Button
+											colorScheme={'blackAlpha'}
+											onClick={() => onClickshowBook(b.id)}
+											color={'whiteAlpha.600'}
+										>
+											show Book
+										</Button>
 									) : (
 										<Popover>
 											<PopoverTrigger>
-												{/* <Button colorScheme='blue'>Hide</Button> */}
-
 												<Button
 													rightIcon={<FaTrashAlt />}
 													colorScheme='red'
