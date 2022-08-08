@@ -9,12 +9,25 @@ const crypto = require('crypto');
 const registerUser = async (req, res, next) => {
 	const { email, password, username, status } = req.body;
 	try {
-		const alreadyExists = await User.findAll({ where: { email: email } });
+		const alreadyExistsMail = await User.findAll({
+			where: { email: email },
+		});
 
-		if (alreadyExists.length) {
-			res.send('Email already registered');
+		if (alreadyExistsMail.length) {
+			console.log('Email already registered');
+			res.status(400).send('Email already registered');
 			return;
 		}
+		const alreadyExistsUsername = await User.findAll({
+			where: { username: username },
+		});
+
+		if (alreadyExistsUsername.length) {
+			console.log('Username already registered');
+			res.status(400).send('Username already registered');
+			return;
+		}
+
 		let hashedPassword = crypto
 			.createHash('md5')
 			.update(password)
@@ -30,7 +43,11 @@ const registerUser = async (req, res, next) => {
 		let cartToAssociate = await Cart.create();
 		await cartToAssociate.setUser(newUser);
 
-		res.json({ message: 'User created succesfully!', id: newUser.id });
+		res.json({
+			message: 'User created succesfully!',
+			id: newUser.id,
+			email: newUser.email,
+		});
 	} catch (err) {
 		next(err);
 	}
@@ -82,7 +99,10 @@ const userLogin = async (req, res, next) => {
 		if (!userCheck) return res.status(400).send('User not found');
 		else if (userCheck.password !== hashedPassword)
 			return res.status(400).send('Password does not match!');
-		else if (userCheck.username !== username && userCheck.email !== username)
+		else if (
+			userCheck.username !== username &&
+			userCheck.email !== username
+		)
 			return res.status(400).send('Username does not match!');
 		else {
 			const jwtToken = jwt.sign(
@@ -260,7 +280,7 @@ const profilePicture = async (id, body) => {
 };
 
 const googleSignIn = async (req, res, next) => {
-	const { username, email, profile_picture} = req.body;
+	const { username, email, profile_picture } = req.body;
 	try {
 		const alreadyExists = await User.findOne({ where: { email: email } });
 		if (alreadyExists) {
@@ -289,7 +309,7 @@ const googleSignIn = async (req, res, next) => {
 			const create = await User.create({
 				email: email,
 				username: username,
-				profile_picture: profile_picture
+				profile_picture: profile_picture,
 			});
 			let cartToAssociate = await Cart.create();
 			await cartToAssociate.setUser(create);
