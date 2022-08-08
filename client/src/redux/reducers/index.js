@@ -394,7 +394,32 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 			};
 		case GET_CART: {
+			let totalBooks = [];
 			var arrayBooks = action.payload.Books;
+			var booksLS = JSON.parse(localStorage.getItem('cart'));
+			console.log('arrayBooks', arrayBooks);
+			console.log('booksLS', booksLS);
+
+			// function getDifference(arrayBooks, booksLS) {
+			// 	return arrayBooks.filter((object1) => {
+			// 		return !booksLS.some((object2) => {
+			// 			return object1.id === object2.id;
+			// 		});
+			// 	});
+			// }
+			// function getIntersection(arrayBooks, booksLS) {
+			// 	return arrayBooks.filter((object1) => {
+			// 		return booksLS.some((object2) => {
+			// 			return object1.id === object2.id;
+			// 		});
+			// 	});
+			// }
+			// let intersection = getIntersection(arrayBooks, booksLS);
+			// let difference = getDifference(arrayBooks, booksLS);
+
+			// console.log('intersection', intersection);
+			// console.log('difference', difference);
+
 			var arrayNuevo = arrayBooks.map((b) => b.price);
 			var suma = 0;
 			for (let i = 0; i < arrayNuevo.length; i++) {
