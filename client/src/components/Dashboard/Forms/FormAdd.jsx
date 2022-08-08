@@ -83,8 +83,8 @@ function FormAdd(props) {
 	const [errors, setErrors] = useState({});
 
 	const { id } = props.match.params;
-	const tituloREGEX =
-		/^[A-Z][a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
+	const tituloREGEX = /^[a-zA-Z ]*$/;
+	//	/^[A-Z][a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
 
 	const [input, setInput] = useState({
 		title: '',
@@ -132,7 +132,7 @@ function FormAdd(props) {
 		);
 	}
 	console.log(errors);
-	console.log(input.genre);
+	console.log(input);
 
 	function handdleSelectLanguage(e) {
 		setInput({
@@ -246,9 +246,6 @@ function FormAdd(props) {
 					duration: '2500',
 				});
 				dispatch(createBook(input));
-				console.log('creado :D');
-				console.log(input, 'xd');
-
 				dispatch(getBooks());
 
 				history.push('/adminDashboard');

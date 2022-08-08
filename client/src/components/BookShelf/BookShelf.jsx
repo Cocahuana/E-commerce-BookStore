@@ -16,6 +16,7 @@ import { Paging } from './Paging/Paging';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import {
+	getActiveCart,
 	getBooksByTitleOrAuthor,
 	getCart,
 	userGetFavorite,
@@ -23,9 +24,8 @@ import {
 
 const BookShelf = () => {
 	const dispatch = useDispatch();
-	const { cart, allFavourites, summary, userId, books, query } = useSelector(
-		(state) => state
-	);
+	const { cart, allFavourites, summary, userId, books, query, activeCart } =
+		useSelector((state) => state);
 	const [CurrentPage, setCurrentPage] = useState(1);
 	const BooksPerPage = 12;
 	const indexOfLastBook = CurrentPage * BooksPerPage;
@@ -42,9 +42,11 @@ const BookShelf = () => {
 	useEffect(() => {
 		if (!books.length) dispatch(getBooksByTitleOrAuthor(query));
 		if (userId) dispatch(userGetFavorite(userId));
+		dispatch(getActiveCart(userId));
 		// setting variables in localStorage ----
 		localStorage.setItem('cart', JSON.stringify(cart));
 		localStorage.setItem('summary', JSON.stringify(summary));
+		localStorage.setItem('activeCartId', JSON.stringify(activeCart.id));
 		// localStorage.setItem('favorites', JSON.stringify(allFavourites));
 		if (token.length === 0) {
 			localStorage.setItem('isSignedIn', false);

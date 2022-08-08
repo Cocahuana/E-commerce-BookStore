@@ -14,16 +14,25 @@ import {
 	useColorModeValue as mode,
 	VStack,
 	useColorModeValue,
+	useToast,
 } from '@chakra-ui/react';
 import SummaryPurchase from './SummaryPurchase';
 
 const Cart = () => {
 	const { cart, userId } = useSelector((state) => state);
 	const dispatch = useDispatch();
+	const toast = useToast();
 
 	const handleOnDelete = (id) => {
 		dispatch(removeOneBookFromCart(id, userId));
 		dispatch(delCart(id));
+		toast({
+			title: 'Removed from the cart successfully',
+			status: 'success',
+			isClosable: 'true',
+			duration: '2000',
+			position: 'bottom',
+		});
 	};
 	return (
 		<Stack>

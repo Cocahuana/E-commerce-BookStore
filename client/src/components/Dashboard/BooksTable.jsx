@@ -223,7 +223,7 @@ function BooksTable({ books }) {
 								<Td>
 									{b.stock < 1 ? (
 										<Text align={'center'} fontWeight={'bold'} fontSize={'md'}>
-											Oculto
+											Hidden
 										</Text>
 									) : (
 										<Popover>

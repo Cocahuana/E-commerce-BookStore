@@ -37,6 +37,8 @@ import {
 	BAN_USER,
 	FILTERED_ADMIN_BOOKS,
 	FILTERED_ADMIN_USER,
+	GET_PURCHASED_CART,
+	GET_ACTIVE_CART,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -123,6 +125,8 @@ const InitialState = {
 	allUsersCopy: [],
 	isSignedIn: isSignedInFromLocalStorage,
 	allFavourites: favoritesFromLocalStorage,
+	purchasedCart: [],
+	activeCart: {},
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -389,14 +393,26 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		case GET_CART: {
 			var arrayBooks = action.payload.Books;
-			var arrayNuevo = arrayBooks.map((b) => b.price);
+			var booksLS = JSON.parse(localStorage.getItem('cart'));
+
+			function getDifference(arrayBooks, booksLS) {
+				return arrayBooks.filter((object1) => {
+					return !booksLS.some((object2) => {
+						return object1.id === object2.id;
+					});
+				});
+			}
+
+			var totalCartBooks = get(getDifference(arrayBooks, booksLS));
+
+			var arrayNuevo = totalCartBooks.map((b) => b.price);
 			var suma = 0;
-			for (let i = 0; i < arrayNuevo.length; i++) {
+			for (let i = 0; i < totalCartBooks.length; i++) {
 				suma += arrayNuevo[i];
 			}
 			return {
 				...state,
-				cart: arrayBooks,
+				cart: totalCartBooks,
 				summary: suma,
 			};
 		}
@@ -416,6 +432,19 @@ const rootReducer = (state = InitialState, action) => {
 				...state,
 				cart: [],
 				summary: 0,
+			};
+		}
+		case GET_PURCHASED_CART: {
+			return {
+				...state,
+				purchasedCart: action.payload,
+				loading: false,
+			};
+		}
+		case GET_ACTIVE_CART: {
+			return {
+				...state,
+				activeCart: action.payload,
 			};
 		}
 		case LOGIN:
@@ -482,6 +511,7 @@ const rootReducer = (state = InitialState, action) => {
 			localStorage.setItem('userId', null);
 			localStorage.setItem('userRole', null);
 			localStorage.setItem('userEmail', null);
+			localStorage.setItem('summary', 0);
 			localStorage.removeItem('token');
 			return {
 				...state,
@@ -489,7 +519,7 @@ const rootReducer = (state = InitialState, action) => {
 				isSignedIn: false,
 				userId: null,
 				cart: [],
-				//summary: 0,
+				summary: 0,
 				userRole: null,
 				userEmail: null,
 			};
@@ -506,6 +536,10 @@ const rootReducer = (state = InitialState, action) => {
 				allFavourites: favoriteBooks,
 			};
 		case USER_ADD_FAVSTATE:
+			let existsFav = state.allFavourites.filter(
+				(el) => el.id === action.payload
+			);
+			if (existsFav.length === 1) return state;
 			let favBook = state.booksCopy.find((p) => p.id === action.payload);
 			return {
 				...state,

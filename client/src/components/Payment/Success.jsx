@@ -1,17 +1,39 @@
-import React, { useEffect } from 'react';
-import { Box, Heading, Text, Button } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
+import {
+	Box,
+	Heading,
+	Text,
+	Button,
+	Center,
+	Spinner,
+	Stack,
+} from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { checkoutCart, getCart } from '../../redux/actions';
+import { checkoutCart, getCart, getPurchasedCart } from '../../redux/actions';
 
 export default function Success() {
-	const { userId, cart } = useSelector((state) => state);
+	const { userId, purchasedCart, activeCart } = useSelector((state) => state);
 	const dispatch = useDispatch();
+	const [loader, setLoader] = useState(true);
+	let [receipt, setReceipt] = useState({});
 
-	// useEffect(() => {
-	// 	dispatch(getCart(userId));
-	// 	console.log(userId);
-	// }, [dispatch]);
+	console.log('purchasedCart', purchasedCart);
+	console.log('activeCart', activeCart);
+
+	useEffect(() => {
+		dispatch(getPurchasedCart(userId));
+	}, [dispatch]);
+
+	setTimeout(() => {
+		purchasedCart?.map((e) => {
+			if (e.id === activeCart.id) {
+				setReceipt(e);
+			}
+		});
+		setLoader(false);
+	}, 1000);
+
 
 	return (
 		<Box textAlign='center' py={10} px={6} pt='24' h='90vh'>
@@ -19,7 +41,7 @@ export default function Success() {
 				display='inline-block'
 				as='h2'
 				size='2xl'
-				bgGradient='linear(to-r, red.400, red.600)'
+				bgGradient='linear(to-r, blue.600, blue.400)'
 				backgroundClip='text'>
 				Success
 			</Heading>
@@ -29,11 +51,35 @@ export default function Success() {
 			<Text color={'gray.500'} mb={6}>
 				Your purchase was succesful!
 			</Text>
-			<Link to='/'>
+			<Link to='/books'>
+				<Stack color={'blue'}>
+					{loader ? (
+						<Center>
+							<Spinner
+								thickness='4px'
+								speed='0.65s'
+								emptyColor='gray.200'
+								color='blue.500'
+								size='xl'
+							/>
+						</Center>
+					) : (
+						receipt?.Books?.map((e) => (
+							<Text>
+								<p>{e.title}</p>
+								<p>{e.price}</p>
+							</Text>
+						))
+					)}
+					{<h1>{receipt.totalPrice}</h1>}
+				</Stack>
 				<Button
-					colorScheme='red'
-					bgGradient='linear(to-r, red.400, red.500, red.600)'
-					color='white'
+					bgGradient='linear(to-r, blue.400, blue.600)'
+					color={'whiteAlpha.700'}
+					_hover={{
+						bgGradient: 'linear(to-r, blue.600, blue.400)',
+						color: 'black',
+					}}
 					variant='solid'>
 					Back to BookStore
 				</Button>

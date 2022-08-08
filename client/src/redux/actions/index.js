@@ -32,6 +32,8 @@ import {
 	REMOVE_BOOK_CART_DB,
 	CLEAR_CART,
 	CHECKOUT_CART,
+	GET_PURCHASED_CART,
+	GET_ACTIVE_CART,
 	//-------------
 	LOGIN,
 	SIGN_UP,
@@ -158,10 +160,6 @@ export function modifyBook(payload) {
 	return async function (dispatch) {
 		console.log(payload);
 		var json = await axios.put(`/books/${payload.id}`, payload.input);
-		return dispatch({
-			type: MODIFY_BOOK,
-			payload: json.data,
-		});
 	};
 }
 export function searchBooksByAdmin(titleOrAuthor) {
@@ -274,12 +272,11 @@ export function addGoogleUser(currentUser) {
 
 	return async function (dispatch) {
 		try {
-			console.log(currentUser.photoURL);
 			if (currentUser !== null && currentUser.hasOwnProperty('email')) {
 				var addToDb = await axios.post(`/user/google`, {
 					username: currentUser.displayName,
 					email: currentUser.email,
-					profile_picture: await currentUser.photoURL,
+					profile_picture: currentUser.photoURL,
 				});
 
 				/*let login = await axios.post(`/user/login`, {
@@ -292,7 +289,7 @@ export function addGoogleUser(currentUser) {
 				console.log(addToDb.data, 'lo q me trae ruta');
 				return dispatch({
 					type: LOGIN_GOOGLE,
-					payload: addToDb.data, //lo q me interesa es la info de current user (obj de firebase)
+					payload: addToDb.data,
 				});
 			}
 		} catch (error) {
@@ -530,6 +527,24 @@ export function checkoutCart(userId, token) {
 	};
 }
 
+export function getPurchasedCart(userId) {
+	return async function (dispatch) {
+		let allUserCarts = await axios.get(`/cart/all?userId=${userId}`);
+		return dispatch({
+			type: GET_PURCHASED_CART,
+			payload: allUserCarts.data,
+		});
+	};
+}
+export function getActiveCart(userId) {
+	return async function (dispatch) {
+		let activeCart = await axios.get(`/cart?userId=${userId}`);
+		return dispatch({
+			type: GET_ACTIVE_CART,
+			payload: activeCart.data,
+		});
+	};
+}
 export function upgradeToAdmin(userId, token) {
 	console.log(token);
 	const config = {

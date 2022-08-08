@@ -111,7 +111,7 @@ function BookDetail(props) {
 		return {
 			avatarSrc: reviewer[0]?.profile_picture,
 			review: r.text,
-			stars: r.rating || 5,
+			stars: r.rating || 0,
 			userName: reviewer[0]?.username,
 			dateTime: r.date,
 		};
