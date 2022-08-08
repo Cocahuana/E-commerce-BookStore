@@ -23,7 +23,7 @@ const VisitorMobileNav = () => {
 			/>
 			<MenuList>
 				<MenuItem>
-					<BtnDarkMode /> <FavouriteList widt={'10%'} dis={'none'} />{' '}
+					<BtnDarkMode />
 					<CartDrawer />
 				</MenuItem>
 				<MenuItem>
