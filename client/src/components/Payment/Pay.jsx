@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Button } from '@chakra-ui/react';
+import { Box, Heading, Text, Button, VStack, Stack } from '@chakra-ui/react';
 import StripeCheckout from 'react-stripe-checkout';
 import axios from 'axios';
 import React, { useEffect } from 'react';
@@ -50,43 +50,61 @@ export default function Pay() {
 	}, [stripeToken]);
 
 	return (
-		<Box textAlign='center' py={10} px={6} pt='24' h='90vh'>
+		<VStack
+			justify={'space-evenly'}
+			textAlign='center'
+			py={10}
+			px={6}
+			pt='24'
+			h='90vh'>
 			<Heading
 				display='inline-block'
 				as='h2'
 				size='2xl'
-				bgGradient='linear(to-r, red.400, red.600)'
+				bgGradient='linear(to-r, blue.600, blue.400)'
 				backgroundClip='text'>
-				PAY!!
+				Your purchase is ready
 			</Heading>
 			{
 				//StripeCheckout es un componente que trae por defecto Stripe. No se debe quitar
 			}
-			<StripeCheckout
-				name={userName}
-				image={userProfilePicture}
-				description={`Your total is ${summary}`}
-				amount={total}
-				token={onToken}
-				stripeKey={KEY}>
-				<Button>
-					<Text fontSize='18px' mt={3} mb={2}>
-						HERE
-					</Text>
-				</Button>
-			</StripeCheckout>
-			<Text color={'gray.500'} mb={6}>
-				This is a payment page
-			</Text>
+			<Stack w={{base:"100%", sm:"70%", md:"50%", lg:"30%"}} rounded={"5px"} p={"10px"} shadow={"black 0 0 15px"} border={"solid 1px gray"}>
+				<Text fontSize={"20px"} color={'gray.500'} mb={6}>
+					Your total is: US${summary.toFixed(2)}
+				</Text>
+				<StripeCheckout
+					name={userName}
+					image={userProfilePicture}
+					description={`Your total is ${summary}`}
+					amount={total}
+					token={onToken}
+					stripeKey={KEY}>
+					<Button
+						p={'30px'}
+						bgGradient='linear(to-r, blue.600, blue.400)'
+						color={'whiteAlpha.700'}
+						_hover={{
+							bgGradient: 'linear(to-r, blue.400, blue.600)',
+							color: 'black',
+						}}>
+						<Text fontSize='18px' mt={3} mb={2}>
+							Click here to buy
+						</Text>
+					</Button>
+				</StripeCheckout>
+			</Stack>
 			<BuenLink to='/'>
 				<Button
-					colorScheme='red'
-					bgGradient='linear(to-r, red.400, red.500, red.600)'
-					color='white'
+					bgGradient='linear(to-r, blue.400, blue.600)'
+					color={'whiteAlpha.700'}
+					_hover={{
+						bgGradient: 'linear(to-r, blue.600, blue.400)',
+						color: 'black',
+					}}
 					variant='solid'>
 					Back to BookStore
 				</Button>
 			</BuenLink>
-		</Box>
+		</VStack>
 	);
 }

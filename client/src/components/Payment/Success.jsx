@@ -17,7 +17,6 @@ export default function Success() {
 	const dispatch = useDispatch();
 	const [loader, setLoader] = useState(true);
 	let [receipt, setReceipt] = useState({});
-	let receiptCart = [];
 
 	console.log('purchasedCart', purchasedCart);
 	console.log('activeCart', activeCart);
@@ -29,13 +28,12 @@ export default function Success() {
 	setTimeout(() => {
 		purchasedCart?.map((e) => {
 			if (e.id === activeCart.id) {
-				receiptCart.push(e);
 				setReceipt(e);
 			}
 		});
 		setLoader(false);
 	}, 1000);
-	console.log('recieptCart', receiptCart);
+
 
 	return (
 		<Box textAlign='center' py={10} px={6} pt='24' h='90vh'>
@@ -43,7 +41,7 @@ export default function Success() {
 				display='inline-block'
 				as='h2'
 				size='2xl'
-				bgGradient='linear(to-r, red.400, red.600)'
+				bgGradient='linear(to-r, blue.600, blue.400)'
 				backgroundClip='text'>
 				Success
 			</Heading>
@@ -53,7 +51,7 @@ export default function Success() {
 			<Text color={'gray.500'} mb={6}>
 				Your purchase was succesful!
 			</Text>
-			<Link to='/'>
+			<Link to='/books'>
 				<Stack color={'blue'}>
 					{loader ? (
 						<Center>
@@ -76,9 +74,12 @@ export default function Success() {
 					{<h1>{receipt.totalPrice}</h1>}
 				</Stack>
 				<Button
-					colorScheme='red'
-					bgGradient='linear(to-r, red.400, red.500, red.600)'
-					color='white'
+					bgGradient='linear(to-r, blue.400, blue.600)'
+					color={'whiteAlpha.700'}
+					_hover={{
+						bgGradient: 'linear(to-r, blue.600, blue.400)',
+						color: 'black',
+					}}
 					variant='solid'>
 					Back to BookStore
 				</Button>
