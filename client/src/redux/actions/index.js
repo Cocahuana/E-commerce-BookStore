@@ -187,6 +187,12 @@ export function hideBook(payload) {
 		// });
 	};
 }
+export function showBook(payload) {
+	return async function () {
+		console.log(payload);
+		await axios.put('admin/show', payload);
+	};
+}
 
 export function toBanUser(id, token) {
 	return async function (dispatch) {
@@ -339,16 +345,21 @@ export function checkStates() {
 
 export function userSignUp(user) {
 	return async function (dispatch) {
-		var result = await axios.post(`/user/register`, {
-			username: user.username,
-			email: user.email,
-			password: user.password,
-		});
-
-		return dispatch({
-			type: SIGN_UP,
-			payload: result.data.username,
-		});
+		try {
+			var result = await axios.post(`/user/register`, {
+				email: user.email,
+				username: user.username,
+				password: user.password,
+			});
+			console.log(result);
+			return dispatch({
+				type: SIGN_UP,
+				payload: result.data,
+			});
+		} catch (error) {
+			// alert(error.response.data);
+			Swal.fire('Sign Up Failed!', error.response.data, 'warning');
+		}
 	};
 }
 
@@ -521,6 +532,7 @@ export function checkoutCart(userId, token) {
 		},
 	};
 	return async function (dispatch) {
+
 		let checkoutCartId = await axios.put(
 			`/cart/checkout/`,
 			{ userId },
@@ -579,7 +591,7 @@ export function upgradeToAdmin(userId, token) {
 }
 
 export function sendConfirmation(userId, cartId) {
-	return async function(dispatch) {
-		let response = axios.put(`/mail/order`, { userId, cartId})
-	}
+	return async function (dispatch) {
+		let response = axios.put(`/mail/order`, { userId, cartId });
+	};
 }

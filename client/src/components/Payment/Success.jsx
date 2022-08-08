@@ -23,26 +23,7 @@ export default function Success() {
 	const dispatch = useDispatch();
 	const [loader, setLoader] = useState(true);
 
-	let [receipt, setReceipt] = useState({});
-
-	console.log('purchasedCart', purchasedCart);
-	console.log('activeCart', activeCart);
-
-	useEffect(() => {
-		dispatch(getPurchasedCart(userId));
-	}, [dispatch]);
-
-	setTimeout(() => {
-		purchasedCart?.map((e) => {
-			if (e.id === activeCart.id) {
-				setReceipt(e);
-			}
-		});
-		setLoader(false);
-	}, 1000);
-
 	if (purchasedCart.Books?.length && loader) setLoader(false);
-
 
 	useEffect(() => {
 		if (userId && purchasedCart.CartId) {
@@ -78,37 +59,16 @@ export default function Success() {
 						/>
 					</Center>
 				) : (
-					receipt?.Books?.map((e) => (
+					purchasedCart?.Books?.map((e) => (
 						<Text>
 							<p>{e.title}</p>
 							<p>{e.price}</p>
 						</Text>
 					))
 				)}
-				{<h1>{receipt.totalPrice}</h1>}
+				{<h1>{purchasedCart.Total}</h1>}
 			</Stack>
 			<Link to='/books'>
-				<Stack color={'blue'}>
-					{loader ? (
-						<Center>
-							<Spinner
-								thickness='4px'
-								speed='0.65s'
-								emptyColor='gray.200'
-								color='blue.500'
-								size='xl'
-							/>
-						</Center>
-					) : (
-						purchasedCart?.Books?.map((e) => (
-							<Text>
-								<p>{e.title}</p>
-								<p>{e.price}</p>
-							</Text>
-						))
-					)}
-					{<h1>{purchasedCart.Total}</h1>}
-				</Stack>
 				<Button
 					bgGradient='linear(to-r, blue.400, blue.600)'
 					color={'whiteAlpha.700'}

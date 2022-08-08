@@ -22,17 +22,19 @@ import {
 import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { Link as BuenLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { userSignUp } from '../../redux/actions/index';
 import validate from '../validations.js';
 import Swal from 'sweetalert2';
+import { useToast } from '@chakra-ui/react';
 
 function SignUp() {
 	const [show, setShow] = React.useState(false);
 	//const handleClick = () => setShow(!show);
 	const dispatch = useDispatch();
 	const history = useHistory();
+	const toast = useToast();
 
 	const [registerUser, setRegisterUser] = useState({
 		username: '',
@@ -41,6 +43,21 @@ function SignUp() {
 	});
 
 	const [errors, setErrors] = useState({});
+
+	const { registeredUsers } = useSelector((state) => state);
+	if (registeredUsers?.email === registerUser?.email) {
+		Swal.fire(
+			'Sign Up',
+			'You have been registered successfully!',
+			'success'
+		);
+		setRegisterUser({
+			username: '',
+			email: '',
+			password: '',
+		});
+		history.push(`/login`);
+	}
 
 	const handleOnChange = (e) => {
 		const { name, value } = e.target;
@@ -60,26 +77,27 @@ function SignUp() {
 		e.preventDefault();
 
 		if (Object.values(errors).length > 0) {
-			alert('Please complete the information required');
+			toast({
+				title: 'Please complete the information required',
+				status: 'warning',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'bottom',
+			});
 		} else if (
 			registerUser.username === '' ||
 			registerUser.email === '' ||
 			registerUser.password === ''
 		) {
-			alert('Please complete the form');
+			toast({
+				title: 'Please complete the form',
+				status: 'warning',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'bottom',
+			});
 		} else {
 			dispatch(userSignUp(registerUser));
-			Swal.fire(
-				'Sign Up',
-				'You have been registered successfully!',
-				'success'
-			);
-			setRegisterUser({
-				username: '',
-				email: '',
-				password: '',
-			});
-			history.push(`/login`);
 		}
 	};
 

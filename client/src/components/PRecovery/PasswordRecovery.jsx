@@ -30,6 +30,7 @@ import { UserAuth } from '../firebase/context.jsx';
 function PasswordRecovery(props) {
 	const [show, setShow] = React.useState(false);
 	const [passwords, setPasswords] = React.useState(['', '']);
+	const [errors, setErrors] = React.useState({});
 	const { userId } = props.match.params;
 	return (
 		<Stack
