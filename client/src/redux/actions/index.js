@@ -182,10 +182,10 @@ export function hideBook(payload) {
 	return async function (dispatch) {
 		console.log(payload);
 		var json = await axios.put('admin/hide', payload);
-		return dispatch({
-			type: HIDE_BOOKS,
-			payload: json.data,
-		});
+		// return dispatch({
+		// 	type: HIDE_BOOKS,
+		// 	payload: '',
+		// });
 	};
 }
 

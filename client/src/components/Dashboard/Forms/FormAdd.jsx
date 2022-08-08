@@ -78,7 +78,7 @@ function FormAdd(props) {
 	const image = useRef(null);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
-	console.log('FORM-ADD', token);
+	//console.log('FORM-ADD', token);
 
 	const [errors, setErrors] = useState({});
 
@@ -131,6 +131,9 @@ function FormAdd(props) {
 			})
 		);
 	}
+	console.log(errors);
+	console.log(input.genre);
+
 	function handdleSelectLanguage(e) {
 		setInput({
 			...input,
@@ -230,7 +233,7 @@ function FormAdd(props) {
 					isClosable: 'true',
 					duration: '2500',
 				});
-				dispatch(modifyBook({ id, input, token }));
+				dispatch(modifyBook({ id, input }));
 				console.log('modificado :D');
 
 				dispatch(getBooks());
@@ -263,7 +266,6 @@ function FormAdd(props) {
 			});
 		}
 	}
-	console.log(input);
 
 	const chooseimage = () => {
 		image.current.click();
@@ -426,7 +428,6 @@ function FormAdd(props) {
 									</RadioGroup>
 								</FormControl>
 								<FormControl
-									isRequired
 									as={GridItem}
 									colSpan={[6, 3]}
 									isInvalid={errors.genre}
