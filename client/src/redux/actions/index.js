@@ -526,13 +526,15 @@ export function checkoutCart(userId, token) {
 		},
 	};
 	return async function (dispatch) {
-		let checkoutCart = await axios.put(
+		let checkoutCartId = await axios.put(
+
 			`/cart/checkout/`,
 			{ userId },
 			config
 		);
 		return dispatch({
 			type: CHECKOUT_CART,
+			payload: checkoutCartId.data,
 		});
 	};
 }
@@ -580,4 +582,10 @@ export function upgradeToAdmin(userId, token) {
 			payload: users.data,
 		});
 	};
+}
+
+export function sendConfirmation(userId, cartId) {
+	return async function(dispatch) {
+		let response = axios.put(`/mail/order`, { userId, cartId})
+	}
 }
