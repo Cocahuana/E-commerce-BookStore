@@ -34,6 +34,7 @@ export default function Success() {
 		setLoader(false);
 	}, 1000);
 
+
 	return (
 		<Box textAlign='center' py={10} px={6} pt='24' h='90vh'>
 			<Heading
