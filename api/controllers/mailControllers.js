@@ -34,7 +34,7 @@ const orderConfirmation = async (req, res, next) => {
             (previousValue, currentValue) => previousValue + currentValue);
 
         await transporter.sendMail({
-            from: '"Bookovich" <ritual.makeup.commerce@gmail.com>',
+            from: '"Bookovich" <bookovich.book.store@gmail.com>',
             to: user.email,
             subject: `Order number ${order.id} Confirmation`,
             html: `<p>Receipt of purchase, Order n° ${order.id}.<br>
@@ -64,7 +64,7 @@ const userCreated = async (req, res, next) => {
         if (!user) return res.status(400).send('User not found');
 
         await transporter.sendMail({
-            from: '"Bookovich"<ritual.makeup.commerce@gmail.com>',
+            from: '"Bookovich"<bookovich.book.store@gmail.com>',
             to: user.email,
             subject: `Thank you ${user.username}! For signing up to Bookovich E-Commerce`,
             html:`<h4><b>Welcome!</b></h4>
@@ -95,7 +95,7 @@ const newsletterUpdate = async (req, res, next) => {
         if (!user) return res.status(400).send('User not found');
         
         await transporter.sendMail({
-            from: '"Bookovich"<ritual.makeup.commerce@gmail.com>',
+            from: '"Bookovich"<bookovich.book.store@gmail.com>',
             to: user.email,
             subject: `Thank you for subscribing to our Newsletter!`,
             html:`<h4>Welcome to the club!🎉</h4>
@@ -127,7 +127,7 @@ const newOffers = async (req, res, next) => {
 
         users.forEach(user=>{
             arrayPromises.push(transporter.sendMail({
-                from: '"Bookovich"<ritual.makeup.commerce@gmail.com>',
+                from: '"Bookovich"<bookovich.book.store@gmail.com>',
                 to: user.email,
                 subject: `There are new offers from Bookovich! 🎉🎉`,
                 html:`<p>Check out our new offers available at our webpage <a href="https://e-commerce-book-store.vercel.app/">Bookovich</a>!
@@ -175,7 +175,7 @@ const specificOffer = async (req, res, next) =>{
 
         usersToMail.forEach(user=>{
             arrayPromises.push(transporter.sendMail({
-                from: '"Bookovich"<ritual.makeup.commerce@gmail.com>',
+                from: '"Bookovich"<bookovich.book.store@gmail.com>',
                 to: user.email,
                 subject: `A book in your favorites is on SALE! 🎉🎉`,
                 html:`<p><b>${bookObject.title}</b> is now on sale! For a LIMITED TIME⏰ you can buy it at US$ ${bookObject.salePrice}!!
@@ -197,23 +197,22 @@ const specificOffer = async (req, res, next) =>{
 };
 
 const passwordRecovery = async (req, res, next) => {
-    let { userId } = req.body;
+    let { email } = req.body;
     try{
         let user = await User.findOne({
             where:{
-                id: userId,
+                email: email,
             },
         });
-
         if (!user) return res.status(400).send('User not found');
         
         await transporter.sendMail({
-            from: '"Bookovich"<ritual.makeup.commerce@gmail.com>',
+            from: '"Bookovich"<bookovich.book.store@gmail.com>',
             to: user.email,
             subject: `Password recovery email`,
             html:`<h4>You are receiving this mail because a password reset was requested</h4>
-            <p>Click the following link to start reseting your password: <a href="https://e-commerce-book-store.vercel.app/">Bookovich</a>.
-            <br>Or copy & paste this URL in your browser: https://e-commerce-book-store.vercel.app/</p>`
+            <p>Click the following link to start reseting your password: <a href="https://e-commerce-book-store.vercel.app/recovery/${user.id}">Bookovich</a>.
+            <br>Or copy & paste this URL in your browser: https://e-commerce-book-store.vercel.app/recovery/${user.id}</p>`
           }, (err, info) => {
             if (err) {
               res.status(400).send(err.message);

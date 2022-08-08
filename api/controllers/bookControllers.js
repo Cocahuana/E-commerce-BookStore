@@ -24,27 +24,7 @@ const getPopularBooks = async (req, res, next) => {
 const findAllBooks = async (req, res, next) => {
 	//ruta maldita no la usamos mas en el front porq no trae los generos. porq? No hay porq
 	try {
-		var result = await Books.findAll(
-			{
-				where: {
-					stock: {
-						[Op.not]: 0,
-					},
-				},
-			},
-			{
-				include: [
-					{
-						model: Genre,
-						through: { attributes: [] },
-					},
-					{
-						model: Language,
-						through: { attributes: [] },
-					},
-				],
-			}
-		);
+		var result = await Books.findAll();
 		res.send(result);
 	} catch (e) {
 		next(e);
@@ -134,11 +114,17 @@ const putBook = async (req, res, next) => {
 				{
 					title: title ? title : currentBook.title,
 					authors:
-						authors.length > 0 ? authors.join(', ') : currentBook.authors,
+						authors.length > 0
+							? authors.join(', ')
+							: currentBook.authors,
 					price: price ? price : currentBook.price,
-					description: description ? description : currentBook.description,
+					description: description
+						? description
+						: currentBook.description,
 					image: image ? image : currentBook.image,
-					previewLink: previewLink ? previewLink : currentBook.previewLink,
+					previewLink: previewLink
+						? previewLink
+						: currentBook.previewLink,
 					flag: flag ? flag : currentBook.flag,
 					currency: currency ? currency : currentBook.currency,
 					stock: stock ? stock : currentBook.stock,
@@ -151,7 +137,9 @@ const putBook = async (req, res, next) => {
 
 			let genresArray;
 			if (language) {
-				let lenguaje = await Language.findOne({ where: { name: language } });
+				let lenguaje = await Language.findOne({
+					where: { name: language },
+				});
 				await currentBook.setLanguages(lenguaje);
 			}
 			if (genre) {
@@ -165,9 +153,9 @@ const putBook = async (req, res, next) => {
 
 				await currentBook.setGenres(genresArray);
 			}
-			res
-				.status(200)
-				.send(`${title ? title : currentBook.title} has been updated`);
+			res.status(200).send(
+				`${title ? title : currentBook.title} has been updated`
+			);
 		} else {
 			res.status(400).send(`Book with id ${id} not found`);
 		}
@@ -180,14 +168,43 @@ const putBook = async (req, res, next) => {
 const postComment = async (req, res, next) => {
 	try {
 		const { comment, rating, userId, bookId } = req.body;
-		const user = await User.findByPk(userId); //descomentar cuando haya users
-		const book = await Books.findByPk(parseInt(bookId));
+		const user = await User.findOne({
+			where: {
+				id: userId,
+				status: {
+					[Op.not]: 'Banned',
+				},
+			},
+		});
+
+		if (!user)
+			return res
+				.status(400)
+				.send(
+					'User has not been found or is banned from making comments'
+				);
+		const book = await Books.findByPk(parseInt(bookId), {
+			include: {
+				model: Comment,
+				as: 'Comments',
+			},
+		});
 		const newComment = await Comment.create({
 			text: comment,
 			rating: rating,
 		});
+
+		let newRating = book.Comments.map((comment) => comment.rating);
+		let divisor = newRating.length + 1;
+		newRating = [...newRating, rating].reduce(
+			(previousValue, currentValue) => previousValue + currentValue
+		);
+
+		await book.update({
+			rating: parseFloat((newRating / divisor).toFixed(1)),
+		});
 		await book.addComment(newComment);
-		await user.addComment(newComment); //descomentar cuando haya users
+		await user.addComment(newComment);
 		res.send('Comment Created!');
 	} catch (error) {
 		console.log(error);

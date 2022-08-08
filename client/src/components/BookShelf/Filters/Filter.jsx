@@ -5,6 +5,8 @@ import {
 	Center,
 	Checkbox,
 	Flex,
+	HStack,
+	VStack,
 	Icon,
 	RangeSlider,
 	RangeSliderFilledTrack,
@@ -73,6 +75,11 @@ function Filter({ setCurrentPage }) {
 	};
 
 	const handleSlideChange = (pricesArr) => {
+		if (pricesArr[0] === pricesArr[1] && pricesArr[1] === 60) {
+			pricesArr[0] = pricesArr[0] - 1;
+		} else if (pricesArr[0] === pricesArr[1] && pricesArr[0] === 0) {
+			pricesArr[1] = pricesArr[1] + 1;
+		}
 		setSliderValue(pricesArr);
 	};
 
@@ -167,66 +174,78 @@ function Filter({ setCurrentPage }) {
 				</Flex>
 			</Center>
 
-			<Flex
-				justify='space-between'
-				alignItems='center'
-				flexDirection={'column'}>
-				Genres:
-				<Stack spacing={5} direction='column'>
-					<Flex direction='column'>
-						<Stack spacing={4}>
-							{genres.map((p, g) => (
-								<Checkbox
-									onChange={(e) => handleCheckChange(e)}
-									value={p.name}
-									isChecked={isChecked.includes(p.name)}
-									key={g}>
-									{p.name}
-								</Checkbox>
-							))}
-						</Stack>
-					</Flex>
-				</Stack>
-			</Flex>
-
-			<Flex
-				justify='space-between'
-				alignItems='center'
-				flexDirection={'column'}>
-				Languages:
-				<Stack spacing={5} direction='column'>
-					<Flex direction='column'>
-						<Stack spacing={4}>
-							<Checkbox
-								onChange={(e) => handleLanguage(e)}
-								value={'ENGLISH'}
-								isChecked={language === 'ENGLISH'}>
-								English
-							</Checkbox>
-							<Checkbox
-								onChange={(e) => handleLanguage(e)}
-								value={'ESPAÑOL'}
-								isChecked={language === 'ESPAÑOL'}>
-								Spanish
-							</Checkbox>
-						</Stack>
-					</Flex>
-				</Stack>
-			</Flex>
-
-			<Center>
-				<Flex alignItems='center' direction='column'>
-					Tags:
-					<Stack spacing={0} direction='column' alignItems='center'>
-						<Checkbox
-							onChange={(e) => handleOnSale(e)}
-							value='onsale'
-							isChecked={onsale}>
-							On Sale Only
-						</Checkbox>
+			<VStack justify={"center"} alignItems={"center"} w={"100%"}>
+				<Flex
+					justify='space-between'
+					alignItems='center'
+					flexDirection={'column'}>
+					Genres:
+					<Stack
+						pt={'10px'}
+						spacing={5}
+						direction='column'>
+						<Flex direction='column'>
+							<Stack spacing={4}>
+								{genres.map((p, g) => (
+									<Checkbox
+										onChange={(e) => handleCheckChange(e)}
+										value={p.name}
+										isChecked={isChecked.includes(p.name)}
+										key={g}>
+										{p.name}
+									</Checkbox>
+								))}
+							</Stack>
+						</Flex>
 					</Stack>
 				</Flex>
-			</Center>
+
+				<Flex
+					pt={'15px'}
+					alignItems='center'
+					justify='space-between'
+					flexDirection={'column'}>
+					Languages:
+					<Stack w={"178px"} pt={'10px'} spacing={5} direction='column'>
+						<Flex direction='column'>
+							<Stack spacing={4}>
+								<Checkbox
+									onChange={(e) => handleLanguage(e)}
+									value={'ENGLISH'}
+									isChecked={language === 'ENGLISH'}>
+									English
+								</Checkbox>
+								<Checkbox
+									onChange={(e) => handleLanguage(e)}
+									value={'ESPAÑOL'}
+									isChecked={language === 'ESPAÑOL'}>
+									Spanish
+								</Checkbox>
+							</Stack>
+						</Flex>
+					</Stack>
+				</Flex>
+
+				<Flex
+					pt={'15px'}
+					justify='space-between'
+					alignItems='center'
+					flexDirection={'column'}>
+					Tags:
+					<Stack w={"178px"} pt={'10px'} spacing={5} direction='column'>
+						<Flex direction='column'>
+							<Stack spacing={4}>
+								<Checkbox
+									onChange={(e) => handleOnSale(e)}
+									value='onsale'
+									isChecked={onsale}>
+									On Sale Only
+								</Checkbox>
+							</Stack>
+						</Flex>
+					</Stack>
+				</Flex>
+				</VStack>
 
 			<Flex
 				justifyContent='center'
@@ -262,8 +281,14 @@ function Filter({ setCurrentPage }) {
 						w='15'>
 						{sliderValue[1]}$
 					</RangeSliderMark>
-					<RangeSliderThumb index={0} bg={useColorModeValue("gray.300", "white")} />
-					<RangeSliderThumb index={1} bg={useColorModeValue("gray.300", "white")} />
+					<RangeSliderThumb
+						index={0}
+						bg={useColorModeValue('gray.300', 'white')}
+					/>
+					<RangeSliderThumb
+						index={1}
+						bg={useColorModeValue('gray.300', 'white')}
+					/>
 				</RangeSlider>
 			</Flex>
 		</Stack>

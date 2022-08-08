@@ -1,6 +1,7 @@
 const axios = require('axios');
 const db = require('../db');
-const { User, Books } = require('../db');
+const { User, Books, Comment, Cart } = require('../db');
+const { Op } = require('sequelize');
 
 const banUser = async (req, res, next) => {
 	let { userId } = req.body;
@@ -13,6 +14,11 @@ const banUser = async (req, res, next) => {
 		if (userToBan) {
 			await userToBan.update({
 				status: 'Banned',
+			});
+			Comment.destroy({
+				where: {
+					UserId: userId,
+				},
 			});
 			res.status(200).send(`User ${userToBan.username} has been banned!`);
 		} else {
@@ -32,8 +38,7 @@ const upgradeToAdmin = async (req, res, next) => {
 			},
 		});
 		if (userToAdmin) {
-			await userToBan.update({
-				//errror aca
+			await userToAdmin.update({
 				status: 'Admin',
 			});
 			res.status(200).send(
@@ -68,4 +73,36 @@ const hideBook = async (req, res, next) => {
 	}
 };
 
-module.exports = { banUser, upgradeToAdmin, hideBook };
+const deleteComment = async (req, res, next) => {
+	let { commentId } = req.body;
+	try {
+		await Comment.destroy({
+			where: {
+				id: commentId,
+			},
+		});
+		res.send(`Comment has been deleted`);
+	} catch (err) {
+		next(err);
+	}
+};
+
+const getAllOrders = async (req, res, next) => {
+  try{
+	let allOrders = await Cart.findAll({
+		where:{
+			status:{
+				[Op.not]: "Active"
+			}
+		},
+		include:{
+			model: Books,
+		}
+	})
+	res.json(allOrders)
+  } catch(err){
+	next(err);
+  } 
+};
+
+module.exports = { banUser, upgradeToAdmin, hideBook, deleteComment, getAllOrders };

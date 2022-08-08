@@ -32,6 +32,13 @@ import {
 	REMOVE_BOOK_CART_DB,
 	CLEAR_CART,
 	SEARCH_BOOK,
+	HIDE_BOOKS,
+	CHECKOUT_CART,
+	BAN_USER,
+	FILTERED_ADMIN_BOOKS,
+	FILTERED_ADMIN_USER,
+	GET_PURCHASED_CART,
+	GET_ACTIVE_CART,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -91,6 +98,7 @@ const InitialState = {
 	details: {},
 	genres: [],
 	booksCopy: [],
+	booksAutocomplete: [],
 	loading: true,
 	filters: {
 		genres: [],
@@ -107,14 +115,18 @@ const InitialState = {
 	token: tokenFromLocalStorage,
 	registeredUsers: [],
 	adminBooks: [],
+	adminBooksCopy: [],
 	userRole: userRoleFromLocalStorage,
 	userId: userIdFromLocalStorage,
 	userName: userNameFromLocalStorage,
 	userEmail: userEmailFromLocalStorage,
 	userProfilePicture: userProfileImageFromLocalStorage,
 	allUsers: [],
+	allUsersCopy: [],
 	isSignedIn: isSignedInFromLocalStorage,
 	allFavourites: favoritesFromLocalStorage,
+	purchasedCart: [],
+	activeCart: {},
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -129,9 +141,10 @@ const rootReducer = (state = InitialState, action) => {
 		case GET_BOOKS: {
 			return {
 				...state,
-				books: action.payload,
-				booksCopy: action.payload,
+				// books: action.payload,
+				// booksCopy: action.payload,
 				adminBooks: action.payload,
+				adminBooksCopy: action.payload,
 				loading: false,
 			};
 		}
@@ -143,14 +156,24 @@ const rootReducer = (state = InitialState, action) => {
 					query: action.payload.query,
 				};
 			}
-			return {
-				...state,
-				booksCopy: action.payload.data,
-				books: action.payload.data,
-				query: action.payload.query,
-				loading: false,
-				adminBooks: action.payload,
-			};
+			if (!action.payload.query) {
+				return {
+					...state,
+					booksAutocomplete: action.payload.data,
+					booksCopy: action.payload.data,
+					books: action.payload.data,
+					query: action.payload.query,
+					loading: false,
+				};
+			} else {
+				return {
+					...state,
+					booksCopy: action.payload.data,
+					books: action.payload.data,
+					query: action.payload.query,
+					loading: false,
+				};
+			}
 		}
 		case GET_GENRES: {
 			return {
@@ -251,7 +274,9 @@ const rootReducer = (state = InitialState, action) => {
 				//asumo que el libro debe incluirse y si no cumple algun filtro devuelvo false para q sea filtrado (no se incluya en el array)
 
 				//--------Filtro por oferta------------
-				if (state.filters.onsale && book.flag !== 'on-sale') return false;
+
+				if (state.filters.onsale && book.flag !== 'on-sale')
+					return false;
 
 				//--------Filtro por moneda------------
 				//if (state.filters.currency && state.filters.currency!==book.currency) return false
@@ -326,23 +351,27 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		}
 		//--------------------------------------------El ADMIN CAPO--------------------------------------------------
-		case SEARCH_BOOK: {
-			if (typeof action.payload.data === 'string') {
-				return {
-					...state,
-					adminBooks: [],
-					query: action.payload.query,
-				};
-			}
-			return {
-				...state,
-				booksCopy: action.payload.data,
-				books: action.payload.data,
-				query: action.payload.query,
-				loading: false,
-				adminBooks: action.payload,
-			};
-		}
+
+		// case SEARCH_BOOK: {
+		// 	if (typeof action.payload.data === 'string') {
+		// 		return {
+		// 			...state,
+		// 			adminBooks: [],
+		// 			query: action.payload.query,
+		// 		};
+		// 	}
+		// 	return {
+		// 		...state,
+		// 		booksCopy: action.payload.data,
+		// 		books: action.payload.data,
+		// 		query: action.payload.query,
+		// 		loading: false,
+		// 		adminBooks: action.payload,
+		// 	};
+		// }
+
+		// case HIDE_BOOKS: {
+		// }
 		//-----------------------------------------------------------------------------------------------------
 
 		case RESET_DETAILS: {
@@ -379,15 +408,33 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		case GET_CART: {
 			var arrayBooks = action.payload.Books;
-			var arrayNuevo = arrayBooks.map((b) => b.price);
+			var booksLS = JSON.parse(localStorage.getItem('cart'));
+
+			function getDifference(arrayBooks, booksLS) {
+				return arrayBooks.filter((object1) => {
+					return !booksLS.some((object2) => {
+						return object1.id === object2.id;
+					});
+				});
+			}
+
+			var totalCartBooks = get(getDifference(arrayBooks, booksLS));
+
+			var arrayNuevo = totalCartBooks.map((b) => b.price);
 			var suma = 0;
-			for (let i = 0; i < arrayNuevo.length; i++) {
+			for (let i = 0; i < totalCartBooks.length; i++) {
 				suma += arrayNuevo[i];
 			}
 			return {
 				...state,
-				cart: arrayBooks,
+				cart: totalCartBooks,
 				summary: suma,
+			};
+		}
+		case CHECKOUT_CART: {
+			return {
+				...state,
+				cart: [],
 			};
 		}
 		case REMOVE_BOOK_CART_DB: {
@@ -398,16 +445,35 @@ const rootReducer = (state = InitialState, action) => {
 		case CLEAR_CART: {
 			return {
 				...state,
+				cart: [],
 				summary: 0,
+			};
+		}
+		case GET_PURCHASED_CART: {
+			return {
+				...state,
+				purchasedCart: action.payload,
+				loading: false,
+			};
+		}
+		case GET_ACTIVE_CART: {
+			return {
+				...state,
+				activeCart: action.payload,
 			};
 		}
 		case LOGIN:
 			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
+
 			localStorage.setItem('userId', action.payload.id);
 			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('userName', action.payload.username);
 			localStorage.setItem('userEmail', action.payload.email);
-			localStorage.setItem('userProfileImage', action.payload.profile_picture);
+			localStorage.setItem(
+				'userProfileImage',
+				action.payload.profile_picture
+			);
+
 			// localStorage.setItem('token', token);
 			// localStorage.setItem('userRole', userRole);
 			return {
@@ -425,7 +491,10 @@ const rootReducer = (state = InitialState, action) => {
 			localStorage.setItem('isSignedIn', true);
 			localStorage.setItem('userName', action.payload.username);
 			localStorage.setItem('userEmail', action.payload.email);
-			localStorage.setItem('userProfileImage', action.payload.profile_picture);
+			localStorage.setItem(
+				'userProfileImage',
+				action.payload.profile_picture
+			);
 			return {
 				...state,
 				token: action.payload.token,
@@ -438,7 +507,10 @@ const rootReducer = (state = InitialState, action) => {
 			};
 
 		case UPDATE_USER:
-			localStorage.setItem('userProfileImage', action.payload.profile_picture);
+			localStorage.setItem(
+				'userProfileImage',
+				action.payload.profile_picture
+			);
 			return {
 				...state,
 				userId: action.payload.id,
@@ -463,6 +535,7 @@ const rootReducer = (state = InitialState, action) => {
 			localStorage.setItem('userId', null);
 			localStorage.setItem('userRole', null);
 			localStorage.setItem('userEmail', null);
+			localStorage.setItem('summary', 0);
 			localStorage.removeItem('token');
 			return {
 				...state,
@@ -470,7 +543,7 @@ const rootReducer = (state = InitialState, action) => {
 				isSignedIn: false,
 				userId: null,
 				cart: [],
-				//summary: 0,
+				summary: 0,
 				userRole: null,
 				userEmail: null,
 			};
@@ -478,7 +551,10 @@ const rootReducer = (state = InitialState, action) => {
 		case USER_GET_FAVORITES:
 			let favoriteBooks = [];
 			let booksIds = action.payload;
-			favoriteBooks = state.booksCopy.filter((e) => booksIds.includes(e.id));
+
+			favoriteBooks = state.booksCopy.filter((e) =>
+				booksIds.includes(e.id)
+			);
 
 			// localStorage.setItem('favorites', favoriteBooks);
 			return {
@@ -486,6 +562,10 @@ const rootReducer = (state = InitialState, action) => {
 				allFavourites: favoriteBooks,
 			};
 		case USER_ADD_FAVSTATE:
+			let existsFav = state.allFavourites.filter(
+				(el) => el.id === action.payload
+			);
+			if (existsFav.length === 1) return state;
 			let favBook = state.booksCopy.find((p) => p.id === action.payload);
 			return {
 				...state,
@@ -503,8 +583,54 @@ const rootReducer = (state = InitialState, action) => {
 			return {
 				...state,
 				allUsers: action.payload,
+				allUsersCopy: action.payload,
 			};
+		case BAN_USER:
+			return {
+				...state,
+			};
+		case FILTERED_ADMIN_BOOKS:
+			let filteredBooksSearch = [];
+			state.adminBooks = state.adminBooksCopy;
 
+			if (action.payload === '') {
+				filteredBooksSearch = state.adminBooks;
+			} else {
+				state.adminBooks.map((e) => {
+					if (
+						e.title
+							.toLowerCase()
+							.includes(action.payload.toLowerCase())
+					) {
+						filteredBooksSearch.push(e);
+					}
+				});
+			}
+			return {
+				...state,
+				adminBooks: filteredBooksSearch,
+			};
+		case FILTERED_ADMIN_USER:
+			let filteredUserSearch = [];
+			state.allUsers = state.allUsersCopy;
+
+			if (action.payload === '') {
+				filteredUserSearch = state.allUsers;
+			} else {
+				state.allUsers.map((e) => {
+					if (
+						e.username
+							.toLowerCase()
+							.includes(action.payload.toLowerCase())
+					) {
+						filteredUserSearch.push(e);
+					}
+				});
+			}
+			return {
+				...state,
+				allUsers: filteredUserSearch,
+			};
 		default:
 			return {
 				...state,

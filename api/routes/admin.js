@@ -1,14 +1,18 @@
 const express = require('express');
 const { Router } = require('express');
 const passport = require("passport");
-const { banUser, upgradeToAdmin, hideBook } = require("../controllers/adminControllers");
+const { banUser, upgradeToAdmin, hideBook, deleteComment, getAllOrders } = require("../controllers/adminControllers");
 
 const router = Router();
 
-router.put("/ban", passport.authenticate('jwt-admin', {session: false}), banUser);
+router.put("/ban", banUser);
 
-router.put("/upgrade", passport.authenticate('jwt-admin', {session: false}), upgradeToAdmin);
+router.put("/upgrade", upgradeToAdmin);
 
-router.put("/hide", passport.authenticate('jwt-admin', {session: false}), hideBook);
+router.put("/hide", hideBook);
+
+router.put("/comment", deleteComment);
+
+router.get("/orders", getAllOrders);
 
 module.exports = router;

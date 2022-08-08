@@ -26,22 +26,29 @@ function CommentPoster({ id }) {
 	const firstField = React.useRef();
 	const [textarea, setTextArea] = useState('');
 	const [rating, setRating] = useState(0);
+	const [errors, setErrors] = useState({});
 
 	const handleOnChange = (e) => {
 		setTextArea(e.target.value);
 	};
 
 	const handlePost = () => {
-		dispatch(
-			postComment({
-				comment: textarea,
-				rating: rating,
-				userId: userId,
-				bookId: id,
-			})
-		);
-		setTextArea('');
-		onClose();
+		if (rating === 0 || textarea === '') {
+			alert(
+				'please Complete the information required, plus, rating cant be 0'
+			);
+		} else {
+			dispatch(
+				postComment({
+					comment: textarea,
+					rating: rating,
+					userId: userId,
+					bookId: id,
+				})
+			);
+			setTextArea('');
+			onClose();
+		}
 	};
 
 	return (

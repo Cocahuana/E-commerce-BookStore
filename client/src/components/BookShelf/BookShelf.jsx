@@ -15,13 +15,17 @@ import Filter from './Filters/Filter';
 import { Paging } from './Paging/Paging';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getBooksByTitleOrAuthor, userGetFavorite } from '../../redux/actions';
+import {
+	getActiveCart,
+	getBooksByTitleOrAuthor,
+	getCart,
+	userGetFavorite,
+} from '../../redux/actions';
 
 const BookShelf = () => {
 	const dispatch = useDispatch();
-	const { cart, allFavourites, summary, userId, books, query } = useSelector(
-		(state) => state
-	);
+	const { cart, allFavourites, summary, userId, books, query, activeCart } =
+		useSelector((state) => state);
 	const [CurrentPage, setCurrentPage] = useState(1);
 	const BooksPerPage = 12;
 	const indexOfLastBook = CurrentPage * BooksPerPage;
@@ -37,10 +41,12 @@ const BookShelf = () => {
 
 	useEffect(() => {
 		if (!books.length) dispatch(getBooksByTitleOrAuthor(query));
-		dispatch(userGetFavorite(userId));
+		if (userId) dispatch(userGetFavorite(userId));
+		dispatch(getActiveCart(userId));
 		// setting variables in localStorage ----
 		localStorage.setItem('cart', JSON.stringify(cart));
 		localStorage.setItem('summary', JSON.stringify(summary));
+		localStorage.setItem('activeCartId', JSON.stringify(activeCart.id));
 		// localStorage.setItem('favorites', JSON.stringify(allFavourites));
 		if (token.length === 0) {
 			localStorage.setItem('isSignedIn', false);
@@ -71,16 +77,14 @@ const BookShelf = () => {
 						sm: 'column',
 						md: 'column',
 						xl: 'row',
-					}}
-				>
+					}}>
 					<Box minW={'sm'}>
 						<Filter setCurrentPage={setCurrentPage} />
 					</Box>
 					<Box>
 						<Box
 							display={{ base: 'none', md: 'block', lg: 'block' }}
-							pt={{ md: '4', lg: '0' }}
-						>
+							pt={{ md: '4', lg: '0' }}>
 							<Paging
 								BooksPerPage={BooksPerPage}
 								TotalBooksLength={books.length}
@@ -99,8 +103,7 @@ const BookShelf = () => {
 								base: '6',
 								md: '8',
 								lg: '12',
-							}}
-						>
+							}}>
 							<BookHolder>
 								{loading ? (
 									<Center>

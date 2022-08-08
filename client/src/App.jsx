@@ -48,6 +48,7 @@ function App() {
 				<Route path='/register' component={register} />
 				<Route path='/login' component={login} />
 				<Route path='/us' component={AboutUs} />
+				<Route path='/recovery/:userId' />
 				<Route
 					path='/purchase'
 					component={userRole === 'User' ? Purchase : Unauthorized}

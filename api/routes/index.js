@@ -27,7 +27,7 @@ router.use('/user', userRoutes);
 
 router.use(
 	'/admin',
-	passport.authenticate('jwt-admin', { session: false }),
+	// passport.authenticate('jwt-admin', { session: false }),
 	adminRoutes
 );
 
