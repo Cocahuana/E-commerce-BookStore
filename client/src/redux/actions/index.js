@@ -177,17 +177,12 @@ export function searchBooksByAdmin(titleOrAuthor) {
 	};
 }
 export function hideBook(payload) {
-	return async function (dispatch) {
-		var json = await axios.put('admin/hide', payload);
-		// return dispatch({
-		// 	type: HIDE_BOOKS,
-		// 	payload: '',
-		// });
+	return async function () {
+		await axios.put('admin/hide', payload);
 	};
 }
 export function showBook(payload) {
 	return async function () {
-		console.log(payload);
 		await axios.put('admin/show', payload);
 	};
 }
@@ -531,6 +526,8 @@ export function checkoutCart(userId, token) {
 			{ userId },
 			config
 		);
+
+		let checkoutCartId = await axios.put(`/cart/checkout/`, { userId }, config);
 		return dispatch({
 			type: CHECKOUT_CART,
 			payload: checkoutCartId.data,
