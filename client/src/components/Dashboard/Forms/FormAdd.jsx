@@ -78,13 +78,13 @@ function FormAdd(props) {
 	const image = useRef(null);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
-	console.log('FORM-ADD', token);
+	//console.log('FORM-ADD', token);
 
 	const [errors, setErrors] = useState({});
 
 	const { id } = props.match.params;
-	const tituloREGEX =
-		/^[A-Z][a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
+	const tituloREGEX = /^[a-zA-Z ]*$/;
+	//	/^[A-Z][a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
 
 	const [input, setInput] = useState({
 		title: '',
@@ -131,6 +131,9 @@ function FormAdd(props) {
 			})
 		);
 	}
+	console.log(errors);
+	console.log(input);
+
 	function handdleSelectLanguage(e) {
 		setInput({
 			...input,
@@ -230,7 +233,7 @@ function FormAdd(props) {
 					isClosable: 'true',
 					duration: '2500',
 				});
-				dispatch(modifyBook({ id, input, token }));
+				dispatch(modifyBook({ id, input }));
 				console.log('modificado :D');
 
 				dispatch(getBooks());
@@ -243,9 +246,6 @@ function FormAdd(props) {
 					duration: '2500',
 				});
 				dispatch(createBook(input));
-				console.log('creado :D');
-				console.log(input, 'xd');
-
 				dispatch(getBooks());
 
 				history.push('/adminDashboard');
@@ -263,7 +263,6 @@ function FormAdd(props) {
 			});
 		}
 	}
-	console.log(input);
 
 	const chooseimage = () => {
 		image.current.click();
@@ -426,7 +425,6 @@ function FormAdd(props) {
 									</RadioGroup>
 								</FormControl>
 								<FormControl
-									isRequired
 									as={GridItem}
 									colSpan={[6, 3]}
 									isInvalid={errors.genre}

@@ -10,12 +10,18 @@ import {
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { checkoutCart, getCart, getPurchasedCart } from '../../redux/actions';
+import {
+	checkoutCart,
+	clearCart,
+	getCart,
+	getPurchasedCart,
+} from '../../redux/actions';
 
 export default function Success() {
-	const { userId, purchasedCart, activeCart } = useSelector((state) => state);
+	const { userId, purchasedCart, summary } = useSelector((state) => state);
 	const dispatch = useDispatch();
 	const [loader, setLoader] = useState(true);
+
 	let [receipt, setReceipt] = useState({});
 
 	console.log('purchasedCart', purchasedCart);
@@ -33,6 +39,9 @@ export default function Success() {
 		});
 		setLoader(false);
 	}, 1000);
+
+	if (purchasedCart.Books?.length && loader) setLoader(false);
+
 
 	return (
 		<Box textAlign='center' py={10} px={6} pt='24' h='90vh'>
@@ -72,6 +81,27 @@ export default function Success() {
 				{<h1>{receipt.totalPrice}</h1>}
 			</Stack>
 			<Link to='/books'>
+				<Stack color={'blue'}>
+					{loader ? (
+						<Center>
+							<Spinner
+								thickness='4px'
+								speed='0.65s'
+								emptyColor='gray.200'
+								color='blue.500'
+								size='xl'
+							/>
+						</Center>
+					) : (
+						purchasedCart?.Books?.map((e) => (
+							<Text>
+								<p>{e.title}</p>
+								<p>{e.price}</p>
+							</Text>
+						))
+					)}
+					{<h1>{purchasedCart.Total}</h1>}
+				</Stack>
 				<Button
 					bgGradient='linear(to-r, blue.400, blue.600)'
 					color={'whiteAlpha.700'}
