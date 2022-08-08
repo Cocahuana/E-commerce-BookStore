@@ -161,10 +161,6 @@ export function modifyBook(payload) {
 	return async function (dispatch) {
 		console.log(payload);
 		var json = await axios.put(`/books/${payload.id}`, payload.input);
-		return dispatch({
-			type: MODIFY_BOOK,
-			payload: json.data,
-		});
 	};
 }
 export function searchBooksByAdmin(titleOrAuthor) {
@@ -185,10 +181,10 @@ export function hideBook(payload) {
 	return async function (dispatch) {
 		console.log(payload);
 		var json = await axios.put('admin/hide', payload);
-		return dispatch({
-			type: HIDE_BOOKS,
-			payload: json.data,
-		});
+		// return dispatch({
+		// 	type: HIDE_BOOKS,
+		// 	payload: '',
+		// });
 	};
 }
 
