@@ -187,6 +187,12 @@ export function hideBook(payload) {
 		// });
 	};
 }
+export function showBook(payload) {
+	return async function () {
+		console.log(payload);
+		await axios.put('admin/show', payload);
+	};
+}
 
 export function toBanUser(id, token) {
 	return async function (dispatch) {
@@ -521,11 +527,7 @@ export function checkoutCart(userId, token) {
 		},
 	};
 	return async function (dispatch) {
-		let checkoutCartId = await axios.put(
-			`/cart/checkout/`,
-			{ userId },
-			config
-		);
+		let checkoutCartId = await axios.put(`/cart/checkout/`, { userId }, config);
 		return dispatch({
 			type: CHECKOUT_CART,
 			payload: checkoutCartId.data,
@@ -579,7 +581,7 @@ export function upgradeToAdmin(userId, token) {
 }
 
 export function sendConfirmation(userId, cartId) {
-	return async function(dispatch) {
-		let response = axios.put(`/mail/order`, { userId, cartId})
-	}
+	return async function (dispatch) {
+		let response = axios.put(`/mail/order`, { userId, cartId });
+	};
 }
