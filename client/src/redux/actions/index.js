@@ -528,7 +528,7 @@ export function checkoutCart(userId, token) {
 		);
 		return dispatch({
 			type: CHECKOUT_CART,
-			payload: checkoutCartId,
+			payload: checkoutCartId.data,
 		});
 	};
 }
@@ -576,4 +576,10 @@ export function upgradeToAdmin(userId, token) {
 			payload: users.data,
 		});
 	};
+}
+
+export function sendConfirmation(userId, cartId) {
+	return async function(dispatch) {
+		let response = axios.put(`/mail/order`, { userId, cartId})
+	}
 }
