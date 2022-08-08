@@ -418,7 +418,7 @@ const rootReducer = (state = InitialState, action) => {
 				});
 			}
 
-			var totalCartBooks = get(getDifference(arrayBooks, booksLS));
+			var totalCartBooks = getDifference(arrayBooks, booksLS);
 
 			var arrayNuevo = totalCartBooks.map((b) => b.price);
 			var suma = 0;

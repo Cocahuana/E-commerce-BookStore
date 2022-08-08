@@ -31,28 +31,25 @@ const getCart = async (req, res, next) => {
 	}
 };
 
-
-const getAllCarts = async (req, res, next) =>{
-    let { userId } = req.query;
-    try{
-        let allCartsUser = await Cart.findAll({
-            where:{
-                UserId: userId,
-            },
-            order:[
-                ["status", "ASC"]
-            ],
-            include:{
-                model: Books,
-                attributes: ["id", "title", "price","authors"],
-                through: {attributes: ["amount"]}
-            }
-        });
-        if(allCartsUser) res.status(200).json(allCartsUser)
-        else res.status(400).send("No user was found with that ID")
-    }catch(err){
-        next(err);
-    }
+const getAllCarts = async (req, res, next) => {
+	let { userId } = req.query;
+	try {
+		let allCartsUser = await Cart.findAll({
+			where: {
+				UserId: userId,
+			},
+			order: [['status', 'ASC']],
+			include: {
+				model: Books,
+				attributes: ['id', 'title', 'price', 'authors'],
+				through: { attributes: ['amount'] },
+			},
+		});
+		if (allCartsUser) res.status(200).json(allCartsUser);
+		else res.status(400).send('No user was found with that ID');
+	} catch (err) {
+		next(err);
+	}
 };
 
 const addBookToCart = async (req, res, next) => {
@@ -220,57 +217,74 @@ const clearCart = async (req, res, next) => {
 	} catch (err) {
 		next(err);
 	}
-
 };
 
-const checkoutCart = async (req, res, next) =>{
-    let { userId } = req.body;
-    try{
-        let arrayPromises = [];
-        let user = await User.findByPk(userId);
-        let oldCart = await Cart.findOne({
-            where:{
-                UserId: userId,
-                status: "Active",
-            },
-            include:{
-                model: Books,
-            },
-        })
-        let totalPrice = oldCart.Books.map(book => book.price).reduce(
-            (previousValue, currentValue) => previousValue + currentValue);
+const checkoutCart = async (req, res, next) => {
+	let { userId } = req.body;
+	try {
+		let arrayPromises = [];
+		let user = await User.findByPk(userId);
+		let oldCart = await Cart.findOne({
+			where: {
+				UserId: userId,
+				status: 'Active',
+			},
+			include: {
+				model: Books,
+			},
+		});
+		let totalPrice = oldCart.Books.map((book) => book.price).reduce(
+			(previousValue, currentValue) => previousValue + currentValue
+		);
 
-        //RESTAMOS EL STOCK / CHECKEAMOS SI HAY STOCK
-        let books = oldCart.Books.map(book=> book.id)
-        let newStock = oldCart.Books.map(book => book.stock - book.Cart_Books.amount)
-        if(!newStock.every(stock => stock > 0)) return res.status(400).send("A book in the cart does not have enough stock")
-        for(let i = 0; i < books.length; i++){
-            arrayPromises.push(Books.update({
-                stock: newStock[i],
-            },{
-                where:{
-                    id: books[i]
-                }
-            }))
-        };
+		//RESTAMOS EL STOCK / CHECKEAMOS SI HAY STOCK
+		let books = oldCart.Books.map((book) => book.id);
+		let newStock = oldCart.Books.map(
+			(book) => book.stock - book.Cart_Books.amount
+		);
+		if (!newStock.every((stock) => stock > -1))
+			return res
+				.status(400)
+				.send('A book in the cart does not have enough stock');
+		for (let i = 0; i < books.length; i++) {
+			arrayPromises.push(
+				Books.update(
+					{
+						stock: newStock[i],
+					},
+					{
+						where: {
+							id: books[i],
+						},
+					}
+				)
+			);
+		}
 
-        arrayPromises.push(Cart.update({
-            status: "Disabled",
-            totalPrice: totalPrice.toFixed(2),
-        },{
-            where:{
-                UserId: userId,
-            }
-        }));
+		arrayPromises.push(
+			Cart.update(
+				{
+					status: 'Disabled',
+					totalPrice: totalPrice.toFixed(2),
+				},
+				{
+					where: {
+						UserId: userId,
+					},
+				}
+			)
+		);
 
-        let newCart = await Cart.create()
-        arrayPromises.push(newCart.setUser(user))
+		let newCart = await Cart.create();
+		arrayPromises.push(newCart.setUser(user));
 
-        await Promise.all(arrayPromises)
-        res.status(200).send("Cart has been checked out, you can still continue purchasing tho!")
-    }catch(err){
-        next(err);
-    }
+		await Promise.all(arrayPromises);
+		res.status(200).send(
+			'Cart has been checked out, you can still continue purchasing tho!'
+		);
+	} catch (err) {
+		next(err);
+	}
 };
 
 const bulkAdd = async (req, res, next) => {

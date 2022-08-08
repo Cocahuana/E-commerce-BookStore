@@ -10,10 +10,17 @@ import {
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { checkoutCart, getCart, getPurchasedCart } from '../../redux/actions';
+import {
+	checkoutCart,
+	clearCart,
+	getCart,
+	getPurchasedCart,
+} from '../../redux/actions';
 
 export default function Success() {
-	const { userId, purchasedCart, activeCart } = useSelector((state) => state);
+	const { userId, purchasedCart, activeCart, summary } = useSelector(
+		(state) => state
+	);
 	const dispatch = useDispatch();
 	const [loader, setLoader] = useState(true);
 	let [receipt, setReceipt] = useState({});
@@ -23,6 +30,9 @@ export default function Success() {
 
 	useEffect(() => {
 		dispatch(getPurchasedCart(userId));
+		return () => {
+			dispatch(clearCart(userId));
+		};
 	}, [dispatch]);
 
 	setTimeout(() => {
@@ -33,7 +43,6 @@ export default function Success() {
 		});
 		setLoader(false);
 	}, 1000);
-
 
 	return (
 		<Box textAlign='center' py={10} px={6} pt='24' h='90vh'>
@@ -71,7 +80,7 @@ export default function Success() {
 							</Text>
 						))
 					)}
-					{<h1>{receipt.totalPrice}</h1>}
+					{<h1>{summary}</h1>}
 				</Stack>
 				<Button
 					bgGradient='linear(to-r, blue.400, blue.600)'
