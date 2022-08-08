@@ -43,6 +43,7 @@ export default function Pay() {
 				dispatch(checkoutCart(userId, token));
 				console.log(res.data);
 			} catch (err) {
+				history.push('/error');
 				console.log(err);
 			}
 		};
@@ -68,8 +69,13 @@ export default function Pay() {
 			{
 				//StripeCheckout es un componente que trae por defecto Stripe. No se debe quitar
 			}
-			<Stack w={{base:"100%", sm:"70%", md:"50%", lg:"30%"}} rounded={"5px"} p={"10px"} shadow={"black 0 0 15px"} border={"solid 1px gray"}>
-				<Text fontSize={"20px"} color={'gray.500'} mb={6}>
+			<Stack
+				w={{ base: '100%', sm: '70%', md: '50%', lg: '30%' }}
+				rounded={'5px'}
+				p={'10px'}
+				shadow={'black 0 0 15px'}
+				border={'solid 1px gray'}>
+				<Text fontSize={'20px'} color={'gray.500'} mb={6}>
 					Your total is: US${summary.toFixed(2)}
 				</Text>
 				<StripeCheckout
