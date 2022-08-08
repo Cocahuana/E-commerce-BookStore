@@ -23,6 +23,7 @@ import Pay from './components/Payment/Pay';
 import Success from './components/Payment/Success';
 import Purchase from './components/Payment/Purchase';
 import PasswordRecovery from './components/PRecovery/PasswordRecovery';
+import Error from './components/Payment/Error';
 
 /*
  NO SACAR EL SWITCH, AMIGUENSE CON REACT ROUTER DOM V5 :D
@@ -50,6 +51,7 @@ function App() {
 				<Route path='/login' component={login} />
 				<Route path='/recovery/:userId' component={PasswordRecovery} />
 				<Route path='/us' component={AboutUs} />
+				<Route path='/recovery/:userId' />
 				<Route
 					path='/purchase'
 					component={userRole === 'User' ? Purchase : Unauthorized}
@@ -61,6 +63,10 @@ function App() {
 				<Route
 					path='/success'
 					component={userRole === 'User' ? Success : Unauthorized}
+				/>
+				<Route
+					path='/error'
+					component={userRole === 'User' ? Error : Unauthorized}
 				/>
 				<Route
 					path='/adminDashboard'

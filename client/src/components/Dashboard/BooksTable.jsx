@@ -30,12 +30,17 @@ import {
 	PopoverCloseButton,
 	PopoverBody,
 	PopoverFooter,
+	Spinner,
 } from '@chakra-ui/react';
 import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 
 import { Search2Icon, SmallAddIcon } from '@chakra-ui/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { hideBook } from '../../redux/actions/index';
+import {
+	hideBook,
+	filteredAdminBooks,
+	getBooks,
+} from '../../redux/actions/index';
 import { Link as BuenLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -43,7 +48,13 @@ function BooksTable({ books }) {
 	const textColor = useColorModeValue('gray.700', 'white');
 	const dispatch = useDispatch();
 
+	const [booksSearch, setBooksSearch] = useState('');
 	const [scroll, setScroll] = useState(books.slice(0, 20));
+	const [libro, setLibro] = useState(books);
+	if (libro[0] !== books[0] || libro.length !== books.length) {
+		setScroll(books.slice(0, 20));
+		setLibro(books);
+	}
 
 	const fetchMoreData = () => {
 		setTimeout(() => {
@@ -57,10 +68,30 @@ function BooksTable({ books }) {
 
 	const onClickhideBook = (e) => {
 		console.log(e);
-		//dispatch(hideBook({ bookId: e }));
+		dispatch(hideBook({ bookId: e }));
+		reload();
 	};
 
-	return (
+	const handleOnChange = (e) => {
+		e.preventDefault();
+		setBooksSearch(e.target.value);
+	};
+
+	const handleOnClick = () => {
+		dispatch(filteredAdminBooks(booksSearch));
+	};
+
+	return books.length === 0 ? (
+		<Center>
+			<Spinner
+				thickness='4px'
+				speed='0.65s'
+				emptyColor='gray.200'
+				color='blue.500'
+				size='xl'
+			/>
+		</Center>
+	) : (
 		<Box rounded={'md'} boxShadow={'xl'}>
 			<Flex p={'10'} justify={'space-between'} align='center'>
 				<Box>
@@ -74,7 +105,8 @@ function BooksTable({ books }) {
 								fontSize='md'
 								color='gray.600'
 								fontWeight='bold'
-								cursor='pointer'>
+								cursor='pointer'
+							>
 								Create
 							</Text>
 						</Button>
@@ -82,9 +114,11 @@ function BooksTable({ books }) {
 				</Box>
 				<Flex>
 					<InputGroup>
-						<Input />
+						<Input onChange={(e) => handleOnChange(e)} />
 						<InputRightElement>
-							<Search2Icon />
+							<Button onClick={() => handleOnClick()}>
+								<Search2Icon />
+							</Button>
 						</InputRightElement>
 					</InputGroup>
 				</Flex>
@@ -99,14 +133,15 @@ function BooksTable({ books }) {
 							<CircularProgress value={32} color={'blue.200'} />
 						</Box>
 					</Center>
-				}>
+				}
+			>
 				<Table variant='simple' color={textColor}>
 					<Thead>
 						<Tr my='.8rem' pl='0px' color='gray.400'>
 							<Th color='gray.400'>Books</Th>
 							<Th color='gray.400'>Price</Th>
 							<Th color='gray.400'>Books</Th>
-							<Th color='gray.400'>Rating</Th>
+							<Th color='gray.400'>Stock</Th>
 							<Th color='gray.400'>Edit</Th>
 							<Th color='gray.400'>Delete</Th>
 						</Tr>
@@ -114,14 +149,15 @@ function BooksTable({ books }) {
 
 					<Tbody>
 						{scroll.map((b, i) => (
-							<Tr key={i}>
+							<Tr key={i} bg={b.stock < 1 ? 'blackAlpha.300' : ''}>
 								<Td minWidth={{ sm: '250px' }} pl='0px'>
 									<Flex
 										align='center'
 										py='.8rem'
 										minWidth='100%'
 										flexWrap='nowrap'
-										pl={'4'}>
+										pl={'4'}
+									>
 										<Image
 											w='40px'
 											borderRadius='10px'
@@ -133,13 +169,11 @@ function BooksTable({ books }) {
 												fontSize='md'
 												color={textColor}
 												fontWeight='bold'
-												minWidth='10px'>
+												minWidth='10px'
+											>
 												{b.title}
 											</Text>
-											<Text
-												fontSize='sm'
-												color='gray.400'
-												fontWeight='normal'>
+											<Text fontSize='sm' color='gray.400' fontWeight='normal'>
 												{b.authors}
 											</Text>
 										</Flex>
@@ -148,25 +182,16 @@ function BooksTable({ books }) {
 
 								<Td>
 									<Flex direction='column'>
-										<Text
-											fontSize='md'
-											color={textColor}
-											fontWeight='bold'>
+										<Text fontSize='md' color={textColor} fontWeight='bold'>
 											Price
 										</Text>
-										<Text
-											fontSize='sm'
-											color='gray.400'
-											fontWeight='normal'>
+										<Text fontSize='sm' color='gray.400' fontWeight='normal'>
 											${b.price}
 										</Text>
 									</Flex>
 								</Td>
 								<Td>
-									<Badge
-										fontSize='16px'
-										p='3px 10px'
-										borderRadius='8px'>
+									<Badge fontSize='16px' p='3px 10px' borderRadius='8px'>
 										Stock
 									</Badge>
 								</Td>
@@ -175,57 +200,63 @@ function BooksTable({ books }) {
 										fontSize='md'
 										color={textColor}
 										fontWeight='bold'
-										pb='.5rem'>
+										pb='.5rem'
+									>
 										{b.stock}
 									</Text>
 								</Td>
 								<Td>
 									<BuenLink to={`/putBook/${b.id}`}>
-										<Button
-											p='0px'
-											bg='transparent'
-											variant='no-hover'>
-											<Icon
-												color='blue.300'
-												as={FaPencilAlt}
-												me='4px'
-											/>
+										<Button p='0px' bg='transparent' variant='no-hover'>
+											<Icon color='blue.300' as={FaPencilAlt} me='4px' />
 											<Text
 												fontSize='md'
 												color='gray.400'
 												fontWeight='bold'
-												cursor='pointer'>
+												cursor='pointer'
+											>
 												Edit
 											</Text>
 										</Button>
 									</BuenLink>
 								</Td>
 								<Td>
-									<Popover>
-										<PopoverTrigger>
-											<Button></Button>
-										</PopoverTrigger>
-										<Portal>
-											<PopoverContent>
-												<PopoverArrow />
-												<PopoverHeader>
-													Header
-												</PopoverHeader>
-												<PopoverCloseButton />
-												<PopoverBody>
-													<Button
-														colorScheme='blue'
-														onClick={() =>
-															onClickhideBook(
-																b.id
-															)
-														}>
-														Button
-													</Button>
-												</PopoverBody>
-											</PopoverContent>
-										</Portal>
-									</Popover>
+									{b.stock < 1 ? (
+										<Text align={'center'} fontWeight={'bold'} fontSize={'md'}>
+											Hidden
+										</Text>
+									) : (
+										<Popover>
+											<PopoverTrigger>
+												{/* <Button colorScheme='blue'>Hide</Button> */}
+
+												<Button
+													rightIcon={<FaTrashAlt />}
+													colorScheme='red'
+													variant='outline'
+												>
+													Hide Book
+												</Button>
+											</PopoverTrigger>
+											<Portal>
+												<PopoverContent>
+													<PopoverArrow />
+													<PopoverHeader>
+														Would you like to hide this book?
+													</PopoverHeader>
+													<PopoverCloseButton />
+													<PopoverBody>
+														<Button
+															colorScheme='red'
+															onClick={() => onClickhideBook(b.id)}
+														>
+															Hide Book
+														</Button>
+													</PopoverBody>
+												</PopoverContent>
+											</Portal>
+										</Popover>
+									)}
 									{/* <Button
 										p='0px'
 										bg='transparent'

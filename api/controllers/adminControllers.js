@@ -1,6 +1,7 @@
 const axios = require('axios');
 const db = require('../db');
-const { User, Books, Comment } = require('../db');
+const { User, Books, Comment, Cart } = require('../db');
+const { Op } = require('sequelize');
 
 const banUser = async (req, res, next) => {
 	let { userId } = req.body;
@@ -86,4 +87,43 @@ const deleteComment = async (req, res, next) => {
 	}
 };
 
-module.exports = { banUser, upgradeToAdmin, hideBook, deleteComment };
+const getAllOrders = async (req, res, next) => {
+  try{
+	let allOrders = await Cart.findAll({
+		where:{
+			status:{
+				[Op.not]: "Active"
+			}
+		},
+		include:{
+			model: Books,
+		}
+	})
+	res.json(allOrders)
+  } catch(err){
+	next(err);
+  } 
+};
+
+const showBook = async (req, res, next) => {
+	let { bookId } = req.body;
+	try{
+		let bookToShow = await Books.findOne({
+			where: {
+				id: bookId,
+			},
+		});
+		if (bookToShow) {
+			await bookToShow.update({
+				stock: 50,
+			});
+			res.status(200).send(`${bookToShow.title} is now shown!`);
+		} else {
+			res.status(400).send('No book was found with that id');
+		}
+	}catch(err){
+		next(err);
+	}
+};
+
+module.exports = { banUser, upgradeToAdmin, hideBook, showBook, deleteComment, getAllOrders };

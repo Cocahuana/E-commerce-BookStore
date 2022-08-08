@@ -12,6 +12,7 @@ import {
 	Box,
 	useColorModeValue,
 	Text,
+	useToast,
 } from '@chakra-ui/react';
 import Cart from './Cart';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,15 +26,23 @@ const CartDrawer = (props) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const dispatch = useDispatch();
 	const { userId, cart } = useSelector((state) => state);
+	const toast = useToast();
 
 	const handleClick = (newSize) => {
-		dispatch(getCart(userId));
+		// dispatch(getCart(userId));
 		onOpen();
 	};
 
 	const handleDeleteCart = () => {
 		dispatch(clearCart(userId));
 		dispatch(delAllCart());
+		toast({
+			title: 'All books from cart have been removed successfully!',
+			status: 'success',
+			isClosable: 'true',
+			duration: '2000',
+			position: 'bottom',
+		});
 	};
 
 	return (
@@ -88,7 +97,8 @@ const CartDrawer = (props) => {
 											'gray.400',
 											'gray.600'
 										),
-									}}>
+									}}
+									disabled={cart.length === 0}>
 									Purchase now!!
 								</Button>
 							</BuenLink>

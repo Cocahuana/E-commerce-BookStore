@@ -38,7 +38,6 @@ import { PriceTag } from './PriceTag';
 import { Link as BuenLink } from 'react-router-dom';
 import { FaCommentDots } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
-import Swal from 'sweetalert2';
 
 export const Book = (props) => {
 	const { product, rootProps, isFav, setFavs } = props;
@@ -72,6 +71,13 @@ export const Book = (props) => {
 					};
 				});
 				addFavorite(id);
+				toast({
+					title: 'Added to favourites successfully',
+					status: 'success',
+					isClosable: 'true',
+					duration: '2000',
+					position: 'bottom',
+				});
 			} else {
 				setFavs((favs) => {
 					return {
@@ -80,6 +86,13 @@ export const Book = (props) => {
 					};
 				});
 				deleteFavorite(id);
+				toast({
+					title: 'Removed from favourites successfully',
+					status: 'success',
+					isClosable: 'true',
+					duration: '2000',
+					position: 'bottom',
+				});
 			}
 		} else {
 			history.push('/login');
@@ -88,7 +101,7 @@ export const Book = (props) => {
 				status: 'warning',
 				isClosable: 'true',
 				duration: '2000',
-				position: 'top',
+				position: 'bottom',
 			});
 		}
 	};
@@ -110,12 +123,20 @@ export const Book = (props) => {
 			if (e.id === id) flag = false;
 		});
 		if (flag) {
-			Swal.fire({
-				position: 'center',
-				icon: 'success',
+			toast({
 				title: 'Added to the cart successfully',
-				showConfirmButton: false,
-				timer: 900,
+				status: 'success',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'bottom',
+			});
+		} else {
+			toast({
+				title: 'This book is already on the cart',
+				status: 'info',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'bottom',
 			});
 		}
 	};
@@ -125,8 +146,8 @@ export const Book = (props) => {
 		// No Borrar o se destruye el espacio - tiempo
 		setTimeout(() => {
 			dispatch(addToCart(id, userId));
-			history.push('/pay');
-		}, 100);
+			history.push('/purchase');
+		}, 300);
 	};
 
 	const handleDeleteCart = () => {

@@ -95,10 +95,10 @@ export function favourites(props) {
 				<Text display={props.dis} paddingLeft={'5.5%'} w='90%'>
 					Favourite list
 				</Text>
-				<Box>
+				<Flex align={'center'}>
 					<FiHeart fill='red' />
-					{allFavourites.length}
-				</Box>
+					<Box ml={'5px'}>{allFavourites.length}</Box>
+				</Flex>
 			</Button>
 
 			<Modal
@@ -119,8 +119,7 @@ export function favourites(props) {
 						Favourite List
 					</ModalHeader>
 					<ModalCloseButton />
-					<ModalBody
-						p={'0'}>
+					<ModalBody p={'0'}>
 						<Flex>
 							<Container
 								maxW={'100%'}
@@ -188,7 +187,6 @@ export function favourites(props) {
 							</Container>
 						</Flex>
 					</ModalBody>
-					{/* <ModalBody> <h1>You don´t have favorite books</h1> </ModalBody> */}
 				</ModalContent>
 			</Modal>
 		</Stack>

@@ -18,10 +18,19 @@ import {
 	Image,
 	Checkbox,
 	tokenToCSSVar,
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalCloseButton,
+	ModalBody,
+	ModalFooter,
+	useDisclosure,
+	useToast,
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { userLogin, checkStates } from '../../redux/actions/index';
+import { userLogin, checkStates, forgotPass } from '../../redux/actions/index';
 import { useHistory } from 'react-router-dom';
 import { Link as BuenLink } from 'react-router-dom';
 import { GoogleButton } from 'react-google-button';
@@ -33,6 +42,9 @@ function SignIn() {
 	const [show, setShow] = React.useState(false);
 	const { token } = useSelector((state) => state);
 	// const handleClick = () => setShow(!show);
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [email, setEmail] = useState({ email: '' });
+	const toast = useToast();
 
 	const [user, setLoginUser] = useState({
 		email: '',
@@ -64,10 +76,12 @@ function SignIn() {
 	const handleSignIn = (e) => {
 		e.preventDefault();
 		if (user.email === '' || user.password === '') {
-			Swal.fire({
-				icon: 'error',
-				title: 'Oops...',
-				text: 'Login inputs can not be empty, sorry!',
+			toast({
+				title: 'Login inputs can not be empty, sorry!',
+				status: 'warning',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'bottom',
 			});
 		} else {
 			// Compueba si la autentication es correcta o no
@@ -81,28 +95,42 @@ function SignIn() {
 		try {
 			await googleSignIn();
 		} catch (error) {
-			console.log(error);
-			/*const err = error;
-			if (err.response.status === 404) {
-				//Status es el tipo de error y data el send/json del error en el back
-				// console.log('status: ' + err.response.status);
-				// console.log('data: ' + err.response.data);
-				Swal.fire({
-					icon: 'error',
-					title: `${err.response.status}`,
-					text: `${err.response.data}`,
-				});
-			} else if (err.response.status === 400) {
-				//Status es el tipo de error y data el send/json del error en el back
-				// console.log('status: ' + err.response.status);
-				// console.log('data: ' + err.response.data);
-				Swal.fire({
-					icon: 'error',
-					title: `${err.response.status}`,
-					text: `${err.response.data}`,
-				});
-			}
-		}*/
+			toast({
+				title: 'Sorry, something went wrong. Please Try again',
+				status: 'Error',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'bottom',
+			});
+		}
+	};
+
+	const handleOnChangePass = (e) => {
+		setEmail({
+			email: e.target.value,
+		});
+	};
+
+	const handlePass = (e) => {
+		e.preventDefault();
+		if (email.email === '') {
+			toast({
+				title: 'Email input can not be empty, sorry!',
+				status: 'Warning',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'bottom',
+			});
+		} else {
+			toast({
+				title: 'Email was sent succesfully!',
+				status: 'success',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'bottom',
+			});
+			dispatch(forgotPass(email));
+			onClose();
 		}
 	};
 
@@ -155,6 +183,7 @@ function SignIn() {
 							justify={'space-between'}>
 							<Checkbox>Remember me</Checkbox>
 							<Button
+								onClick={onOpen}
 								as={'a'}
 								variant={'link'}
 								color={'blue.500'}>
@@ -169,7 +198,7 @@ function SignIn() {
 							Sign in
 						</Button>
 
-						<Stack align ={"center"}>
+						<Stack align={'center'}>
 							<GoogleButton
 								w={''}
 								justify={'center'}
@@ -209,6 +238,33 @@ function SignIn() {
 					}
 				/>
 			</Flex>
+
+			<Modal size={'xl'} isOpen={isOpen} isCentered onClose={onClose}>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalHeader>Forgot password</ModalHeader>
+					<ModalBody>
+						<Text>
+							We will sent you an email with a link to change your
+							password
+						</Text>
+						<HStack mt={1}>
+							<FormControl>
+								<FormLabel pt={'15px'}>Email</FormLabel>
+								<Input
+									onChange={handleOnChangePass}
+									type='email'
+									label={'Email'}
+								/>
+							</FormControl>
+						</HStack>
+					</ModalBody>
+					<ModalFooter justifyContent={'space-between'} w={'100%'}>
+						<Button onClick={onClose}>Cancelar</Button>
+						<Button onClick={(e) => handlePass(e)}>Enviar</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
 		</Stack>
 	);
 }

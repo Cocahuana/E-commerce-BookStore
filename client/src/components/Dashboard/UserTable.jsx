@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import {
 	Table,
 	Tbody,
@@ -24,7 +24,11 @@ import {
 import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 import { Search2Icon, SmallAddIcon } from '@chakra-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAllUsers, upgradeToAdmin } from '../../redux/actions';
+import {
+	getAllUsers,
+	upgradeToAdmin,
+	filteredAdminUsers,
+} from '../../redux/actions';
 import { toBanUser } from '../../redux/actions/index';
 
 function UserTable({ user }) {
@@ -32,7 +36,7 @@ function UserTable({ user }) {
 	const toast = useToast();
 	const dispatch = useDispatch();
 
-	console.log(user);
+	const [userSearch, setUserSearch] = useState('');
 
 	const { token } = useSelector((state) => state);
 
@@ -68,6 +72,15 @@ function UserTable({ user }) {
 		}
 	};
 
+	const handleOnChange = (e) => {
+		e.preventDefault();
+		setUserSearch(e.target.value);
+	};
+
+	const handleOnClick = () => {
+		dispatch(filteredAdminUsers(userSearch));
+	};
+
 	return (
 		<Box rounded={'md'} boxShadow={'xl'}>
 			<Flex p={'10'} justify={'space-between'} align='center'>
@@ -78,9 +91,11 @@ function UserTable({ user }) {
 				</Box>
 				<Flex>
 					<InputGroup>
-						<Input />
+						<Input onChange={(e) => handleOnChange(e)} />
 						<InputRightElement>
-							<Search2Icon />
+							<Button onClick={() => handleOnClick()}>
+								<Search2Icon />
+							</Button>
 						</InputRightElement>
 					</InputGroup>
 				</Flex>

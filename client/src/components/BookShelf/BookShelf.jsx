@@ -23,9 +23,8 @@ import {
 
 const BookShelf = () => {
 	const dispatch = useDispatch();
-	const { cart, allFavourites, summary, userId, books, query } = useSelector(
-		(state) => state
-	);
+	const { cart, allFavourites, summary, userId, books, query, activeCart } =
+		useSelector((state) => state);
 	const [CurrentPage, setCurrentPage] = useState(1);
 	const BooksPerPage = 12;
 	const indexOfLastBook = CurrentPage * BooksPerPage;
@@ -42,9 +41,14 @@ const BookShelf = () => {
 	useEffect(() => {
 		if (!books.length) dispatch(getBooksByTitleOrAuthor(query));
 		if (userId) dispatch(userGetFavorite(userId));
+		if (userId) dispatch(getCart(userId));
+	}, [dispatch]);
+
+	useEffect(() => {
 		// setting variables in localStorage ----
 		localStorage.setItem('cart', JSON.stringify(cart));
 		localStorage.setItem('summary', JSON.stringify(summary));
+		localStorage.setItem('activeCartId', JSON.stringify(activeCart.id));
 		// localStorage.setItem('favorites', JSON.stringify(allFavourites));
 		if (token.length === 0) {
 			localStorage.setItem('isSignedIn', false);
@@ -53,7 +57,7 @@ const BookShelf = () => {
 			localStorage.setItem('token', token);
 			localStorage.setItem('userRole', userRole);
 		}
-	}, [dispatch, cart, token]);
+	}, [cart, token]);
 
 	useEffect(() => {
 		const favourites = {};
@@ -102,7 +106,7 @@ const BookShelf = () => {
 								md: '8',
 								lg: '12',
 							}}>
-							<BookHolder w={'1000px'}>
+							<BookHolder>
 								{loading ? (
 									<Center>
 										<Spinner

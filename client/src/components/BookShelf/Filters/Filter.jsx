@@ -5,6 +5,8 @@ import {
 	Center,
 	Checkbox,
 	Flex,
+	HStack,
+	VStack,
 	Icon,
 	RangeSlider,
 	RangeSliderFilledTrack,
@@ -172,75 +174,78 @@ function Filter({ setCurrentPage }) {
 				</Flex>
 			</Center>
 
-			<Flex
-				justify='space-between'
-				alignItems='center'
-				flexDirection={'column'}>
-				Genres:
-				<Stack spacing={5} direction='column'>
-					<Flex direction='column'>
-						<Stack spacing={4}>
-							{genres.map((p, g) => (
+			<VStack justify={"center"} alignItems={"center"} w={"100%"}>
+				<Flex
+					justify='space-between'
+					alignItems='center'
+					flexDirection={'column'}>
+					Genres:
+					<Stack
+						pt={'10px'}
+						spacing={5}
+						direction='column'>
+						<Flex direction='column'>
+							<Stack spacing={4}>
+								{genres.map((p, g) => (
+									<Checkbox
+										onChange={(e) => handleCheckChange(e)}
+										value={p.name}
+										isChecked={isChecked.includes(p.name)}
+										key={g}>
+										{p.name}
+									</Checkbox>
+								))}
+							</Stack>
+						</Flex>
+					</Stack>
+				</Flex>
+
+				<Flex
+					pt={'15px'}
+					alignItems='center'
+					justify='space-between'
+					flexDirection={'column'}>
+					Languages:
+					<Stack w={"178px"} pt={'10px'} spacing={5} direction='column'>
+						<Flex direction='column'>
+							<Stack spacing={4}>
 								<Checkbox
-									onChange={(e) => handleCheckChange(e)}
-									value={p.name}
-									isChecked={isChecked.includes(p.name)}
-									key={g}>
-									{p.name}
+									onChange={(e) => handleLanguage(e)}
+									value={'ENGLISH'}
+									isChecked={language === 'ENGLISH'}>
+									English
 								</Checkbox>
-							))}
-						</Stack>
-					</Flex>
-				</Stack>
-			</Flex>
+								<Checkbox
+									onChange={(e) => handleLanguage(e)}
+									value={'ESPAÑOL'}
+									isChecked={language === 'ESPAÑOL'}>
+									Spanish
+								</Checkbox>
+							</Stack>
+						</Flex>
+					</Stack>
+				</Flex>
 
-			<Flex
-				pt={'15px'}
-				justify='space-between'
-				float={'left'}
-				alignItems='center'
-				flexDirection={'column'}>
-				<Text>Languages:</Text>
-				<Stack w={'46.5%'} spacing={5} direction='column'>
-					<Flex direction='column'>
-						<Stack spacing={4}>
-							<Checkbox
-								onChange={(e) => handleLanguage(e)}
-								value={'ENGLISH'}
-								isChecked={language === 'ENGLISH'}>
-								English
-							</Checkbox>
-							<Checkbox
-								onChange={(e) => handleLanguage(e)}
-								value={'ESPAÑOL'}
-								isChecked={language === 'ESPAÑOL'}>
-								Spanish
-							</Checkbox>
-						</Stack>
-					</Flex>
-				</Stack>
-			</Flex>
-
-			<Flex
-				pt={'15px'}
-				justify='space-between'
-				float={'left'}
-				alignItems='center'
-				flexDirection={'column'}>
-				<Text pt={'10px'}>Tags:</Text>
-				<Stack w={'46.5%'} spacing={5} direction='column'>
-					<Flex direction='column'>
-						<Stack spacing={4}>
-							<Checkbox
-								onChange={(e) => handleOnSale(e)}
-								value='onsale'
-								isChecked={onsale}>
-								On Sale Only
-							</Checkbox>
-						</Stack>
-					</Flex>
-				</Stack>
-			</Flex>
+				<Flex
+					pt={'15px'}
+					justify='space-between'
+					alignItems='center'
+					flexDirection={'column'}>
+					Tags:
+					<Stack w={"178px"} pt={'10px'} spacing={5} direction='column'>
+						<Flex direction='column'>
+							<Stack spacing={4}>
+								<Checkbox
+									onChange={(e) => handleOnSale(e)}
+									value='onsale'
+									isChecked={onsale}>
+									On Sale Only
+								</Checkbox>
+							</Stack>
+						</Flex>
+					</Stack>
+				</Flex>
+				</VStack>
 
 			<Flex
 				justifyContent='center'

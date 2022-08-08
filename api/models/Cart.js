@@ -12,7 +12,11 @@ module.exports = (sequelize) => {
 			status:{
                 type: DataTypes.ENUM(["Active", "Disabled"]),
                 defaultValue: "Active",
-            }
+            },
+			totalPrice:{
+				type: DataTypes.FLOAT,
+				defaultValue: 0,
+			}
 		},
 		{ timestamps: false }
 	);

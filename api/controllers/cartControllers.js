@@ -38,13 +38,14 @@ const getAllCarts = async (req, res, next) => {
 			where: {
 				UserId: userId,
 			},
+			order: [['status', 'ASC']],
 			include: {
 				model: Books,
 				attributes: ['id', 'title', 'price', 'authors'],
 				through: { attributes: ['amount'] },
 			},
 		});
-		if (allCartsUser.length) res.status(200).json(allCartsUser);
+		if (allCartsUser) res.status(200).json(allCartsUser);
 		else res.status(400).send('No user was found with that ID');
 	} catch (err) {
 		next(err);
@@ -72,7 +73,10 @@ const addBookToCart = async (req, res, next) => {
 				model: Books,
 			},
 		});
-
+		let newPrice = (
+			cart.totalPrice +
+			(bookToAdd.salePrice ? bookToAdd.salePrice : bookToAdd.price)
+		).toFixed(2);
 		if (!cart)
 			return res.status(400).send('No cart was found with that user ID');
 
@@ -98,9 +102,15 @@ const addBookToCart = async (req, res, next) => {
 					},
 				}
 			);
+			await cart.update({
+				totalPrice: newPrice,
+			});
 			return res.send('Amount increased');
 		} else {
 			await cart.addBook(bookToAdd);
+			await cart.update({
+				totalPrice: newPrice,
+			});
 			return res.send(`${bookToAdd.title} added to cart!`);
 		}
 	} catch (err) {
@@ -130,6 +140,11 @@ const removeOneBookFromCart = async (req, res, next) => {
 			},
 		});
 
+		let newPrice = (
+			cart.totalPrice +
+			(bookToAdd.salePrice ? bookToAdd.salePrice : bookToAdd.price)
+		).toFixed(2);
+
 		if (!cart)
 			return res.status(400).send('No cart was found with that user ID');
 
@@ -150,11 +165,15 @@ const removeOneBookFromCart = async (req, res, next) => {
 			);
 			return res.send({ bookToRemove });
 		} else {
-			if (await cart.removeBook(bookToRemove))
+			if (await cart.removeBook(bookToRemove)) {
+				await cart.update({
+					totalPrice: newPrice,
+				});
 				return res.send(
 					`All copies of ${bookToRemove.title} removed from cart`
 				);
-			else return res.send(`No copies of ${bookToRemove.title} in cart!`);
+			} else
+				return res.send(`No copies of ${bookToRemove.title} in cart!`);
 		}
 	} catch (err) {
 		next(err);
@@ -208,9 +227,12 @@ const clearCart = async (req, res, next) => {
 				model: Books,
 			},
 		});
-
 		if (!cart)
 			return res.status(400).send('No cart was found with that user ID');
+
+		await cart.update({
+			totalPrice: 0,
+		});
 
 		await cart.setBooks([]);
 		res.status(200).send('Cart has been emptied');
@@ -233,13 +255,15 @@ const checkoutCart = async (req, res, next) => {
 				model: Books,
 			},
 		});
+		if (oldCart.Books.length === 0)
+			return res.status(400).send('Cart is empty');
 
 		//RESTAMOS EL STOCK / CHECKEAMOS SI HAY STOCK
 		let books = oldCart.Books.map((book) => book.id);
 		let newStock = oldCart.Books.map(
 			(book) => book.stock - book.Cart_Books.amount
 		);
-		if (!newStock.every((stock) => stock > 0))
+		if (!newStock.every((stock) => stock > -1))
 			return res
 				.status(400)
 				.send('A book in the cart does not have enough stock');
@@ -275,16 +299,14 @@ const checkoutCart = async (req, res, next) => {
 		arrayPromises.push(newCart.setUser(user));
 
 		await Promise.all(arrayPromises);
-		res.status(200).send(
-			'Cart has been checked out, you can still continue purchasing tho!'
-		);
+		res.status(200).send(oldCart.id);
 	} catch (err) {
 		next(err);
 	}
 };
 
 const bulkAdd = async (req, res, next) => {
-	//funcion para cuando un user esta deslogeado se logea se giardan libros
+	//funcion para cuando un user esta deslogeado se logea se guardan libros
 	let { bookObjects, userId } = req.body;
 	let arrayPromises = [];
 	try {
@@ -305,6 +327,13 @@ const bulkAdd = async (req, res, next) => {
 			},
 		});
 
+		let priceSummary = modelFetch
+			.map((book) => (book.salePrice ? book.salePrice : book.price))
+			.reduce(
+				(previousValue, currentValue) => previousValue + currentValue
+			)
+			.toFixed(2);
+
 		let cart = await Cart.findOne({
 			where: {
 				UserId: userId,
@@ -314,6 +343,8 @@ const bulkAdd = async (req, res, next) => {
 				model: Books,
 			},
 		});
+
+		let newPrice = parseFloat(priceSummary) + cart.totalPrice;
 
 		if (!cart)
 			return res.status(400).send('No cart was found with that user ID');
@@ -362,8 +393,16 @@ const bulkAdd = async (req, res, next) => {
 						}
 					)
 				);
+				arrayPromises.push(
+					cart.update({
+						totalPrice: newPrice,
+					})
+				);
 			} else {
 				await cart.addBook(modelFetch[i]);
+				await cart.update({
+					totalPrice: newPrice,
+				});
 			}
 		}
 		await Promise.all(arrayPromises);
