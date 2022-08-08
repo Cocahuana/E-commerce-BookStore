@@ -38,6 +38,7 @@ const registerUser = async (req, res, next) => {
 			password: hashedPassword,
 			username: username,
 			status: status,
+			profile_picture: 'https://media.istockphoto.com/vectors/man-reading-book-and-question-marks-vector-id1146072534?k=20&m=1146072534&s=612x612&w=0&h=sMqSGvSjf4rg1IjZD-6iHEJxHDHOw3ior1ZRmc-E1YQ='
 		});
 
 		let cartToAssociate = await Cart.create();
