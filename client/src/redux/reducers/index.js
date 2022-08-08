@@ -408,32 +408,21 @@ const rootReducer = (state = InitialState, action) => {
 			};
 		case GET_CART: {
 			var arrayBooks = action.payload.Books;
-			var booksLS = JSON.parse(localStorage.getItem('cart'));
-
-			function getDifference(arrayBooks, booksLS) {
-				return arrayBooks.filter((object1) => {
-					return !booksLS.some((object2) => {
-						return object1.id === object2.id;
-					});
-				});
-			}
-
-			var totalCartBooks = getDifference(arrayBooks, booksLS);
-
-			var arrayNuevo = totalCartBooks.map((b) => b.price);
+			var arrayNuevo = arrayBooks.map((b) => b.price);
 			var suma = 0;
-			for (let i = 0; i < totalCartBooks.length; i++) {
+			for (let i = 0; i < arrayNuevo.length; i++) {
 				suma += arrayNuevo[i];
 			}
 			return {
 				...state,
-				cart: totalCartBooks,
+				cart: arrayBooks,
 				summary: suma,
 			};
 		}
 		case CHECKOUT_CART: {
 			return {
 				...state,
+				summary: 0,
 				cart: [],
 			};
 		}
