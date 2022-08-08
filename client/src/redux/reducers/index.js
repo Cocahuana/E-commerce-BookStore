@@ -408,7 +408,11 @@ const rootReducer = (state = InitialState, action) => {
 		case CHECKOUT_CART: {
 			return {
 				...state,
-				purchasedCart: { Books: state.cart, Total: state.summary },
+				purchasedCart: {
+					Books: state.cart,
+					Total: state.summary,
+					CartId: action.payload,
+				},
 				summary: 0,
 				cart: [],
 			};
@@ -416,7 +420,7 @@ const rootReducer = (state = InitialState, action) => {
 		case EMPTY_PURCHASED_CART: {
 			return {
 				...state,
-				purchasedCart: { Books: [], Total: 0 },
+				purchasedCart: { Books: [], Total: 0, CartId: '' },
 			};
 		}
 		case REMOVE_BOOK_CART_DB: {
