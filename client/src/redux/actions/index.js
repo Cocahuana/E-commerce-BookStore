@@ -525,13 +525,14 @@ export function checkoutCart(userId, token) {
 		},
 	};
 	return async function (dispatch) {
-		let checkoutCart = await axios.put(
+		let checkoutCartId = await axios.put(
 			`/cart/checkout/`,
 			{ userId },
 			config
 		);
 		return dispatch({
 			type: CHECKOUT_CART,
+			payload: checkoutCartId,
 		});
 	};
 }

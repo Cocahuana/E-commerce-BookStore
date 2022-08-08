@@ -279,9 +279,7 @@ const checkoutCart = async (req, res, next) => {
 		arrayPromises.push(newCart.setUser(user));
 
 		await Promise.all(arrayPromises);
-		res.status(200).send(
-			'Cart has been checked out, you can still continue purchasing tho!'
-		);
+		res.status(200).send(oldCart.id);
 	} catch (err) {
 		next(err);
 	}
