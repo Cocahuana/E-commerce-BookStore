@@ -54,6 +54,7 @@ import {
 	SEARCH_BOOK,
 	UPGRADE_USER,
 	BAN_USER,
+	EMPTY_PURCHASED_CART,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -184,6 +185,7 @@ export function hideBook(payload) {
 		// 	type: HIDE_BOOKS,
 		// 	payload: '',
 		// });
+
 	};
 }
 
@@ -536,6 +538,14 @@ export function getPurchasedCart(userId) {
 		});
 	};
 }
+export function emptyPurchasedCart() {
+	return async function (dispatch) {
+		return dispatch({
+			type: EMPTY_PURCHASED_CART,
+		});
+	};
+}
+
 export function getActiveCart(userId) {
 	return async function (dispatch) {
 		let activeCart = await axios.get(`/cart?userId=${userId}`);

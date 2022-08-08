@@ -31,28 +31,25 @@ const getCart = async (req, res, next) => {
 	}
 };
 
-
-const getAllCarts = async (req, res, next) =>{
-    let { userId } = req.query;
-    try{
-        let allCartsUser = await Cart.findAll({
-            where:{
-                UserId: userId,
-            },
-            order:[
-                ["status", "ASC"]
-            ],
-            include:{
-                model: Books,
-                attributes: ["id", "title", "price","authors"],
-                through: {attributes: ["amount"]}
-            }
-        });
-        if(allCartsUser) res.status(200).json(allCartsUser)
-        else res.status(400).send("No user was found with that ID")
-    }catch(err){
-        next(err);
-    }
+const getAllCarts = async (req, res, next) => {
+	let { userId } = req.query;
+	try {
+		let allCartsUser = await Cart.findAll({
+			where: {
+				UserId: userId,
+			},
+			order: [['status', 'ASC']],
+			include: {
+				model: Books,
+				attributes: ['id', 'title', 'price', 'authors'],
+				through: { attributes: ['amount'] },
+			},
+		});
+		if (allCartsUser) res.status(200).json(allCartsUser);
+		else res.status(400).send('No user was found with that ID');
+	} catch (err) {
+		next(err);
+	}
 };
 
 const addBookToCart = async (req, res, next) => {
@@ -220,8 +217,8 @@ const clearCart = async (req, res, next) => {
 	} catch (err) {
 		next(err);
 	}
-
 };
+
 
 const checkoutCart = async (req, res, next) =>{
     let { userId } = req.body;
