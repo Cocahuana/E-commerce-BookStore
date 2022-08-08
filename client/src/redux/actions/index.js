@@ -185,7 +185,6 @@ export function hideBook(payload) {
 		// 	type: HIDE_BOOKS,
 		// 	payload: '',
 		// });
-
 	};
 }
 
@@ -522,9 +521,14 @@ export function checkoutCart(userId, token) {
 		},
 	};
 	return async function (dispatch) {
-		let checkoutCart = await axios.put(`/cart/checkout/`, { userId }, config);
+		let checkoutCartId = await axios.put(
+			`/cart/checkout/`,
+			{ userId },
+			config
+		);
 		return dispatch({
 			type: CHECKOUT_CART,
+			payload: checkoutCartId,
 		});
 	};
 }
