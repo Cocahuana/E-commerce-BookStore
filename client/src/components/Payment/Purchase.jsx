@@ -29,13 +29,19 @@ import {
 	List,
 	ListItem,
 } from '@chakra-ui/react';
+import { emptyPurchasedCart } from '../../redux/actions';
 
 export default function Purchase() {
-	const history = useHistory();
-	const dispatch = useDispatch();
 	const { cart, summary } = useSelector((state) => state);
+	const dispatch = useDispatch();
 	console.log(cart);
 	console.log(summary);
+
+	useEffect(() => {
+		return () => {
+			dispatch(emptyPurchasedCart());
+		};
+	}, []);
 
 	return (
 		// <Container w={'100%'} minH={"90vh"} maxH={'100vh'} pt={"5%"}>
@@ -54,9 +60,9 @@ export default function Purchase() {
 		// </Container>
 		<VStack
 			w={'100%'}
-			h={"100%"}
+			h={'100%'}
 			p={3}
-			pt={"10%"}
+			pt={'10%'}
 			justifyContent={{
 				base: 'flex-start',
 				md: 'space-around',
@@ -66,14 +72,23 @@ export default function Purchase() {
 				md: 'row',
 			}}
 			alignItems={{ md: 'center' }}>
-			<List rounded ={"5px"} border={"solid 1px lightgray"} p={"10px"} minW={"50%"} spacing={3} textAlign='start'>
+			<List
+				rounded={'5px'}
+				border={'solid 1px lightgray'}
+				p={'10px'}
+				minW={'50%'}
+				spacing={3}
+				textAlign='start'>
 				<ListItem>
 					<Cart />
 					<Stack float={'right'}>
 						<BuenLink to='/pay'>
 							<Button
 								size='md'
-								color={useColorModeValue('white', 'whiteAlpha.800')}
+								color={useColorModeValue(
+									'white',
+									'whiteAlpha.800'
+								)}
 								bgColor={useColorModeValue(
 									'blue.500',
 									'blue.600'

@@ -39,6 +39,7 @@ import {
 	FILTERED_ADMIN_USER,
 	GET_PURCHASED_CART,
 	GET_ACTIVE_CART,
+	EMPTY_PURCHASED_CART,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -422,8 +423,15 @@ const rootReducer = (state = InitialState, action) => {
 		case CHECKOUT_CART: {
 			return {
 				...state,
+				purchasedCart: { Books: state.cart, Total: state.summary },
 				summary: 0,
 				cart: [],
+			};
+		}
+		case EMPTY_PURCHASED_CART: {
+			return {
+				...state,
+				purchasedCart: { Books: [], Total: 0 },
 			};
 		}
 		case REMOVE_BOOK_CART_DB: {
