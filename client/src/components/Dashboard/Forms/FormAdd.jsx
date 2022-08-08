@@ -43,6 +43,7 @@ import {
 	getBooksByTitleOrAuthor,
 	getDetails,
 	modifyBook,
+	resetDetails,
 } from '../../../redux/actions';
 import { Link as BuenLink, useHistory } from 'react-router-dom';
 
@@ -83,8 +84,9 @@ function FormAdd(props) {
 	const [errors, setErrors] = useState({});
 
 	const { id } = props.match.params;
-	const tituloREGEX = /^[a-z,A-Z]*$/;
-	//	/^[A-Z][a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
+	const namesREGEX =
+		/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
+	const tituloREGEX = /^[A-Za-z0-9À-ÿ\u00f1\u00d1\s\-_/,\.;:()]+$/;
 
 	const [input, setInput] = useState({
 		title: '',
@@ -102,6 +104,20 @@ function FormAdd(props) {
 		if (id) {
 			dispatch(getDetails(id));
 		}
+		return () => {
+			dispatch(resetDetails(id));
+			setInput({
+				title: '',
+				currency: 'USD',
+				authors: '',
+				description: '',
+				price: 1,
+				rating: 0,
+				genre: [],
+				image: '',
+				language: 'ENGLISH',
+			});
+		};
 	}, [dispatch]);
 
 	id &&
@@ -131,8 +147,6 @@ function FormAdd(props) {
 			})
 		);
 	}
-	console.log(errors);
-	console.log(input);
 
 	function handdleSelectLanguage(e) {
 		setInput({
@@ -196,6 +210,11 @@ function FormAdd(props) {
 			genre: input.genre.filter((gen) => gen !== e),
 		});
 	};
+
+	const handleOnCancel = () => {
+		history.push('/adminDashboard');
+	};
+
 	async function handleSubmit(e) {
 		e.preventDefault();
 
@@ -216,7 +235,7 @@ function FormAdd(props) {
 				isClosable: 'true',
 				duration: '2000',
 			});
-		} else if (!tituloREGEX.test(input.authors)) {
+		} else if (!namesREGEX.test(input.authors)) {
 			toast({
 				title: 'Invalid Author',
 				description:
@@ -234,8 +253,6 @@ function FormAdd(props) {
 					duration: '2500',
 				});
 				dispatch(modifyBook({ id, input }));
-				console.log('modificado :D');
-
 				dispatch(getBooks());
 				history.push('/adminDashboard');
 			} else {
@@ -759,6 +776,17 @@ function FormAdd(props) {
 							}}
 							textAlign='right'
 							pb='16'>
+							<Button
+								type='submit'
+								colorScheme='blue'
+								_focus={{
+									shadow: '',
+								}}
+								fontWeight='md'
+								mr='5'
+								onClick={() => handleOnCancel()}>
+								Cancel
+							</Button>
 							{id ? (
 								<Button
 									type='submit'
