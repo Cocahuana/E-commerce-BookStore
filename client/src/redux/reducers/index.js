@@ -393,42 +393,18 @@ const rootReducer = (state = InitialState, action) => {
 				cart: [],
 				summary: 0,
 			};
+
 		case GET_CART: {
-			let totalBooks;
 			let arrayBooks = action.payload.Books;
-			let booksLS = JSON.parse(localStorage.getItem('cart'));
 
-			function getDifference(arrayBooks, booksLS) {
-				return arrayBooks.filter((object1) => {
-					return !booksLS.some((object2) => {
-						return object1.id === object2.id;
-					});
-				});
-			}
-
-			let difference = [
-				...getDifference(arrayBooks, booksLS),
-				...getDifference(booksLS, arrayBooks),
-			];
-
-			if (difference.length === 0) {
-				if (arrayBooks.length > 0) {
-					totalBooks = arrayBooks;
-				} else {
-					totalBooks = booksLS;
-				}
-			} else {
-				totalBooks = difference;
-			}
-
-			var arrayNuevo = totalBooks.map((b) => b.price);
+			var arrayNuevo = arrayBooks.map((b) => b.price);
 			var suma = 0;
 			for (let i = 0; i < arrayNuevo.length; i++) {
 				suma += arrayNuevo[i];
 			}
 			return {
 				...state,
-				cart: totalBooks,
+				cart: arrayBooks,
 				summary: suma,
 			};
 		}

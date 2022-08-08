@@ -34,6 +34,7 @@ import {
 	CHECKOUT_CART,
 	GET_PURCHASED_CART,
 	GET_ACTIVE_CART,
+
 	//-------------
 	LOGIN,
 	SIGN_UP,
@@ -456,7 +457,7 @@ export function saveOrder(payload) {
 export function addToCart(id, idUser) {
 	return async function (dispatch) {
 		try {
-			const adding = axios.post(`/cart/`, {
+			const adding = await axios.post(`/cart/`, {
 				userId: idUser, //me llega de estado del componente
 				bookId: id, //me llega de params
 			});
@@ -465,9 +466,7 @@ export function addToCart(id, idUser) {
 				type: ADD_CART,
 				payload: id,
 			});
-		} catch (err) {
-			console.log(err);
-		}
+		} catch (error) {}
 	};
 }
 
@@ -532,7 +531,6 @@ export function checkoutCart(userId, token) {
 		},
 	};
 	return async function (dispatch) {
-
 		let checkoutCartId = await axios.put(
 			`/cart/checkout/`,
 			{ userId },

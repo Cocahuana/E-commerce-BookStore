@@ -114,7 +114,7 @@ const addBookToCart = async (req, res, next) => {
 			return res.send(`${bookToAdd.title} added to cart!`);
 		}
 	} catch (err) {
-		next(err);
+		// res.status(400).send(err);
 	}
 };
 

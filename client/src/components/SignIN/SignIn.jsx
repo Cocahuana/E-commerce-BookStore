@@ -30,7 +30,12 @@ import {
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { userLogin, checkStates, forgotPass } from '../../redux/actions/index';
+import {
+	userLogin,
+	checkStates,
+	forgotPass,
+	addToCart,
+} from '../../redux/actions/index';
 import { useHistory } from 'react-router-dom';
 import { Link as BuenLink } from 'react-router-dom';
 import { GoogleButton } from 'react-google-button';
@@ -40,7 +45,7 @@ function SignIn() {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const [show, setShow] = React.useState(false);
-	const { token } = useSelector((state) => state);
+	const { token, userId, cart } = useSelector((state) => state);
 	// const handleClick = () => setShow(!show);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [email, setEmail] = useState({ email: '' });
@@ -64,7 +69,13 @@ function SignIn() {
 			});
 			history.push('/books');
 		}
-	}, [dispatch, token]);
+		return () => {
+			console.log('hola');
+			for (let i = 0; i < cart.length; i++) {
+				dispatch(addToCart(cart[i].id, userId));
+			}
+		};
+	}, [dispatch, token, userId]);
 
 	const handleOnChange = (e) => {
 		setLoginUser({
