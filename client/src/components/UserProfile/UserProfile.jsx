@@ -65,7 +65,6 @@ function UserProfile() {
 		?.map((e) => {
 			return e.Books;
 		})
-		.slice(0)
 		.flat();
 	var dataComments = comments?.map((r) => {
 		let book = booksAutocomplete.filter((b) => r.BookId === b.id);

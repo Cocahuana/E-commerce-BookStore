@@ -45,7 +45,10 @@ const getAllCarts = async (req, res, next) => {
 				through: { attributes: ['amount'] },
 			},
 		});
-		if (allCartsUser) res.status(200).json(allCartsUser);
+		if (allCartsUser)
+			res.status(200).json(
+				allCartsUser.slice(1)
+			); //con slice(1) remuevo el primer elemento (osea el carrito activo porq no lo necesitamos en el front)
 		else res.status(400).send('No user was found with that ID');
 	} catch (err) {
 		next(err);
