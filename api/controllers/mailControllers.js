@@ -53,11 +53,11 @@ const orderConfirmation = async (req, res, next) => {
 };
 
 const userCreated = async (req, res, next) => {
-    let { userId } = req.body;
+    let { email } = req.body;
     try{
         let user = await User.findOne({
             where:{
-                id: userId,
+                email: email,
             }
         })
 
@@ -65,11 +65,11 @@ const userCreated = async (req, res, next) => {
 
         await transporter.sendMail({
             from: '"Bookovich"<bookovich.book.store@gmail.com>',
-            to: user.email,
+            to: email,
             subject: `Thank you ${user.username}! For signing up to Bookovich E-Commerce`,
             html:`<h4><b>Welcome!</b></h4>
             <p>User ${user.username} has been created successfully.
-            <br>To verify your account click the following link: <a href="https://e-commerce-book-store.vercel.app/login">Bookovich</a>
+            <br>To enter to your new account click the following link: <a href="https://e-commerce-book-store.vercel.app/login">Bookovich</a>
             <br>Or copy & paste this URL in your browser: https://e-commerce-book-store.vercel.app/login`
             // Explore new deals and our extensive catalogue of books at <a href="https://e-commerce-book-store.vercel.app/">Bookovich</a>!</p>`
           }, (err, info) => {
