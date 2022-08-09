@@ -623,6 +623,7 @@ export function changeSubscribeStatus(email) {
 	console.log(email, 'email');
 	return async function (dispatch) {
 		let answer = await axios.put(`/user/subscription`, email);
+
 		if (!answer.includes()) await axios.put(`/mail/subscribe`, email);
 		return dispatch({
 			type: USER_SUBSCRIBE,
