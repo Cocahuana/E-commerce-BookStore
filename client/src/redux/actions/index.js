@@ -55,6 +55,7 @@ import {
 	UPGRADE_USER,
 	BAN_USER,
 	EMPTY_PURCHASED_CART,
+	USER_GET_COMMENTS,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -404,6 +405,13 @@ export function userDelFavorite(payload) {
 	return { type: USER_DEL_FAVORITES, payload };
 }
 
+export function userGetComments(userId) {
+	return async function (dispatch) {
+		var comments = await axios.get(`/user/comments/${userId}`);
+		return dispatch({ type: USER_GET_COMMENTS, payload: comments.data });
+	};
+}
+
 export function forgotPass(email) {
 	return async function (dispatch) {
 		try {
@@ -526,7 +534,11 @@ export function checkoutCart(userId, token) {
 		},
 	};
 	return async function (dispatch) {
-		let checkoutCartId = await axios.put(`/cart/checkout/`, { userId }, config);
+		let checkoutCartId = await axios.put(
+			`/cart/checkout/`,
+			{ userId },
+			config
+		);
 		return dispatch({
 			type: CHECKOUT_CART,
 			payload: checkoutCartId.data,
@@ -586,8 +598,8 @@ export function sendConfirmation(userId, cartId) {
 	};
 }
 
-export function sendWelcomeEmail(email){
-	return async function(dispatch) {
-		let resp = await axios.put(`/mail/signup`, {email} )
-	}
+export function sendWelcomeEmail(email) {
+	return async function (dispatch) {
+		let resp = await axios.put(`/mail/signup`, { email });
+	};
 }
