@@ -39,7 +39,7 @@ import {
 	Link,
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
-import { userGetPurchases, userGetComments } from '../../redux/actions';
+import { userGetPurchases, userGetComments, getBooksByTitleOrAuthor } from '../../redux/actions';
 import Reviews from '../BookDetail/Reviews';
 
 function UserProfile() {
@@ -57,8 +57,9 @@ function UserProfile() {
 	const [loader2, setLoader2] = useState(true);
 
 	useEffect(() => {
-		if (userId && !purchases.length) dispatch(userGetPurchases(userId));
-		if (userId && !comments.length) dispatch(userGetComments(userId));
+		if (userId) dispatch(userGetPurchases(userId));
+		if (userId) dispatch(userGetComments(userId));
+		dispatch(getBooksByTitleOrAuthor(""))
 	}, [dispatch]);
 
 	var dataHistory = purchases
@@ -75,8 +76,8 @@ function UserProfile() {
 			stars: r.rating || 0,
 			userName: userName,
 			dateTime: r.date,
-			book_title: book[0].title,
-			book_image: book[0].image,
+			book_title: book[0]?.title,
+			book_image: book[0]?.image,
 		};
 	});
 	if (dataHistory?.length && loader) setLoader(false);
@@ -86,7 +87,7 @@ function UserProfile() {
 			px={'5%'}
 			pt={{ lg: '5%', md: '10%', sm: '15%', base: '25%' }}
 			bg={useColorModeValue('white', 'gray.500')}
-			h={'93vh'}>
+			h={'100%'}>
 			<Box
 				rounded={'5px'}
 				bgGradient={'linear(to-r, blue.600, blue.100)'}
@@ -173,11 +174,16 @@ function UserProfile() {
 									))
 								)}
 							</TabPanel>
-							<TabPanel p={0}>
-								<Reviews
-									reviewData={dataComments}
-									userProfileCommentsDisplayer={true}
-								/>
+							<TabPanel p={2}>
+								<Stack w={"100%"} h={"2%"}>
+									<Reviews
+										redondeo={"10px"}
+										pad={"10px"}
+										borde={"solid 1px lightgray"}
+										reviewData={dataComments}
+										userProfileCommentsDisplayer={true}
+									/>
+								</Stack>
 							</TabPanel>
 						</TabPanels>
 					</Tabs>
