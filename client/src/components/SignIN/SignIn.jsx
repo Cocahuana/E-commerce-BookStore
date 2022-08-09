@@ -35,6 +35,7 @@ import {
 	checkStates,
 	forgotPass,
 	addToCart,
+	sendWelcomeEmail,
 } from '../../redux/actions/index';
 import { useHistory } from 'react-router-dom';
 import { Link as BuenLink } from 'react-router-dom';
@@ -45,7 +46,9 @@ function SignIn() {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const [show, setShow] = React.useState(false);
-	const { token, userId, cart } = useSelector((state) => state);
+	const { token, userId, cart, registeredUsers } = useSelector(
+		(state) => state
+	);
 	// const handleClick = () => setShow(!show);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [email, setEmail] = useState({ email: '' });
@@ -59,6 +62,9 @@ function SignIn() {
 	useEffect(() => {
 		// Checkea si el token esta o no vacio
 		dispatch(checkStates());
+		if (registeredUsers.email) {
+			dispatch(sendWelcomeEmail(registeredUsers.email));
+		}
 		// Si llega el token (porque es correcto, sino llega vacio)
 		// entonces setea email y password y te manda a /books mientras
 		// te aparece un sweet alert sobre que el login fue un exito
