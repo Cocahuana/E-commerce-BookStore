@@ -7,7 +7,22 @@ import {
 	Center,
 	Spinner,
 	Stack,
+	Image,
+	Flex,
+	Badge,
+	Divider,
+	useColorModeValue,
+	Table,
+	Thead,
+	Tbody,
+	Tfoot,
+	Tr,
+	Th,
+	Td,
+	TableCaption,
+	TableContainer,
 } from '@chakra-ui/react';
+import { CheckIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -17,6 +32,7 @@ import {
 	getPurchasedCart,
 } from '../../redux/actions';
 import { sendConfirmation } from '../../redux/actions';
+import { PriceTag } from '../BookShelf/BookHolder/Book/PriceTag';
 
 export default function Success() {
 	const { userId, purchasedCart, summary } = useSelector((state) => state);
@@ -32,22 +48,46 @@ export default function Success() {
 	});
 
 	return (
-		<Box textAlign='center' py={10} px={6} pt='24' h='90vh'>
-			<Heading
-				display='inline-block'
-				as='h2'
-				size='2xl'
-				bgGradient='linear(to-r, blue.600, blue.400)'
-				backgroundClip='text'>
-				Success
-			</Heading>
-			<Text fontSize='18px' mt={3} mb={2}>
-				Enjoy!!
-			</Text>
-			<Text color={'gray.500'} mb={6}>
-				Your purchase was succesful!
-			</Text>
-			<Stack color={'blue'}>
+		<Box
+			textAlign='center'
+			pt='10vh'
+			bg={useColorModeValue('gray.200', 'gray.900')}
+			color={useColorModeValue('gray.700', 'whiteAlpha.600')}>
+			<Flex justify={'center'}>
+				<Heading
+					display='inline-block'
+					as='h2'
+					size='2xl'
+					bg={'gray.500'}
+					backgroundClip='text'>
+					Your purchase was successful!
+				</Heading>
+				<Box
+					ml={2}
+					bg='green'
+					borderRadius={'50%'}
+					h={{
+						base: '30px',
+						sm: '40px',
+						md: '50px',
+						lg: '60px',
+					}}
+					w={{
+						base: '30px',
+						sm: '40px',
+						md: '50px',
+						lg: '60px',
+					}}>
+					<CheckIcon p={'10px'} color='white' w='100%' h='100%' />
+				</Box>
+			</Flex>
+
+			<Box
+				m='auto'
+				w={{ base: '100%', sm: '100%', md: '100%', lg: '50%' }}
+				p='10px'
+				border='1px'
+				borderColor={useColorModeValue('gray.200', 'gray.900')}>
 				{loader ? (
 					<Center>
 						<Spinner
@@ -59,15 +99,82 @@ export default function Success() {
 						/>
 					</Center>
 				) : (
-					purchasedCart?.Books?.map((e) => (
-						<Text>
-							<p>{e.title}</p>
-							<p>{e.price}</p>
-						</Text>
-					))
+					<TableContainer>
+						<Table
+							variant='striped'
+							bg={useColorModeValue('gray.200', 'gray.900')}>
+							<TableCaption>
+								This is a trial / demo payment, nothing you do
+								here is a real payment from your personal
+								account
+							</TableCaption>
+							<Thead>
+								<Tr>
+									<Td></Td>
+									<Td textAlign={'center'}>Book</Td>
+									<Td textAlign={'center'}>Price</Td>
+								</Tr>
+							</Thead>
+							<Tbody m='10px'>
+								{purchasedCart?.Books?.map((e) => (
+									<Tr>
+										<Td>
+											<Image
+												h={{
+													base: '100px',
+													sm: '100px',
+													md: '150px',
+													lg: '200px',
+												}}
+												src={e?.image}
+											/>
+										</Td>
+										<Td textAlign={'center'}>
+											<Heading
+												as='h3'
+												size={{
+													base: 'sm',
+													sm: 'sm',
+													md: 'md',
+													lg: 'lg',
+												}}>
+												{e.title}
+											</Heading>
+										</Td>
+										<Td>
+											<Badge
+												colorScheme={useColorModeValue(
+													'blue',
+													'green'
+												)}
+												fontSize={'16px'}>
+												{
+													<PriceTag
+														price={e.price}
+														salePrice={e.salePrice}
+														currency={e.currency}
+													/>
+												}
+											</Badge>
+										</Td>
+									</Tr>
+								))}
+								<Tr>
+									<Td></Td>
+									<Td></Td>
+									<Td>
+										<Badge
+											colorScheme='green'
+											fontSize={'20px'}>
+											{'Total ' + purchasedCart.Total}
+										</Badge>
+									</Td>
+								</Tr>
+							</Tbody>
+						</Table>
+					</TableContainer>
 				)}
-				{<h1>{purchasedCart.Total}</h1>}
-			</Stack>
+			</Box>
 			<Link to='/books'>
 				<Button
 					bgGradient='linear(to-r, blue.400, blue.600)'

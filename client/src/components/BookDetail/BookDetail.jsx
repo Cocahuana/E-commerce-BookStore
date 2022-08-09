@@ -8,6 +8,7 @@ import {
 	getAllUsers,
 	userAddFavorite,
 	userAddFavState,
+	userGetPurchases,
 } from '../../redux/actions';
 import { Link as BuenLink, useHistory } from 'react-router-dom';
 import {

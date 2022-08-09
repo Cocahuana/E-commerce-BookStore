@@ -21,7 +21,8 @@ import {
 	InputRightElement,
 	useToast,
 } from '@chakra-ui/react';
-import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
+import { FaPencilAlt, FaTrashAlt, FaUserAltSlash } from 'react-icons/fa';
+import { MdUpgrade } from 'react-icons/md';
 import { Search2Icon, SmallAddIcon } from '@chakra-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -176,7 +177,7 @@ function UserTable({ user }) {
 									}>
 									<Icon
 										color='blue.300'
-										as={FaPencilAlt}
+										as={MdUpgrade}
 										me='4px'
 									/>
 									<Text
@@ -203,7 +204,7 @@ function UserTable({ user }) {
 										cursor='pointer'>
 										<Icon
 											color='red.500'
-											as={FaTrashAlt}
+											as={FaUserAltSlash}
 											me='4px'
 										/>
 										Ban User

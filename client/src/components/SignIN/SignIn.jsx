@@ -46,7 +46,7 @@ function SignIn() {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const [show, setShow] = React.useState(false);
-	const { token, userId, cart, registeredUsers } = useSelector(
+	const { token, userId, cart, subscribed, isSignedIn } = useSelector(
 		(state) => state
 	);
 	// const handleClick = () => setShow(!show);
@@ -76,6 +76,11 @@ function SignIn() {
 		return () => {
 			for (let i = 0; i < cart.length; i++) {
 				dispatch(addToCart(cart[i].id, userId));
+			}
+			if (subscribed !== 'Subscribed') {
+				setTimeout(() => {
+					isSignedIn && history.push('/newsletter');
+				}, 10000);
 			}
 		};
 	}, [dispatch, token, userId]);
@@ -200,7 +205,10 @@ function SignIn() {
 								onClick={onOpen}
 								as={'a'}
 								variant={'link'}
-								color={'blue.500'}>
+								color={useColorModeValue(
+									'blue.500',
+									'blue.800'
+								)}>
 								Forgot password?
 							</Button>
 						</Stack>
@@ -230,7 +238,10 @@ function SignIn() {
 							<BuenLink to='/register'>
 								<Button
 									as={'a'}
-									color={'blue.400'}
+									color={useColorModeValue(
+										'blue.500',
+										'blue.800'
+									)}
 									variant={'link'}>
 									Register
 								</Button>

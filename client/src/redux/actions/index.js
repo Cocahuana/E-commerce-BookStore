@@ -58,6 +58,7 @@ import {
 	USER_GET_COMMENTS,
 	USER_GET_PURCHASES,
 	RESET_PASSWORD,
+	USER_SUBSCRIBE,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -348,7 +349,7 @@ export function userSignUp(user) {
 				username: user.username,
 				password: user.password,
 			});
-			dispatch(sendWelcomeEmail(user.email))
+			dispatch(sendWelcomeEmail(user.email));
 			return dispatch({
 				type: SIGN_UP,
 				payload: result.data,
@@ -622,5 +623,10 @@ export function changeSubscribeStatus(email) {
 	console.log(email, 'email');
 	return async function (dispatch) {
 		let answer = await axios.put(`/user/subscription`, email);
+
+		if (!answer.includes()) await axios.put(`/mail/subscribe`, email);
+		return dispatch({
+			type: USER_SUBSCRIBE,
+		});
 	};
 }

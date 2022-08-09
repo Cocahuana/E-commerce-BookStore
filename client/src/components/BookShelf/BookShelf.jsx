@@ -20,10 +20,11 @@ import {
 	getCart,
 	userGetFavorite,
 } from '../../redux/actions';
-
+import { useHistory } from 'react-router-dom';
 const BookShelf = () => {
 	const dispatch = useDispatch();
-	const { cart, allFavourites, summary, userId, books, query, activeCart } =
+	const history = useHistory();
+	const { cart, allFavourites, summary, userId, books, query, subscribed } =
 		useSelector((state) => state);
 	const [CurrentPage, setCurrentPage] = useState(1);
 	const BooksPerPage = 12;
@@ -34,7 +35,7 @@ const BookShelf = () => {
 
 	const loading = useSelector((state) => state.loading);
 
-	const { token, userRole } = useSelector((state) => state);
+	const { token, userRole, isSignedIn } = useSelector((state) => state);
 
 	const [favs, setFavs] = useState({});
 
