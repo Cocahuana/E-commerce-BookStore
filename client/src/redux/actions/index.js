@@ -56,6 +56,7 @@ import {
 	BAN_USER,
 	EMPTY_PURCHASED_CART,
 	USER_GET_COMMENTS,
+	RESET_PASSWORD,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -420,6 +421,22 @@ export function forgotPass(email) {
 			});
 			return dispatch({
 				type: FORGOT_PASSWORD,
+				payload: resp.data,
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+export function resetPassword(userId, password) {
+	return async function (dispatch) {
+		try {
+			let resp = await axios.put('/user/password', {
+				userId,
+				password,
+			});
+			return dispatch({
+				type: RESET_PASSWORD,
 				payload: resp.data,
 			});
 		} catch (error) {
