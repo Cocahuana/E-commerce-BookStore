@@ -18,6 +18,8 @@ import {
 	Image,
 	Checkbox,
 	tokenToCSSVar,
+	FormHelperText,
+	FormErrorMessage,
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,10 +30,39 @@ import { GoogleButton } from 'react-google-button';
 import { UserAuth } from '../firebase/context.jsx';
 
 function PasswordRecovery(props) {
+	function validate(passwords) {
+		let invalidPassword = /^(.{0,7}|[^0-9]*|[^A-Z]*|[^a-z]*|[a-zA-Z0-9]*)$/;
+
+		let errors = { password: 'ready' };
+
+		//---------- Password Start ----------//
+		if (passwords[0] !== passwords[1])
+			errors.password = 'Password check must match';
+		if (invalidPassword.test(passwords[0]))
+			errors.password =
+				'Invalid Password, at least 8 characters needed, must contain at least one uppercase letter, lowercase letter, number and special character';
+		if (!passwords[0]) errors.password = 'Password required';
+		//---------- Password End ----------//
+
+		return errors;
+	}
 	const [show, setShow] = React.useState(false);
-	const [passwords, setPasswords] = React.useState(['', '']);
+	const [show2, setShow2] = React.useState(false);
+	const [password, setPassword] = React.useState('');
+	const [checkpass, setCheckPass] = React.useState('');
 	const [errors, setErrors] = React.useState({});
 	const { userId } = props.match.params;
+	console.log(errors.password);
+	console.log(password, checkpass);
+	const handleChange = (e) => {
+		if (e.target.name === 'pass') {
+			setPassword(e.target.value);
+			setErrors(validate([e.target.value, checkpass]));
+		} else {
+			setCheckPass(e.target.value);
+			setErrors(validate([password, e.target.value]));
+		}
+	};
 	return (
 		<Stack
 			minH={'100vh'}
@@ -41,17 +72,18 @@ function PasswordRecovery(props) {
 				<Stack spacing={4} w={'full'} maxW={'md'} borderRadius={'10px'}>
 					<Heading fontSize={'2xl'}>Create a new password</Heading>
 
-					<FormControl id='password'>
+					<FormControl id='pass'>
 						<FormLabel>New Password</FormLabel>
 						<InputGroup>
 							<Input
-								name='password'
+								name='pass'
 								bg={useColorModeValue(
 									'whiteAlpha.800',
 									'gray.400'
 								)}
-								value={passwords[0]}
+								value={password}
 								type={show ? 'text' : 'password'}
+								onChange={handleChange}
 							/>
 							<InputRightElement h={'full'}>
 								<Button
@@ -61,31 +93,42 @@ function PasswordRecovery(props) {
 								</Button>
 							</InputRightElement>
 						</InputGroup>
+						{errors.password && errors.password !== 'ready		' ? (
+							<FormErrorMessage>
+								{errors.password}
+							</FormErrorMessage>
+						) : (
+							<FormHelperText>Example: Messi.1234</FormHelperText>
+						)}
 					</FormControl>
-					<FormControl id='password'>
+					<FormControl id='check'>
 						<FormLabel>Repeat Password</FormLabel>
 						<InputGroup>
 							<Input
-								name='password'
+								name='check'
 								bg={useColorModeValue(
 									'whiteAlpha.800',
 									'gray.400'
 								)}
-								value={passwords[1]}
-								type={show ? 'text' : 'password'}
+								value={checkpass}
+								type={show2 ? 'text' : 'password'}
+								onChange={handleChange}
 							/>
 							<InputRightElement h={'full'}>
 								<Button
 									variant={'ghost'}
-									onClick={() => setShow((show) => !show)}>
-									{show ? <ViewIcon /> : <ViewOffIcon />}
+									onClick={() => setShow2((show) => !show)}>
+									{show2 ? <ViewIcon /> : <ViewOffIcon />}
 								</Button>
 							</InputRightElement>
 						</InputGroup>
 					</FormControl>
 
 					<Stack spacing={6}>
-						<Button colorScheme={'blue'} variant={'solid'}>
+						<Button
+							colorScheme={'blue'}
+							variant={'solid'}
+							disabled={errors.password !== 'ready'}>
 							Change Password
 						</Button>
 					</Stack>
