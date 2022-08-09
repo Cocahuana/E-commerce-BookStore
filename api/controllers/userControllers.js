@@ -125,6 +125,7 @@ const userLogin = async (req, res, next) => {
 				username: userCheck.username,
 				profile_picture: userCheck.profile_picture,
 				favorites: userCheck.favorites,
+				subscribed: userCheck.subscribed,
 			});
 		}
 	} catch (e) {

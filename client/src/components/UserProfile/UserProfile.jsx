@@ -59,8 +59,8 @@ function UserProfile() {
 	useEffect(() => {
 		if (userId) dispatch(userGetPurchases(userId));
 		if (userId) dispatch(userGetComments(userId));
-
 		dispatch(getBooksByTitleOrAuthor(""))
+
 	}, [dispatch]);
 
 	var dataHistory = purchases
