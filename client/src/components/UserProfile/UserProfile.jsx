@@ -36,9 +36,10 @@ import {
 	TabPanel,
 	Center,
 	Spinner,
+	Link,
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
-import { getPurchasedCart, userGetComments } from '../../redux/actions';
+import { userGetPurchases, userGetComments } from '../../redux/actions';
 import Reviews from '../BookDetail/Reviews';
 
 function UserProfile() {
@@ -48,7 +49,7 @@ function UserProfile() {
 		userProfilePicture,
 		userEmail,
 		userId,
-		purchasedCart,
+		purchases,
 		comments,
 		booksAutocomplete,
 	} = useSelector((state) => state);
@@ -56,13 +57,16 @@ function UserProfile() {
 	const [loader2, setLoader2] = useState(true);
 
 	useEffect(() => {
-		if (userId) dispatch(getPurchasedCart(userId));
-		if (userId) dispatch(userGetComments(userId));
+		if (userId && !purchases.length) dispatch(userGetPurchases(userId));
+		if (userId && !comments.length) dispatch(userGetComments(userId));
 	}, [dispatch]);
 
-	var dataHistory = purchasedCart?.map((e) => {
-		return e.Books;
-	})[0];
+	var dataHistory = purchases
+		?.map((e) => {
+			return e.Books;
+		})
+		.slice(0)
+		.flat();
 	var dataComments = comments?.map((r) => {
 		let book = booksAutocomplete.filter((b) => r.BookId === b.id);
 		return {
@@ -71,12 +75,10 @@ function UserProfile() {
 			stars: r.rating || 0,
 			userName: userName,
 			dateTime: r.date,
-			book_title: book.title,
-			book_image: book.image,
+			book_title: book[0].title,
+			book_image: book[0].image,
 		};
 	});
-	console.log(dataHistory);
-
 	if (dataHistory?.length && loader) setLoader(false);
 
 	return (
@@ -156,23 +158,26 @@ function UserProfile() {
 									</Center>
 								) : (
 									dataHistory.map((e) => (
-										<BuenLink to={`/book/${e.id}`}>
-											<HStack
-												rounded={'5px'}
-												p={'1%'}
-												border={'solid 0.5px lightgray'}
-												justify={'space-between'}>
+										<HStack
+											rounded={'5px'}
+											p={'1%'}
+											border={'solid 0.5px lightgray'}
+											justify={'space-between'}>
+											<Link
+												as={BuenLink}
+												to={`/book/${e.id}`}>
 												<Text>{e.title}</Text>
-												<Text px={'5%'}>
-													US${e.price}
-												</Text>
-											</HStack>
-										</BuenLink>
+											</Link>
+											<Text px={'5%'}>US${e.price}</Text>
+										</HStack>
 									))
 								)}
 							</TabPanel>
 							<TabPanel p={0}>
-								<Reviews reviewData={dataComments} />
+								<Reviews
+									reviewData={dataComments}
+									userProfileCommentsDisplayer={true}
+								/>
 							</TabPanel>
 						</TabPanels>
 					</Tabs>

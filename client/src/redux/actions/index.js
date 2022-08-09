@@ -56,6 +56,7 @@ import {
 	BAN_USER,
 	EMPTY_PURCHASED_CART,
 	USER_GET_COMMENTS,
+	USER_GET_PURCHASES,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -411,6 +412,12 @@ export function userGetComments(userId) {
 		return dispatch({ type: USER_GET_COMMENTS, payload: comments.data });
 	};
 }
+export function userGetPurchases(userId) {
+	return async function (dispatch) {
+		var purchases = await axios.get(`/cart/all?userId=${userId}`);
+		return dispatch({ type: USER_GET_PURCHASES, payload: purchases.data });
+	};
+}
 
 export function forgotPass(email) {
 	return async function (dispatch) {
@@ -559,16 +566,6 @@ export function emptyPurchasedCart() {
 	return async function (dispatch) {
 		return dispatch({
 			type: EMPTY_PURCHASED_CART,
-		});
-	};
-}
-
-export function getActiveCart(userId) {
-	return async function (dispatch) {
-		let activeCart = await axios.get(`/cart?userId=${userId}`);
-		return dispatch({
-			type: GET_ACTIVE_CART,
-			payload: activeCart.data,
 		});
 	};
 }

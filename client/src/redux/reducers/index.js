@@ -41,6 +41,7 @@ import {
 	GET_ACTIVE_CART,
 	EMPTY_PURCHASED_CART,
 	USER_GET_COMMENTS,
+	USER_GET_PURCHASES,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -129,6 +130,7 @@ const InitialState = {
 	allFavourites: favoritesFromLocalStorage,
 	purchasedCart: [],
 	comments: [],
+	purchases: [],
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -452,12 +454,6 @@ const rootReducer = (state = InitialState, action) => {
 				loading: false,
 			};
 		}
-		case GET_ACTIVE_CART: {
-			return {
-				...state,
-				activeCart: action.payload,
-			};
-		}
 		case LOGIN:
 			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
 
@@ -548,6 +544,11 @@ const rootReducer = (state = InitialState, action) => {
 			return {
 				...state,
 				comments: action.payload,
+			};
+		case USER_GET_PURCHASES:
+			return {
+				...state,
+				purchases: action.payload,
 			};
 		case USER_GET_FAVORITES:
 			let favoriteBooks = [];
