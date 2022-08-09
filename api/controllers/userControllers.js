@@ -388,11 +388,11 @@ const resetPassword = async (req, res, next) => {
 };
 
 const changeSubscription = async (req, res, next) => {
-	let { userId } = req.body;
+	let { email } = req.body;
 	try {
 		let user = await User.findOne({
 			where: {
-				id: userId,
+				email: email,
 			},
 		});
 
@@ -408,7 +408,7 @@ const changeSubscription = async (req, res, next) => {
 			},
 			{
 				where: {
-					id: userId,
+					email: email,
 				},
 			}
 		);

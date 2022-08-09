@@ -57,8 +57,8 @@ function UserProfile() {
 	const [loader2, setLoader2] = useState(true);
 
 	useEffect(() => {
-		if (userId && !purchases.length) dispatch(userGetPurchases(userId));
-		if (userId && !comments.length) dispatch(userGetComments(userId));
+		if (userId) dispatch(userGetPurchases(userId));
+		if (userId) dispatch(userGetComments(userId));
 	}, [dispatch]);
 
 	var dataHistory = purchases
@@ -75,8 +75,8 @@ function UserProfile() {
 			stars: r.rating || 0,
 			userName: userName,
 			dateTime: r.date,
-			book_title: book[0].title,
-			book_image: book[0].image,
+			book_title: book[0]?.title,
+			book_image: book[0]?.image,
 		};
 	});
 	if (dataHistory?.length && loader) setLoader(false);

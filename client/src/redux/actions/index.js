@@ -617,3 +617,10 @@ export function sendWelcomeEmail(email) {
 		let resp = await axios.put(`/mail/signup`, { email });
 	};
 }
+
+export function changeSubscribeStatus(email) {
+	console.log(email, 'email');
+	return async function (dispatch) {
+		let answer = await axios.put(`/user/subscription`, email);
+	};
+}
