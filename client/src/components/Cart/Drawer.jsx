@@ -29,7 +29,7 @@ const CartDrawer = (props) => {
 	const toast = useToast();
 
 	const handleClick = (newSize) => {
-		dispatch(getCart(userId));
+		// dispatch(getCart(userId));
 		onOpen();
 	};
 

@@ -30,6 +30,7 @@ import {
 	PopoverCloseButton,
 	PopoverBody,
 	PopoverFooter,
+	Spinner,
 } from '@chakra-ui/react';
 import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 
@@ -38,18 +39,24 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import {
 	hideBook,
 	filteredAdminBooks,
+	showBook,
 	getBooks,
 } from '../../redux/actions/index';
 import { Link as BuenLink } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 function BooksTable({ books }) {
 	const textColor = useColorModeValue('gray.700', 'white');
 	const dispatch = useDispatch();
-
 	const [booksSearch, setBooksSearch] = useState('');
 	const [scroll, setScroll] = useState(books.slice(0, 20));
 	const [libro, setLibro] = useState(books);
+	const [stock, setStock] = useState();
+
+	useEffect(() => {
+		dispatch(getBooks());
+	}, [stock]);
+
 	if (libro[0] !== books[0] || libro.length !== books.length) {
 		setScroll(books.slice(0, 20));
 		setLibro(books);
@@ -66,8 +73,13 @@ function BooksTable({ books }) {
 	};
 
 	const onClickhideBook = (e) => {
-		console.log(e);
-		dispatch(hideBook({ bookId: e }));
+		dispatch(hideBook({ bookId: e.id }));
+		setStock(e.stock);
+	};
+
+	const onClickshowBook = (e) => {
+		dispatch(showBook({ bookId: e.id }));
+		setStock(e.stock);
 	};
 
 	const handleOnChange = (e) => {
@@ -79,7 +91,17 @@ function BooksTable({ books }) {
 		dispatch(filteredAdminBooks(booksSearch));
 	};
 
-	return (
+	return books.length === 0 ? (
+		<Center>
+			<Spinner
+				thickness='4px'
+				speed='0.65s'
+				emptyColor='gray.200'
+				color='blue.500'
+				size='xl'
+			/>
+		</Center>
+	) : (
 		<Box rounded={'md'} boxShadow={'xl'}>
 			<Flex p={'10'} justify={'space-between'} align='center'>
 				<Box>
@@ -225,12 +247,15 @@ function BooksTable({ books }) {
 								</Td>
 								<Td>
 									{b.stock < 1 ? (
-										<Text>oculto xd</Text>
+										<Button
+											colorScheme={'blackAlpha'}
+											onClick={() => onClickshowBook(b)}
+											color={'whiteAlpha.600'}>
+											show Book
+										</Button>
 									) : (
 										<Popover>
 											<PopoverTrigger>
-												{/* <Button colorScheme='blue'>Hide</Button> */}
-
 												<Button
 													rightIcon={<FaTrashAlt />}
 													colorScheme='red'
@@ -251,7 +276,7 @@ function BooksTable({ books }) {
 															colorScheme='red'
 															onClick={() =>
 																onClickhideBook(
-																	b.id
+																	b
 																)
 															}>
 															Hide Book

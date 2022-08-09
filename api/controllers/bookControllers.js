@@ -74,7 +74,7 @@ const postBook = async (req, res, next) => {
 	try {
 		let newBooks = await Books.create({
 			title: title,
-			authors: authors?.join(','),
+			authors: authors,
 			description: description,
 			rating: rating,
 			image: image,
@@ -113,10 +113,7 @@ const putBook = async (req, res, next) => {
 			let updatedBook = await Books.update(
 				{
 					title: title ? title : currentBook.title,
-					authors:
-						authors.length > 0
-							? authors.join(', ')
-							: currentBook.authors,
+					authors: authors.length > 0 ? authors : currentBook.authors,
 					price: price ? price : currentBook.price,
 					description: description
 						? description

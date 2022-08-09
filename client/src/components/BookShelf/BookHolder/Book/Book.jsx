@@ -132,8 +132,8 @@ export const Book = (props) => {
 			});
 		} else {
 			toast({
-				title: 'Removed from the cart successfully',
-				status: 'success',
+				title: 'This book is already on the cart',
+				status: 'info',
 				isClosable: 'true',
 				duration: '2000',
 				position: 'bottom',
