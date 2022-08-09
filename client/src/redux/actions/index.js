@@ -560,6 +560,7 @@ export function getActiveCart(userId) {
 		});
 	};
 }
+
 export function upgradeToAdmin(userId, token) {
 	console.log(token);
 	const config = {
@@ -581,6 +582,12 @@ export function upgradeToAdmin(userId, token) {
 
 export function sendConfirmation(userId, cartId) {
 	return async function (dispatch) {
-		let response = axios.put(`/mail/order`, { userId, cartId });
+		let response = await axios.put(`/mail/order`, { userId, cartId });
 	};
+}
+
+export function sendWelcomeEmail(email){
+	return async function(dispatch) {
+		let resp = await axios.put(`/mail/signup`, {email} )
+	}
 }
