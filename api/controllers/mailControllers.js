@@ -157,38 +157,7 @@ const newOffers = async (req, res, next) => {
         next(err)
     }
 
-		if (users.length === 0)
-			return res.send(
-				'No users are subscribed to the newsletter at the moment :('
-			);
-
-		users.forEach((user) => {
-			arrayPromises.push(
-				transporter.sendMail(
-					{
-						from: '"Bookovich"<bookovich.book.store@gmail.com>',
-						to: user.email,
-						subject: `There are new offers from Bookovich! 🎉🎉`,
-						html: `<p>Check out our new offers available at our webpage <a href="https://e-commerce-book-store.vercel.app/">Bookovich</a>!
-                <br>Or paste the following URL in your browser: https://e-commerce-book-store.vercel.app/
-                <br>Don't miss out on these NEW <b>HOT DEALS</b>🔥🔥🔥!</p>`,
-					},
-					(err, info) => {
-						if (err) {
-							res.status(400).send(err.message);
-						} else {
-							res.status(200).json(info);
-						}
-					}
-				)
-			);
-		});
-		await Promise.all(arrayPromises);
-	} catch (err) {
-		next(err);
-	}
 };
-
 const specificOffer = async (req, res, next) => {
 	let { bookId } = req.body;
 	let arrayPromises = [];

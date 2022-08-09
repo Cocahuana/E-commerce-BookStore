@@ -39,7 +39,11 @@ import {
 	Link,
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
-import { userGetPurchases, userGetComments, getBooksByTitleOrAuthor } from '../../redux/actions';
+import {
+	userGetPurchases,
+	userGetComments,
+	getBooksByTitleOrAuthor,
+} from '../../redux/actions';
 import Reviews from '../BookDetail/Reviews';
 
 function UserProfile() {
@@ -59,8 +63,7 @@ function UserProfile() {
 	useEffect(() => {
 		if (userId) dispatch(userGetPurchases(userId));
 		if (userId) dispatch(userGetComments(userId));
-		dispatch(getBooksByTitleOrAuthor(""))
-
+		dispatch(getBooksByTitleOrAuthor(''));
 	}, [dispatch]);
 
 	var dataHistory = purchases
@@ -124,13 +127,14 @@ function UserProfile() {
 						</Text>
 					</VStack>
 				</VStack>
-				<Stack
-					px={'5%'}
-					
-					w={{ lg: '50%', md: '50%', base: '100%' }}>
+				<Stack px={'5%'} w={{ lg: '50%', md: '50%', base: '100%' }}>
 					<VStack pt={'30%'}>
 						<FavouriteList widt={'100%'} />
-						<Button w={'100%'}>Change your password</Button>
+						<Box w={"100%"}>
+							<BuenLink to={`/recovery/:${userId}`}>
+								<Button w={'100%'}>Change your password</Button>
+							</BuenLink>
+						</Box>
 						<br />
 						<SignOut wid='60%' />
 					</VStack>
@@ -175,11 +179,11 @@ function UserProfile() {
 								)}
 							</TabPanel>
 							<TabPanel p={2}>
-								<Stack w={"100%"} h={"2%"}>
+								<Stack w={'100%'} h={'2%'}>
 									<Reviews
-										redondeo={"10px"}
-										pad={"10px"}
-										borde={"solid 1px lightgray"}
+										redondeo={'10px'}
+										pad={'10px'}
+										borde={'solid 1px lightgray'}
 										reviewData={dataComments}
 										userProfileCommentsDisplayer={true}
 									/>
