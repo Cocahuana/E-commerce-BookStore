@@ -82,30 +82,31 @@ const addBookToCart = async (req, res, next) => {
 
 		let repeatedBookCheck = cart.Books.filter((book) => book.id === bookId);
 		if (repeatedBookCheck.length > 0) {
-			if (
-				repeatedBookCheck[0].Cart_Books.amount + 1 >
-				repeatedBookCheck[0].stock
-			)
-				return res
-					.status(400)
-					.send(
-						`${repeatedBookCheck[0].title} has no more stock left!`
-					);
-			await Cart_Books.update(
-				{
-					amount: repeatedBookCheck[0].Cart_Books.amount + 1,
-				},
-				{
-					where: {
-						CartId: cart.id,
-						BookId: bookId,
-					},
-				}
-			);
-			await cart.update({
-				totalPrice: newPrice,
-			});
-			return res.send('Amount increased');
+			return res.status(400).send(`${bookToAdd.title} is already in the cart`)
+		// 	if (
+		// 		repeatedBookCheck[0].Cart_Books.amount + 1 >
+		// 		repeatedBookCheck[0].stock
+		// 	)
+		// 		return res
+		// 			.status(400)
+		// 			.send(
+		// 				`${repeatedBookCheck[0].title} has no more stock left!`
+		// 			);
+		// 	await Cart_Books.update(
+		// 		{
+		// 			amount: repeatedBookCheck[0].Cart_Books.amount + 1,
+		// 		},
+		// 		{
+		// 			where: {
+		// 				CartId: cart.id,
+		// 				BookId: bookId,
+		// 			},
+		// 		}
+		// 	);
+			// await cart.update({
+			// 	totalPrice: newPrice,
+			// });
+			// return res.send('Amount increased');
 		} else {
 			await cart.addBook(bookToAdd);
 			await cart.update({
@@ -141,30 +142,30 @@ const removeOneBookFromCart = async (req, res, next) => {
 		});
 
 		let newPrice = (
-			cart.totalPrice +
-			(bookToAdd.salePrice ? bookToAdd.salePrice : bookToAdd.price)
+			cart.totalPrice -
+			(bookToRemove.salePrice ? bookToRemove.salePrice : bookToRemove.price)
 		).toFixed(2);
 
 		if (!cart)
 			return res.status(400).send('No cart was found with that user ID');
 
-		let repeatedBookCheck = cart.Books.filter(
-			(book) => book.id === bookId && book.Cart_Books.amount > 1
-		);
-		if (repeatedBookCheck.length > 0) {
-			await Cart_Books.update(
-				{
-					amount: repeatedBookCheck[0].Cart_Books.amount - 1,
-				},
-				{
-					where: {
-						CartId: cart.id,
-						BookId: bookId,
-					},
-				}
-			);
-			return res.send({ bookToRemove });
-		} else {
+		// let repeatedBookCheck = cart.Books.filter(
+		// 	(book) => book.id === bookId && book.Cart_Books.amount > 1
+		// );
+		// if (repeatedBookCheck.length > 0) {
+		// 	await Cart_Books.update(
+		// 		{
+		// 			amount: repeatedBookCheck[0].Cart_Books.amount - 1,
+		// 		},
+		// 		{
+		// 			where: {
+		// 				CartId: cart.id,
+		// 				BookId: bookId,
+		// 			},
+		// 		}
+		// 	);
+		// 	return res.send({ bookToRemove });
+		// } else {
 			if (await cart.removeBook(bookToRemove)) {
 				await cart.update({
 					totalPrice: newPrice,
@@ -174,46 +175,46 @@ const removeOneBookFromCart = async (req, res, next) => {
 				);
 			} else
 				return res.send(`No copies of ${bookToRemove.title} in cart!`);
-		}
+		// }
 	} catch (err) {
 		next(err);
 	}
 };
 
-const removeAllBooksFromCart = async (req, res, next) => {
-	let { userId, bookId } = req.body;
-	try {
-		let bookToRemove = await Books.findOne({
-			where: {
-				id: bookId,
-			},
-		});
+// const removeAllBooksFromCart = async (req, res, next) => {
+// 	let { userId, bookId } = req.body;
+// 	try {
+// 		let bookToRemove = await Books.findOne({
+// 			where: {
+// 				id: bookId,
+// 			},
+// 		});
 
-		if (!bookToRemove)
-			return res.status(400).send('No book was found with that ID');
+// 		if (!bookToRemove)
+// 			return res.status(400).send('No book was found with that ID');
 
-		let cart = await Cart.findOne({
-			where: {
-				UserId: userId,
-				status: 'Active',
-			},
-			include: {
-				model: Books,
-			},
-		});
+// 		let cart = await Cart.findOne({
+// 			where: {
+// 				UserId: userId,
+// 				status: 'Active',
+// 			},
+// 			include: {
+// 				model: Books,
+// 			},
+// 		});
 
-		if (!cart)
-			return res.status(400).send('No cart was found with that user ID');
+// 		if (!cart)
+// 			return res.status(400).send('No cart was found with that user ID');
 
-		if (await cart.removeBook(bookToRemove))
-			return res.send(
-				`All copies of ${bookToRemove.title} removed from cart`
-			);
-		else return res.send(`No copies of ${bookToRemove.title} in cart!`);
-	} catch (err) {
-		next(err);
-	}
-};
+// 		if (await cart.removeBook(bookToRemove))
+// 			return res.send(
+// 				`All copies of ${bookToRemove.title} removed from cart`
+// 			);
+// 		else return res.send(`No copies of ${bookToRemove.title} in cart!`);
+// 	} catch (err) {
+// 		next(err);
+// 	}
+// };
 
 const clearCart = async (req, res, next) => {
 	let { userId } = req.query;
@@ -308,7 +309,7 @@ const checkoutCart = async (req, res, next) => {
 const bulkAdd = async (req, res, next) => {
 	//funcion para cuando un user esta deslogeado se logea se guardan libros
 	let { bookObjects, userId } = req.body;
-	let arrayPromises = [];
+	// let arrayPromises = [];
 	try {
 		bookObjects = bookObjects.sort((a, b) => {
 			return a.id - b.id;
@@ -327,13 +328,6 @@ const bulkAdd = async (req, res, next) => {
 			},
 		});
 
-		let priceSummary = modelFetch
-			.map((book) => (book.salePrice ? book.salePrice : book.price))
-			.reduce(
-				(previousValue, currentValue) => previousValue + currentValue
-			)
-			.toFixed(2);
-
 		let cart = await Cart.findOne({
 			where: {
 				UserId: userId,
@@ -343,69 +337,81 @@ const bulkAdd = async (req, res, next) => {
 				model: Books,
 			},
 		});
+		
+		if (!cart) return res.status(400).send('No cart was found with that user ID');
+		
+		let repeatedBookIds = cart.Books.map(book => bookIds.includes(book.id) ? book.id : null)
+
+		modelFetch = modelFetch.filter(book => !repeatedBookIds.includes(book.id))
+		
+		let priceSummary
+		if(modelFetch.length > 0){
+			priceSummary = modelFetch.map((book) => (book.salePrice ? book.salePrice : book.price))
+			.reduce((previousValue, currentValue) => previousValue + currentValue).toFixed(2)
+		} else{
+			return res.status(200).send(`All books added were already in cart!`)
+		}
 
 		let newPrice = parseFloat(priceSummary) + cart.totalPrice;
 
-		if (!cart)
-			return res.status(400).send('No cart was found with that user ID');
+		// let repeatedBookCheck = cart.Books.filter((book) =>
+		// 	bookIds.includes(book.id)
+		// );
+		// let repeatedBookIds = repeatedBookCheck.map((book) => book.id);
 
-		let repeatedBookCheck = cart.Books.filter((book) =>
-			bookIds.includes(book.id)
-		);
-		let repeatedBookIds = repeatedBookCheck.map((book) => book.id);
+		// for (let i = 0; i < bookObjects.length; i++) {
+		// 	if (
+		// 		repeatedBookCheck.length > 0 &&
+		// 		repeatedBookIds.includes(bookObjects[i].id)
+		// 	) {
+			// 	arrayPromises.push(
+			// 		Cart_Books.update(
+			// 			{
+			// 				amount:
+			// 					repeatedBookCheck[i].Cart_Books.amount +
+			// 					bookObjects[i].amount,
+			// 			},
+			// 			{
+			// 				where: {
+			// 					CartId: cart.id,
+			// 					BookId: bookIds[i],
+			// 				},
+			// 			}
+			// 		)
+			// 	);
+			// }
 
-		for (let i = 0; i < bookObjects.length; i++) {
-			if (
-				repeatedBookCheck.length > 0 &&
-				repeatedBookIds.includes(bookObjects[i].id)
-			) {
-				arrayPromises.push(
-					Cart_Books.update(
-						{
-							amount:
-								repeatedBookCheck[i].Cart_Books.amount +
-								bookObjects[i].amount,
-						},
-						{
-							where: {
-								CartId: cart.id,
-								BookId: bookIds[i],
-							},
-						}
-					)
-				);
-			}
-			if (
-				bookObjects[i].amount > 1 &&
-				!repeatedBookIds.includes(bookObjects[i].id)
-			) {
-				await cart.addBook(modelFetch[i]);
-				arrayPromises.push(
-					Cart_Books.update(
-						{
-							amount: bookObjects[i].amount,
-						},
-						{
-							where: {
-								CartId: cart.id,
-								BookId: bookObjects[i].id,
-							},
-						}
-					)
-				);
-				arrayPromises.push(
-					cart.update({
-						totalPrice: newPrice,
-					})
-				);
-			} else {
-				await cart.addBook(modelFetch[i]);
+			// if (
+			// 	bookObjects[i].amount > 1 &&
+			// 	!repeatedBookIds.includes(bookObjects[i].id)
+			// ) {
+			// 	await cart.addBook(modelFetch[i]);
+			// 	arrayPromises.push(
+			// 		Cart_Books.update(
+			// 			{
+			// 				amount: bookObjects[i].amount,
+			// 			},
+			// 			{
+			// 				where: {
+			// 					CartId: cart.id,
+			// 					BookId: bookObjects[i].id,
+			// 				},
+			// 			}
+			// 		)
+			// 	);
+			// 	arrayPromises.push(
+			// 		cart.update({
+			// 			totalPrice: newPrice,
+			// 		})
+			// 	);
+			// } else {
+				await cart.addBook(modelFetch);
 				await cart.update({
 					totalPrice: newPrice,
 				});
-			}
-		}
-		await Promise.all(arrayPromises);
+			// }
+		// }
+		// await Promise.all(arrayPromises);
 		res.status(200).send('Bulk addition was completed successfully!');
 	} catch (err) {
 		next(err);
@@ -417,7 +423,6 @@ module.exports = {
 	getAllCarts,
 	addBookToCart,
 	removeOneBookFromCart,
-	removeAllBooksFromCart,
 	clearCart,
 	checkoutCart,
 	bulkAdd,

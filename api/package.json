@@ -24,6 +24,7 @@
 		"nodemon": "^2.0.19",
 		"passport": "^0.6.0",
 		"passport-jwt": "^4.0.0",
+		"pdf-lib": "^1.17.1",
 		"pg": "^8.5.1",
 		"sequelize": "^6.3.5",
 		"stripe": "^10.0.0"
