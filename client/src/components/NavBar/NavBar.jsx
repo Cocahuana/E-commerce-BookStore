@@ -59,25 +59,23 @@ export default function NavBar() {
 				)}>
 				<Flex
 					flex={{ base: 1, md: 'auto' }}
-					display={{ base: 'flex', md: 'none' }}>
+					display={{ base: 'flex', md: 'flex', lg: 'none' }}>
 					<HStack w='100%' px='10px'>
 						<Flex
 							w='100%'
 							h='100%'
+							px={{
+								base: '10px',
+								sm: '3px',
+								md: '20px',
+								lg: '50px',
+							}}
 							justify={'space-between'}
 							align='center'>
 							<IconButton
 								onClick={onToggle}
 								icon={
-									isOpen ? (
-										userRole === 'Admin' ? (
-											<AdminMobileNav w={5} h={5} />
-										) : userRole === 'User' ? (
-											<UserMobileNav w={5} h={5} />
-										) : (
-											<VisitorMobileNav w={5} h={5} />
-										)
-									) : userRole === 'Admin' ? (
+									userRole === 'Admin' ? (
 										<AdminMobileNav w={5} h={5} />
 									) : userRole === 'User' ? (
 										<UserMobileNav w={5} h={5} />
@@ -100,7 +98,7 @@ export default function NavBar() {
 				</Flex>
 
 				<Flex
-					display={{ base: 'none', md: 'flex', lg: 'flex' }}
+					display={{ base: 'none', md: 'none', lg: 'flex' }}
 					align={'center'}
 					justifyContent='center'
 					w={'70%'}

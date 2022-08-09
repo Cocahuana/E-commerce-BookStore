@@ -57,12 +57,20 @@ function BookDetail(props) {
 			if (e.id === id) flag = false;
 		});
 		if (flag) {
-			Swal.fire({
-				position: 'top-end',
-				icon: 'success',
+			toast({
 				title: 'Added to the cart successfully',
-				showConfirmButton: false,
-				timer: 800,
+				status: 'success',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'top',
+			});
+		} else {
+			toast({
+				title: 'This book is already on the cart',
+				status: 'info',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'bottom',
 			});
 		}
 	};
@@ -198,7 +206,7 @@ function BookDetail(props) {
 
 							<Stack spacing={{ base: 4, sm: 6 }}>
 								<Text fontSize={'20px'}>
-									<Text>{details?.authors}</Text>
+									{details?.authors}
 								</Text>
 
 								<Text fontSize={'20px'}>
@@ -209,15 +217,31 @@ function BookDetail(props) {
 										/>
 									</Text>
 								</Text>
-								<Text fontSize={'20px'}>
-									<Box>
-										<Text>
-											{details?.Genres?.map(
-												(e) => e.name
-											) + ''}
-										</Text>
-									</Box>
-								</Text>
+								<Flex
+									fontSize={{ base: '10px', lg: '20px' }}
+									minH='100px'
+									align={'center'}>
+									{details?.Genres?.map((e) => (
+										<Flex
+											bg={useColorModeValue(
+												'gray.200',
+												'gray.700'
+											)}
+											h='50px'
+											w='47%'
+											m='auto'
+											align='center'
+											justify='center'
+											border='1px'
+											borderColor={useColorModeValue(
+												'gray.200',
+												'gray.900'
+											)}
+											borderRadius='20px'>
+											{e.name}
+										</Flex>
+									))}
+								</Flex>
 								<Text fontSize={'20px'}>
 									<Text>
 										{'Language: '}
