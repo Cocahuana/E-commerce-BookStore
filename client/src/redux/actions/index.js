@@ -55,6 +55,7 @@ import {
 	UPGRADE_USER,
 	BAN_USER,
 	EMPTY_PURCHASED_CART,
+	RESET_PASSWORD,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -425,6 +426,22 @@ export function forgotPass(email) {
 		}
 	};
 }
+export function resetPassword(userId, password) {
+	return async function (dispatch) {
+		try {
+			let resp = await axios.put('/user/password', {
+				userId,
+				password,
+			});
+			return dispatch({
+				type: RESET_PASSWORD,
+				payload: resp.data,
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
 //-------------------------------------------------FILTERS---------------------------------------------
 export function saveFilterGenre(payload) {
 	return { type: FILTER_GENRE, payload };
@@ -532,7 +549,6 @@ export function checkoutCart(userId, token) {
 		},
 	};
 	return async function (dispatch) {
-
 		let checkoutCartId = await axios.put(
 			`/cart/checkout/`,
 			{ userId },

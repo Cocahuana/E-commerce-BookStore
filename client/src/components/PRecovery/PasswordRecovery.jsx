@@ -20,10 +20,15 @@ import {
 	tokenToCSSVar,
 	FormHelperText,
 	FormErrorMessage,
+	useToast,
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { userLogin, checkStates } from '../../redux/actions/index';
+import {
+	userLogin,
+	checkStates,
+	resetPassword,
+} from '../../redux/actions/index';
 import { useHistory } from 'react-router-dom';
 import { Link as BuenLink } from 'react-router-dom';
 import { GoogleButton } from 'react-google-button';
@@ -52,6 +57,9 @@ function PasswordRecovery(props) {
 	const [checkpass, setCheckPass] = React.useState('');
 	const [errors, setErrors] = React.useState({});
 	const { userId } = props.match.params;
+	const dispatch = useDispatch();
+	const history = useHistory();
+	const toast = useToast();
 	console.log(errors.password);
 	console.log(password, checkpass);
 	const handleChange = (e) => {
@@ -62,6 +70,18 @@ function PasswordRecovery(props) {
 			setCheckPass(e.target.value);
 			setErrors(validate([password, e.target.value]));
 		}
+	};
+	const handleSetNewPassword = (e) => {
+		e.preventDefault();
+		dispatch(resetPassword(userId, password));
+		toast({
+			title: 'Password changed successfuly',
+			status: 'success',
+			isClosable: 'true',
+			duration: '1000',
+			position: 'bottom',
+		});
+		history.push('login');
 	};
 	return (
 		<Stack
@@ -128,7 +148,8 @@ function PasswordRecovery(props) {
 						<Button
 							colorScheme={'blue'}
 							variant={'solid'}
-							disabled={errors.password !== 'ready'}>
+							disabled={errors.password !== 'ready'}
+							onClick={handleSetNewPassword}>
 							Change Password
 						</Button>
 					</Stack>
