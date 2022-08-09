@@ -57,12 +57,20 @@ function BookDetail(props) {
 			if (e.id === id) flag = false;
 		});
 		if (flag) {
-			Swal.fire({
-				position: 'top-end',
-				icon: 'success',
+			toast({
 				title: 'Added to the cart successfully',
-				showConfirmButton: false,
-				timer: 800,
+				status: 'success',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'top',
+			});
+		} else {
+			toast({
+				title: 'This book is already on the cart',
+				status: 'info',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'bottom',
 			});
 		}
 	};
