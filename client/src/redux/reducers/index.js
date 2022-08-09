@@ -124,6 +124,7 @@ const InitialState = {
 	userName: userNameFromLocalStorage,
 	userEmail: userEmailFromLocalStorage,
 	userProfilePicture: userProfileImageFromLocalStorage,
+	userSubscribed: '',
 	allUsers: [],
 	allUsersCopy: [],
 	isSignedIn: isSignedInFromLocalStorage,
@@ -478,6 +479,7 @@ const rootReducer = (state = InitialState, action) => {
 				userProfilePicture: action.payload.profile_picture,
 				isSignedIn: true,
 				registeredUsers: [],
+				userSubscribed: action.payload.subscribed,
 			};
 		case LOGIN_GOOGLE:
 			localStorage.setItem('userId', action.payload.id);
