@@ -99,10 +99,7 @@ const testimonials = [
 function AboutUs() {
 	return (
 		<Flex
-			bg='#edf3f8'
-			_dark={{
-				bg: '#3e3e3e',
-			}}
+			bg={useColorModeValue('#edf3f8', 'gray.600')}
 			w='full'
 			justifyContent='center'
 			alignItems='center'
