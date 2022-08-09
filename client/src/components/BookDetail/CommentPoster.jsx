@@ -13,6 +13,8 @@ import {
 	FormLabel,
 	Textarea,
 	useDisclosure,
+	Text,
+	useColorModeValue,
 	useToast,
 } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
@@ -29,7 +31,7 @@ import Swal from 'sweetalert2';
 
 function CommentPoster({ id }) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const { userId, purchases } = useSelector((state) => state);
+	const { userId, userRole, purchases } = useSelector((state) => state);
 	const dispatch = useDispatch();
 	const toast = useToast();
 	const history = useHistory();
@@ -91,61 +93,72 @@ function CommentPoster({ id }) {
 		}
 	};
 
-	return (
-		<>
-			<Button leftIcon={<EditIcon />} colorScheme='teal' onClick={onOpen}>
-				Add Review
-			</Button>
-			<Drawer
-				isOpen={isOpen}
-				placement='bottom'
-				initialFocusRef={firstField}
-				onClose={onClose}>
-				<DrawerOverlay />
-				<DrawerContent>
-					<DrawerCloseButton />
-					<DrawerHeader borderBottomWidth='1px'>
-						Create your review!
-					</DrawerHeader>
+	if (userRole !== 'Banned') {
+		return (
+			<>
+				<Button
+					leftIcon={<EditIcon />}
+					colorScheme='teal'
+					onClick={onOpen}>
+					Add Review
+				</Button>
+				<Drawer
+					isOpen={isOpen}
+					placement='bottom'
+					initialFocusRef={firstField}
+					onClose={onClose}>
+					<DrawerOverlay />
+					<DrawerContent>
+						<DrawerCloseButton />
+						<DrawerHeader borderBottomWidth='1px'>
+							Create your review!
+						</DrawerHeader>
 
-					<DrawerBody>
-						<Stack spacing='24px'>
-							<Box>
-								<FormLabel>Review</FormLabel>
-								<Textarea
-									ref={firstField}
-									value={textarea}
-									onChange={handleOnChange}
-									id='comment'
-									placeholder={`I loved this book! Buy it, you won't regret it ;)`}
-								/>
-							</Box>
+						<DrawerBody>
+							<Stack spacing='24px'>
+								<Box>
+									<FormLabel>Review</FormLabel>
+									<Textarea
+										ref={firstField}
+										value={textarea}
+										onChange={handleOnChange}
+										id='comment'
+										placeholder={`I loved this book! Buy it, you won't regret it ;)`}
+									/>
+								</Box>
 
-							<Box>
-								<Rating
-									size={43}
-									icon='star'
-									scale={5}
-									fillColor='gold'
-									strokeColor='grey'
-									setStars={setRating}
-								/>
-							</Box>
-						</Stack>
-					</DrawerBody>
+								<Box>
+									<Rating
+										size={43}
+										icon='star'
+										scale={5}
+										fillColor='gold'
+										strokeColor='grey'
+										setStars={setRating}
+									/>
+								</Box>
+							</Stack>
+						</DrawerBody>
 
-					<DrawerFooter borderTopWidth='1px'>
-						<Button variant='outline' mr={3} onClick={onClose}>
-							Cancel
-						</Button>
-						<Button colorScheme='blue' onClick={handlePost}>
-							Submit
-						</Button>
-					</DrawerFooter>
-				</DrawerContent>
-			</Drawer>
-		</>
-	);
-}
+						<DrawerFooter borderTopWidth='1px'>
+							<Button variant='outline' mr={3} onClick={onClose}>
+								Cancel
+							</Button>
+							<Button colorScheme='blue' onClick={handlePost}>
+								Submit
+							</Button>
+						</DrawerFooter>
+					</DrawerContent>
+				</Drawer>
+			</>
+		);
+	} else {
+		return (
+			<Stack p={"5px"}>
+				<Text color={useColorModeValue("red.400")} fontSize={"20px"}>Usted esta baneado, no puede postear comentarios</Text>
+			</Stack>
+		)
+	}
+};
 
 export default CommentPoster;
