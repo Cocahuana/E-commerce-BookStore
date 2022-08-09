@@ -15,6 +15,7 @@ const {
 	googleSignIn,
 	resetPassword,
 	changeSubscription,
+	getComments,
 } = require('../controllers/userControllers');
 
 const router = Router();
@@ -34,6 +35,8 @@ router.put('/favorites', addFavorite);
 router.get('/favorites/:idUser', getFavorite);
 
 router.delete('/favorites', deleteFavorite);
+
+router.get('/comments/:id', getComments);
 
 //Eze y lucho: rodi e ivo avisen si lo ven. Rodri: Lo vi...no me gusto.Salu2. Ivo: mientras funcione, pa lante
 router.put('/image/:id', async (req, res) => {

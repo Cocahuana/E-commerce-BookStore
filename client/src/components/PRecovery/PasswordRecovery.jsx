@@ -92,18 +92,22 @@ function PasswordRecovery(props) {
 				<Stack spacing={4} w={'full'} maxW={'md'} borderRadius={'10px'}>
 					<Heading fontSize={'2xl'}>Create a new password</Heading>
 
+
 					<FormControl id='pass'>
 						<FormLabel>New Password</FormLabel>
 						<InputGroup>
 							<Input
 								name='pass'
+
 								bg={useColorModeValue(
 									'whiteAlpha.800',
 									'gray.400'
 								)}
+
 								value={password}
 								type={show ? 'text' : 'password'}
 								onChange={handleChange}
+
 							/>
 							<InputRightElement h={'full'}>
 								<Button
@@ -113,6 +117,7 @@ function PasswordRecovery(props) {
 								</Button>
 							</InputRightElement>
 						</InputGroup>
+
 						{errors.password && errors.password !== 'ready		' ? (
 							<FormErrorMessage>
 								{errors.password}
@@ -126,30 +131,37 @@ function PasswordRecovery(props) {
 						<InputGroup>
 							<Input
 								name='check'
+
 								bg={useColorModeValue(
 									'whiteAlpha.800',
 									'gray.400'
 								)}
+
 								value={checkpass}
 								type={show2 ? 'text' : 'password'}
 								onChange={handleChange}
+
 							/>
 							<InputRightElement h={'full'}>
 								<Button
 									variant={'ghost'}
+
 									onClick={() => setShow2((show) => !show)}>
 									{show2 ? <ViewIcon /> : <ViewOffIcon />}
+
 								</Button>
 							</InputRightElement>
 						</InputGroup>
 					</FormControl>
 
 					<Stack spacing={6}>
+
 						<Button
 							colorScheme={'blue'}
 							variant={'solid'}
 							disabled={errors.password !== 'ready'}
 							onClick={handleSetNewPassword}>
+
 							Change Password
 						</Button>
 					</Stack>

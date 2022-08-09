@@ -1,7 +1,7 @@
 const axios = require('axios');
 require('dotenv').config();
 const { MY_SECRET } = process.env;
-const { User, Books, Cart } = require('../db');
+const { User, Books, Cart, Comment } = require('../db');
 const { Op } = require('sequelize');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
@@ -38,7 +38,8 @@ const registerUser = async (req, res, next) => {
 			password: hashedPassword,
 			username: username,
 			status: status,
-			profile_picture: 'https://media.istockphoto.com/vectors/man-reading-book-and-question-marks-vector-id1146072534?k=20&m=1146072534&s=612x612&w=0&h=sMqSGvSjf4rg1IjZD-6iHEJxHDHOw3ior1ZRmc-E1YQ='
+			profile_picture:
+				'https://media.istockphoto.com/vectors/man-reading-book-and-question-marks-vector-id1146072534?k=20&m=1146072534&s=612x612&w=0&h=sMqSGvSjf4rg1IjZD-6iHEJxHDHOw3ior1ZRmc-E1YQ=',
 		});
 
 		let cartToAssociate = await Cart.create();
@@ -220,6 +221,18 @@ const getFavorite = async (req, res) => {
 		}
 	} catch (error) {
 		res.status(400).json(error.message);
+	}
+};
+
+const getComments = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const data = await Comment.findAll({
+			where: { UserId: id },
+		});
+		res.send(data);
+	} catch (error) {
+		console.log(error);
 	}
 };
 
@@ -424,4 +437,5 @@ module.exports = {
 	googleSignIn,
 	resetPassword,
 	changeSubscription,
+	getComments,
 };

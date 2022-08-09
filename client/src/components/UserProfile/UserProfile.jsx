@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import SignOut from '../SignOut/Signout';
 import ProfileImage from './ProfileImage';
 import FavouriteList from './FavouriteList';
-import { Link as BuenLink } from "react-router-dom" 
+import { Link as BuenLink } from 'react-router-dom';
 import {
 	Box,
 	Stack,
@@ -36,28 +36,50 @@ import {
 	TabPanel,
 	Center,
 	Spinner,
+	Link,
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
-import { getPurchasedCart } from '../../redux/actions';
+import { userGetPurchases, userGetComments } from '../../redux/actions';
+import Reviews from '../BookDetail/Reviews';
 
 function UserProfile() {
 	const dispatch = useDispatch();
-	const { userName, userEmail, userId, purchasedCart } = useSelector(
-		(state) => state
-	);
+	const {
+		userName,
+		userProfilePicture,
+		userEmail,
+		userId,
+		purchases,
+		comments,
+		booksAutocomplete,
+	} = useSelector((state) => state);
 	const [loader, setLoader] = useState(true);
+	const [loader2, setLoader2] = useState(true);
 
 	useEffect(() => {
-		if (userId) dispatch(getPurchasedCart(userId));
+		if (userId && !purchases.length) dispatch(userGetPurchases(userId));
+		if (userId && !comments.length) dispatch(userGetComments(userId));
 	}, [dispatch]);
 
-	var data = purchasedCart?.map((e) => {
-		return e.Books;
-	})[0];
-
-	console.log(data);
-
-	if (data?.length && loader) setLoader(false);
+	var dataHistory = purchases
+		?.map((e) => {
+			return e.Books;
+		})
+		.slice(0)
+		.flat();
+	var dataComments = comments?.map((r) => {
+		let book = booksAutocomplete.filter((b) => r.BookId === b.id);
+		return {
+			avatarSrc: userProfilePicture,
+			review: r.text,
+			stars: r.rating || 0,
+			userName: userName,
+			dateTime: r.date,
+			book_title: book[0].title,
+			book_image: book[0].image,
+		};
+	});
+	if (dataHistory?.length && loader) setLoader(false);
 
 	return (
 		<Stack
@@ -135,21 +157,28 @@ function UserProfile() {
 										/>
 									</Center>
 								) : (
-									data.map((e) => (
-										<BuenLink to={`/book/${e.id}`}>
+									dataHistory.map((e) => (
 										<HStack
 											rounded={'5px'}
 											p={'1%'}
 											border={'solid 0.5px lightgray'}
 											justify={'space-between'}>
+											<Link
+												as={BuenLink}
+												to={`/book/${e.id}`}>
 												<Text>{e.title}</Text>
-												<Text px={'5%'}>US${e.price}</Text>
+											</Link>
+											<Text px={'5%'}>US${e.price}</Text>
 										</HStack>
-										</BuenLink>
 									))
 								)}
 							</TabPanel>
-							<TabPanel p={0}>"Aca Rodri"</TabPanel>
+							<TabPanel p={0}>
+								<Reviews
+									reviewData={dataComments}
+									userProfileCommentsDisplayer={true}
+								/>
+							</TabPanel>
 						</TabPanels>
 					</Tabs>
 				</Container>

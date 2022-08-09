@@ -48,7 +48,7 @@ const BookShelf = () => {
 		// setting variables in localStorage ----
 		localStorage.setItem('cart', JSON.stringify(cart));
 		localStorage.setItem('summary', JSON.stringify(summary));
-		localStorage.setItem('activeCartId', JSON.stringify(activeCart.id));
+		//localStorage.setItem('activeCartId', JSON.stringify(activeCart.id));
 		// localStorage.setItem('favorites', JSON.stringify(allFavourites));
 		if (token.length === 0) {
 			localStorage.setItem('isSignedIn', false);

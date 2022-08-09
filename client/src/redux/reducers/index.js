@@ -40,6 +40,8 @@ import {
 	GET_PURCHASED_CART,
 	GET_ACTIVE_CART,
 	EMPTY_PURCHASED_CART,
+	USER_GET_COMMENTS,
+	USER_GET_PURCHASES,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -127,7 +129,8 @@ const InitialState = {
 	isSignedIn: isSignedInFromLocalStorage,
 	allFavourites: favoritesFromLocalStorage,
 	purchasedCart: [],
-	activeCart: {},
+	comments: [],
+	purchases: [],
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -400,12 +403,12 @@ const rootReducer = (state = InitialState, action) => {
 			for (let i = 0; i < arrayNuevo.length; i++) {
 				suma += arrayNuevo[i];
 			}
-			
-			var booksLS = JSON.parse(localStorage.getItem('cart'));
-			
-			let nuevo = arrayBooks.concat(booksLS)
 
-			console.log(nuevo, "books")
+			var booksLS = JSON.parse(localStorage.getItem('cart'));
+
+			let nuevo = arrayBooks.concat(booksLS);
+
+			console.log(nuevo, 'books');
 
 			return {
 				...state,
@@ -449,12 +452,6 @@ const rootReducer = (state = InitialState, action) => {
 				...state,
 				purchasedCart: action.payload,
 				loading: false,
-			};
-		}
-		case GET_ACTIVE_CART: {
-			return {
-				...state,
-				activeCart: action.payload,
 			};
 		}
 		case LOGIN:
@@ -543,7 +540,16 @@ const rootReducer = (state = InitialState, action) => {
 				userRole: null,
 				userEmail: null,
 			};
-
+		case USER_GET_COMMENTS:
+			return {
+				...state,
+				comments: action.payload,
+			};
+		case USER_GET_PURCHASES:
+			return {
+				...state,
+				purchases: action.payload,
+			};
 		case USER_GET_FAVORITES:
 			let favoriteBooks = [];
 			let booksIds = action.payload;

@@ -22,6 +22,7 @@ axios.defaults.baseURL =
 	import.meta.env.VITE_APP_API || 'http://localhost:3001';
 
 /* Deploy front End */
+//blank screen bug
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
