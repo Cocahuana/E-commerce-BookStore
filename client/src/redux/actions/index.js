@@ -179,18 +179,12 @@ export function searchBooksByAdmin(titleOrAuthor) {
 	};
 }
 export function hideBook(payload) {
-	return async function (dispatch) {
-		console.log(payload);
-		var json = await axios.put('admin/hide', payload);
-		// return dispatch({
-		// 	type: HIDE_BOOKS,
-		// 	payload: '',
-		// });
+	return async function () {
+		await axios.put('admin/hide', payload);
 	};
 }
 export function showBook(payload) {
 	return async function () {
-		console.log(payload);
 		await axios.put('admin/show', payload);
 	};
 }
