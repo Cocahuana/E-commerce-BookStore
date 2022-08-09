@@ -13,6 +13,8 @@ import {
 	FormLabel,
 	Textarea,
 	useDisclosure,
+	Text,
+	useColorModeValue,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,8 +29,6 @@ function CommentPoster({ id }) {
 	const [textarea, setTextArea] = useState('');
 	const [rating, setRating] = useState(0);
 	const [errors, setErrors] = useState({});
-
-	console.log(userRole, 'Banned');
 
 	const handleOnChange = (e) => {
 		setTextArea(e.target.value);
@@ -114,8 +114,8 @@ function CommentPoster({ id }) {
 		);
 	} else {
 		return (
-			<Stack>
-				<Text>Usted esta baneado, no puede postear comentarios</Text>
+			<Stack p={"5px"}>
+				<Text color={useColorModeValue("red.400")} fontSize={"20px"}>Usted esta baneado, no puede postear comentarios</Text>
 			</Stack>
 		)
 	}
