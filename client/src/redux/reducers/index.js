@@ -374,7 +374,7 @@ const rootReducer = (state = InitialState, action) => {
 		case ADD_CART:
 			let exist = state.cart.filter((el) => el.id === action.payload);
 			if (exist.length === 1) return state;
-			let newItem = state.booksCopy.find((p) => p.id === action.payload);
+			let newItem = state.booksCopy.find((p) => p.id == action.payload);
 			let sum = newItem.price;
 			return {
 				...state,

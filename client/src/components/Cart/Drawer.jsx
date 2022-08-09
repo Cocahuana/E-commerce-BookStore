@@ -13,6 +13,8 @@ import {
 	useColorModeValue,
 	Text,
 	useToast,
+	Flex,
+	Divider,
 } from '@chakra-ui/react';
 import Cart from './Cart';
 import { useDispatch, useSelector } from 'react-redux';
@@ -53,10 +55,9 @@ const CartDrawer = (props) => {
 				key={'sm'}
 				m={4}
 				leftIcon={
-					<TiShoppingCart
-						color={useColorModeValue('#64c2e4', '#64c2e4')}
-					/>
-				}>
+					<TiShoppingCart color={useColorModeValue('#64c2e4', '#64c2e4')} />
+				}
+			>
 				Cart
 				<Text
 					fontSize='14px'
@@ -65,7 +66,8 @@ const CartDrawer = (props) => {
 					px='4px'
 					py='2px'
 					marginLeft='6px'
-					color={useColorModeValue('white', 'gray.600')}>
+					color={useColorModeValue('white', 'gray.600')}
+				>
 					{cart.length}
 				</Text>
 			</Button>
@@ -77,33 +79,35 @@ const CartDrawer = (props) => {
 					<DrawerHeader></DrawerHeader>
 					<DrawerBody>
 						<Cart />
-						<Box p='10px' float='left'>
+
+						<Flex direction={'column'} justify={'space-between'}>
+							<Button
+								onClick={onClose}
+								disabled={cart.length === 0}
+								colorScheme={'blue'}
+							>
+								<BuenLink to='/purchase'>Purchase now!!</BuenLink>
+							</Button>
+							<Box py={'4'}>
+								<Button size={'sm'} onClick={() => handleDeleteCart()}>
+									Empty Cart
+								</Button>
+							</Box>
+						</Flex>
+						{/* <Box p='10px'>
 							<BuenLink to='/purchase'>
 								<Button
 									onClick={onClose}
-									bg={useColorModeValue(
-										'blue.500',
-										'blue.200'
-									)}
-									color={useColorModeValue(
-										'white',
-										'gray.900'
-									)}
+									bg={useColorModeValue('blue.500', 'blue.200')}
+									color={useColorModeValue('white', 'gray.900')}
 									size='sm'
-									_hover={{
-										transform: 'translateY(2px)',
-										boxShadow: 'lg',
-										bg: useColorModeValue(
-											'gray.400',
-											'gray.600'
-										),
-									}}
-									disabled={cart.length === 0}>
+									disabled={cart.length === 0}
+								>
 									Purchase now!!
 								</Button>
 							</BuenLink>
 						</Box>
-						<Box p='10px' float='right'>
+						<Box p='10px'>
 							<Button
 								bg={useColorModeValue('blue.500', 'blue.200')}
 								color={useColorModeValue('white', 'gray.900')}
@@ -111,15 +115,13 @@ const CartDrawer = (props) => {
 								_hover={{
 									transform: 'translateY(2px)',
 									boxShadow: 'lg',
-									bg: useColorModeValue(
-										'gray.400',
-										'gray.600'
-									),
+									bg: useColorModeValue('gray.400', 'gray.600'),
 								}}
-								onClick={() => handleDeleteCart()}>
+								onClick={() => handleDeleteCart()}
+							>
 								Empty Cart
 							</Button>
-						</Box>
+						</Box> */}
 					</DrawerBody>
 				</DrawerContent>
 			</Drawer>

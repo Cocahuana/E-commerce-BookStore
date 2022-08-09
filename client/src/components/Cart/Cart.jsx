@@ -15,6 +15,7 @@ import {
 	VStack,
 	useColorModeValue,
 	useToast,
+	CloseButton,
 } from '@chakra-ui/react';
 import SummaryPurchase from './SummaryPurchase';
 
@@ -42,15 +43,13 @@ const Cart = () => {
 						return (
 							<Stack
 								paddingBottom={'30px'}
-								border='solid 3px'
-								borderColor={useColorModeValue(
-									'blue.500',
-									'blue.200'
-								)}
+								border='solid 1px'
+								borderColor={useColorModeValue('gray.300', 'blue.200')}
 								rounded='10px'
 								direction='row'
 								w='100%'
-								p='5px'>
+								p='5px'
+							>
 								<Box w='full' p='5px'>
 									<HStack>
 										<Image
@@ -66,39 +65,33 @@ const Cart = () => {
 
 										<VStack maxW='60%'>
 											<Text>
-												<Text fontWeight={'semibold'}>
-													{e.title}
-												</Text>
-												<Text
-													fontWeight='light'
-													paddingBottom={'1px'}>
+												<Text fontWeight={'semibold'}>{e.title}</Text>
+												<Text fontWeight='light' paddingBottom={'1px'}>
 													{e.authors}
 												</Text>
 												<Text paddingTop={'5px'}>
-													<PriceTag
-														price={e.price}
-														currency={e.currency}
-													/>
+													<PriceTag price={e.price} currency={e.currency} />
 												</Text>
 											</Text>
 										</VStack>
 									</HStack>
 								</Box>
 
-								<Button
-									bg='red.300'
+								{/* <Button
+									colorScheme={'blackAlpha'}
 									size='sm'
 									_hover={{
 										transform: 'translateY(2px)',
 										boxShadow: 'lg',
-										bg: useColorModeValue(
-											'gray.400',
-											'gray.600'
-										),
+										bg: useColorModeValue('gray.400', 'gray.600'),
 									}}
-									onClick={() => handleOnDelete(e.id)}>
-									X
-								</Button>
+									onClick={() => handleOnDelete(e.id)}
+								></Button> */}
+								<CloseButton
+									color={'brand.pepeoscuro'}
+									bg={'blackAlpha.300'}
+									onClick={() => handleOnDelete(e.id)}
+								></CloseButton>
 							</Stack>
 						);
 					})

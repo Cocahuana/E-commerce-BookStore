@@ -348,7 +348,7 @@ export function userSignUp(user) {
 				username: user.username,
 				password: user.password,
 			});
-			console.log(result);
+			dispatch(sendWelcomeEmail(user.email))
 			return dispatch({
 				type: SIGN_UP,
 				payload: result.data,
@@ -615,5 +615,12 @@ export function sendConfirmation(userId, cartId) {
 export function sendWelcomeEmail(email) {
 	return async function (dispatch) {
 		let resp = await axios.put(`/mail/signup`, { email });
+	};
+}
+
+export function changeSubscribeStatus(email) {
+	console.log(email, 'email');
+	return async function (dispatch) {
+		let answer = await axios.put(`/user/subscription`, email);
 	};
 }

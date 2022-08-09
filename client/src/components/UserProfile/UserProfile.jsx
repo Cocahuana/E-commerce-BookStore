@@ -59,6 +59,7 @@ function UserProfile() {
 	useEffect(() => {
 		if (userId) dispatch(userGetPurchases(userId));
 		if (userId) dispatch(userGetComments(userId));
+
 		dispatch(getBooksByTitleOrAuthor(""))
 	}, [dispatch]);
 
@@ -66,7 +67,6 @@ function UserProfile() {
 		?.map((e) => {
 			return e.Books;
 		})
-		.slice(0)
 		.flat();
 	var dataComments = comments?.map((r) => {
 		let book = booksAutocomplete.filter((b) => r.BookId === b.id);
