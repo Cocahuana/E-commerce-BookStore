@@ -72,7 +72,7 @@ export const Newsletter = () => (
 									'gray.400'
 								)}
 								textDecoration='underline'>
-								No, I don’t want discounts
+								No, I don’t want to subscribe right now
 							</Link>
 						</BuenLink>
 					</Stack>
