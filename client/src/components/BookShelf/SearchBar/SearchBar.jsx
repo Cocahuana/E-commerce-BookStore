@@ -105,13 +105,7 @@ function SearchBar({ setCurrentPage }) {
 									/>
 								</Box>
 
-								<InputGroup
-									size='lg'
-									w='full'
-									display={{
-										base: 'none',
-										lg: 'flex',
-									}}>
+								<InputGroup size='lg' w='full'>
 									{/* <Input
 										size='lg'
 										color='brand.900'

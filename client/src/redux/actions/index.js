@@ -348,7 +348,7 @@ export function userSignUp(user) {
 				username: user.username,
 				password: user.password,
 			});
-			console.log(result);
+			dispatch(sendWelcomeEmail(user.email))
 			return dispatch({
 				type: SIGN_UP,
 				payload: result.data,

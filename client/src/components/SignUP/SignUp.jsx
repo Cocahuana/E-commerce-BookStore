@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
 	Flex,
 	Box,
@@ -51,7 +51,6 @@ function SignUp() {
 		registerUser.password !== '' &&
 		Object.values(errors).length === 0
 	) {
-		console.log(username, password);
 		Swal.fire(
 			'Sign Up',
 			'You have been registered successfully!',
@@ -104,7 +103,6 @@ function SignUp() {
 			});
 		} else {
 			dispatch(userSignUp(registerUser));
-			//dispatch(sendWelcomeEmail(registeredUsers.email));
 		}
 	};
 
