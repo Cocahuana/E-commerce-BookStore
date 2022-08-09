@@ -46,11 +46,15 @@ export const LOGIN = 'LOGIN';
 export const SIGN_UP = 'SIGN_UP';
 export const SIGN_OUT = 'SIGN_OUT';
 export const USER_GET_FAVORITES = 'USER_GET_FAVORITES';
+export const USER_GET_COMMENTS = 'USER_GET_COMMENTS';
+export const USER_GET_PURCHASES = 'USER_GET_PURCHASES';
 export const USER_DEL_FAVORITES = 'USER_DEL_FAVORITES';
 export const USER_ADD_FAVSTATE = 'USER_ADD_FAVSTATE';
 export const LOGIN_GOOGLE = 'LOGIN_GOOGLE';
 export const UPDATE_USER = 'UPDATE_USER';
 export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
+export const RESET_PASSWORD = 'RESET_PASSWORD';
+export const USER_SUBSCRIBE = 'USER_SUBSCRIBE';
 
 //------------ADMIN---------------
 export const HIDE_BOOKS = 'HIDE_BOOKS';

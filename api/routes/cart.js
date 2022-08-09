@@ -5,7 +5,6 @@ const {
 	getAllCarts,
 	addBookToCart,
 	removeOneBookFromCart,
-	removeAllBooksFromCart,
 	clearCart,
 	checkoutCart,
 	bulkAdd,
@@ -21,8 +20,6 @@ router.get('/all', getAllCarts);
 router.post('/', addBookToCart);
 
 router.put('/', removeOneBookFromCart);
-
-router.put('/all', removeAllBooksFromCart);
 
 router.put('/clear', clearCart);
 

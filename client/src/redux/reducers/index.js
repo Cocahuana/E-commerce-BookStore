@@ -40,6 +40,9 @@ import {
 	GET_PURCHASED_CART,
 	GET_ACTIVE_CART,
 	EMPTY_PURCHASED_CART,
+	USER_GET_COMMENTS,
+	USER_GET_PURCHASES,
+	USER_SUBSCRIBE,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -122,12 +125,14 @@ const InitialState = {
 	userName: userNameFromLocalStorage,
 	userEmail: userEmailFromLocalStorage,
 	userProfilePicture: userProfileImageFromLocalStorage,
+	subscribed: '',
 	allUsers: [],
 	allUsersCopy: [],
 	isSignedIn: isSignedInFromLocalStorage,
 	allFavourites: favoritesFromLocalStorage,
 	purchasedCart: [],
-	activeCart: {},
+	comments: [],
+	purchases: [],
 };
 
 const rootReducer = (state = InitialState, action) => {
@@ -371,7 +376,7 @@ const rootReducer = (state = InitialState, action) => {
 		case ADD_CART:
 			let exist = state.cart.filter((el) => el.id === action.payload);
 			if (exist.length === 1) return state;
-			let newItem = state.booksCopy.find((p) => p.id === action.payload);
+			let newItem = state.booksCopy.find((p) => p.id == action.payload);
 			let sum = newItem.price;
 			return {
 				...state,
@@ -400,12 +405,20 @@ const rootReducer = (state = InitialState, action) => {
 			for (let i = 0; i < arrayNuevo.length; i++) {
 				suma += arrayNuevo[i];
 			}
+
+			var booksLS = JSON.parse(localStorage.getItem('cart'));
+
+			let nuevo = arrayBooks.concat(booksLS);
+
+			console.log(nuevo, 'books');
+
 			return {
 				...state,
 				cart: arrayBooks,
 				summary: suma,
 			};
 		}
+
 		case CHECKOUT_CART: {
 			return {
 				...state,
@@ -443,12 +456,6 @@ const rootReducer = (state = InitialState, action) => {
 				loading: false,
 			};
 		}
-		case GET_ACTIVE_CART: {
-			return {
-				...state,
-				activeCart: action.payload,
-			};
-		}
 		case LOGIN:
 			// Signed in, passing token, user role and setting the state "isSignedIn" with value true
 
@@ -473,6 +480,7 @@ const rootReducer = (state = InitialState, action) => {
 				userProfilePicture: action.payload.profile_picture,
 				isSignedIn: true,
 				registeredUsers: [],
+				subscribed: action.payload.subscribed,
 			};
 		case LOGIN_GOOGLE:
 			localStorage.setItem('userId', action.payload.id);
@@ -492,6 +500,7 @@ const rootReducer = (state = InitialState, action) => {
 				userEmail: action.payload.email,
 				userProfilePicture: action.payload.profile_picture,
 				isSignedIn: true,
+				subscribed: action.payload.subscribed,
 			};
 
 		case UPDATE_USER:
@@ -525,6 +534,7 @@ const rootReducer = (state = InitialState, action) => {
 			localStorage.setItem('userEmail', null);
 			localStorage.setItem('summary', 0);
 			localStorage.removeItem('token');
+
 			return {
 				...state,
 				token: '',
@@ -534,8 +544,18 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 				userRole: null,
 				userEmail: null,
+				subscribed: 'Unsubscribed',
 			};
-
+		case USER_GET_COMMENTS:
+			return {
+				...state,
+				comments: action.payload,
+			};
+		case USER_GET_PURCHASES:
+			return {
+				...state,
+				purchases: action.payload,
+			};
 		case USER_GET_FAVORITES:
 			let favoriteBooks = [];
 			let booksIds = action.payload;
@@ -577,6 +597,13 @@ const rootReducer = (state = InitialState, action) => {
 			return {
 				...state,
 			};
+
+		case USER_SUBSCRIBE: {
+			return {
+				...state,
+				subscribed: 'Subscribed',
+			};
+		}
 		case FILTERED_ADMIN_BOOKS:
 			let filteredBooksSearch = [];
 			state.adminBooks = state.adminBooksCopy;

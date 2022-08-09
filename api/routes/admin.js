@@ -1,11 +1,13 @@
 const express = require('express');
 const { Router } = require('express');
 const passport = require("passport");
-const { banUser, upgradeToAdmin, hideBook, showBook, deleteComment, getAllOrders } = require("../controllers/adminControllers");
+const { banUser, unbanUser, upgradeToAdmin, hideBook, showBook, deleteComment, getAllOrders } = require("../controllers/adminControllers");
 
 const router = Router();
 
 router.put("/ban", banUser);
+
+router.put("/unban", unbanUser);
 
 router.put("/upgrade", upgradeToAdmin);
 

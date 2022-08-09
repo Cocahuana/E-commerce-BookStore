@@ -7,25 +7,55 @@ import {
 	HStack,
 	Avatar,
 	useColorModeValue,
+	Box,
+	AspectRatio,
+	Image,
 } from '@chakra-ui/react';
 
-const Reviews = ({ reviewData }) => {
+const Reviews = ({ reviewData, userProfileCommentsDisplayer, borde, pad, redondeo }) => {
+	console.log(reviewData, 'rev');
 	return (
 		<Container maxW='5xl' p={{ base: 5, md: 10 }}>
-			<Flex justify='center'>
-				<Heading
-					as='h3'
-					size='lg'
-					fontWeight='bold'
-					textAlign='left'
-					mb={{ base: '4', md: '2' }}>
-					Recent Reviews
-				</Heading>
-			</Flex>
+			{!userProfileCommentsDisplayer && (
+				<Flex justify='center'>
+					<Heading
+						as='h3'
+						size='lg'
+						fontWeight='bold'
+						textAlign='left'
+						mb={{ base: '4', md: '2' }}>
+						Recent Reviews
+					</Heading>
+				</Flex>
+			)}
 			<Stack direction='column' spacing={5} my={4}>
 				{reviewData?.map((review, index) => {
 					return (
-						<Stack key={index} direction='column' maxW='2xl'>
+						<Stack
+							rounded={redondeo}
+							p={pad}
+							border={borde}
+							key={index}
+							direction={
+								userProfileCommentsDisplayer
+									? 'column'
+									: 'column'
+							}
+							maxW='2x1'>
+							<Stack direction={"row"}>
+								{userProfileCommentsDisplayer && (
+									<Box>
+										<Image
+											boxSize={'100px'}
+											src={review.book_image}
+											alt='book image'
+										/>
+									</Box>
+								)}
+								{userProfileCommentsDisplayer && (
+									<Text py={"30px"}>{review.book_title}</Text>
+								)}
+							</Stack>
 							<HStack spacing={3}>
 								<Avatar
 									size='md'
