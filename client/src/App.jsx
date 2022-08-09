@@ -24,6 +24,7 @@ import Success from './components/Payment/Success';
 import Purchase from './components/Payment/Purchase';
 import PasswordRecovery from './components/PRecovery/PasswordRecovery';
 import Error from './components/Payment/Error';
+import { Newsletter } from './components/Newsletter/Newsletter';
 
 /*
  NO SACAR EL SWITCH, AMIGUENSE CON REACT ROUTER DOM V5 :D
@@ -51,6 +52,7 @@ function App() {
 				<Route path='/login' component={login} />
 				<Route path='/recovery/:userId' component={PasswordRecovery} />
 				<Route path='/us' component={AboutUs} />
+				<Route path='/newsletter' component={Newsletter} />
 				<Route path='/recovery/:userId' />
 				<Route
 					path='/purchase'
