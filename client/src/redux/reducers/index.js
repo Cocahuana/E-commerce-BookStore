@@ -42,6 +42,7 @@ import {
 	EMPTY_PURCHASED_CART,
 	USER_GET_COMMENTS,
 	USER_GET_PURCHASES,
+	USER_SUBSCRIBE,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -124,7 +125,7 @@ const InitialState = {
 	userName: userNameFromLocalStorage,
 	userEmail: userEmailFromLocalStorage,
 	userProfilePicture: userProfileImageFromLocalStorage,
-	userSubscribed: '',
+	subscribed: '',
 	allUsers: [],
 	allUsersCopy: [],
 	isSignedIn: isSignedInFromLocalStorage,
@@ -375,7 +376,7 @@ const rootReducer = (state = InitialState, action) => {
 		case ADD_CART:
 			let exist = state.cart.filter((el) => el.id === action.payload);
 			if (exist.length === 1) return state;
-			let newItem = state.booksCopy.find((p) => p.id === action.payload);
+			let newItem = state.booksCopy.find((p) => p.id == action.payload);
 			let sum = newItem.price;
 			return {
 				...state,
@@ -479,7 +480,7 @@ const rootReducer = (state = InitialState, action) => {
 				userProfilePicture: action.payload.profile_picture,
 				isSignedIn: true,
 				registeredUsers: [],
-				userSubscribed: action.payload.subscribed,
+				subscribed: action.payload.subscribed,
 			};
 		case LOGIN_GOOGLE:
 			localStorage.setItem('userId', action.payload.id);
@@ -499,6 +500,7 @@ const rootReducer = (state = InitialState, action) => {
 				userEmail: action.payload.email,
 				userProfilePicture: action.payload.profile_picture,
 				isSignedIn: true,
+				subscribed: action.payload.subscribed,
 			};
 
 		case UPDATE_USER:
@@ -532,6 +534,7 @@ const rootReducer = (state = InitialState, action) => {
 			localStorage.setItem('userEmail', null);
 			localStorage.setItem('summary', 0);
 			localStorage.removeItem('token');
+
 			return {
 				...state,
 				token: '',
@@ -541,6 +544,7 @@ const rootReducer = (state = InitialState, action) => {
 				summary: 0,
 				userRole: null,
 				userEmail: null,
+				subscribed: 'Unsubscribed',
 			};
 		case USER_GET_COMMENTS:
 			return {
@@ -593,6 +597,13 @@ const rootReducer = (state = InitialState, action) => {
 			return {
 				...state,
 			};
+
+		case USER_SUBSCRIBE: {
+			return {
+				...state,
+				subscribed: 'Subscribed',
+			};
+		}
 		case FILTERED_ADMIN_BOOKS:
 			let filteredBooksSearch = [];
 			state.adminBooks = state.adminBooksCopy;
