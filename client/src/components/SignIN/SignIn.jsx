@@ -62,9 +62,7 @@ function SignIn() {
 	useEffect(() => {
 		// Checkea si el token esta o no vacio
 		dispatch(checkStates());
-		if (registeredUsers.email) {
-			dispatch(sendWelcomeEmail(registeredUsers.email));
-		}
+
 		// Si llega el token (porque es correcto, sino llega vacio)
 		// entonces setea email y password y te manda a /books mientras
 		// te aparece un sweet alert sobre que el login fue un exito
