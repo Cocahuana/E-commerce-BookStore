@@ -1,3 +1,4 @@
+import { Box, Divider, Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { PriceTag } from '../BookShelf/BookHolder/Book/PriceTag';
@@ -18,16 +19,22 @@ const SummaryPurchase = () => {
 	let summaryFormatted = formatPrice(summary, 'USD');
 
 	return (
-		<div>
-			{summary > 0 ? (
-				<div>
-					Total:
-					<PriceTag price={summaryFormatted} currency={'USD'} />
-				</div>
-			) : (
-				<div></div>
-			)}
-		</div>
+		<Box>
+			<Divider py={'1'}></Divider>
+			<Box pt={'4'}>
+				{summary > 0 ? (
+					<Flex justify={'space-between'}>
+						<Text fontSize={'md'} fontWeight={'bold'}>
+							Total:
+						</Text>
+
+						<PriceTag price={summaryFormatted} currency={'USD'} />
+					</Flex>
+				) : (
+					<div></div>
+				)}
+			</Box>
+		</Box>
 	);
 };
 
