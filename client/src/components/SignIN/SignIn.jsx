@@ -200,7 +200,10 @@ function SignIn() {
 								onClick={onOpen}
 								as={'a'}
 								variant={'link'}
-								color={'blue.500'}>
+								color={useColorModeValue(
+									'blue.500',
+									'blue.800'
+								)}>
 								Forgot password?
 							</Button>
 						</Stack>
@@ -230,7 +233,10 @@ function SignIn() {
 							<BuenLink to='/register'>
 								<Button
 									as={'a'}
-									color={'blue.400'}
+									color={useColorModeValue(
+										'blue.500',
+										'blue.800'
+									)}
 									variant={'link'}>
 									Register
 								</Button>
