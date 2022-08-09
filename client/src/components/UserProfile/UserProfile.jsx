@@ -71,6 +71,7 @@ function UserProfile() {
 			return e.Books;
 		})
 		.flat();
+		console.log(dataHistory)
 	var dataComments = comments?.map((r) => {
 		let book = booksAutocomplete.filter((b) => r.BookId === b.id);
 		return {
@@ -83,7 +84,7 @@ function UserProfile() {
 			book_image: book[0]?.image,
 		};
 	});
-	if (dataHistory?.length && loader) setLoader(false);
+	if (Array.isArray(dataHistory) && loader) setLoader(false);
 
 	return (
 		<Stack
@@ -130,7 +131,7 @@ function UserProfile() {
 				<Stack px={'5%'} w={{ lg: '50%', md: '50%', base: '100%' }}>
 					<VStack pt={'30%'}>
 						<FavouriteList widt={'100%'} />
-						<Box w={"100%"}>
+						<Box w={'100%'}>
 							<BuenLink to={`/recovery/:${userId}`}>
 								<Button w={'100%'}>Change your password</Button>
 							</BuenLink>
@@ -151,7 +152,7 @@ function UserProfile() {
 						</TabList>
 						<TabPanels>
 							<TabPanel pt={'2%'} w={'100%'}>
-								{loader ? (
+							{loader ? (
 									<Center>
 										<Spinner
 											thickness='4px'
@@ -161,6 +162,8 @@ function UserProfile() {
 											size='xl'
 										/>
 									</Center>
+								) : dataHistory.length === 0 ? (
+									<h1>You don't have any purchases yet!</h1>
 								) : (
 									dataHistory.map((e) => (
 										<HStack
