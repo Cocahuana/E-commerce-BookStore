@@ -81,7 +81,7 @@ function PasswordRecovery(props) {
 			duration: '1000',
 			position: 'bottom',
 		});
-		history.push('login');
+		history.push('/login');
 	};
 	return (
 		<Stack

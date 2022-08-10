@@ -151,6 +151,7 @@ const newOffers = async ( req, res, next ) => {
 
     if ( users.length === 0 ) return res.send( "No users are subscribed to the newsletter at the moment :(" )
 
+
     users.forEach( ( user ) => {
       arrayPromises.push(
         transporter.sendMail(
@@ -192,6 +193,7 @@ const specificOffer = async ( req, res, next ) => {
         id: bookId,
       },
     } );
+
 
     if ( !bookObject.salePrice )
       return res.send(

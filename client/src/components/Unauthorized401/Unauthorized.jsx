@@ -16,8 +16,8 @@ export default function Unauthorized401() {
 				Authentication is required
 			</Text>
 			<Text color={'gray.500'} mb={6}>
-				The page you are accesing for is not available for you at less
-				you You have an account
+				The page you are trying to access is not available. Please sign
+				in to your account to continue.
 			</Text>
 			<Link to='/'>
 				<Button
