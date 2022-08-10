@@ -147,7 +147,7 @@ export const Book = (props) => {
 		setTimeout(() => {
 			dispatch(addToCart(id, userId));
 			history.push('/purchase');
-		}, 300);
+		}, 800);
 	};
 
 	const handleDeleteCart = () => {
