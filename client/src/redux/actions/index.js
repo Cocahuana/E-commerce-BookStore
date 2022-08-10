@@ -12,6 +12,7 @@ import {
 	GET_BOOKS_BY_TITLE_OR_AUTHOR,
 	RESET_DETAILS,
 	HIDE_BOOKS,
+	SHOW_BOOKS,
 	FILTERED_ADMIN_BOOKS,
 	FILTERED_ADMIN_USER,
 	//----------
@@ -182,13 +183,21 @@ export function searchBooksByAdmin(titleOrAuthor) {
 	};
 }
 export function hideBook(payload) {
-	return async function () {
+	return async function (dispatch) {
 		await axios.put('admin/hide', payload);
+		return dispatch({
+			type: HIDE_BOOKS,
+			payload: payload.bookId,
+		});
 	};
 }
 export function showBook(payload) {
-	return async function () {
+	return async function (dispatch) {
 		await axios.put('admin/show', payload);
+		return dispatch({
+			type: SHOW_BOOKS,
+			payload: payload.bookId,
+		});
 	};
 }
 
