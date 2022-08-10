@@ -57,10 +57,11 @@ export const RESET_PASSWORD = 'RESET_PASSWORD';
 export const USER_SUBSCRIBE = 'USER_SUBSCRIBE';
 
 //------------ADMIN---------------
-export const HIDE_BOOKS = 'HIDE_BOOKS';
 export const CREATE_BOOK = 'CREATE_BOOK';
 export const MODIFY_BOOK = 'CREATE_BOOK';
 export const SEARCH_BOOK = 'SEARCH_BOOK';
+export const HIDE_BOOKS = 'HIDE_BOOKS';
+export const SHOW_BOOKS = 'SHOW_BOOKS';
 export const UPGRADE_USER = 'UPGRADE_USER';
 export const BAN_USER = 'BAN_USER';
 export const FILTERED_ADMIN_BOOKS = 'FILTERED_ADMIN_BOOKS';

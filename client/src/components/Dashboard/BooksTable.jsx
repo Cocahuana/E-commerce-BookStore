@@ -51,13 +51,20 @@ function BooksTable({ books }) {
 	const [booksSearch, setBooksSearch] = useState('');
 	const [scroll, setScroll] = useState(books.slice(0, 20));
 	const [libro, setLibro] = useState(books);
-	const [stock, setStock] = useState(99);
+	//const [stock, setStock] = useState(99);
 
-	useEffect(() => {
-		dispatch(getBooks());
-	}, [stock]);
-
-	if (libro[0] !== books[0] || libro.length !== books.length) {
+	// useEffect(() => {
+	// 	dispatch(getBooks());
+	// }, [stock]);
+	if (libro.length == books.length) {
+		for (let i = 0; i < books.length; i++) {
+			if (libro[i] !== books[i]) {
+				setScroll(books.slice(0, 20));
+				setLibro(books);
+				break;
+			}
+		}
+	} else {
 		setScroll(books.slice(0, 20));
 		setLibro(books);
 	}
@@ -71,16 +78,16 @@ function BooksTable({ books }) {
 			);
 		}, 1300);
 	};
-
+	console.log('render', books, libro);
 	const onClickhideBook = (e) => {
 		dispatch(hideBook({ bookId: e.id }));
-		setStock(e);
+		// setStock(e);
 	};
-	console.log(stock.id);
+	//console.log(stock.id);
 
 	const onClickshowBook = (e) => {
 		dispatch(showBook({ bookId: e.id }));
-		setStock(e);
+		// setStock(e);
 	};
 
 	const handleOnChange = (e) => {
@@ -89,7 +96,11 @@ function BooksTable({ books }) {
 	};
 
 	const handleOnClick = () => {
-		dispatch(filteredAdminBooks(booksSearch));
+		if (!booksSearch) {
+			dispatch(getBooks());
+		} else {
+			dispatch(filteredAdminBooks(booksSearch));
+		}
 	};
 
 	return books.length === 0 ? (

@@ -14,6 +14,7 @@ import {
 	FormHelperText,
 	Image,
 	VisuallyHidden,
+	Text,
 } from '@chakra-ui/react';
 import React from 'react';
 import { useEffect } from 'react';
@@ -129,7 +130,7 @@ function SearchBar({ setCurrentPage }) {
 														handleInputChange(e)
 													}
 												/>
-												<AutoCompleteList>
+												<AutoCompleteList maxH='200px'>
 													{booksAutocomplete.map(
 														(b, id) => (
 															<AutoCompleteItem
@@ -165,19 +166,27 @@ function SearchBar({ setCurrentPage }) {
 																			'center'
 																		}
 																		justifyContent='flex-start'
-																		w={{
+																		maxW={{
 																			base: '50px',
 																			sm: '50px',
 																			lg: '50px',
 																		}}
-																		h={{
+																		maxH={{
 																			base: '50px',
 																			sm: '50px',
 																			lg: '50px',
 																		}}
 																		mr='10px'
 																	/>
-																	{b.title}
+																	<Text
+																		overflow={
+																			'hidden'
+																		}
+																		textOverflow='ellipsis'>
+																		{
+																			b.title
+																		}
+																	</Text>
 																</Button>
 															</AutoCompleteItem>
 														)
