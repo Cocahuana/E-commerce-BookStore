@@ -75,7 +75,7 @@ export default function Purchase() {
 			<List
 				rounded={'5px'}
 				border={'solid 1px lightgray'}
-				p={'10px'}
+				p={{base:'5vh', sm:"10%", md:"10px", lg:"10px"}}
 				minW={'50%'}
 				spacing={3}
 				textAlign='start'>
