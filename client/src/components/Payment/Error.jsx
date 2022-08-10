@@ -26,7 +26,6 @@ export default function Error() {
 				p={'4%'}
 				display='inline-block'
 				as='h2'
-				size='2xl'
 				bgGradient='linear(to-r, blue.600, blue.400)'
 				backgroundClip='text'>
 				Error
