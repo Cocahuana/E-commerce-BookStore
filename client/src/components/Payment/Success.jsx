@@ -84,7 +84,7 @@ export default function Success() {
 
 			<Box
 				m='auto'
-				w={{ base: '100%', sm: '100%', md: '100%', lg: '50%' }}
+				w={{ base: '100%', sm: '100%', md: '100%', lg: '100%' }}
 				p='10px'
 				border='1px'
 				borderColor={useColorModeValue('gray.200', 'gray.900')}>
@@ -101,6 +101,7 @@ export default function Success() {
 				) : (
 					<TableContainer>
 						<Table
+							size={'sm'}
 							variant='striped'
 							bg={useColorModeValue('gray.200', 'gray.900')}>
 							<TableCaption>
@@ -109,11 +110,11 @@ export default function Success() {
 								account
 							</TableCaption>
 							<Thead>
-								<Tr>
+								{/* <Tr>
 									<Td></Td>
 									<Td textAlign={'center'}>Book</Td>
 									<Td textAlign={'center'}>Price</Td>
-								</Tr>
+								</Tr> */}
 							</Thead>
 							<Tbody m='10px'>
 								{purchasedCart?.Books?.map((e) => (
@@ -126,22 +127,21 @@ export default function Success() {
 													md: '150px',
 													lg: '200px',
 												}}
-												src={e?.image}
+												src={e.image}
 											/>
 										</Td>
 										<Td textAlign={'center'}>
 											<Heading
-												as='h3'
 												size={{
 													base: 'sm',
 													sm: 'sm',
 													md: 'md',
-													lg: 'lg',
+													lg: 'md',
 												}}>
 												{e.title}
 											</Heading>
 										</Td>
-										<Td>
+										<Td textAlign='center'>
 											<Badge
 												colorScheme={useColorModeValue(
 													'blue',
@@ -161,14 +161,24 @@ export default function Success() {
 								))}
 								<Tr>
 									<Td></Td>
-									<Td></Td>
-									<Td>
+
+									<Td textAlign={'center'} w='50%'>
 										<Badge
+											width='20%'
 											colorScheme='green'
 											fontSize={'20px'}>
-											{'Total ' + purchasedCart.Total}
+											Total:
+										</Badge>
+										<Badge
+											width='20%'
+											colorScheme='green'
+											fontSize={'20px'}>
+											<PriceTag
+												price={purchasedCart.Total}
+											/>
 										</Badge>
 									</Td>
+									<Td></Td>
 								</Tr>
 							</Tbody>
 						</Table>
