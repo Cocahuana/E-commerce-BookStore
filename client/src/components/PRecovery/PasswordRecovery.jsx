@@ -91,7 +91,7 @@ function PasswordRecovery(props) {
 					<Heading fontSize={'2xl'}>Create a new password</Heading>
 
 
-					<FormControl id='pass'>
+					<FormControl id='pass' isInvalid={errors.password}>
 						<FormLabel>New Password</FormLabel>
 						<InputGroup>
 							<Input
@@ -116,7 +116,7 @@ function PasswordRecovery(props) {
 							</InputRightElement>
 						</InputGroup>
 
-						{errors.password && errors.password !== 'ready		' ? (
+						{errors.password && errors.password !== 'ready' ? (
 							<FormErrorMessage>
 								{errors.password}
 							</FormErrorMessage>
