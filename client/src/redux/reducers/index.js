@@ -33,6 +33,7 @@ import {
 	CLEAR_CART,
 	SEARCH_BOOK,
 	HIDE_BOOKS,
+	SHOW_BOOKS,
 	CHECKOUT_CART,
 	BAN_USER,
 	FILTERED_ADMIN_BOOKS,
@@ -134,7 +135,6 @@ const InitialState = {
 	comments: [],
 	purchases: [],
 };
-
 
 const rootReducer = (state = InitialState, action) => {
 	switch (action.type) {
@@ -359,11 +359,41 @@ const rootReducer = (state = InitialState, action) => {
 		}
 		//--------------------------------------------El ADMIN CAPO--------------------------------------------------
 
-		// case HIDE_BOOKS:{
-		// 	return{
-
-		// 	}
-		// }
+		case HIDE_BOOKS: {
+			let hidden = state.adminBooks.map((b) => {
+				if (b.id === action.payload) {
+					return {
+						...b,
+						stock: 0,
+					};
+				} else {
+					return b;
+				}
+			});
+			return {
+				...state,
+				adminBooks: hidden,
+				adminBooksCopy: hidden,
+			};
+		}
+		case SHOW_BOOKS: {
+			let shown = state.adminBooks.map((b) => {
+				if (b.id === action.payload) {
+					console.log(b.title);
+					return {
+						...b,
+						stock: 50,
+					};
+				} else {
+					return b;
+				}
+			});
+			return {
+				...state,
+				adminBooks: shown,
+				adminBooksCopy: shown,
+			};
+		}
 
 		//-----------------------------------------------------------------------------------------------------
 
