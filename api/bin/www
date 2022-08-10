@@ -1,133 +1,128 @@
 #!/usr/bin/env node
-const { Op } = require( 'sequelize' );
-const { Books, Language, Genre } = require( '../db' );
-const { books } = require( '../controllers/hardcoded_books.json' );
-const { genres } = require( '../controllers/hardcoded_genres.json' );
-const { languages } = require( '../controllers/hardcoded_languages.json' );
+const { Op } = require('sequelize');
+const { Books, Language, Genre } = require('../db');
+const { books } = require('../controllers/hardcoded_books.json');
+const { genres } = require('../controllers/hardcoded_genres.json');
+const { languages } = require('../controllers/hardcoded_languages.json');
 
 /**
  * Module dependencies.
  */
 
-var app = require( '../app' );
-var debug = require( 'debug' )( 'api:server' );
-var http = require( 'http' );
-const { conn } = require( '../db.js' );
+var app = require('../app');
+var debug = require('debug')('api:server');
+var http = require('http');
+const { conn } = require('../db.js');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort( process.env.PORT || '3000' );
-app.set( 'port', port );
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer( app );
+var server = http.createServer(app);
 
 /**
  * We're using conn from db.js with the method sync to sync all the models at once.
  * Using property "force: false" to handle the emptying of database
  */
 
-conn.sync( { force: true } ).then( () => {
-	app.listen( process.env.PORT || 3001, async () => {
-		console.log( '%s listening at 3001' ); // eslint-disable-line no-console
+conn.sync({ force: false }).then(() => {
+	app.listen(process.env.PORT || 3001, async () => {
+		console.log('%s listening at 3001'); // eslint-disable-line no-console
 		// function cambiarDeLugar(){
 
 		let infoCheck = await Books.findAll();
-		if ( infoCheck.length === 0 )
-		{
-			await Books.bulkCreate( books );
-			await Genre.bulkCreate( genres );
-			await Language.bulkCreate( languages );
-			let genreNames = genres.map( ( genre ) => {
+		if (infoCheck.length === 0) {
+			await Books.bulkCreate(books);
+			await Genre.bulkCreate(genres);
+			await Language.bulkCreate(languages);
+			let genreNames = genres.map((genre) => {
 				return genre.name;
-			} );
+			});
 			let booksToAssociate;
 			let genreBooks;
 			let genresToAssociate;
 			let arrayPromises = [];
-			for ( let i in genreNames )
-			{
-				genreBooks = books.map( ( book ) =>
-					book.genre.includes( genreNames[i] ) ? book.title : null
+			for (let i in genreNames) {
+				genreBooks = books.map((book) =>
+					book.genre.includes(genreNames[i]) ? book.title : null
 				);
 
-				booksToAssociate = await Books.findAll( {
+				booksToAssociate = await Books.findAll({
 					where: {
 						title: {
 							[Op.in]: genreBooks,
 						},
 					},
-				} );
+				});
 
-				genresToAssociate = await Genre.findOne( {
+				genresToAssociate = await Genre.findOne({
 					where: {
 						name: genreNames[i],
 					},
-				} );
+				});
 
 				arrayPromises.push(
-					genresToAssociate.addBooks( booksToAssociate )
+					genresToAssociate.addBooks(booksToAssociate)
 				);
 			}
 
-			let languageNames = languages.map( ( language ) => {
+			let languageNames = languages.map((language) => {
 				return language.name;
-			} );
+			});
 			let languagesToAssociate;
 			let languageBooks;
-			for ( let i in languageNames )
-			{
-				languageBooks = books.map( ( book ) =>
+			for (let i in languageNames) {
+				languageBooks = books.map((book) =>
 					book.language === languageNames[i] ? book.title : null
 				);
-				booksToAssociate = await Books.findAll( {
+				booksToAssociate = await Books.findAll({
 					where: {
 						title: {
 							[Op.in]: languageBooks,
 						},
 					},
-				} );
+				});
 
-				languagesToAssociate = await Language.findOne( {
+				languagesToAssociate = await Language.findOne({
 					where: {
 						name: languageNames[i],
 					},
-				} );
+				});
 
 				arrayPromises.push(
-					languagesToAssociate.addBooks( booksToAssociate )
+					languagesToAssociate.addBooks(booksToAssociate)
 				);
 			}
-			await Promise.all( arrayPromises );
+			await Promise.all(arrayPromises);
 		}
 		// }
-	} );
-} );
+	});
+});
 
 // server.listen(port);
-app.on( 'error', onError );
-app.on( 'listening', onListening );
+app.on('error', onError);
+app.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort ( val ) {
-	var port = parseInt( val, 10 );
+function normalizePort(val) {
+	var port = parseInt(val, 10);
 
-	if ( isNaN( port ) )
-	{
+	if (isNaN(port)) {
 		// named pipe
 		return val;
 	}
 
-	if ( port >= 0 )
-	{
+	if (port >= 0) {
 		// port number
 		return port;
 	}
@@ -139,24 +134,22 @@ function normalizePort ( val ) {
  * Event listener for HTTP server "error" event.
  */
 
-function onError ( error ) {
-	if ( error.syscall !== 'listen' )
-	{
+function onError(error) {
+	if (error.syscall !== 'listen') {
 		throw error;
 	}
 
 	var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
 	// handle specific listen errors with friendly messages
-	switch ( error.code )
-	{
+	switch (error.code) {
 		case 'EACCES':
-			console.error( bind + ' requires elevated privileges' );
-			process.exit( 1 );
+			console.error(bind + ' requires elevated privileges');
+			process.exit(1);
 			break;
 		case 'EADDRINUSE':
-			console.error( bind + ' is already in use' );
-			process.exit( 1 );
+			console.error(bind + ' is already in use');
+			process.exit(1);
 			break;
 		default:
 			throw error;
@@ -167,8 +160,8 @@ function onError ( error ) {
  * Event listener for HTTP server "listening" event.
  */
 
-function onListening () {
+function onListening() {
 	var addr = server.address();
 	var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-	debug( 'Listening on ' + bind );
+	debug('Listening on ' + bind);
 }

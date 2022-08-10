@@ -135,6 +135,7 @@ const InitialState = {
 	purchases: [],
 };
 
+
 const rootReducer = (state = InitialState, action) => {
 	switch (action.type) {
 		case GET_DETAILS: {

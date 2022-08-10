@@ -60,8 +60,6 @@ function PasswordRecovery(props) {
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const toast = useToast();
-	console.log(errors.password);
-	console.log(password, checkpass);
 	const handleChange = (e) => {
 		if (e.target.name === 'pass') {
 			setPassword(e.target.value);
@@ -81,7 +79,7 @@ function PasswordRecovery(props) {
 			duration: '1000',
 			position: 'bottom',
 		});
-		history.push('login');
+		history.push('/login');
 	};
 	return (
 		<Stack
@@ -93,7 +91,7 @@ function PasswordRecovery(props) {
 					<Heading fontSize={'2xl'}>Create a new password</Heading>
 
 
-					<FormControl id='pass'>
+					<FormControl id='pass' isInvalid={errors.password}>
 						<FormLabel>New Password</FormLabel>
 						<InputGroup>
 							<Input
@@ -118,7 +116,7 @@ function PasswordRecovery(props) {
 							</InputRightElement>
 						</InputGroup>
 
-						{errors.password && errors.password !== 'ready		' ? (
+						{errors.password && errors.password !== 'ready' ? (
 							<FormErrorMessage>
 								{errors.password}
 							</FormErrorMessage>
