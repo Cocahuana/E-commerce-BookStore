@@ -77,11 +77,11 @@ function SignIn() {
 			for (let i = 0; i < cart.length; i++) {
 				dispatch(addToCart(cart[i].id, userId));
 			}
-			if (subscribed !== 'Subscribed') {
-				setTimeout(() => {
-					isSignedIn && history.push('/newsletter');
-				}, 10000);
-			}
+			// if (subscribed !== 'Subscribed') {
+			// 	setTimeout(() => {
+			// 		isSignedIn && history.push('/newsletter');
+			// 	}, 10000);
+			// }
 		};
 	}, [dispatch, token, userId]);
 
