@@ -71,7 +71,7 @@ function UserProfile() {
 			return e.Books;
 		})
 		.flat();
-		console.log(dataHistory)
+	console.log(dataHistory);
 	var dataComments = comments?.map((r) => {
 		let book = booksAutocomplete.filter((b) => r.BookId === b.id);
 		return {
@@ -151,8 +151,8 @@ function UserProfile() {
 							<Tab>Comments</Tab>
 						</TabList>
 						<TabPanels>
-							<TabPanel pt={'2%'} w={'100%'}>
-							{loader ? (
+							<TabPanel p={2} w={'100%'}>
+								{loader ? (
 									<Center>
 										<Spinner
 											thickness='4px'
@@ -163,7 +163,7 @@ function UserProfile() {
 										/>
 									</Center>
 								) : dataHistory.length === 0 ? (
-									<h1>You don't have any purchases yet!</h1>
+									<Text as={"u"} fontSize={"20px"}>You don't have any purchases yet!</Text>
 								) : (
 									dataHistory.map((e) => (
 										<HStack
@@ -182,6 +182,7 @@ function UserProfile() {
 								)}
 							</TabPanel>
 							<TabPanel p={2}>
+								{dataComments.length > 0 ? (
 								<Stack w={'100%'} h={'2%'}>
 									<Reviews
 										redondeo={'10px'}
@@ -191,6 +192,7 @@ function UserProfile() {
 										userProfileCommentsDisplayer={true}
 									/>
 								</Stack>
+								) : <Text as={"u"} fontSize={"20px"}>You don't post any comments yet!</Text>}
 							</TabPanel>
 						</TabPanels>
 					</Tabs>
