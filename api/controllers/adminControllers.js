@@ -29,6 +29,27 @@ const banUser = async (req, res, next) => {
 	}
 };
 
+const unbanUser = async (req, res, next) => {
+	let { userId } = req.body;
+	try {
+		let userToUnban = await User.findOne({
+			where: {
+				id: userId,
+			},
+		});
+		if (userToUnban) {
+			await userToUnban.update({
+				status: 'User',
+			});
+			res.status(200).send(`User ${userToUnban.username} has been unbanned!`);
+		} else {
+			res.status(400).send('No user was found with that id');
+		}
+	} catch (e) {
+		next(e);
+	}
+};
+
 const upgradeToAdmin = async (req, res, next) => {
 	let { userId } = req.body;
 	try {
@@ -126,4 +147,4 @@ const showBook = async (req, res, next) => {
 	}
 };
 
-module.exports = { banUser, upgradeToAdmin, hideBook, showBook, deleteComment, getAllOrders };
+module.exports = { banUser, unbanUser, upgradeToAdmin, hideBook, showBook, deleteComment, getAllOrders };

@@ -30,7 +30,13 @@ import {
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { userLogin, checkStates, forgotPass } from '../../redux/actions/index';
+import {
+	userLogin,
+	checkStates,
+	forgotPass,
+	addToCart,
+	sendWelcomeEmail,
+} from '../../redux/actions/index';
 import { useHistory } from 'react-router-dom';
 import { Link as BuenLink } from 'react-router-dom';
 import { GoogleButton } from 'react-google-button';
@@ -40,7 +46,9 @@ function SignIn() {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const [show, setShow] = React.useState(false);
-	const { token } = useSelector((state) => state);
+	const { token, userId, cart, subscribed, isSignedIn } = useSelector(
+		(state) => state
+	);
 	// const handleClick = () => setShow(!show);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [email, setEmail] = useState({ email: '' });
@@ -54,6 +62,7 @@ function SignIn() {
 	useEffect(() => {
 		// Checkea si el token esta o no vacio
 		dispatch(checkStates());
+
 		// Si llega el token (porque es correcto, sino llega vacio)
 		// entonces setea email y password y te manda a /books mientras
 		// te aparece un sweet alert sobre que el login fue un exito
@@ -64,7 +73,17 @@ function SignIn() {
 			});
 			history.push('/books');
 		}
-	}, [dispatch, token]);
+		return () => {
+			for (let i = 0; i < cart.length; i++) {
+				dispatch(addToCart(cart[i].id, userId));
+			}
+			if (subscribed !== 'Subscribed') {
+				setTimeout(() => {
+					isSignedIn && history.push('/newsletter');
+				}, 10000);
+			}
+		};
+	}, [dispatch, token, userId]);
 
 	const handleOnChange = (e) => {
 		setLoginUser({
@@ -186,7 +205,10 @@ function SignIn() {
 								onClick={onOpen}
 								as={'a'}
 								variant={'link'}
-								color={'blue.500'}>
+								color={useColorModeValue(
+									'blue.500',
+									'blue.800'
+								)}>
 								Forgot password?
 							</Button>
 						</Stack>
@@ -216,7 +238,10 @@ function SignIn() {
 							<BuenLink to='/register'>
 								<Button
 									as={'a'}
-									color={'blue.400'}
+									color={useColorModeValue(
+										'blue.500',
+										'blue.800'
+									)}
 									variant={'link'}>
 									Register
 								</Button>

@@ -55,6 +55,10 @@ import {
 	UPGRADE_USER,
 	BAN_USER,
 	EMPTY_PURCHASED_CART,
+	USER_GET_COMMENTS,
+	USER_GET_PURCHASES,
+	RESET_PASSWORD,
+	USER_SUBSCRIBE,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -178,18 +182,12 @@ export function searchBooksByAdmin(titleOrAuthor) {
 	};
 }
 export function hideBook(payload) {
-	return async function (dispatch) {
-		console.log(payload);
-		var json = await axios.put('admin/hide', payload);
-		// return dispatch({
-		// 	type: HIDE_BOOKS,
-		// 	payload: '',
-		// });
+	return async function () {
+		await axios.put('admin/hide', payload);
 	};
 }
 export function showBook(payload) {
 	return async function () {
-		console.log(payload);
 		await axios.put('admin/show', payload);
 	};
 }
@@ -351,7 +349,7 @@ export function userSignUp(user) {
 				username: user.username,
 				password: user.password,
 			});
-			console.log(result);
+			dispatch(sendWelcomeEmail(user.email));
 			return dispatch({
 				type: SIGN_UP,
 				payload: result.data,
@@ -410,6 +408,19 @@ export function userDelFavorite(payload) {
 	return { type: USER_DEL_FAVORITES, payload };
 }
 
+export function userGetComments(userId) {
+	return async function (dispatch) {
+		var comments = await axios.get(`/user/comments/${userId}`);
+		return dispatch({ type: USER_GET_COMMENTS, payload: comments.data });
+	};
+}
+export function userGetPurchases(userId) {
+	return async function (dispatch) {
+		var purchases = await axios.get(`/cart/all?userId=${userId}`);
+		return dispatch({ type: USER_GET_PURCHASES, payload: purchases.data });
+	};
+}
+
 export function forgotPass(email) {
 	return async function (dispatch) {
 		try {
@@ -418,6 +429,22 @@ export function forgotPass(email) {
 			});
 			return dispatch({
 				type: FORGOT_PASSWORD,
+				payload: resp.data,
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+export function resetPassword(userId, password) {
+	return async function (dispatch) {
+		try {
+			let resp = await axios.put('/user/password', {
+				userId,
+				password,
+			});
+			return dispatch({
+				type: RESET_PASSWORD,
 				payload: resp.data,
 			});
 		} catch (error) {
@@ -532,7 +559,6 @@ export function checkoutCart(userId, token) {
 		},
 	};
 	return async function (dispatch) {
-
 		let checkoutCartId = await axios.put(
 			`/cart/checkout/`,
 			{ userId },
@@ -562,15 +588,6 @@ export function emptyPurchasedCart() {
 	};
 }
 
-export function getActiveCart(userId) {
-	return async function (dispatch) {
-		let activeCart = await axios.get(`/cart?userId=${userId}`);
-		return dispatch({
-			type: GET_ACTIVE_CART,
-			payload: activeCart.data,
-		});
-	};
-}
 export function upgradeToAdmin(userId, token) {
 	console.log(token);
 	const config = {
@@ -592,6 +609,24 @@ export function upgradeToAdmin(userId, token) {
 
 export function sendConfirmation(userId, cartId) {
 	return async function (dispatch) {
-		let response = axios.put(`/mail/order`, { userId, cartId });
+		let response = await axios.put(`/mail/order`, { userId, cartId });
+	};
+}
+
+export function sendWelcomeEmail(email) {
+	return async function (dispatch) {
+		let resp = await axios.put(`/mail/signup`, { email });
+	};
+}
+
+export function changeSubscribeStatus(email) {
+	console.log(email, 'email');
+	return async function (dispatch) {
+		let answer = await axios.put(`/user/subscription`, email);
+
+		if (!answer.includes()) await axios.put(`/mail/subscribe`, email);
+		return dispatch({
+			type: USER_SUBSCRIBE,
+		});
 	};
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
 	Flex,
 	Box,
@@ -24,7 +24,7 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { Link as BuenLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { userSignUp } from '../../redux/actions/index';
+import { sendWelcomeEmail, userSignUp } from '../../redux/actions/index';
 import validate from '../validations.js';
 import Swal from 'sweetalert2';
 import { useToast } from '@chakra-ui/react';
@@ -45,7 +45,12 @@ function SignUp() {
 	const [errors, setErrors] = useState({});
 
 	const { registeredUsers } = useSelector((state) => state);
-	if (registeredUsers?.email === registerUser?.email) {
+	if (
+		registeredUsers?.email === registerUser?.email &&
+		registerUser.username !== '' &&
+		registerUser.password !== '' &&
+		Object.values(errors).length === 0
+	) {
 		Swal.fire(
 			'Sign Up',
 			'You have been registered successfully!',

@@ -33,7 +33,7 @@ import {
 	Spinner,
 } from '@chakra-ui/react';
 import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
-
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { Search2Icon, SmallAddIcon } from '@chakra-ui/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {
@@ -51,7 +51,7 @@ function BooksTable({ books }) {
 	const [booksSearch, setBooksSearch] = useState('');
 	const [scroll, setScroll] = useState(books.slice(0, 20));
 	const [libro, setLibro] = useState(books);
-	const [stock, setStock] = useState();
+	const [stock, setStock] = useState(99);
 
 	useEffect(() => {
 		dispatch(getBooks());
@@ -74,12 +74,13 @@ function BooksTable({ books }) {
 
 	const onClickhideBook = (e) => {
 		dispatch(hideBook({ bookId: e.id }));
-		setStock(e.stock);
+		setStock(e);
 	};
+	console.log(stock.id);
 
 	const onClickshowBook = (e) => {
 		dispatch(showBook({ bookId: e.id }));
-		setStock(e.stock);
+		setStock(e);
 	};
 
 	const handleOnChange = (e) => {
@@ -109,8 +110,12 @@ function BooksTable({ books }) {
 						List All Books
 					</chakra.h1>
 					<BuenLink to='/addBook'>
-						<Button p='0px' variant='no-hover'>
-							<SmallAddIcon color={'green.600'} bg='green.100' />
+						<Button p='2px' variant='no-hover'>
+							<SmallAddIcon
+								color={'green.600'}
+								bg='green.200'
+								w={'26px'}
+							/>
 							<Text
 								fontSize='md'
 								color='gray.600'
@@ -126,7 +131,7 @@ function BooksTable({ books }) {
 						<Input onChange={(e) => handleOnChange(e)} />
 						<InputRightElement>
 							<Button onClick={() => handleOnClick()}>
-								<Search2Icon />
+								<Search2Icon color={'brand.pepe'} />
 							</Button>
 						</InputRightElement>
 					</InputGroup>
@@ -148,10 +153,10 @@ function BooksTable({ books }) {
 						<Tr my='.8rem' pl='0px' color='gray.400'>
 							<Th color='gray.400'>Books</Th>
 							<Th color='gray.400'>Price</Th>
-							<Th color='gray.400'>Books</Th>
+							<Th color='gray.400'></Th>
 							<Th color='gray.400'>Stock</Th>
 							<Th color='gray.400'>Edit</Th>
-							<Th color='gray.400'>Delete</Th>
+							<Th color='gray.400'>Show/Hide</Th>
 						</Tr>
 					</Thead>
 
@@ -209,6 +214,11 @@ function BooksTable({ books }) {
 								</Td>
 								<Td>
 									<Badge
+										bg={
+											b.stock === 0
+												? 'gray.500'
+												: 'green.400'
+										}
 										fontSize='16px'
 										p='3px 10px'
 										borderRadius='8px'>
@@ -248,16 +258,20 @@ function BooksTable({ books }) {
 								<Td>
 									{b.stock < 1 ? (
 										<Button
-											colorScheme={'blackAlpha'}
+											colorScheme={useColorModeValue(
+												'blackAlpha',
+												'gray'
+											)}
 											onClick={() => onClickshowBook(b)}
+											rightIcon={<ViewIcon />}
 											color={'whiteAlpha.600'}>
-											show Book
+											Show Book
 										</Button>
 									) : (
 										<Popover>
 											<PopoverTrigger>
 												<Button
-													rightIcon={<FaTrashAlt />}
+													rightIcon={<ViewOffIcon />}
 													colorScheme='red'
 													variant='outline'>
 													Hide Book
