@@ -71,7 +71,6 @@ function UserProfile() {
 			return e.Books;
 		})
 		.flat();
-	console.log(dataHistory);
 	var dataComments = comments?.map((r) => {
 		let book = booksAutocomplete.filter((b) => r.BookId === b.id);
 		return {
@@ -132,7 +131,7 @@ function UserProfile() {
 					<VStack pt={'30%'}>
 						<FavouriteList widt={'100%'} />
 						<Box w={'100%'}>
-							<BuenLink to={`/recovery/:${userId}`}>
+							<BuenLink to={`/recovery/${userId}`}>
 								<Button w={'100%'}>Change your password</Button>
 							</BuenLink>
 						</Box>

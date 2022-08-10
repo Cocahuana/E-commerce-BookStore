@@ -60,8 +60,6 @@ function PasswordRecovery(props) {
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const toast = useToast();
-	console.log(errors.password);
-	console.log(password, checkpass);
 	const handleChange = (e) => {
 		if (e.target.name === 'pass') {
 			setPassword(e.target.value);
