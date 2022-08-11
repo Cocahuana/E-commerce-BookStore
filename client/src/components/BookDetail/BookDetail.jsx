@@ -48,7 +48,7 @@ function BookDetail(props) {
 	const { cart, summary, allUsers, userId, details, userRole, isSignedIn } = useSelector(
 		(state) => state);
 
-
+console.log(isSignedIn,"sign")
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	// const [comments, setComments] = UseState([])
 
@@ -116,6 +116,16 @@ function BookDetail(props) {
 			onOpen();
 		}
 	});
+
+	const handleOnClickRev = (() => {
+		toast({
+			title: 'You need to be logged in to post comments',
+			status: 'warning',
+			isClosable: 'true',
+			duration: '2000',
+			position: 'top',
+		});
+	})
 
 	// let comments = details?.Comments?.map((c) => {
 	// 	return {
@@ -401,17 +411,17 @@ function BookDetail(props) {
 					</Stack>
 				</Box>
 				<Reviews reviewData={reviewData} />
-				{isSignedIn === false ? (
+				{/* {isSignedIn === "false" ? (
 					<Button
 						leftIcon={<EditIcon />}
 						colorScheme='teal'
 						disabled
-						onClick={onOpen}>
+						onClick={handleOnClickRev}>
 						You need to Login to comment the book!!!
 					</Button>
-				) : (
+				) : ( */}
 					<CommentPoster id={id} />
-				)}
+				{/* )} */}
 				{/* <Box
 				maxW={'6xl'}
 				p={{ base: 10, sm: 10, md: 10, lg: 10 }}

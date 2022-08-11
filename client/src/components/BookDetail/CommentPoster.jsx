@@ -99,7 +99,7 @@ function CommentPoster({ id }) {
 	if (userRole !== 'Banned') {
 		return (
 			<>
-				{isSignedIn == 'true' ? (
+				{userId ? (
 					<Button
 						leftIcon={<EditIcon />}
 						colorScheme='blue'
