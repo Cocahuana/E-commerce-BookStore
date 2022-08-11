@@ -122,16 +122,13 @@ function BooksTable({ books }) {
 					</chakra.h1>
 					<BuenLink to='/addBook'>
 						<Button p='2px' variant='no-hover'>
-							<SmallAddIcon
-								color={'green.600'}
-								bg='green.200'
-								w={'26px'}
-							/>
+							<SmallAddIcon color={'green.600'} bg='green.200' w={'26px'} />
 							<Text
 								fontSize='md'
 								color='gray.600'
 								fontWeight='bold'
-								cursor='pointer'>
+								cursor='pointer'
+							>
 								Create
 							</Text>
 						</Button>
@@ -155,10 +152,15 @@ function BooksTable({ books }) {
 				loader={
 					<Center>
 						<Box p={'4'}>
-							<CircularProgress value={32} color={'blue.200'} />
+							{scroll.length > 10 ? (
+								<CircularProgress value={32} color={'blue.200'} />
+							) : (
+								<div></div>
+							)}
 						</Box>
 					</Center>
-				}>
+				}
+			>
 				<Table variant='simple' color={textColor}>
 					<Thead>
 						<Tr my='.8rem' pl='0px' color='gray.400'>
@@ -173,16 +175,15 @@ function BooksTable({ books }) {
 
 					<Tbody>
 						{scroll.map((b, i) => (
-							<Tr
-								key={i}
-								bg={b.stock < 1 ? 'blackAlpha.300' : ''}>
+							<Tr key={i} bg={b.stock < 1 ? 'blackAlpha.300' : ''}>
 								<Td minWidth={{ sm: '250px' }} pl='0px'>
 									<Flex
 										align='center'
 										py='.8rem'
 										minWidth='100%'
 										flexWrap='nowrap'
-										pl={'4'}>
+										pl={'4'}
+									>
 										<Image
 											w='40px'
 											borderRadius='10px'
@@ -194,13 +195,11 @@ function BooksTable({ books }) {
 												fontSize='md'
 												color={textColor}
 												fontWeight='bold'
-												minWidth='10px'>
+												minWidth='10px'
+											>
 												{b.title}
 											</Text>
-											<Text
-												fontSize='sm'
-												color='gray.400'
-												fontWeight='normal'>
+											<Text fontSize='sm' color='gray.400' fontWeight='normal'>
 												{b.authors}
 											</Text>
 										</Flex>
@@ -209,30 +208,21 @@ function BooksTable({ books }) {
 
 								<Td>
 									<Flex direction='column'>
-										<Text
-											fontSize='md'
-											color={textColor}
-											fontWeight='bold'>
+										<Text fontSize='md' color={textColor} fontWeight='bold'>
 											Price
 										</Text>
-										<Text
-											fontSize='sm'
-											color='gray.400'
-											fontWeight='normal'>
+										<Text fontSize='sm' color='gray.400' fontWeight='normal'>
 											${b.price}
 										</Text>
 									</Flex>
 								</Td>
 								<Td>
 									<Badge
-										bg={
-											b.stock === 0
-												? 'gray.500'
-												: 'green.400'
-										}
+										bg={b.stock === 0 ? 'gray.500' : 'green.400'}
 										fontSize='16px'
 										p='3px 10px'
-										borderRadius='8px'>
+										borderRadius='8px'
+									>
 										Stock
 									</Badge>
 								</Td>
@@ -241,26 +231,21 @@ function BooksTable({ books }) {
 										fontSize='md'
 										color={textColor}
 										fontWeight='bold'
-										pb='.5rem'>
+										pb='.5rem'
+									>
 										{b.stock}
 									</Text>
 								</Td>
 								<Td>
 									<BuenLink to={`/putBook/${b.id}`}>
-										<Button
-											p='0px'
-											bg='transparent'
-											variant='no-hover'>
-											<Icon
-												color='blue.300'
-												as={FaPencilAlt}
-												me='4px'
-											/>
+										<Button p='0px' bg='transparent' variant='no-hover'>
+											<Icon color='blue.300' as={FaPencilAlt} me='4px' />
 											<Text
 												fontSize='md'
 												color='gray.400'
 												fontWeight='bold'
-												cursor='pointer'>
+												cursor='pointer'
+											>
 												Edit
 											</Text>
 										</Button>
@@ -269,13 +254,11 @@ function BooksTable({ books }) {
 								<Td>
 									{b.stock < 1 ? (
 										<Button
-											colorScheme={useColorModeValue(
-												'blackAlpha',
-												'gray'
-											)}
+											colorScheme={useColorModeValue('blackAlpha', 'gray')}
 											onClick={() => onClickshowBook(b)}
 											rightIcon={<ViewIcon />}
-											color={'whiteAlpha.600'}>
+											color={'whiteAlpha.600'}
+										>
 											Show Book
 										</Button>
 									) : (
@@ -284,7 +267,8 @@ function BooksTable({ books }) {
 												<Button
 													rightIcon={<ViewOffIcon />}
 													colorScheme='red'
-													variant='outline'>
+													variant='outline'
+												>
 													Hide Book
 												</Button>
 											</PopoverTrigger>
@@ -292,18 +276,14 @@ function BooksTable({ books }) {
 												<PopoverContent>
 													<PopoverArrow />
 													<PopoverHeader>
-														Would you like to hide
-														this book?
+														Would you like to hide this book?
 													</PopoverHeader>
 													<PopoverCloseButton />
 													<PopoverBody>
 														<Button
 															colorScheme='red'
-															onClick={() =>
-																onClickhideBook(
-																	b
-																)
-															}>
+															onClick={() => onClickhideBook(b)}
+														>
 															Hide Book
 														</Button>
 													</PopoverBody>

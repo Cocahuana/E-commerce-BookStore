@@ -43,9 +43,10 @@ export default function Success() {
 
 	useEffect(() => {
 		if (userId && purchasedCart.CartId) {
+			console.log('holis');
 			dispatch(sendConfirmation(userId, purchasedCart.CartId));
 		}
-	});
+	}, [userId, purchasedCart]);
 
 	return (
 		<Box
@@ -174,7 +175,9 @@ export default function Success() {
 											colorScheme='green'
 											fontSize={'20px'}>
 											<PriceTag
-												price={purchasedCart.Total}
+												price={purchasedCart.Total.toFixed(
+													2
+												)}
 											/>
 										</Badge>
 									</Td>
