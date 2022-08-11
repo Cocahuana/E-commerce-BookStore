@@ -45,16 +45,8 @@ function BookDetail(props) {
 	const toast = useToast();
 	const { id } = props.match.params;
 
-<<<<<<< HEAD
 	const { cart, summary, allUsers, userId, details, userRole, isSignedIn } =
 		useSelector((state) => state);
-
-=======
-	const { cart, summary, allUsers, userId, details, userRole, isSignedIn } = useSelector(
-		(state) => state);
-
-console.log(isSignedIn,"sign")
->>>>>>> 756bd8b6941dfca649ad326725b8b2755fa684e8
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	// const [comments, setComments] = UseState([])
 
@@ -123,7 +115,7 @@ console.log(isSignedIn,"sign")
 		}
 	});
 
-	const handleOnClickRev = (() => {
+	const handleOnClickRev = () => {
 		toast({
 			title: 'You need to be logged in to post comments',
 			status: 'warning',
@@ -131,7 +123,7 @@ console.log(isSignedIn,"sign")
 			duration: '2000',
 			position: 'top',
 		});
-	})
+	};
 
 	// let comments = details?.Comments?.map((c) => {
 	// 	return {
