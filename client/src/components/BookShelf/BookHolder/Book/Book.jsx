@@ -60,7 +60,7 @@ export const Book = (props) => {
 		id,
 		currency,
 	} = product;
-	console.log(userRole);
+
 	const handleFavorite = (e, id) => {
 		if (userId && userRole === 'User') {
 			if (!isFav) {
