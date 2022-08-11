@@ -21,7 +21,12 @@ import {
 	InputRightElement,
 	useToast,
 } from '@chakra-ui/react';
-import { FaPencilAlt, FaTrashAlt, FaUserAltSlash } from 'react-icons/fa';
+import {
+	FaPencilAlt,
+	FaTrashAlt,
+	FaUserAltSlash,
+	FaUserAlt,
+} from 'react-icons/fa';
 import { MdUpgrade } from 'react-icons/md';
 import { Search2Icon, SmallAddIcon } from '@chakra-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
@@ -29,6 +34,7 @@ import {
 	getAllUsers,
 	upgradeToAdmin,
 	filteredAdminUsers,
+	toUnBanUser,
 } from '../../redux/actions';
 import { toBanUser } from '../../redux/actions/index';
 
@@ -44,6 +50,17 @@ function UserTable({ user }) {
 	// const { idUser } = useSelector((state) => state);
 
 	// useEffect(() => {}, [dispatch]);
+
+	var ordered = user?.sort(function (a, b) {
+		if (a.username > b.username) {
+			return 1;
+		}
+		if (a.username < b.username) {
+			return -1;
+		}
+		return 0;
+	});
+	console.log(ordered);
 
 	const handleUpgrade = async (id, token, status) => {
 		console.log(status);
@@ -61,16 +78,20 @@ function UserTable({ user }) {
 	};
 	const handleBan = (id, token, status) => {
 		if (status === 'Banned') {
-			toast({
-				title: 'User is already banned!',
-				status: 'warning',
-				isClosable: 'true',
-				duration: '1500',
-			});
+			// toast({
+			// 	title: 'User is already banned!',
+			// 	status: 'warning',
+			// 	isClosable: 'true',
+			// 	duration: '1500',
+			// });
+			dispatch(toUnBanUser(id, token));
 		} else {
 			dispatch(toBanUser(id, token));
-			dispatch(getAllUsers());
+			// dispatch(getAllUsers());
 		}
+		setTimeout(() => {
+			dispatch(getAllUsers());
+		}, 300);
 	};
 
 	const handleOnChange = (e) => {
@@ -112,7 +133,7 @@ function UserTable({ user }) {
 					</Tr>
 				</Thead>
 				<Tbody>
-					{user.map((u, i) => (
+					{ordered?.map((u, i) => (
 						<Tr key={i}>
 							<Td minWidth={{ sm: '250px' }} pl='0px'>
 								<Flex
@@ -161,7 +182,11 @@ function UserTable({ user }) {
 							<Td>
 								<Text
 									fontSize='md'
-									color={textColor}
+									color={
+										u.status !== 'Banned'
+											? textColor
+											: 'red.500'
+									}
 									fontWeight='bold'
 									pb='.5rem'>
 									{u.status}
@@ -203,11 +228,21 @@ function UserTable({ user }) {
 										fontWeight='bold'
 										cursor='pointer'>
 										<Icon
-											color='red.500'
-											as={FaUserAltSlash}
+											color={
+												u.status !== 'Banned'
+													? 'red.500'
+													: 'blue.500'
+											}
+											as={
+												u.status !== 'Banned'
+													? FaUserAltSlash
+													: FaUserAlt
+											}
 											me='4px'
 										/>
-										Ban User
+										{u.status !== 'Banned'
+											? 'Ban User'
+											: 'Unban User'}
 									</Text>
 								</Button>
 							</Td>

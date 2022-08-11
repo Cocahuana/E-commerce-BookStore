@@ -4,7 +4,7 @@ import { Button } from '@chakra-ui/react';
 const BtnAdminDashboard = () => {
 	return (
 		<BuenLink to='/adminDashboard'>
-			<Button as={'a'} fontSize={'sm'} fontWeight={400} variant={'link'}>
+			<Button as={'a'} fontSize={'sm'} fontWeight={400}>
 				Admin
 			</Button>
 		</BuenLink>

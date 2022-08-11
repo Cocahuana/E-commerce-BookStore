@@ -64,5 +64,6 @@ export const HIDE_BOOKS = 'HIDE_BOOKS';
 export const SHOW_BOOKS = 'SHOW_BOOKS';
 export const UPGRADE_USER = 'UPGRADE_USER';
 export const BAN_USER = 'BAN_USER';
+export const UNBAN_USER = 'UNBAN_USER';
 export const FILTERED_ADMIN_BOOKS = 'FILTERED_ADMIN_BOOKS';
 export const FILTERED_ADMIN_USER = 'FILTERED_ADMIN_USER';
