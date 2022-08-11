@@ -8,9 +8,10 @@ export const BookHolder = (props) => {
 		).length;
 		return {
 			base: Math.min(1, count),
-			md: Math.min(3, count),
+			md: Math.min(2, count),
 			lg: Math.min(3, count),
-			xl: Math.min(4, count),
+			xl: Math.min(3, count),
+			'2xl': Math.min(4, count),
 		};
 	}, [props.children]);
 	return (

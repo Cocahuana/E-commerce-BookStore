@@ -45,10 +45,8 @@ function BookDetail(props) {
 	const toast = useToast();
 	const { id } = props.match.params;
 
-	const { cart, summary, allUsers, userId, details, userRole, isSignedIn } = useSelector(
-		(state) => state);
-
-
+	const { cart, summary, allUsers, userId, details, userRole, isSignedIn } =
+		useSelector((state) => state);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	// const [comments, setComments] = UseState([])
 
@@ -116,6 +114,16 @@ function BookDetail(props) {
 			onOpen();
 		}
 	});
+
+	const handleOnClickRev = () => {
+		toast({
+			title: 'You need to be logged in to post comments',
+			status: 'warning',
+			isClosable: 'true',
+			duration: '2000',
+			position: 'top',
+		});
+	};
 
 	// let comments = details?.Comments?.map((c) => {
 	// 	return {
@@ -401,133 +409,7 @@ function BookDetail(props) {
 					</Stack>
 				</Box>
 				<Reviews reviewData={reviewData} />
-				{isSignedIn === false ? (
-					<Button
-						leftIcon={<EditIcon />}
-						colorScheme='teal'
-						disabled
-						onClick={onOpen}>
-						You need to Login to comment the book!!!
-					</Button>
-				) : (
-					<CommentPoster id={id} />
-				)}
-				{/* <Box
-				maxW={'6xl'}
-				p={{ base: 10, sm: 10, md: 10, lg: 10 }}
-				bg={useColorModeValue('whiteAlpha.600', 'gray.700')}
-				textAlign='left'
-				border='1px'
-				borderColor={useColorModeValue('gray.200', 'gray.900')}>
-				<Heading
-					w='100%'
-					h={{ base: '100px', lg: '100px' }}
-					size='lg'
-					fontSize='40px'>
-					Comment section
-				</Heading>
-				<Stack>
-					{comments?.map((comment) => {
-						return (
-							<HStack
-								flexDirection={'row'}
-								rounded={'10px'}
-								p='10px'
-								w='100%'
-								minH='4%'
-								key={comment.user[0]?.username}>
-								<Box rounded={'5px'} w='20%' h='100%'>
-									<HStack
-										rounded={'5px'}
-										bg={useColorModeValue(
-											'rgba(65, 137, 230, 0.35)',
-											'gray.700'
-										)}
-										p={'10px'}
-										justifyContent={'space-between'}>
-										<Avatar
-											size={'lg'}
-											showBorder={true}
-											borderColor='brand.pepeoscuro'
-											name='avatar'
-											src={
-												comment.user[0]?.profile_picture
-											}
-										/>
-
-										<Rating
-											size='sm'
-											defaultValue={details?.rating}
-										/>
-									</HStack>
-									<Text
-										px={'5px'}
-										color={useColorModeValue(
-											'white',
-											'gray.900'
-										)}
-										bg={useColorModeValue(
-											'blue.500',
-											'whiteAlpha.400'
-										)}>
-										{comment.user[0]?.username}
-									</Text>
-								</Box>
-								<Box w='80%' minH='100%'>
-									<Text
-										color={useColorModeValue(
-											'black',
-											'white'
-										)}
-										p={'5px'}
-										rounded={'10px'}
-										justify={'center'}
-										w='100%'
-										h='11.5vh'
-										bg={useColorModeValue(
-											'rgba(10, 110, 240, 0.10)',
-											'gray.600'
-										)}>
-										{comment.text}
-									</Text>
-								</Box>
-							</HStack>
-						);
-					})}
-					<Box
-						p={'5px'}
-						rounded={'5px'}
-						border={'solid 1px grey'}
-						align={'center'}
-						bg={useColorModeValue(
-							'rgba(65, 137, 230, 0.35)',
-							'gray.600'
-						)}>
-						<Editable
-							rounded={'5px'}
-							mb={'5px'}
-							bg={useColorModeValue('gray.300', 'gray.900')}
-							placeholder='Write your review here...'>
-							<EditablePreview
-								w={'100%'}
-								p={'5px'}
-								bg={useColorModeValue('gray.300', 'gray.900')}
-							/>
-							<EditableTextarea
-								w={'100%'}
-								p={'5px'}
-								bg={useColorModeValue('gray.300', 'gray.900')}
-								onChange={handleOnChange}
-							/>
-						</Editable>
-						<Button
-							onClick={handlePost}
-							border={'1px solid lightgray'}>
-							Post Comment
-						</Button>
-					</Box>
-				</Stack>
-			</Box> */}
+				<CommentPoster id={id} />
 			</Container>
 		);
 	} else {
