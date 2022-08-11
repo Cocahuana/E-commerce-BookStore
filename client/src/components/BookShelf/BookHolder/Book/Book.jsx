@@ -60,9 +60,9 @@ export const Book = (props) => {
 		id,
 		currency,
 	} = product;
-console.log(userRole)
+	console.log(userRole);
 	const handleFavorite = (e, id) => {
-		if (userId && userRole !== "null") {
+		if (userId && userRole === 'User') {
 			if (!isFav) {
 				setFavs((favs) => {
 					return {
@@ -94,6 +94,14 @@ console.log(userRole)
 					position: 'top',
 				});
 			}
+		} else if (userRole === 'Admin') {
+			toast({
+				title: 'Admin can´t add favourites',
+				status: 'warning',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'top',
+			});
 		} else {
 			history.push('/login');
 			toast({
@@ -252,7 +260,7 @@ console.log(userRole)
 				<Button colorScheme='blue' onClick={handleAddToCart} w='100%'>
 					Add to cart
 				</Button>
-				{userId && userRole !== "null" ? (
+				{userId && userRole !== 'null' ? (
 					<Link
 						textDecoration='underline'
 						fontWeight='medium'

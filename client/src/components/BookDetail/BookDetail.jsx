@@ -77,9 +77,17 @@ function BookDetail(props) {
 	};
 
 	const handleOnFavourite = (id) => {
-		if (userId && userRole !== "null") {
+		if (userId && userRole === 'User') {
 			dispatch(userAddFavorite(userId, id));
 			dispatch(userAddFavState(id));
+		} else if (userRole === 'Admin') {
+			toast({
+				title: 'Admin can´t add favourites',
+				status: 'warning',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'top',
+			});
 		} else {
 			history.push('/login');
 			toast({
