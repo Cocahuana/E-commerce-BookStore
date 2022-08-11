@@ -55,9 +55,10 @@ const CartDrawer = (props) => {
 				key={'sm'}
 				m={4}
 				leftIcon={
-					<TiShoppingCart color={useColorModeValue('#64c2e4', '#64c2e4')} />
-				}
-			>
+					<TiShoppingCart
+						color={useColorModeValue('#64c2e4', '#64c2e4')}
+					/>
+				}>
 				Cart
 				<Text
 					fontSize='14px'
@@ -66,8 +67,7 @@ const CartDrawer = (props) => {
 					px='4px'
 					py='2px'
 					marginLeft='6px'
-					color={useColorModeValue('white', 'gray.600')}
-				>
+					color={useColorModeValue('white', 'gray.600')}>
 					{cart.length}
 				</Text>
 			</Button>
@@ -81,15 +81,19 @@ const CartDrawer = (props) => {
 						<Cart />
 
 						<Flex direction={'column'} justify={'space-between'}>
-							<Button
-								onClick={onClose}
-								disabled={cart.length === 0}
-								colorScheme={'blue'}
-							>
-								<BuenLink to='/purchase'>Purchase now!!</BuenLink>
-							</Button>
+							<BuenLink to='/purchase' w='100%'>
+								<Button
+									w='100%'
+									onClick={onClose}
+									disabled={cart.length === 0}
+									colorScheme={'blue'}>
+									Purchase now!!
+								</Button>
+							</BuenLink>
 							<Box py={'4'}>
-								<Button size={'sm'} onClick={() => handleDeleteCart()}>
+								<Button
+									size={'sm'}
+									onClick={() => handleDeleteCart()}>
 									Empty Cart
 								</Button>
 							</Box>

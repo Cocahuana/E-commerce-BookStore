@@ -39,7 +39,11 @@ import {
 	Link,
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
-import { userGetPurchases, userGetComments, getBooksByTitleOrAuthor } from '../../redux/actions';
+import {
+	userGetPurchases,
+	userGetComments,
+	getBooksByTitleOrAuthor,
+} from '../../redux/actions';
 import Reviews from '../BookDetail/Reviews';
 
 function UserProfile() {
@@ -59,8 +63,7 @@ function UserProfile() {
 	useEffect(() => {
 		if (userId) dispatch(userGetPurchases(userId));
 		if (userId) dispatch(userGetComments(userId));
-		dispatch(getBooksByTitleOrAuthor(""))
-
+		dispatch(getBooksByTitleOrAuthor(''));
 	}, [dispatch]);
 
 	var dataHistory = purchases
@@ -80,7 +83,7 @@ function UserProfile() {
 			book_image: book[0]?.image,
 		};
 	});
-	if (dataHistory?.length && loader) setLoader(false);
+	if (Array.isArray(dataHistory) && loader) setLoader(false);
 
 	return (
 		<Stack
@@ -124,13 +127,14 @@ function UserProfile() {
 						</Text>
 					</VStack>
 				</VStack>
-				<Stack
-					px={'5%'}
-					
-					w={{ lg: '50%', md: '50%', base: '100%' }}>
+				<Stack px={'5%'} w={{ lg: '50%', md: '50%', base: '100%' }}>
 					<VStack pt={'30%'}>
 						<FavouriteList widt={'100%'} />
-						<Button w={'100%'}>Change your password</Button>
+						<Box w={'100%'}>
+							<BuenLink to={`/recovery/${userId}`}>
+								<Button w={'100%'}>Change your password</Button>
+							</BuenLink>
+						</Box>
 						<br />
 						<SignOut wid='60%' />
 					</VStack>
@@ -146,7 +150,7 @@ function UserProfile() {
 							<Tab>Comments</Tab>
 						</TabList>
 						<TabPanels>
-							<TabPanel pt={'2%'} w={'100%'}>
+							<TabPanel p={2} w={'100%'}>
 								{loader ? (
 									<Center>
 										<Spinner
@@ -157,6 +161,8 @@ function UserProfile() {
 											size='xl'
 										/>
 									</Center>
+								) : dataHistory.length === 0 ? (
+									<Text as={"u"} fontSize={"20px"}>You don't have any purchases yet!</Text>
 								) : (
 									dataHistory.map((e) => (
 										<HStack
@@ -175,15 +181,17 @@ function UserProfile() {
 								)}
 							</TabPanel>
 							<TabPanel p={2}>
-								<Stack w={"100%"} h={"2%"}>
+								{dataComments.length > 0 ? (
+								<Stack w={'100%'} h={'2%'}>
 									<Reviews
-										redondeo={"10px"}
-										pad={"10px"}
-										borde={"solid 1px lightgray"}
+										redondeo={'10px'}
+										pad={'10px'}
+										borde={'solid 1px lightgray'}
 										reviewData={dataComments}
 										userProfileCommentsDisplayer={true}
 									/>
 								</Stack>
+								) : <Text as={"u"} fontSize={"20px"}>You don't post any comments yet!</Text>}
 							</TabPanel>
 						</TabPanels>
 					</Tabs>

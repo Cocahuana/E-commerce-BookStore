@@ -53,7 +53,7 @@ function App() {
 				<Route path='/recovery/:userId' component={PasswordRecovery} />
 				<Route path='/us' component={AboutUs} />
 				<Route path='/newsletter' component={Newsletter} />
-				<Route path='/recovery/:userId' />
+				{/* <Route path='/recovery/:userId' /> */}
 				<Route
 					path='/purchase'
 					component={userRole === 'User' ? Purchase : Unauthorized}
