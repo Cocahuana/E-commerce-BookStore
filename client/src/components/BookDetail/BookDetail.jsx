@@ -31,6 +31,7 @@ import {
 	ModalBody,
 	ModalFooter,
 } from '@chakra-ui/react';
+import { AddIcon, EditIcon } from '@chakra-ui/icons';
 import { TiShoppingCart, TiHeartOutline } from 'react-icons/ti';
 import { Rating } from '../BookShelf/BookHolder/Book/Rating';
 import { PriceTag } from '../BookShelf/BookHolder/Book/PriceTag';
@@ -44,9 +45,8 @@ function BookDetail(props) {
 	const toast = useToast();
 	const { id } = props.match.params;
 
-	const { cart, summary, allUsers, userId, details } = useSelector(
-		(state) => state
-	);
+	const { cart, summary, allUsers, userId, details, isSignedIn } =
+		useSelector((state) => state);
 
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	// const [comments, setComments] = UseState([])
@@ -392,7 +392,17 @@ function BookDetail(props) {
 					</Stack>
 				</Box>
 				<Reviews reviewData={reviewData} />
-				<CommentPoster id={id} />
+				{isSignedIn === false ? (
+					<Button
+						leftIcon={<EditIcon />}
+						colorScheme='teal'
+						disabled
+						onClick={onOpen}>
+						You need to Login to comment the book!!!
+					</Button>
+				) : (
+					<CommentPoster id={id} />
+				)}
 				{/* <Box
 				maxW={'6xl'}
 				p={{ base: 10, sm: 10, md: 10, lg: 10 }}
