@@ -162,7 +162,7 @@ function UserProfile() {
 										/>
 									</Center>
 								) : dataHistory.length === 0 ? (
-									<Text as={"u"} fontSize={"20px"}>You don't have any purchases yet!</Text>
+									<Text as={"u"} fontSize={"20px"}>You haven´t purchased anything yet!</Text>
 								) : (
 									dataHistory.map((e) => (
 										<HStack
@@ -191,7 +191,7 @@ function UserProfile() {
 										userProfileCommentsDisplayer={true}
 									/>
 								</Stack>
-								) : <Text as={"u"} fontSize={"20px"}>You don't post any comments yet!</Text>}
+								) : <Text as={"u"} fontSize={"20px"}>You haven´t posted any comments yet!</Text>}
 							</TabPanel>
 						</TabPanels>
 					</Tabs>
