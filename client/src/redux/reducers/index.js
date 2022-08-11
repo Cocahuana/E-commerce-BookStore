@@ -44,6 +44,7 @@ import {
 	USER_GET_COMMENTS,
 	USER_GET_PURCHASES,
 	USER_SUBSCRIBE,
+	UNBAN_USER,
 } from '../actions/actionTypes';
 
 // ------------LocalStorage constants------------
@@ -627,6 +628,22 @@ const rootReducer = (state = InitialState, action) => {
 		case BAN_USER:
 			return {
 				...state,
+				allUsers: state.allUsers.map((u) => {
+					if (u.id === action.payload)
+						return {
+							...u,
+							status: 'Banned',
+						};
+					return u;
+				}),
+			};
+		case UNBAN_USER:
+			let removedUnban = state.allUsers.filter(
+				(e) => e.id !== action.payload.id
+			);
+			return {
+				...state,
+				allUsers: [action.payload, ...removedUnban],
 			};
 
 		case USER_SUBSCRIBE: {

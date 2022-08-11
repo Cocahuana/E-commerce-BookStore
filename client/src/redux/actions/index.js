@@ -60,6 +60,7 @@ import {
 	USER_GET_PURCHASES,
 	RESET_PASSWORD,
 	USER_SUBSCRIBE,
+	UNBAN_USER,
 } from './actionTypes';
 
 export const getDetails = (id) => {
@@ -213,10 +214,36 @@ export function toBanUser(id, token) {
 		};
 		try {
 			var userBan = await axios.put(`/admin/ban`, { userId: id }, config);
-			var users = await axios.get(`/user/all`);
+			// var users = await axios.get(`/user/all`);
 			return dispatch({
-				type: GET_USERS,
-				payload: users.data,
+				type: BAN_USER,
+				payload: id,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+}
+export function toUnBanUser(id, token) {
+	return async function (dispatch) {
+		console.log(token);
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+
+				Authorization: `Bearer ${token}`,
+			},
+		};
+		try {
+			var userUnBan = await axios.put(
+				`/admin/unban`,
+				{ userId: id },
+				config
+			);
+			// var users = await axios.get(`/user/all`);
+			return dispatch({
+				type: UNBAN_USER,
+				payload: userUnBan.data,
 			});
 		} catch (err) {
 			console.log(err);
