@@ -28,8 +28,11 @@ import {
 	saveFilterPrice,
 	saveFilterLanguage,
 	saveFilterOnSale,
+	resetFilters,
+	getBooksByTitleOrAuthor,
 } from '../../../redux/actions/index';
 import { useDispatch, useSelector } from 'react-redux';
+import { AiOutlineClear } from 'react-icons/ai';
 
 function Filter({ setCurrentPage }) {
 	const dispatch = useDispatch();
@@ -81,6 +84,16 @@ function Filter({ setCurrentPage }) {
 			pricesArr[1] = pricesArr[1] + 1;
 		}
 		setSliderValue(pricesArr);
+	};
+	const handleReset = (e) => {
+		e.preventDefault();
+		dispatch(resetFilters());
+		dispatch(getBooksByTitleOrAuthor(''));
+		setSliderValue([0, 60]);
+		setOnSale(false);
+		setLanguage('');
+		setIsChecked([]);
+		setOrderBy('');
 	};
 
 	function areEqual(array1, array2) {
@@ -151,6 +164,16 @@ function Filter({ setCurrentPage }) {
 			</Flex>
 
 			<Center>
+				<Button
+					rightIcon={<AiOutlineClear />}
+					colorScheme='blue'
+					variant='outline'
+					onClick={(e) => handleReset(e)}>
+					Clear Filters
+				</Button>
+			</Center>
+
+			<Center>
 				<Flex h='40' justify='space-between' alignItems='center'>
 					<Stack spacing={0} direction='column' alignItems='center'>
 						<Flex>Sort By: </Flex>
@@ -174,16 +197,13 @@ function Filter({ setCurrentPage }) {
 				</Flex>
 			</Center>
 
-			<VStack justify={"center"} alignItems={"center"} w={"100%"}>
+			<VStack justify={'center'} alignItems={'center'} w={'100%'}>
 				<Flex
 					justify='space-between'
 					alignItems='center'
 					flexDirection={'column'}>
 					Genres:
-					<Stack
-						pt={'10px'}
-						spacing={5}
-						direction='column'>
+					<Stack pt={'10px'} spacing={5} direction='column'>
 						<Flex direction='column'>
 							<Stack spacing={4}>
 								{genres.map((p, g) => (
@@ -206,7 +226,11 @@ function Filter({ setCurrentPage }) {
 					justify='space-between'
 					flexDirection={'column'}>
 					Languages:
-					<Stack w={"178px"} pt={'10px'} spacing={5} direction='column'>
+					<Stack
+						w={'178px'}
+						pt={'10px'}
+						spacing={5}
+						direction='column'>
 						<Flex direction='column'>
 							<Stack spacing={4}>
 								<Checkbox
@@ -232,7 +256,11 @@ function Filter({ setCurrentPage }) {
 					alignItems='center'
 					flexDirection={'column'}>
 					Tags:
-					<Stack w={"178px"} pt={'10px'} spacing={5} direction='column'>
+					<Stack
+						w={'178px'}
+						pt={'10px'}
+						spacing={5}
+						direction='column'>
 						<Flex direction='column'>
 							<Stack spacing={4}>
 								<Checkbox
@@ -245,7 +273,7 @@ function Filter({ setCurrentPage }) {
 						</Flex>
 					</Stack>
 				</Flex>
-				</VStack>
+			</VStack>
 
 			<Flex
 				justifyContent='center'
