@@ -20,6 +20,7 @@ import {
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { IoLogInOutline } from 'react-icons/io5';
 import {
 	postComment,
 	userGetPurchases,
@@ -31,7 +32,9 @@ import Swal from 'sweetalert2';
 
 function CommentPoster({ id }) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const { userId, userRole, purchases } = useSelector((state) => state);
+	const { userId, userRole, purchases, isSignedIn } = useSelector(
+		(state) => state
+	);
 	const dispatch = useDispatch();
 	const toast = useToast();
 	const history = useHistory();
@@ -96,12 +99,21 @@ function CommentPoster({ id }) {
 	if (userRole !== 'Banned') {
 		return (
 			<>
-				<Button
-					leftIcon={<EditIcon />}
-					colorScheme='teal'
-					onClick={onOpen}>
-					Add Review
-				</Button>
+				{isSignedIn == 'true' ? (
+					<Button
+						leftIcon={<EditIcon />}
+						colorScheme='blue'
+						onClick={onOpen}>
+						Add Review
+					</Button>
+				) : (
+					<Button
+						leftIcon={<IoLogInOutline />}
+						colorScheme='blue'
+						onClick={() => history.push('/login')}>
+						Sign in and leave a review!
+					</Button>
+				)}
 				<Drawer
 					isOpen={isOpen}
 					placement='bottom'
@@ -154,11 +166,13 @@ function CommentPoster({ id }) {
 		);
 	} else {
 		return (
-			<Stack p={"5px"}>
-				<Text color={useColorModeValue("red.400")} fontSize={"20px"}>Usted esta baneado, no puede postear comentarios</Text>
+			<Stack p={'5px'}>
+				<Text color={useColorModeValue('red.400')} fontSize={'20px'}>
+					Usted esta baneado, no puede postear comentarios
+				</Text>
 			</Stack>
-		)
+		);
 	}
-};
+}
 
 export default CommentPoster;
