@@ -69,11 +69,21 @@ const BookShelf = () => {
 	}, [allFavourites]);
 
 	return (
-		<Box minW={'xs'}>
-			<Box pt={'16'} bg={'gray.100'}>
+		<Flex
+			w={'100%'}
+			flexDirection={'column'}
+			align='center'
+			justifyContent={'center'}>
+			<Box
+				pt={'16'}
+				bg={'gray.100'}
+				w={{ base: '100%', sm: '100%', md: '70%', lg: '70%' }}>
 				<SearchBar setCurrentPage={setCurrentPage} />
 			</Box>
-			<Container maxW={'max'} py={'5'}>
+			<Container
+				minW={{ base: '100%', sm: '100%', md: '70%', lg: '70%' }}
+				m='auto'
+				py={'5'}>
 				<Flex
 					flexDirection={{
 						base: 'column',
@@ -141,7 +151,7 @@ const BookShelf = () => {
 					</Box>
 				</Flex>
 			</Container>
-		</Box>
+		</Flex>
 	);
 };
 
