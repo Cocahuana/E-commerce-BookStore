@@ -45,9 +45,8 @@ function BookDetail(props) {
 	const toast = useToast();
 	const { id } = props.match.params;
 
-	const { cart, summary, allUsers, userId, details, userRole, isSignedIn } = useSelector(
-		(state) => state);
-
+	const { cart, summary, allUsers, userId, details, userRole, isSignedIn } =
+		useSelector((state) => state);
 
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	// const [comments, setComments] = UseState([])
@@ -401,7 +400,7 @@ function BookDetail(props) {
 					</Stack>
 				</Box>
 				<Reviews reviewData={reviewData} />
-				{isSignedIn === false ? (
+				{/* {isSignedIn === false ? (
 					<Button
 						leftIcon={<EditIcon />}
 						colorScheme='teal'
@@ -411,7 +410,8 @@ function BookDetail(props) {
 					</Button>
 				) : (
 					<CommentPoster id={id} />
-				)}
+				)} */}
+				<CommentPoster id={id} />
 				{/* <Box
 				maxW={'6xl'}
 				p={{ base: 10, sm: 10, md: 10, lg: 10 }}

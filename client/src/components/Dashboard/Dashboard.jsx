@@ -48,7 +48,9 @@ function Dashboard() {
 					/>
 				</Center>
 			) : (
-				<Flex direction='column' pt={{ base: '120px', md: '75px', sm: '20px' }}>
+				<Flex
+					direction='column'
+					pt={{ base: '120px', md: '75px', sm: '20px' }}>
 					<Container maxW={'container.xl'}>
 						<Tabs variant='enclosed'>
 							<TabList>

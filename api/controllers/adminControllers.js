@@ -41,7 +41,8 @@ const unbanUser = async (req, res, next) => {
 			await userToUnban.update({
 				status: 'User',
 			});
-			res.status(200).send(`User ${userToUnban.username} has been unbanned!`);
+			let unbanned = await User.findByPk(userId);
+			res.status(200).send(unbanned);
 		} else {
 			res.status(400).send('No user was found with that id');
 		}
@@ -109,26 +110,26 @@ const deleteComment = async (req, res, next) => {
 };
 
 const getAllOrders = async (req, res, next) => {
-  try{
-	let allOrders = await Cart.findAll({
-		where:{
-			status:{
-				[Op.not]: "Active"
-			}
-		},
-		include:{
-			model: Books,
-		}
-	})
-	res.json(allOrders)
-  } catch(err){
-	next(err);
-  } 
+	try {
+		let allOrders = await Cart.findAll({
+			where: {
+				status: {
+					[Op.not]: 'Active',
+				},
+			},
+			include: {
+				model: Books,
+			},
+		});
+		res.json(allOrders);
+	} catch (err) {
+		next(err);
+	}
 };
 
 const showBook = async (req, res, next) => {
 	let { bookId } = req.body;
-	try{
+	try {
 		let bookToShow = await Books.findOne({
 			where: {
 				id: bookId,
@@ -142,9 +143,17 @@ const showBook = async (req, res, next) => {
 		} else {
 			res.status(400).send('No book was found with that id');
 		}
-	}catch(err){
+	} catch (err) {
 		next(err);
 	}
 };
 
-module.exports = { banUser, unbanUser, upgradeToAdmin, hideBook, showBook, deleteComment, getAllOrders };
+module.exports = {
+	banUser,
+	unbanUser,
+	upgradeToAdmin,
+	hideBook,
+	showBook,
+	deleteComment,
+	getAllOrders,
+};
