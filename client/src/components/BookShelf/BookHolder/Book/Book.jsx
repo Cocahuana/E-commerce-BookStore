@@ -45,7 +45,7 @@ export const Book = (props) => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
-	const { userId, allFavourites, cart, books } = useSelector(
+	const { userId, allFavourites, cart, books, userRole } = useSelector(
 		(state) => state
 	);
 	const toast = useToast();
@@ -60,9 +60,9 @@ export const Book = (props) => {
 		id,
 		currency,
 	} = product;
-
+	console.log(userRole);
 	const handleFavorite = (e, id) => {
-		if (userId) {
+		if (userId && userRole === 'User') {
 			if (!isFav) {
 				setFavs((favs) => {
 					return {
@@ -76,7 +76,7 @@ export const Book = (props) => {
 					status: 'success',
 					isClosable: 'true',
 					duration: '2000',
-					position: 'bottom',
+					position: 'top',
 				});
 			} else {
 				setFavs((favs) => {
@@ -91,9 +91,17 @@ export const Book = (props) => {
 					status: 'success',
 					isClosable: 'true',
 					duration: '2000',
-					position: 'bottom',
+					position: 'top',
 				});
 			}
+		} else if (userRole === 'Admin') {
+			toast({
+				title: 'Admin can´t add favourites',
+				status: 'warning',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'top',
+			});
 		} else {
 			history.push('/login');
 			toast({
@@ -101,7 +109,7 @@ export const Book = (props) => {
 				status: 'warning',
 				isClosable: 'true',
 				duration: '2000',
-				position: 'bottom',
+				position: 'top',
 			});
 		}
 	};
@@ -128,7 +136,7 @@ export const Book = (props) => {
 				status: 'success',
 				isClosable: 'true',
 				duration: '2000',
-				position: 'bottom',
+				position: 'top',
 			});
 		} else {
 			toast({
@@ -136,7 +144,7 @@ export const Book = (props) => {
 				status: 'info',
 				isClosable: 'true',
 				duration: '2000',
-				position: 'bottom',
+				position: 'top',
 			});
 		}
 	};
@@ -252,7 +260,7 @@ export const Book = (props) => {
 				<Button colorScheme='blue' onClick={handleAddToCart} w='100%'>
 					Add to cart
 				</Button>
-				{userId ? (
+				{userId && userRole !== 'null' ? (
 					<Link
 						textDecoration='underline'
 						fontWeight='medium'

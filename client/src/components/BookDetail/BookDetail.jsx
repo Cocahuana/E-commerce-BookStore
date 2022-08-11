@@ -45,8 +45,9 @@ function BookDetail(props) {
 	const toast = useToast();
 	const { id } = props.match.params;
 
-	const { cart, summary, allUsers, userId, details, isSignedIn } =
-		useSelector((state) => state);
+	const { cart, summary, allUsers, userId, details, userRole, isSignedIn } = useSelector(
+		(state) => state);
+
 
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	// const [comments, setComments] = UseState([])
@@ -71,15 +72,23 @@ function BookDetail(props) {
 				status: 'info',
 				isClosable: 'true',
 				duration: '2000',
-				position: 'bottom',
+				position: 'top',
 			});
 		}
 	};
 
 	const handleOnFavourite = (id) => {
-		if (userId) {
+		if (userId && userRole === 'User') {
 			dispatch(userAddFavorite(userId, id));
 			dispatch(userAddFavState(id));
+		} else if (userRole === 'Admin') {
+			toast({
+				title: 'Admin can´t add favourites',
+				status: 'warning',
+				isClosable: 'true',
+				duration: '2000',
+				position: 'top',
+			});
 		} else {
 			history.push('/login');
 			toast({
