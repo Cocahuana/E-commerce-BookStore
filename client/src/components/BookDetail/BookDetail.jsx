@@ -44,7 +44,7 @@ function BookDetail(props) {
 	const toast = useToast();
 	const { id } = props.match.params;
 
-	const { cart, summary, allUsers, userId, details } = useSelector(
+	const { cart, summary, allUsers, userId, details, userRole } = useSelector(
 		(state) => state
 	);
 
@@ -71,13 +71,13 @@ function BookDetail(props) {
 				status: 'info',
 				isClosable: 'true',
 				duration: '2000',
-				position: 'bottom',
+				position: 'top',
 			});
 		}
 	};
 
 	const handleOnFavourite = (id) => {
-		if (userId) {
+		if (userId && userRole !== "null") {
 			dispatch(userAddFavorite(userId, id));
 			dispatch(userAddFavState(id));
 		} else {
