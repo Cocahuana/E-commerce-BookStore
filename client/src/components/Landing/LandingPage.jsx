@@ -218,7 +218,7 @@ function LandingPage() {
 				</Flex>
 			</SimpleGrid>
 			<Stack bg='blackAlpha.100' justifyContent='center'>
-				{/* <Carousel books={books} /> */}
+				<Carousel books={books} />
 			</Stack>
 		</Box>
 	);
