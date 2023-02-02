@@ -32,7 +32,6 @@ const BookShelf = () => {
 	const indexOfFirstBook = indexOfLastBook - BooksPerPage;
 
 	let slicedBooks = books.slice(indexOfFirstBook, indexOfLastBook);
-	console.log({ books, slicedBooks });
 
 	const loading = useSelector((state) => state.loading);
 
