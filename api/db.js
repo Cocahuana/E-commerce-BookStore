@@ -1,20 +1,21 @@
-require('dotenv').config();
-const { Sequelize, DataTypes } = require('sequelize');
-const fs = require('fs');
-const path = require('path');
-const { VITE_DB_USER, VITE_DB_PASSWORD, VITE_DB_HOST, DB_NAME } = process.env;
+require("dotenv").config();
+const { Sequelize, DataTypes } = require("sequelize");
+const fs = require("fs");
+const path = require("path");
+const { VITE_DB_USER, VITE_DB_PASSWORD, VITE_DB_HOST, DB_NAME, PORT } =
+	process.env;
 
 /* Deploy backend start*/
 // Here we made the connection to the DB in Heroku
 // DB_NAME will be assigned by heroku randomly
 
 let sequelize =
-	process.env.NODE_ENV === 'production'
+	process.env.NODE_ENV === "production"
 		? new Sequelize({
 				database: DB_NAME,
-				dialect: 'postgres',
+				dialect: "postgres",
 				host: VITE_DB_HOST,
-				port: 5432,
+				port: PORT,
 				username: VITE_DB_USER,
 				password: VITE_DB_PASSWORD,
 				pool: {
@@ -53,15 +54,15 @@ const basename = path.basename(__filename);
 const modelDefiners = [];
 
 // Leemos todos los archivos de la carpeta Models, los requerimos y agregamos al arreglo modelDefiners
-fs.readdirSync(path.join(__dirname, '/models'))
+fs.readdirSync(path.join(__dirname, "/models"))
 	.filter(
 		(file) =>
-			file.indexOf('.') !== 0 &&
+			file.indexOf(".") !== 0 &&
 			file !== basename &&
-			file.slice(-3) === '.js'
+			file.slice(-3) === ".js"
 	)
 	.forEach((file) => {
-		modelDefiners.push(require(path.join(__dirname, '/models', file)));
+		modelDefiners.push(require(path.join(__dirname, "/models", file)));
 	});
 
 // Injectamos la conexion (sequelize) a todos los modelos
@@ -79,23 +80,33 @@ sequelize.models = Object.fromEntries(capsEntries);
 const { User, PurchaseOrder, Language, Genre, Comment, Books, Cart } =
 	sequelize.models;
 
-	let Cart_Books = sequelize.define("Cart_Books", {
+let Cart_Books = sequelize.define(
+	"Cart_Books",
+	{
 		amount: {
 			type: DataTypes.INTEGER,
 			defaultValue: 1,
+		},
 	},
-	}, {timestamps: false})
+	{ timestamps: false }
+);
 
 // Aca vendrian las relaciones
 
-Books.belongsToMany(PurchaseOrder, { through: 'order_books', timestamps: false,});
-PurchaseOrder.belongsToMany(Books, { through: 'order_books', timestamps: false,});
+Books.belongsToMany(PurchaseOrder, {
+	through: "order_books",
+	timestamps: false,
+});
+PurchaseOrder.belongsToMany(Books, {
+	through: "order_books",
+	timestamps: false,
+});
 
-Books.belongsToMany(Genre, { through: 'genre_books', timestamps: false });
-Genre.belongsToMany(Books, { through: 'genre_books', timestamps: false });
+Books.belongsToMany(Genre, { through: "genre_books", timestamps: false });
+Genre.belongsToMany(Books, { through: "genre_books", timestamps: false });
 
-Books.belongsToMany(Language, { through: 'language_books', timestamps: false });
-Language.belongsToMany(Books, { through: 'language_books', timestamps: false });
+Books.belongsToMany(Language, { through: "language_books", timestamps: false });
+Language.belongsToMany(Books, { through: "language_books", timestamps: false });
 
 Books.hasMany(Comment, { timestamps: false });
 Comment.belongsTo(Books, { timestamps: false });
