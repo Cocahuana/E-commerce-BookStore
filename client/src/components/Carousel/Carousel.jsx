@@ -8,14 +8,14 @@ import {
 	SimpleGrid,
 	Stack,
 	Text,
-} from '@chakra-ui/react';
-import React, { useEffect } from 'react';
-import AliceCarousel from 'react-alice-carousel';
-import 'react-alice-carousel/lib/alice-carousel.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { getGenres, saveFilterGenre } from '../../redux/actions/index';
-import { Link as BuenLink } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
+} from "@chakra-ui/react";
+import React, { useEffect } from "react";
+import AliceCarousel from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getGenres, saveFilterGenre } from "../../redux/actions/index";
+import { Link as BuenLink } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 function Carousel({ books }) {
 	const dispatch = useDispatch();
@@ -24,7 +24,7 @@ function Carousel({ books }) {
 
 	const handleSelect = (e) => {
 		dispatch(saveFilterGenre([e.target.value]));
-		history.push('/books');
+		history.push("/books");
 	};
 
 	useEffect(() => {
@@ -46,9 +46,9 @@ function Carousel({ books }) {
 					<Flex justifyContent='space-between'>
 						<chakra.h1
 							fontSize={{
-								base: '10px',
-								md: '15px',
-								lg: '20px',
+								base: "10px",
+								md: "15px",
+								lg: "20px",
 							}}
 							fontWeight='semibold'
 							color='brand.600'
@@ -59,9 +59,9 @@ function Carousel({ books }) {
 						<BuenLink to='/books'>
 							<chakra.h1
 								fontSize={{
-									base: '10px',
-									md: '15px',
-									lg: '20px',
+									base: "10px",
+									md: "15px",
+									lg: "20px",
 								}}
 								fontWeight='semibold'
 								color='brand.600'
@@ -78,7 +78,7 @@ function Carousel({ books }) {
 					spacing={5}
 					mt={2}
 				>
-					{genres.slice(0, 6).map((p, i) => (
+					{genres?.slice(0, 6).map((p, i) => (
 						<Button
 							key={i}
 							p={2}
@@ -89,7 +89,7 @@ function Carousel({ books }) {
 							value={p.name}
 							onClick={handleSelect}
 							cursor='pointer'
-							fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}
+							fontSize={{ base: "sm", md: "md", lg: "lg" }}
 						>
 							{p.name}
 						</Button>
@@ -101,9 +101,9 @@ function Carousel({ books }) {
 					<Flex justifyContent='space-between'>
 						<chakra.h1
 							fontSize={{
-								base: '10px',
-								md: '15px',
-								lg: '20px',
+								base: "10px",
+								md: "15px",
+								lg: "20px",
 							}}
 							fontWeight='semibold'
 							color='brand.600'
@@ -114,9 +114,9 @@ function Carousel({ books }) {
 						<BuenLink to='/books'>
 							<chakra.h1
 								fontSize={{
-									base: '10px',
-									md: '15px',
-									lg: '20px',
+									base: "10px",
+									md: "15px",
+									lg: "20px",
 								}}
 								fontWeight='semibold'
 								color='brand.600'
@@ -136,7 +136,7 @@ function Carousel({ books }) {
 								<Box
 									bg='white'
 									_dark={{
-										bg: 'gray.800',
+										bg: "gray.800",
 									}}
 									shadow='lg'
 									boxShadow='md'
@@ -146,7 +146,7 @@ function Carousel({ books }) {
 								>
 									<Image
 										w='full'
-										h={'56'}
+										h={"56"}
 										fit='contain'
 										src={b.image}
 										alt='avatar'
@@ -158,15 +158,16 @@ function Carousel({ books }) {
 											fontWeight='semibold'
 											color='gray.700'
 											_dark={{
-												color: 'gray.200',
-											}}>
+												color: "gray.200",
+											}}
+										>
 											<Text noOfLines={1}>{b.title}</Text>
 										</chakra.h1>
 										<chakra.span
 											fontSize='sm'
 											color='gray.700'
 											_dark={{
-												color: 'gray.200',
+												color: "gray.200",
 											}}
 										>
 											{b.authors}
@@ -176,7 +177,7 @@ function Carousel({ books }) {
 											fontWeight='semibold'
 											color='gray.700'
 											_dark={{
-												color: 'gray.200',
+												color: "gray.200",
 											}}
 										>
 											$ {b.price}
@@ -192,9 +193,9 @@ function Carousel({ books }) {
 					<Flex justifyContent='space-between'>
 						<chakra.h1
 							fontSize={{
-								base: '10px',
-								md: '15px',
-								lg: '20px',
+								base: "10px",
+								md: "15px",
+								lg: "20px",
 							}}
 							fontWeight='semibold'
 							color='brand.600'
@@ -205,9 +206,9 @@ function Carousel({ books }) {
 						<BuenLink to='/books'>
 							<chakra.h1
 								fontSize={{
-									base: '10px',
-									md: '15px',
-									lg: '20px',
+									base: "10px",
+									md: "15px",
+									lg: "20px",
 								}}
 								fontWeight='semibold'
 								color='brand.600'
