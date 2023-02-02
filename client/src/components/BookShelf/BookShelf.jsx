@@ -6,21 +6,21 @@ import {
 	Spinner,
 	Center,
 	Flex,
-} from '@chakra-ui/react';
-import * as React from 'react';
-import { BookHolder } from './BookHolder/BookHolder';
-import { Book } from './BookHolder/Book/Book';
-import SearchBar from './SearchBar/SearchBar';
-import Filter from './Filters/Filter';
-import { Paging } from './Paging/Paging';
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+} from "@chakra-ui/react";
+import * as React from "react";
+import { BookHolder } from "./BookHolder/BookHolder";
+import { Book } from "./BookHolder/Book/Book";
+import SearchBar from "./SearchBar/SearchBar";
+import Filter from "./Filters/Filter";
+import { Paging } from "./Paging/Paging";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 import {
 	getBooksByTitleOrAuthor,
 	getCart,
 	userGetFavorite,
-} from '../../redux/actions';
-import { useHistory } from 'react-router-dom';
+} from "../../redux/actions";
+import { useHistory } from "react-router-dom";
 const BookShelf = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -32,6 +32,7 @@ const BookShelf = () => {
 	const indexOfFirstBook = indexOfLastBook - BooksPerPage;
 
 	let slicedBooks = books.slice(indexOfFirstBook, indexOfLastBook);
+	console.log({ books, slicedBooks });
 
 	const loading = useSelector((state) => state.loading);
 
@@ -47,16 +48,16 @@ const BookShelf = () => {
 
 	useEffect(() => {
 		// setting variables in localStorage ----
-		localStorage.setItem('cart', JSON.stringify(cart));
-		localStorage.setItem('summary', JSON.stringify(summary));
+		localStorage.setItem("cart", JSON.stringify(cart));
+		localStorage.setItem("summary", JSON.stringify(summary));
 		//localStorage.setItem('activeCartId', JSON.stringify(activeCart.id));
 		// localStorage.setItem('favorites', JSON.stringify(allFavourites));
 		if (token.length === 0) {
-			localStorage.setItem('isSignedIn', false);
+			localStorage.setItem("isSignedIn", false);
 		} else {
-			localStorage.setItem('isSignedIn', true);
-			localStorage.setItem('token', token);
-			localStorage.setItem('userRole', userRole);
+			localStorage.setItem("isSignedIn", true);
+			localStorage.setItem("token", token);
+			localStorage.setItem("userRole", userRole);
 		}
 	}, [cart, token]);
 
@@ -70,34 +71,39 @@ const BookShelf = () => {
 
 	return (
 		<Flex
-			w={'100%'}
-			flexDirection={'column'}
+			w={"100%"}
+			flexDirection={"column"}
 			align='center'
-			justifyContent={'center'}>
+			justifyContent={"center"}
+		>
 			<Box
-				pt={'16'}
-				bg={'gray.100'}
-				w={{ base: '100%', sm: '100%', md: '70%', lg: '70%' }}>
+				pt={"16"}
+				bg={"gray.100"}
+				w={{ base: "100%", sm: "100%", md: "70%", lg: "70%" }}
+			>
 				<SearchBar setCurrentPage={setCurrentPage} />
 			</Box>
 			<Container
-				minW={{ base: '100%', sm: '100%', md: '70%', lg: '70%' }}
+				minW={{ base: "100%", sm: "100%", md: "70%", lg: "70%" }}
 				m='auto'
-				py={'5'}>
+				py={"5"}
+			>
 				<Flex
 					flexDirection={{
-						base: 'column',
-						sm: 'column',
-						md: 'column',
-						xl: 'row',
-					}}>
-					<Box minW={'sm'}>
+						base: "column",
+						sm: "column",
+						md: "column",
+						xl: "row",
+					}}
+				>
+					<Box minW={"sm"}>
 						<Filter setCurrentPage={setCurrentPage} />
 					</Box>
 					<Box>
 						<Box
-							display={{ base: 'none', md: 'block', lg: 'block' }}
-							pt={{ md: '4', lg: '0' }}>
+							display={{ base: "none", md: "block", lg: "block" }}
+							pt={{ md: "4", lg: "0" }}
+						>
 							<Paging
 								BooksPerPage={BooksPerPage}
 								TotalBooksLength={books.length}
@@ -108,15 +114,16 @@ const BookShelf = () => {
 
 						<Box
 							px={{
-								base: '4',
-								md: '8',
-								lg: '12',
+								base: "4",
+								md: "8",
+								lg: "12",
 							}}
 							py={{
-								base: '6',
-								md: '8',
-								lg: '12',
-							}}>
+								base: "6",
+								md: "8",
+								lg: "12",
+							}}
+						>
 							<BookHolder>
 								{loading ? (
 									<Center>
@@ -131,7 +138,7 @@ const BookShelf = () => {
 								) : slicedBooks.length === 0 ? (
 									<h2>No books found!</h2>
 								) : (
-									slicedBooks.map((b) => (
+									slicedBooks?.map((b) => (
 										<Book
 											isFav={favs[b.id]}
 											setFavs={setFavs}

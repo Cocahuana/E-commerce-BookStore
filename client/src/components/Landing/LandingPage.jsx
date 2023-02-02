@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
 	chakra,
 	Box,
@@ -15,22 +15,22 @@ import {
 	Divider,
 	useColorMode,
 	useColorModeValue,
-} from '@chakra-ui/react';
-import { motion } from 'framer-motion';
-import { Search2Icon } from '@chakra-ui/icons';
-import Carousel from '../Carousel/Carousel';
-import { Link as BuenLink } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+} from "@chakra-ui/react";
+import { motion } from "framer-motion";
+import { Search2Icon } from "@chakra-ui/icons";
+import Carousel from "../Carousel/Carousel";
+import { Link as BuenLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
 	getBooksByTitleOrAuthor,
 	resetFilters,
-} from '../../redux/actions/index.js';
+} from "../../redux/actions/index.js";
 
 function LandingPage() {
 	const dispatch = useDispatch();
 
-	const [search, setSearch] = useState('');
+	const [search, setSearch] = useState("");
 
 	const handleOnChange = (e) => {
 		e.preventDefault();
@@ -44,7 +44,7 @@ function LandingPage() {
 	const { books } = useSelector((state) => state);
 
 	useEffect(() => {
-		dispatch(getBooksByTitleOrAuthor(''));
+		dispatch(getBooksByTitleOrAuthor(""));
 		dispatch(resetFilters());
 	}, [dispatch]);
 
@@ -58,9 +58,9 @@ function LandingPage() {
 				}}
 				spacing={0}
 				_after={{
-					bg: 'brand.500',
+					bg: "brand.500",
 					opacity: 0.25,
-					pos: 'absolute',
+					pos: "absolute",
 					top: 0,
 					left: 0,
 					bottom: 0,
@@ -100,13 +100,13 @@ function LandingPage() {
 						<chakra.h1
 							mb={6}
 							fontSize={{
-								base: '4xl',
-								md: '6xl',
-								lg: '7xl',
+								base: "4xl",
+								md: "6xl",
+								lg: "7xl",
 							}}
 							fontWeight='bold'
 							_dark={{
-								color: 'gray.800',
+								color: "gray.800",
 							}}
 						>
 							Online library.
@@ -116,8 +116,8 @@ function LandingPage() {
 					<chakra.form w='full' mb={6}>
 						<Box
 							display={{
-								base: 'block',
-								lg: 'none',
+								base: "block",
+								lg: "none",
 							}}
 						>
 							<Input
@@ -139,8 +139,8 @@ function LandingPage() {
 								size='lg'
 								w='full'
 								display={{
-									base: 'none',
-									lg: 'flex',
+									base: "none",
+									lg: "flex",
 								}}
 							>
 								<Input
@@ -148,12 +148,16 @@ function LandingPage() {
 									type='email'
 									color='black'
 									placeholder='Find your book here...'
-									bg={'white'}
-									_placeholder={{ color: 'gray.700' }}
+									bg={"white"}
+									_placeholder={{ color: "gray.700" }}
 									value={search}
 									onChange={(e) => handleOnChange(e)}
 								/>
-								<InputRightElement w='auto' bg='blue.500' roundedRight={4}>
+								<InputRightElement
+									w='auto'
+									bg='blue.500'
+									roundedRight={4}
+								>
 									<BuenLink to={`/books`}>
 										<Button
 											color='white'
@@ -185,11 +189,11 @@ function LandingPage() {
 							mb={4}
 							fontSize='md'
 							_dark={{
-								color: 'gray.800',
+								color: "gray.800",
 							}}
 						>
 							Or if you want to see all books:
-							<BuenLink to={'/books'}>
+							<BuenLink to={"/books"}>
 								<Button size='xs' margin={2} colorScheme='gray'>
 									Click Here
 								</Button>
@@ -214,7 +218,7 @@ function LandingPage() {
 				</Flex>
 			</SimpleGrid>
 			<Stack bg='blackAlpha.100' justifyContent='center'>
-				<Carousel books={books} />
+				{/* <Carousel books={books} /> */}
 			</Stack>
 		</Box>
 	);
